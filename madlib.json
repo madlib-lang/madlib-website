@@ -1,0 +1,8 @@
+{
+  "name": "Madlib-Website",
+  "version": "0.0.1",
+  "main": "src/Main.mad",
+  "dependencies": {
+    "MadUI": "https://github.com/madlib-lang/madui/archive/refs/heads/master.zip"
+  }
+}

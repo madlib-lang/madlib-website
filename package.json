@@ -1,0 +1,33 @@
+{
+  "name": "madlib-website",
+  "version": "0.0.1",
+  "description": "Madlib official website - powered by madlib",
+  "main": "index.js",
+  "dependencies": {
+    "sass": "^1.32.6"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.14",
+    "concurrently": "^5.3.0",
+    "copy-and-watch": "^0.1.5",
+    "watch": "^1.0.2"
+  },
+  "scripts": {
+    "info": "madlib --version",
+    "build:bundle": "madlib compile -i src/Main.mad --target browser --bundle -o build/bundle.js",
+    "build:sass": "sass src/styles/main.scss build/styles/main.css",
+    "build:html": "copy-and-watch src/**/*.html build/",
+    "dev": "concurrently \"browser-sync start --server build --files build/**\" \"sass --watch src/styles/main.scss build/styles/main.css\" \"copy-and-watch --watch src/**/*.html build/\" \"copy-and-watch --watch src/assets/* build/assets/\" \"watch 'npm run build:bundle' src\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madlib-lang/madui-examples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madlib-lang/madui-examples/issues"
+  },
+  "homepage": "https://github.com/madlib-lang/madui-examples#readme"
+}

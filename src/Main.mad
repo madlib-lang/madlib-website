@@ -1,0 +1,49 @@
+import { View, className, div, h1, h2, p, text, render, section } from "MadUI"
+import { Parser, field, list, map2, parse, string } from "Json"
+import { Left, Right } from "Either"
+import {} from "List"
+import contentJson from "./content.json"
+
+alias Section = {
+  title   :: String,
+  content :: String
+}
+
+alias Content = {
+  title :: String,
+  sections :: List Section
+}
+
+sectionParser :: Parser Section
+sectionParser = map2(
+  (title, content) => ({ title, content }),
+  field("title", string),
+  field("content", string)
+)
+
+contentParser :: Parser Content
+contentParser = map2(
+  (title, sections) => ({ title, sections }),
+  field("title", string),
+  field("sections", list(sectionParser))
+)
+
+INTIAL_STATE = where(parse(contentParser, contentJson))
+  is Right c: c
+  is Left  _: { title: "Madlib", sections: [] }
+
+SectionView :: View Section
+SectionView = (s) =>
+  <section>
+    <h2>{s.title}</h2>
+    <p>{s.content}</p>
+  </section>
+
+Website :: View Content
+Website = (state) =>
+  <div className="website">
+    <h1>{state.title}</h1>
+    {map(SectionView, state.sections)}
+  </div>
+
+render(Website, INTIAL_STATE, "app")
