@@ -1,6 +1,21 @@
-import { View, className, div, h1, h2, p, text, render, section } from "MadUI"
-import { Parser, field, list, map2, parse, string } from "Json"
+import {
+  View,
+  a,
+  className,
+  div,
+  h2,
+  footer,
+  header,
+  href,
+  main,
+  text,
+  render,
+  section,
+  span
+} from "MadUI"
+import { Parser, field, list, map1, map2, map3, parse, string } from "Json"
 import { Left, Right } from "Either"
+import { renderMarkdown } from "MarkdownRenderer"
 import {} from "List"
 import contentJson from "./content.json"
 
@@ -9,9 +24,18 @@ alias Section = {
   content :: String
 }
 
+alias Header = {
+  content :: String
+}
+
 alias Content = {
-  title :: String,
+  title    :: String,
+  header   :: Header,
   sections :: List Section
+}
+
+alias State = {
+  content :: Content
 }
 
 sectionParser :: Parser Section
@@ -21,29 +45,50 @@ sectionParser = map2(
   field("content", string)
 )
 
+headerParser :: Parser Header
+headerParser = map1(
+  (content) => ({ content }),
+  field("content", string)
+)
+
 contentParser :: Parser Content
-contentParser = map2(
-  (title, sections) => ({ title, sections }),
+contentParser = map3(
+  (title, headerContent, sections) => ({ title, header: headerContent, sections }),
   field("title", string),
+  field("header", headerParser),
   field("sections", list(sectionParser))
 )
 
 INTIAL_STATE = where(parse(contentParser, contentJson))
-  is Right c: c
-  is Left  _: { title: "Madlib", sections: [] }
+  is Right content: { content }
+  is Left  _      :
+    {
+      content: {
+        title: "Madlib",
+        header: { content: "" },
+        sections: []
+      }
+    }
 
 SectionView :: View Section
 SectionView = (s) =>
-  <section>
+  <section className="website__section">
     <h2>{s.title}</h2>
-    <p>{s.content}</p>
+    {renderMarkdown(s.content)}
   </section>
 
-Website :: View Content
+Website :: View State
 Website = (state) =>
   <div className="website">
-    <h1>{state.title}</h1>
-    {map(SectionView, state.sections)}
+    <header className="website__header">
+      {renderMarkdown(state.content.header.content)}
+    </header>
+    <main className="website__main">
+      {map(SectionView, state.content.sections)}
+    </main>
+    <footer className="website__footer">
+      <span className="footer__power">powered by <a href="https://github.com/madlib-lang/madlib-website"  className="footer__link">Madlib</a></span>
+    </footer>
   </div>
 
 render(Website, INTIAL_STATE, "app")

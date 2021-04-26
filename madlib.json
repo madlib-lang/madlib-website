@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "src/Main.mad",
   "dependencies": {
-    "MadUI": "https://github.com/madlib-lang/madui/archive/refs/heads/master.zip"
+    "MadUI": "https://github.com/madlib-lang/madui/archive/refs/heads/master.zip",
+    "MarkdownRenderer": "https://github.com/madlib-lang/madmarkdown-renderer/archive/refs/heads/master.zip"
   }
 }
