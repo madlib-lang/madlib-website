@@ -19,6 +19,18 @@
   }
 }
 
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -43,6 +55,23 @@ body {
 
 code {
   white-space: pre;
+}
+
+.splash-screen {
+  display: flex;
+  min-height: 100vh;
+}
+
+.splash-screen__logo {
+  filter: invert(100%);
+  width: 80%;
+  position: relative;
+  left: 10%;
+  animation-duration: 1.4s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-name: breathe;
 }
 
 .website {

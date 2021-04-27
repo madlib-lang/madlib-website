@@ -1,4 +1,5 @@
 import {
+  Subscription,
   View,
   a,
   className,
@@ -7,17 +8,23 @@ import {
   footer,
   header,
   href,
+  img,
   main,
   text,
-  render,
+  renderWithSubscriptions,
   section,
-  span
+  span,
+  src
 } from "MadUI"
 import { Parser, field, list, map1, map2, map3, parse, string } from "Json"
 import { Left, Right } from "Either"
 import { renderMarkdown } from "MarkdownRenderer"
 import {} from "List"
+import { get, Response } from "Http"
+import { fulfill } from "Wish"
 import contentJson from "./content.json"
+import { TextData } from "Data"
+import IO from "IO"
 
 alias Section = {
   title   :: String,
@@ -35,7 +42,8 @@ alias Content = {
 }
 
 alias State = {
-  content :: Content
+  content :: Content,
+  loading :: Boolean
 }
 
 sectionParser :: Parser Section
@@ -59,16 +67,13 @@ contentParser = map3(
   field("sections", list(sectionParser))
 )
 
-INTIAL_STATE = where(parse(contentParser, contentJson))
-  is Right content: { content }
-  is Left  _      :
-    {
-      content: {
-        title: "Madlib",
-        header: { content: "" },
-        sections: []
-      }
-    }
+DEFAULT_CONTENT = {
+  title: "Madlib",
+  header: { content: "" },
+  sections: []
+}
+
+INTIAL_STATE = { content: DEFAULT_CONTENT, loading: true }
 
 SectionView :: View Section
 SectionView = (s) =>
@@ -77,8 +82,8 @@ SectionView = (s) =>
     {renderMarkdown(s.content)}
   </section>
 
-Website :: View State
-Website = (state) =>
+Home :: View State
+Home = (state) =>
   <div className="website">
     <header className="website__header">
       {renderMarkdown(state.content.header.content)}
@@ -87,8 +92,35 @@ Website = (state) =>
       {map(SectionView, state.content.sections)}
     </main>
     <footer className="website__footer">
-      <span className="footer__power">powered by <a href="https://github.com/madlib-lang/madlib-website"  className="footer__link">Madlib</a></span>
+      <span className="footer__power">
+        powered by <a href="https://github.com/madlib-lang/madlib-website" className="footer__link">Madlib</a>
+      </span>
     </footer>
   </div>
 
-render(Website, INTIAL_STATE, "app")
+SplashScreen :: View ()
+SplashScreen = (_) =>
+  <div className="splash-screen">
+    <img className="splash-screen__logo" src="/assets/logo.svg" />
+  </div>
+
+Website :: View State
+Website = (state) => state.loading
+  ? SplashScreen(())
+  : Home(state)
+
+loadContentSub :: Subscription State
+loadContentSub = (dispatch) => pipe(
+  get,
+  map(where is Response { data: TextData t }: parse(contentParser, t)),
+  map(where
+    is Right c: c
+    is Left _ : DEFAULT_CONTENT
+  ),
+  fulfill(
+    IO.log,
+    (c) => dispatch((s) => ({ ...s, content: c, loading: false }))
+  )
+)("/content.json")
+
+renderWithSubscriptions(Website, INTIAL_STATE, [loadContentSub], "app")
