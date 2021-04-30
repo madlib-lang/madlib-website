@@ -1,4 +1,5 @@
 import {
+  Action,
   Subscription,
   View,
   a,
@@ -10,16 +11,19 @@ import {
   href,
   img,
   main,
+  onTransitionEnd,
   text,
   renderWithSubscriptions,
   section,
   span,
-  src
+  src,
+  syncAction
 } from "MadUI"
 import { Parser, field, list, map1, map2, map3, parse, string } from "Json"
 import { Left, Right } from "Either"
 import { renderMarkdown } from "MarkdownRenderer"
 import {} from "List"
+import { always, equals, ifElse } from "Function"
 import { get, Response } from "Http"
 import { fulfill } from "Wish"
 import contentJson from "./content.json"
@@ -41,9 +45,14 @@ alias Content = {
   sections :: List Section
 }
 
+type LoadingState
+  = Loading
+  | Transitioning
+  | Ready
+
 alias State = {
-  content :: Content,
-  loading :: Boolean
+  content      :: Content,
+  loadingState :: LoadingState
 }
 
 sectionParser :: Parser Section
@@ -73,7 +82,7 @@ DEFAULT_CONTENT = {
   sections: []
 }
 
-INTIAL_STATE = { content: DEFAULT_CONTENT, loading: true }
+INTIAL_STATE = { content: DEFAULT_CONTENT, loadingState: Loading }
 
 SectionView :: View Section
 SectionView = (s) =>
@@ -98,15 +107,33 @@ Home = (state) =>
     </footer>
   </div>
 
-SplashScreen :: View ()
-SplashScreen = (_) =>
-  <div className="splash-screen">
-    <img className="splash-screen__logo" src="/assets/logo.svg" />
-  </div>
+handleTransitionEnd :: Action State
+handleTransitionEnd = syncAction((s, _) => ({
+  ...s,
+  loadingState: Ready
+}))
+
+SplashScreen :: View LoadingState
+SplashScreen = pipe(
+  ifElse(
+    equals(Transitioning),
+    always("splash-screen__logo splash-screen__logo--transitioning"),
+    always("splash-screen__logo")
+  ),
+  (logoClassName) => (
+    <div className="splash-screen">
+      <img
+        className={logoClassName}
+        src="/assets/logo.svg"
+        onTransitionEnd={handleTransitionEnd}
+      />
+    </div>
+  )
+)
 
 Website :: View State
-Website = (state) => state.loading
-  ? SplashScreen(())
+Website = (state) => state.loadingState == Loading || state.loadingState == Transitioning
+  ? SplashScreen(state.loadingState)
   : Home(state)
 
 loadContentSub :: Subscription State
@@ -119,7 +146,7 @@ loadContentSub = (dispatch) => pipe(
   ),
   fulfill(
     IO.log,
-    (c) => dispatch((s) => ({ ...s, content: c, loading: false }))
+    (c) => dispatch((s) => ({ ...s, content: c, loadingState: Transitioning }))
   )
 )("/content.json")
 

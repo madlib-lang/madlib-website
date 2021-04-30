@@ -72,6 +72,12 @@ code {
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-name: breathe;
+  opacity: 1;
+  transition: opacity 1.2s;
+}
+
+.splash-screen__logo--transitioning {
+  opacity: 0;
 }
 
 .website {
@@ -170,6 +176,7 @@ code {
 }
 
 .website__footer {
+  position: relative;
   margin: 0 -40px;
   min-height: 80px;
   padding: 10px;
