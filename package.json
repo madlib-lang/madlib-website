@@ -17,7 +17,7 @@
     "info": "madlib --version",
     "build:dev": "madlib compile -i src/Main.mad --target browser --bundle -o build/bundle.js",
     "vercel-build": "npm i @madlib-lang/madlib && madlib install && npm run build:prod",
-    "build:prod": "madlib compile -i src/Main.mad --target browser --bundle --optimize -o build/bundle.js && uglifyjs -m -c -o build/bundle.js build/bundle.js && gzip -9 build/bundle.js && sass src/styles/main.scss build/styles/main.css && cp src/index.html build/ && cp src/content.json build/ && cp -R src/assets build/",
+    "build:prod": "madlib compile -i src/Main.mad --target browser --bundle --optimize -o build/bundle.js && uglifyjs -m -c -o build/bundle.js build/bundle.js && sass src/styles/main.scss build/styles/main.css && cp src/index.html build/ && cp src/content.json build/ && cp -R src/assets build/",
     "build:sass": "sass src/styles/main.scss build/styles/main.css",
     "build:html": "copy-and-watch src/**/*.html build/",
     "dev": "concurrently \"browser-sync start --server build --files build/**\" \"sass --watch src/styles/main.scss build/styles/main.css\" \"copy-and-watch --watch src/**/*.{html,svg,json} build/\" \"copy-and-watch --watch src/assets/* build/assets/\" \"watch 'npm run build:dev' src\"",
