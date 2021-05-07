@@ -1,0 +1,23 @@
+import {Parser, map1, map2, map3, list, field, string} from 'Json'
+import {Section, Header, Content} from './Types'
+
+sectionParser :: Parser Section
+export sectionParser = map2(
+  (title, content) => ({ title, content }),
+  field("title", string),
+  field("content", string)
+)
+
+headerParser :: Parser Header
+export headerParser = map1(
+  (content) => ({ content }),
+  field("content", string)
+)
+
+contentParser :: Parser Content
+export contentParser = map3(
+  (title, headerContent, sections) => ({ title, header: headerContent, sections }),
+  field("title", string),
+  field("header", headerParser),
+  field("sections", list(sectionParser))
+)

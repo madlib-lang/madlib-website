@@ -1,0 +1,24 @@
+export alias Section = {
+  title   :: String,
+  content :: String
+}
+
+export alias Header = {
+  content :: String
+}
+
+export alias Content = {
+  title    :: String,
+  header   :: Header,
+  sections :: List Section
+}
+
+export type LoadingState
+  = Loading
+  | Transitioning
+  | Ready
+
+export alias State = {
+  content      :: Content,
+  loadingState :: LoadingState
+}

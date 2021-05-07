@@ -1,0 +1,23 @@
+import { div, footer, header, main, span, className, View } from 'MadUI'
+import {renderMarkdown} from 'MarkdownRenderer'
+import {strata} from 'Strata'
+import {State} from './Types'
+import {SectionView} from './Section'
+
+stratum = strata("website")
+
+Home :: View State
+export Home = (state) =>
+  <div className={stratum.e('')}>
+    <header className={stratum.e('header')}>
+      {renderMarkdown(state.content.header.content)}
+    </header>
+    <main className={stratum.e('main')}>
+      {map(SectionView, state.content.sections)}
+    </main>
+    <footer className={stratum.e('footer')}>
+      <span className="footer__power">
+        powered by <a href="https://github.com/madlib-lang/madlib-website" className="footer__link">Madlib</a>
+      </span>
+    </footer>
+  </div>

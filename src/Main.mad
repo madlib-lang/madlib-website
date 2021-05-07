@@ -2,26 +2,16 @@ import {
   Action,
   Subscription,
   View,
-  a,
   className,
   div,
-  h2,
-  footer,
-  header,
-  href,
   img,
-  main,
   onTransitionEnd,
-  text,
   renderWithSubscriptions,
-  section,
-  span,
   src,
   syncAction
 } from "MadUI"
-import { Parser, field, list, map1, map2, map3, parse, string } from "Json"
+import { parse } from "Json"
 import { Left, Right } from "Either"
-import { renderMarkdown } from "MarkdownRenderer"
 import {} from "List"
 import { always, equals, ifElse } from "Function"
 import { get, Response } from "Http"
@@ -30,51 +20,10 @@ import contentJson from "./content.json"
 import { TextData } from "Data"
 import IO from "IO"
 
-alias Section = {
-  title   :: String,
-  content :: String
-}
+import { LoadingState, Transitioning, Loading, Ready, State} from './Types'
+import {contentParser} from './Parsers'
+import {Home} from './Home'
 
-alias Header = {
-  content :: String
-}
-
-alias Content = {
-  title    :: String,
-  header   :: Header,
-  sections :: List Section
-}
-
-type LoadingState
-  = Loading
-  | Transitioning
-  | Ready
-
-alias State = {
-  content      :: Content,
-  loadingState :: LoadingState
-}
-
-sectionParser :: Parser Section
-sectionParser = map2(
-  (title, content) => ({ title, content }),
-  field("title", string),
-  field("content", string)
-)
-
-headerParser :: Parser Header
-headerParser = map1(
-  (content) => ({ content }),
-  field("content", string)
-)
-
-contentParser :: Parser Content
-contentParser = map3(
-  (title, headerContent, sections) => ({ title, header: headerContent, sections }),
-  field("title", string),
-  field("header", headerParser),
-  field("sections", list(sectionParser))
-)
 
 DEFAULT_CONTENT = {
   title: "Madlib",
@@ -84,28 +33,6 @@ DEFAULT_CONTENT = {
 
 INTIAL_STATE = { content: DEFAULT_CONTENT, loadingState: Loading }
 
-SectionView :: View Section
-SectionView = (s) =>
-  <section className="website__section">
-    <h2>{s.title}</h2>
-    {renderMarkdown(s.content)}
-  </section>
-
-Home :: View State
-Home = (state) =>
-  <div className="website">
-    <header className="website__header">
-      {renderMarkdown(state.content.header.content)}
-    </header>
-    <main className="website__main">
-      {map(SectionView, state.content.sections)}
-    </main>
-    <footer className="website__footer">
-      <span className="footer__power">
-        powered by <a href="https://github.com/madlib-lang/madlib-website" className="footer__link">Madlib</a>
-      </span>
-    </footer>
-  </div>
 
 handleTransitionEnd :: Action State
 handleTransitionEnd = syncAction((s, _) => ({

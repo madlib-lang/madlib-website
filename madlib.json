@@ -4,6 +4,7 @@
   "main": "src/Main.mad",
   "dependencies": {
     "MadUI": "https://github.com/madlib-lang/madui/archive/refs/heads/master.zip",
-    "MarkdownRenderer": "https://github.com/madlib-lang/madmarkdown-renderer/archive/refs/heads/master.zip"
+    "MarkdownRenderer": "https://github.com/madlib-lang/madmarkdown-renderer/archive/refs/heads/master.zip",
+    "Strata": "https://github.com/madlib-lang/strata/archive/refs/heads/master.zip"
   }
 }
