@@ -1,28 +1,25 @@
 import {
-  Action,
   Subscription,
   View,
-  className,
-  div,
-  img,
-  onTransitionEnd,
-  renderWithSubscriptions,
-  src,
-  syncAction
+  renderWithSubscriptions
 } from "MadUI"
 import { parse } from "Json"
 import { Left, Right } from "Either"
 import {} from "List"
-import { always, equals, ifElse } from "Function"
 import { get, Response } from "Http"
 import { fulfill } from "Wish"
 import contentJson from "./content.json"
 import { TextData } from "Data"
 import IO from "IO"
 
-import { LoadingState, Transitioning, Loading, Ready, State} from './Types'
+import {
+  Transitioning,
+  Loading,
+  State
+} from './Types'
 import {contentParser} from './Parsers'
 import {Home} from './Home'
+import {SplashScreen} from './SplashScreen'
 
 
 DEFAULT_CONTENT = {
@@ -32,31 +29,6 @@ DEFAULT_CONTENT = {
 }
 
 INTIAL_STATE = { content: DEFAULT_CONTENT, loadingState: Loading }
-
-
-handleTransitionEnd :: Action State
-handleTransitionEnd = syncAction((s, _) => ({
-  ...s,
-  loadingState: Ready
-}))
-
-SplashScreen :: View LoadingState
-SplashScreen = pipe(
-  ifElse(
-    equals(Transitioning),
-    always("splash-screen__logo splash-screen__logo--transitioning"),
-    always("splash-screen__logo")
-  ),
-  (logoClassName) => (
-    <div className="splash-screen">
-      <img
-        className={logoClassName}
-        src="/assets/logo.svg"
-        onTransitionEnd={handleTransitionEnd}
-      />
-    </div>
-  )
-)
 
 Website :: View State
 Website = (state) => state.loadingState == Loading || state.loadingState == Transitioning

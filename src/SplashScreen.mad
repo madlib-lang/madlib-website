@@ -1,0 +1,31 @@
+import { Action, View, syncAction, div, img, className, src, onTransitionEnd } from "MadUI"
+import {always, equals, ifElse} from "Function"
+import {strata} from "Strata"
+
+import { Transitioning, LoadingState, State, Ready } from "./Types"
+
+stratum = strata('splash-screen')
+
+handleTransitionEnd :: Action State
+handleTransitionEnd = syncAction((s, _) => ({
+  ...s,
+  loadingState: Ready
+}))
+
+SplashScreen :: View LoadingState
+export SplashScreen = pipe(
+  ifElse(
+    equals(Transitioning),
+    always(stratum.em("logo", ["transitioning"])),
+    always(stratum.e("logo"))
+  ),
+  (logoClassName) => (
+    <div className={stratum.e("")}>
+      <img
+        className={logoClassName}
+        src="/assets/logo.svg"
+        onTransitionEnd={handleTransitionEnd}
+      />
+    </div>
+  )
+)
