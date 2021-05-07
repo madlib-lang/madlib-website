@@ -1,0 +1,103 @@
+.website {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 40px 0 40px;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+    height: 165px;
+
+    &:hover {
+      &::before {
+        top: calc(100% - 15px) !important;
+      }
+      &::after {
+        top: calc(15px - 100%) !important;
+      }
+
+      img {
+        animation-name: swing;
+      }
+    }
+
+    &::before {
+      font-size: 0.9rem;
+      color: cyan;
+      content: "#-";
+      align-self: flex-start;
+      position: relative;
+      top: 0%;
+      transform: rotate(0deg);
+      transition: top 0.5s;
+    }
+
+    &::after {
+      font-size: 0.9rem;
+      color: cyan;
+      content: "-#";
+      align-self: flex-end;
+      position: relative;
+      top: 0%;
+      transition: top 0.5s;
+    }
+
+    p {
+      text-align: center;
+    }
+
+    img {
+      filter: invert(100%);
+      max-width: 300px;
+
+      animation-duration: 1.4s;
+      animation-fill-mode: both;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+
+    blockquote {
+      margin: 0;
+      border-left: 1px solid #41d3ff;
+      padding-left: 0.5rem;
+      text-align: center;
+      display: inline-block;
+      left: 50%;
+      position: relative;
+      transform: translateX(-50%);
+    }
+
+    strong {
+      color: yellow;
+      text-shadow: 0 0 5px rgb(255 255 0 / 50%);
+    }
+  }
+
+  &__main {
+    flex-grow: 1;
+
+    p {
+      border-left: 1px solid #41d3ff;
+      padding-left: 0.5rem;
+
+      letter-spacing: 0.3px;
+      font-size: 16px;
+    }
+  }
+
+  &__section {
+    margin-bottom: 70px;
+  }
+
+  &__footer {
+    position: relative;
+    margin: 0 -40px;
+    min-height: 80px;
+    padding: 10px;
+    border-top: 1px solid #41d3ff;
+  }
+}
+

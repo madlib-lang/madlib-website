@@ -1,0 +1,58 @@
+@keyframes swing {
+  15% {
+    transform: translateY(5px);
+  }
+  30% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+  65% {
+    transform: translateY(-3px);
+  }
+  80% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  color: white;
+  background: #101020;
+  margin: 0;
+  min-height: 100vh;
+
+  font-family: Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+}
+
+code {
+  white-space: pre;
+}

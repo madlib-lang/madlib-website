@@ -1,8 +1,22 @@
-import { Action, View, syncAction, div, img, className, src, onTransitionEnd } from "MadUI"
-import {always, equals, ifElse} from "Function"
-import {strata} from "Strata"
+import {
+  Action,
+  View,
+  className,
+  div,
+  img,
+  onTransitionEnd,
+  src,
+  syncAction
+} from "MadUI"
+import { always, equals, ifElse } from "Function"
+import { strata } from "Strata"
 
-import { Transitioning, LoadingState, State, Ready } from "./Types"
+import {
+  LoadingState,
+  Ready,
+  State,
+  Transitioning
+} from "../Types"
 
 stratum = strata('splash-screen')
 

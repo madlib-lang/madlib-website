@@ -1,0 +1,21 @@
+.splash-screen {
+  display: flex;
+  min-height: 100vh;
+
+  &__logo {
+    filter: invert(100%);
+    width: 80%;
+    position: relative;
+    left: 10%;
+    animation-duration: 1.4s;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-name: breathe;
+    opacity: 1;
+    transition: opacity 1.2s;
+    &--transitioning {
+      opacity: 0;
+    }
+  }
+}

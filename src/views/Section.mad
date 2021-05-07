@@ -1,7 +1,13 @@
-import {View, section, h2, className} from 'MadUI'
-import {renderMarkdown} from 'MarkdownRenderer'
-import {strata} from 'Strata'
-import {Section} from './Types'
+import {
+  View,
+  className,
+  h2,
+  section
+} from 'MadUI'
+import { renderMarkdown } from 'MarkdownRenderer'
+import { strata } from 'Strata'
+
+import { Section } from '../Types'
 
 stratum = strata('website')
 

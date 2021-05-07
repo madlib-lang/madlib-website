@@ -8,18 +8,18 @@ import { Left, Right } from "Either"
 import {} from "List"
 import { get, Response } from "Http"
 import { fulfill } from "Wish"
-import contentJson from "./content.json"
 import { TextData } from "Data"
 import IO from "IO"
 
+import contentJson from "./content.json"
 import {
   Transitioning,
   Loading,
   State
 } from './Types'
-import {contentParser} from './Parsers'
-import {Home} from './Home'
-import {SplashScreen} from './SplashScreen'
+import { contentParser } from './Parsers'
+import { Home } from './views/Home'
+import { SplashScreen } from './views/SplashScreen'
 
 
 DEFAULT_CONTENT = {
