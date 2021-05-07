@@ -1,4 +1,4 @@
-import { div, footer, header, main, span, className, View } from 'MadUI'
+import { text, a, href, div, footer, header, main, span, className, View } from 'MadUI'
 import {renderMarkdown} from 'MarkdownRenderer'
 import {strata} from 'Strata'
 import {State} from './Types'
