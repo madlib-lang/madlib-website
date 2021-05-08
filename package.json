@@ -16,8 +16,13 @@
     "watch": "^1.0.2"
   },
   "scripts": {
-    "start": "nps",
-    "test": "nps test"
+    "info": "nps info",
+    "build": "nps build.prod",
+    "build:sass": "nps styles",
+    "build:html": "nps build.html",
+    "build:dev": "nps build.dev",
+    "vercel-build": "nps build.vercel",
+    "dev": "nps dev"
   },
   "repository": {
     "type": "git",

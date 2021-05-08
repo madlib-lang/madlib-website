@@ -1,67 +1,69 @@
-const BUNDLE = `build/bundle.js`
-const run = (...args) => args.join(" && ")
+const run = commands => commands.join(" && ")
 
-const sass = (from, to) => `sass ${from} ${to}`
+const input = Object.freeze({
+  mad: {
+    Main: `src/Main.mad`
+  },
+  styles: `src/views`
+})
 
-const compileForBrowser = (file, optimize = false) =>
-  `madlib compile -i ${file} --target browser --bundle${
-    optimize ? " --optimize" : ""
-  } -o ${BUNDLE}`
-const copy = to => from => `cp ${from} ${to}`
-const copyToBuild = copy("build/")
-
-const watch = (...args) => `copy-and-watch ${args.join(" ")}`
-
-const OUTPUT = {
+const out = Object.freeze({
+  mad: {
+    Main: `build/bundle.js`
+  },
   styles: {
-    main: "build/styles/main.css",
-    global: "build/styles/global.css",
-    footer: "build/styles/Footer.css",
-    splash: "build/styles/SplashScreen.css",
-    website: "build/styles/Website.css"
+    directory: `build/styles`,
+    files: [
+      `build/styles/global.css`,
+      `build/styles/Footer.css`,
+      `build/styles/SplashScreen.css`,
+      `build/styles/Website.css`
+    ],
+    main: `build/styles/main.css`
   }
-}
+})
 
 module.exports = {
   scripts: {
     info: "madlib --version",
-    style: {
-      script: `nps style.global style.splash style.footer style.website style.copy`,
-      global: sass("src/views/global.scss", OUTPUT.styles.global),
-      splash: sass("src/views/SplashScreen.scss", OUTPUT.styles.splash),
-      footer: sass("src/views/Footer.scss", OUTPUT.styles.footer),
-      website: sass("src/views/Website.scss", OUTPUT.styles.website),
-      copy: run(
-        `touch ${OUTPUT.styles.main}`,
-        `cat ${OUTPUT.styles.global} ${OUTPUT.styles.footer} ${OUTPUT.styles.splash} ${OUTPUT.styles.website} > ${OUTPUT.styles.main}`
-      )
+    styles: {
+      description: `get sassy with those files`,
+      all: `sass ${input.styles}:${out.styles.directory}`,
+      group: run([
+        `touch ${out.styles.main}`,
+        `cat ${out.styles.files.join(" ")} > ${out.styles.main}`
+      ]),
+      script: `nps styles.all styles.group`
     },
     build: {
-      script: `nps build.dev`,
-      dev: compileForBrowser("src/Main.mad"),
-      prod: run(
-        compileForBrowser("src/Main.mad", true),
-        `uglifyjs -m -c -o ${BUNDLE} ${BUNDLE}`,
-        `nps style`,
-        copyToBuild("src/index.html"),
-        copyToBuild("src/content.json"),
-        copyToBuild("-R src/assets")
-      ),
-      sass: `nps style`,
-      html: watch("src/**/*.html", "build/")
+      dev: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main}`,
+      vercel: run([
+        "npm i @madlib-lang/madlib",
+        "madlib install",
+        "nps build.prod"
+      ]),
+      prod: run([
+        `madlib compile -i ${input.mad.Main} --target browser --bundle --optimize -o ${out.mad.Main}`,
+        `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
+        `nps styles`,
+        "cp src/index.html build/",
+        "cp src/content.json build/",
+        "cp -R src/assets build/"
+      ]),
+      html: "copy-and-watch src/**/*.html build/"
     },
-    vercelBuild: run(
-      "npm i @madlib-lang/madlib",
-      "madlib install",
-      "nps build.prod"
-    ),
-    sync: `browser-sync start --server build --files build/**`,
-    watch: {
-      styles: sass("--watch src/views/main.scss", "build/styles/main.css"),
-      files: watch(`--watch`, `src/**/*.{html,svg,json}`, `build/`),
-      assets: watch(`--watch`, `src/assets/*`, `build/assets/`)
+    sync: {
+      description: "sync the browser",
+      script: "browser-sync start --server build --files build/**"
     },
-    dev: `concurrently "nps sync" "nps watch.styles" "nps watch.files" "nps watch.assets" "watch 'nps build.dev' src"`,
+    dev: `concurrently ${[
+      `"nps sync"`,
+      `"sass --watch ${input.styles}:${out.styles.directory}"`,
+      `"nps styles.group"`,
+      `"copy-and-watch --watch src/**/*.{html,svg,json} build/"`,
+      `"copy-and-watch --watch src/assets/* build/assets/"`,
+      `"watch 'nps build.dev' src"`
+    ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1'
   }
 }
