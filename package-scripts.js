@@ -62,7 +62,8 @@ module.exports = {
       `"nps styles.group"`,
       `"copy-and-watch --watch src/**/*.{html,svg,json} build/"`,
       `"copy-and-watch --watch src/assets/* build/assets/"`,
-      `"watch 'nps build.dev' src"`
+      `"watch 'nps build.dev' src"`,
+      `"watch 'nps styles.group' ${out.styles.directory}"`
     ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1'
   }
