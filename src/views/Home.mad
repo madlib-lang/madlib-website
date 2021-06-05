@@ -1,5 +1,5 @@
+import type { View } from 'MadUI'
 import {
-  View,
   a,
   className,
   div,
@@ -13,7 +13,7 @@ import {
 import { renderMarkdown } from 'MarkdownRenderer'
 import { strata } from 'Strata'
 
-import { State } from '../Types'
+import type { State } from '../Types'
 import { SectionView } from './Section'
 
 stratum = strata("website")

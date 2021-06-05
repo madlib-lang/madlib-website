@@ -1,6 +1,5 @@
+import type {Subscription, View} from "MadUI"
 import {
-  Subscription,
-  View,
   renderWithSubscriptions
 } from "MadUI"
 import { parse } from "Json"
@@ -12,10 +11,10 @@ import { TextData } from "Data"
 import IO from "IO"
 
 import contentJson from "./content.json"
+import type {State} from './Types'
 import {
   Transitioning,
-  Loading,
-  State
+  Loading
 } from './Types'
 import { contentParser } from './Parsers'
 import { Home } from './views/Home'

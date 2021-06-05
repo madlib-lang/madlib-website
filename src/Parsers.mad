@@ -1,5 +1,6 @@
-import {Parser, map1, map2, map3, list, field, string} from 'Json'
-import {Section, Header, Content} from './Types'
+import {map1, map2, map3, list, field, string} from 'Json'
+import type {Parser} from 'Json'
+import type {Section, Header, Content} from './Types'
 
 sectionParser :: Parser Section
 export sectionParser = map2(

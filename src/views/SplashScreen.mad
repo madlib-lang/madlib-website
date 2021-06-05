@@ -1,6 +1,5 @@
+import type { Action, View } from 'MadUI'
 import {
-  Action,
-  View,
   className,
   div,
   img,
@@ -10,11 +9,9 @@ import {
 } from "MadUI"
 import { always, equals, ifElse } from "Function"
 import { strata } from "Strata"
-
+import type { LoadingState, State } from '../Types'
 import {
-  LoadingState,
   Ready,
-  State,
   Transitioning
 } from "../Types"
 
