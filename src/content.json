@@ -3,6 +3,12 @@
   "header": {
     "content": "![madlib logo](/assets/logo.svg)\n> A compile-to-JS language designed to make writing code a **delight**"
   },
+  "nav": [
+    { "href": "/", "text": "Home" },
+    { "href": "/examples", "text": "Examples" },
+    { "href": "/documentation", "text": "Documentation" },
+    { "href": "/projects", "text": "Projects" }
+  ],
   "sections": [
     {
       "title": "A functional language with familiar syntax",

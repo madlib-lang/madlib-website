@@ -3,6 +3,11 @@ export alias Section = {
   content :: String
 }
 
+export alias Link = {
+  href  :: String,
+  text  :: String
+}
+
 export alias Header = {
   content :: String
 }
@@ -10,6 +15,7 @@ export alias Header = {
 export alias Content = {
   title    :: String,
   header   :: Header,
+  nav      :: List Link,
   sections :: List Section
 }
 
@@ -22,3 +28,4 @@ export alias State = {
   content      :: Content,
   loadingState :: LoadingState
 }
+

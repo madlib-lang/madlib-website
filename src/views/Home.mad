@@ -19,6 +19,7 @@ import {
 import { renderMarkdown } from 'MarkdownRenderer'
 import { strata } from 'Strata'
 
+import {Nav} from './Nav'
 import type { State } from '../Types'
 // import { SectionView } from './Section'
 
@@ -27,6 +28,7 @@ stratum = strata("website")
 Home :: View State
 export Home = (state) =>
   <div className={stratum.e('')}>
+    {Nav(state.nav)}
     <header className={stratum.e('header')}>
       {renderMarkdown(state.content.header.content)}
     </header>

@@ -1,6 +1,6 @@
-import {map1, map2, map3, list, field, string} from 'Json'
+import {map1, map2, map4, list, field, string} from 'Json'
 import type {Parser} from 'Json'
-import type {Section, Header, Content} from './Types'
+import type {Section, Header, Content, Link} from './Types'
 
 sectionParser :: Parser Section
 export sectionParser = map2(
@@ -15,10 +15,19 @@ export headerParser = map1(
   field("content", string)
 )
 
+navParser :: Parser Link
+export navParser = map2(
+  (href, text) => ({text, href}),
+  field('href', string),
+  field('text', string)
+)
+
 contentParser :: Parser Content
-export contentParser = map3(
-  (title, headerContent, sections) => ({ title, header: headerContent, sections }),
+export contentParser = map4(
+  (title, headerContent, nav, sections) => ({ title, header: headerContent, sections, nav }),
   field("title", string),
   field("header", headerParser),
+  field("nav", list(navParser)),
   field("sections", list(sectionParser))
 )
+

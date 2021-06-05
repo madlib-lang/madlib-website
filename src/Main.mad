@@ -24,6 +24,7 @@ import { SplashScreen } from './views/SplashScreen'
 DEFAULT_CONTENT = {
   title: "Madlib",
   header: { content: "" },
+  nav: [],
   sections: []
 }
 
