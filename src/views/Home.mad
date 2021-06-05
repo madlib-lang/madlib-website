@@ -2,19 +2,25 @@ import type { View } from 'MadUI'
 import {
   a,
   className,
+  code,
   div,
   footer,
+  h2,
   header,
   href,
+  li,
   main,
+  p,
+  section,
   span,
-  text
+  text,
+  ul
 } from 'MadUI'
 import { renderMarkdown } from 'MarkdownRenderer'
 import { strata } from 'Strata'
 
 import type { State } from '../Types'
-import { SectionView } from './Section'
+// import { SectionView } from './Section'
 
 stratum = strata("website")
 
@@ -25,7 +31,44 @@ export Home = (state) =>
       {renderMarkdown(state.content.header.content)}
     </header>
     <main className={stratum.e('main')}>
-      {map(SectionView, state.content.sections)}
+      <section className={stratum.e('section')}>
+        <h2 className={stratum.e('section-title')}>A functional language with familiar syntax</h2>
+        <p className={stratum.e('paragraph')}>Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures.</p>
+      </section>
+      <section className={stratum.e('section')}>
+        <h2 className={stratum.e('section-title')}>Safety, Types and Pragmatism</h2>
+        <p className={stratum.e('paragraph')}>
+          Mutation is only possible in explicit safe places. Madlib is powered by the <a href="https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system">Hindley-Milner type system</a>, which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in “the fence”, i.e. <code>#- Math.random() -#</code> which gives developers a potential escape hatch (but without type inference).
+        </p>
+      </section>
+      <section className={stratum.e('section')}>
+        <h2 className={stratum.e('section-title')}>Tooling</h2>
+        <ul className={stratum.e('section-list')}>
+          <li className={stratum.e('section-list-item')}>
+            Auto-generated documentation — powered by the rich type system
+          </li>
+          <li className={stratum.e('section-list-item')}>
+            VSCode language server — provides in-IDE feedback including real-time errors and type annotations for a faster development loop
+          </li>
+        </ul>
+      </section>
+      <section className={stratum.e('section')}>
+        <h2 className={stratum.e('section-title')}>Libraries and Examples</h2>
+        <ul className={stratum.e('section-list')}>
+          <li className={stratum.e('section-list-item')}>
+            UI View Library: build web apps in the browser
+          </li>
+          <li className={stratum.e('section-list-item')}>
+            Server: simple servers inspired by <code>express</code>
+          </li>
+          <li className={stratum.e('section-list-item')}>
+            <a href="https://madlib-lang.github.io/madparser">Parser library</a>: parse structured input with native Madlib
+          </li>
+          <li className={stratum.e('section-list-item')}>
+            Markdown parser: parse markdown input with native Madlib
+          </li>
+        </ul>
+      </section>
     </main>
     <footer className={stratum.e('footer')}>
       <span className="footer__power">

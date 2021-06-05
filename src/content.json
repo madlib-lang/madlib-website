@@ -6,11 +6,11 @@
   "sections": [
     {
       "title": "A functional language with familiar syntax",
-      "content": "Madlib tries to be the pragmatic functional programming language. It embraces function composition and mutation is only possible as an affordance in safe places. It is powered by a Hindley-Milner type system which means, great guarantees without requirements. In fact most if not all type annotations are optional and the compiler can infer them."
+      "content": "Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures."
     },
     {
-      "title": "Tooling",
-      "content": "Thanks to a powerful type system, we're able to propose interesting tooling such as auto generating documentation with types without having to annotate any type. There's an existing language server that is already available via the vscode plugin, which helps you get in-ide feedback of what types you manipulate but also give you real time errors for a more integrated experience and a faster feedback loop."
+      "title": "Safety, Types and Pragmatism",
+      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in 'the fence', i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without type inference)."
     }
   ]
 }

@@ -1,5 +1,6 @@
 import type { View } from 'MadUI'
 import {
+  text,
   className,
   h2,
   section
