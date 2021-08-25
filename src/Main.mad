@@ -19,17 +19,17 @@ import {
 import type {
   Action,
   Subscription,
-  View
+  Element
 } from "MadUI"
 import type { Parser } from 'Json'
 import {field, list, map1, map2, map3, parse, string } from "Json"
-import type { Left, Right } from "Either"
-import { renderMarkdown } from "MarkdownRenderer"
+import { Left, Right } from "Either"
+import { renderMarkdown } from "MadMarkdownRenderer"
 import {} from "List"
 import { always, equals, ifElse } from "Function"
 import { get, Response } from "Http"
 import { fulfill } from "Wish"
-import type { TextData } from "Data"
+import { TextData } from "Data"
 import IO from "IO"
 
 import contentJson from "./content.json"
@@ -88,14 +88,14 @@ DEFAULT_CONTENT = {
 
 INTIAL_STATE = { content: DEFAULT_CONTENT, loadingState: Loading }
 
-SectionView :: View Section
+SectionView :: Section -> Element
 SectionView = (s) =>
   <section className="website__section">
     <h2>{s.title}</h2>
     {renderMarkdown(s.content)}
   </section>
 
-Home :: View State
+Home :: State -> Element
 Home = (state) =>
   <div className="website">
     <header className="website__header">
@@ -117,7 +117,7 @@ handleTransitionEnd = syncAction((s, _) => ({
   loadingState: Ready
 }))
 
-SplashScreen :: View LoadingState
+SplashScreen :: LoadingState -> Element
 SplashScreen = pipe(
   ifElse(
     equals(Transitioning),
@@ -135,7 +135,7 @@ SplashScreen = pipe(
   )
 )
 
-Website :: View State
+Website :: State -> Element
 Website = (state) => state.loadingState == Loading || state.loadingState == Transitioning
   ? SplashScreen(state.loadingState)
   : Home(state)

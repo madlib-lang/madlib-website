@@ -2,8 +2,16 @@
   "name": "Madlib-Website",
   "version": "0.0.1",
   "main": "src/Main.mad",
-  "dependencies": {
-    "MadUI": "https://github.com/madlib-lang/madui/archive/refs/heads/master.zip",
-    "MarkdownRenderer": "https://github.com/madlib-lang/madmarkdown-renderer/archive/refs/heads/master.zip"
-  }
+  "dependencies": [
+    {
+      "url": "https://github.com/madlib-lang/madui/archive/refs/tags/v1.0.0.zip",
+      "description": "MadUI",
+      "minVersion": "1.0.0"
+    },
+    {
+      "url": "https://github.com/madlib-lang/madmarkdown-renderer/archive/refs/tags/v0.0.3.zip",
+      "description": "MadMarkdownRenderer",
+      "minVersion": "0.0.3"
+    }
+  ]
 }
