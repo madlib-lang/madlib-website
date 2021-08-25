@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.26.14",
-    "concurrently": "^5.3.0",
+    "concurrently": "^6.2.1",
     "copy-and-watch": "^0.1.5",
     "uglify-es": "^3.3.9",
     "watch": "^1.0.2"

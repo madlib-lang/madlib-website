@@ -1,7 +1,4 @@
 import {
-  Action,
-  Subscription,
-  View,
   a,
   className,
   div,
@@ -19,16 +16,23 @@ import {
   src,
   syncAction
 } from "MadUI"
-import { Parser, field, list, map1, map2, map3, parse, string } from "Json"
-import { Left, Right } from "Either"
+import type {
+  Action,
+  Subscription,
+  View
+} from "MadUI"
+import type { Parser } from 'Json'
+import {field, list, map1, map2, map3, parse, string } from "Json"
+import type { Left, Right } from "Either"
 import { renderMarkdown } from "MarkdownRenderer"
 import {} from "List"
 import { always, equals, ifElse } from "Function"
 import { get, Response } from "Http"
 import { fulfill } from "Wish"
-import contentJson from "./content.json"
-import { TextData } from "Data"
+import type { TextData } from "Data"
 import IO from "IO"
+
+import contentJson from "./content.json"
 
 alias Section = {
   title   :: String,
@@ -139,11 +143,13 @@ Website = (state) => state.loadingState == Loading || state.loadingState == Tran
 loadContentSub :: Subscription State
 loadContentSub = (dispatch) => pipe(
   get,
-  map(where is Response { data: TextData t }: parse(contentParser, t)),
-  map(where
-    is Right c: c
-    is Left _ : DEFAULT_CONTENT
-  ),
+  map(where {
+    Response({data: TextData(t)}) => parse(contentParser, t)
+  }),
+  map(where {
+    Right(c) => c
+    Left (_) => DEFAULT_CONTENT
+  }),
   fulfill(
     IO.log,
     (c) => dispatch((s) => ({ ...s, content: c, loadingState: Transitioning }))
