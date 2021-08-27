@@ -1,18 +1,18 @@
-import type { View } from 'MadUI'
+import type { Element } from 'MadUI'
 import {
   text,
   className,
   h2,
   section
 } from 'MadUI'
-import { renderMarkdown } from 'MarkdownRenderer'
+import { renderMarkdown } from 'MadMarkdownRenderer'
 import { strata } from 'Strata'
 
 import type { Section } from '../Types'
 
 stratum = strata('website')
 
-SectionView :: View Section
+SectionView :: Section -> Element
 export SectionView = (s) =>
   <section className={stratum.e('section')}>
     <h2>{s.title}</h2>

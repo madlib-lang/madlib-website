@@ -1,4 +1,7 @@
-import type {Subscription, View} from "MadUI"
+import type {
+  // Element,
+  // Subscription
+} from "MadUI"
 import {
   renderWithSubscriptions
 } from "MadUI"
@@ -11,7 +14,7 @@ import { TextData } from "Data"
 import IO from "IO"
 
 import contentJson from "./content.json"
-import type {State} from './Types'
+// import type {State} from './Types'
 import {
   Transitioning,
   Loading
@@ -28,25 +31,27 @@ DEFAULT_CONTENT = {
   sections: []
 }
 
-INTIAL_STATE = { content: DEFAULT_CONTENT, loadingState: Loading }
+INITIAL_STATE = { content: DEFAULT_CONTENT, loadingState: Loading }
 
-Website :: View State
+// Website :: State -> Element
 Website = (state) => state.loadingState == Loading || state.loadingState == Transitioning
   ? SplashScreen(state.loadingState)
   : Home(state)
 
-loadContentSub :: Subscription State
+// loadContentSub :: Subscription State
 loadContentSub = (dispatch) => pipe(
   get,
-  map(where is Response { data: TextData t }: parse(contentParser, t)),
-  map(where
-    is Right c: c
-    is Left _ : DEFAULT_CONTENT
-  ),
+  map(where {
+    Response({data: TextData(t)}) => parse(contentParser, t)
+  }),
+  map(where {
+    Right(c) => c
+    Left (_) => DEFAULT_CONTENT
+  }),
   fulfill(
     IO.log,
     (c) => dispatch((s) => ({ ...s, content: c, loadingState: Transitioning }))
   )
 )("/content.json")
 
-renderWithSubscriptions(Website, INTIAL_STATE, [loadContentSub], "app")
+renderWithSubscriptions(Website, INITIAL_STATE, [loadContentSub], "app")

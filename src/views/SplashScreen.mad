@@ -1,4 +1,4 @@
-import type { Action, View } from 'MadUI'
+import type { Action, Element } from 'MadUI'
 import {
   className,
   div,
@@ -23,7 +23,7 @@ handleTransitionEnd = syncAction((s, _) => ({
   loadingState: Ready
 }))
 
-SplashScreen :: View LoadingState
+SplashScreen :: LoadingState -> Element
 export SplashScreen = pipe(
   ifElse(
     equals(Transitioning),
