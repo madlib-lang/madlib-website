@@ -24,7 +24,7 @@ export type LoadingState
   | Transitioning
   | Ready
 
-export alias State ={
+export alias State = {
   content      :: Content,
   loadingState :: LoadingState
 } 

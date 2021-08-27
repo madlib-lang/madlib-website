@@ -14,8 +14,8 @@ import { TextData } from "Data"
 import IO from "IO"
 
 import contentJson from "./content.json"
-// import type {State} from './Types'
-import {
+import type { Link } from './Types'
+import type {
   Transitioning,
   Loading
 } from './Types'
@@ -31,7 +31,11 @@ DEFAULT_CONTENT = {
   sections: []
 }
 
-INITIAL_STATE = { content: DEFAULT_CONTENT, loadingState: Loading }
+INITIAL_STATE = {
+  content: DEFAULT_CONTENT,
+  loadingState: Loading,
+  nav: List Link
+}
 
 // Website :: State -> Element
 Website = (state) => state.loadingState == Loading || state.loadingState == Transitioning
