@@ -1,4 +1,4 @@
-// import type { Element } from "MadUI"
+import type { Element } from "MadUI"
 import {
   a,
   className,
@@ -20,12 +20,12 @@ import { renderMarkdown } from 'MadMarkdownRenderer'
 import { strata } from 'Strata'
 
 import {Nav} from './Nav'
-// import type { State } from '../Types'
+import type { State } from '../Types'
 // import { SectionView } from './Section'
 
 stratum = strata("website")
 
-// Home :: State -> Element
+Home :: State -> Element
 export Home = (state) =>
   <div className={stratum.e('')}>
     {Nav(state.nav)}

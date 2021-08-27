@@ -45,14 +45,19 @@ a:active {
 
 body {
   color: white;
-  background: #101020;
+  background: linear-gradient(-50deg, #101020, #2d0024);
   margin: 0;
   min-height: 100vh;
   font-size: 16px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.7rem;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.6);
 }
 
 code {
   white-space: pre;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.1);
 }

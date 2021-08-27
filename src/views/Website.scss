@@ -8,7 +8,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    margin-bottom: 50px;
+    margin-bottom: 3.25rem;
     height: 165px;
 
     &:hover {
@@ -24,25 +24,22 @@
       }
     }
 
-    &::before {
-      font-size: 0.9rem;
-      color: cyan;
+    &::before, &::after {
+      pointer-events: none;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
       content: "#-";
       align-self: flex-start;
       position: relative;
       top: 0%;
       transform: rotate(0deg);
       transition: top 0.5s;
+      text-shadow: 0 0 20px rgba(200,0,255,0.4);
     }
 
     &::after {
-      font-size: 0.9rem;
-      color: cyan;
       content: "-#";
       align-self: flex-end;
-      position: relative;
-      top: 0%;
-      transition: top 0.5s;
     }
 
     p {
@@ -61,7 +58,6 @@
 
     blockquote {
       margin: 0;
-      border-left: 1px solid #41d3ff;
       padding-left: 0.5rem;
       text-align: center;
       display: inline-block;
@@ -88,7 +84,9 @@
   }
 
   &__section {
-    margin-bottom: 70px;
+    max-width: 50rem;
+    margin: 0 auto;
+    margin-bottom: 3rem;
   }
 
   &__footer {
@@ -96,6 +94,5 @@
     margin: 0 -40px;
     min-height: 80px;
     padding: 10px;
-    border-top: 1px solid #41d3ff;
   }
 }

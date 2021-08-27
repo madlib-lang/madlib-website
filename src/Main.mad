@@ -1,6 +1,6 @@
 import type {
-  // Element,
-  // Subscription
+  Element,
+  Subscription
 } from "MadUI"
 import {
   renderWithSubscriptions
@@ -14,7 +14,7 @@ import { TextData } from "Data"
 import IO from "IO"
 
 import contentJson from "./content.json"
-/* import { Link } from './Types' */
+import type { State } from './Types'
 import {
   Transitioning,
   Loading
@@ -35,14 +35,15 @@ INITIAL_STATE = {
   content: DEFAULT_CONTENT,
   loadingState: Loading,
   nav: []
+  /* sections: [] */
 }
 
-// Website :: State -> Element
+Website :: State -> Element
 Website = (state) => state.loadingState == Loading || state.loadingState == Transitioning
   ? SplashScreen(state.loadingState)
   : Home(state)
 
-// loadContentSub :: Subscription State
+loadContentSub :: Subscription State
 loadContentSub = (dispatch) => pipe(
   get,
   map(where {
