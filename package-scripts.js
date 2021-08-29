@@ -2,14 +2,14 @@ const run = commands => commands.join(" && ")
 
 const input = Object.freeze({
   mad: {
-    Main: `src/Main.mad`
+    Main: `src/Main.mad`,
   },
-  styles: `src/views`
+  styles: `src/views`,
 })
 
 const out = Object.freeze({
   mad: {
-    Main: `build/bundle.js`
+    Main: `build/bundle.js`,
   },
   styles: {
     directory: `build/styles`,
@@ -17,10 +17,11 @@ const out = Object.freeze({
       `build/styles/global.css`,
       `build/styles/Footer.css`,
       `build/styles/SplashScreen.css`,
-      `build/styles/Website.css`
+      `build/styles/Website.css`,
+      `build/styles/Nav.css`,
     ],
-    main: `build/styles/main.css`
-  }
+    main: `build/styles/main.css`,
+  },
 })
 
 module.exports = {
@@ -31,16 +32,16 @@ module.exports = {
       all: `sass ${input.styles}:${out.styles.directory}`,
       group: run([
         `touch ${out.styles.main}`,
-        `cat ${out.styles.files.join(" ")} > ${out.styles.main}`
+        `cat ${out.styles.files.join(" ")} > ${out.styles.main}`,
       ]),
-      script: `nps styles.all styles.group`
+      script: `nps styles.all styles.group`,
     },
     build: {
       dev: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main}`,
       vercel: run([
         "npm i @madlib-lang/madlib",
         "madlib install",
-        "nps build.prod"
+        "nps build.prod",
       ]),
       prod: run([
         `madlib compile -i ${input.mad.Main} --target browser --bundle --optimize -o ${out.mad.Main}`,
@@ -48,13 +49,13 @@ module.exports = {
         `nps styles`,
         "cp src/index.html build/",
         "cp src/content.json build/",
-        "cp -R src/assets build/"
+        "cp -R src/assets build/",
       ]),
-      html: "copy-and-watch src/**/*.html build/"
+      html: "copy-and-watch src/**/*.html build/",
     },
     sync: {
       description: "sync the browser",
-      script: "browser-sync start --server build --files build/**"
+      script: "browser-sync start --server build --files build/**",
     },
     dev: `concurrently ${[
       `"nps sync"`,
@@ -63,8 +64,8 @@ module.exports = {
       `"copy-and-watch --watch src/**/*.{html,svg,json} build/"`,
       `"copy-and-watch --watch src/assets/* build/assets/"`,
       `"watch 'nps build.dev' src"`,
-      `"watch 'nps styles.group' src"`
+      `"watch 'nps styles.group' src"`,
     ].join(" ")}`,
-    test: 'echo "Error: no test specified" && exit 1'
-  }
+    test: 'echo "Error: no test specified" && exit 1',
+  },
 }

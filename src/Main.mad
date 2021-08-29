@@ -13,7 +13,7 @@ import { fulfill } from "Wish"
 import { TextData } from "Data"
 import IO from "IO"
 
-import contentJson from "./content.json"
+// import contentJson from "./content.json"
 import type { State } from './Types'
 import {
   Transitioning,
@@ -33,9 +33,7 @@ DEFAULT_CONTENT = {
 
 INITIAL_STATE = {
   content: DEFAULT_CONTENT,
-  loadingState: Loading,
-  nav: []
-  /* sections: [] */
+  loadingState: Loading
 }
 
 Website :: State -> Element
@@ -55,7 +53,10 @@ loadContentSub = (dispatch) => pipe(
   }),
   fulfill(
     IO.log,
-    (c) => dispatch((s) => ({ ...s, content: c, loadingState: Transitioning }))
+    pipe(
+      IO.trace("content"),
+      (c) => dispatch((s) => ({ ...s, content: c, loadingState: Transitioning }))
+    )
   )
 )("/content.json")
 

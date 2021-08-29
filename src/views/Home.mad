@@ -4,7 +4,6 @@ import {
   className,
   code,
   div,
-  footer,
   h2,
   header,
   href,
@@ -12,7 +11,6 @@ import {
   main,
   p,
   section,
-  span,
   text,
   ul
 } from 'MadUI'
@@ -20,15 +18,16 @@ import { renderMarkdown } from 'MadMarkdownRenderer'
 import { strata } from 'Strata'
 
 import {Nav} from './Nav'
+import {Footer} from './Footer'
+
 import type { State } from '../Types'
-// import { SectionView } from './Section'
 
 stratum = strata("website")
 
 Home :: State -> Element
 export Home = (state) =>
   <div className={stratum.e('')}>
-    {Nav(state.nav)}
+    {Nav(state.content.nav)}
     <header className={stratum.e('header')}>
       {renderMarkdown(state.content.header.content)}
     </header>
@@ -72,9 +71,5 @@ export Home = (state) =>
         </ul>
       </section>
     </main>
-    <footer className={stratum.e('footer')}>
-      <span className="footer__power">
-        powered by <a href="https://github.com/madlib-lang/madlib-website" className="footer__link">Madlib</a>
-      </span>
-    </footer>
+    {Footer(state)}
   </div>

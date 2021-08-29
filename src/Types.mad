@@ -26,6 +26,5 @@ export type LoadingState
 
 export alias State = {
   content      :: Content,
-  loadingState :: LoadingState,
-  nav          :: List Link
+  loadingState :: LoadingState
 } 
