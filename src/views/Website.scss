@@ -63,6 +63,11 @@
       animation-timing-function: ease-in-out;
       animation-iteration-count: infinite;
     }
+    strong {
+      color: yellow;
+      font-weight: bolder;
+      text-shadow: 0 0 5px rgba(255, 255, 0, 0.6);
+    }
 
     blockquote {
       margin: 0;
