@@ -16,7 +16,15 @@
     },
     {
       "title": "Safety, Types and Pragmatism",
-      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in 'the fence', i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without type inference)."
+      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in “the fence”, i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without the benefits of type inference)"
+    },
+    {
+      "title": "Tooling",
+      "content": "\n\n * Auto-generated documentation — powered by the rich type system\n * VSCode language server — provides in-IDE feedback including real-time errors and type annotations for a faster development loop"
+    },
+    {
+      "title": "Libraries and Examples",
+      "content": "\n\n * UI View Library: build web apps in the browser\n * Server: simple servers inspired by `express`\n * [Parser library](https://madlib-lang.github.io/madparser): parse structured input with native Madlib\n * Markdown parser: parse markdown input with native Madlib"
     }
   ]
 }
