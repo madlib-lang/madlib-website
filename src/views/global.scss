@@ -57,6 +57,7 @@ a:hover {
 body {
   color: white;
   background: linear-gradient(-50deg, #101020, #2d0024);
+  background-attachment: fixed;
   margin: 0;
   min-height: 100vh;
   font-size: 16px;
@@ -65,7 +66,8 @@ body {
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
 }
 
-code {
+code,
+.markdown__inline-code {
   white-space: pre;
   padding: 0.1rem 0.25rem;
   border-radius: 4px;

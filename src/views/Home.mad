@@ -1,5 +1,6 @@
 import type { Element } from "MadUI"
 import {
+  id,
   className,
   div,
   h2,
@@ -19,12 +20,17 @@ import type { State, Section } from '../Types'
 
 stratum = strata("website")
 
+slug :: string -> string
+slug = (s) => #- s.toLowerCase().replace(/\s/g, '-').replace(/[,\.]/g, '') -#
+
 PageSection :: Section -> Element
-export PageSection = (raw) =>
-  <section className={stratum.em('section', raw.title)}>
+export PageSection = (raw) => {
+  clean = slug(raw.title)
+  return <section id={clean} className={stratum.e('section')}>
     <h2 className={stratum.e('section-title')}>{raw.title}</h2>
     <p className={stratum.e('paragraph')}>{renderMarkdown(raw.content)}</p>
   </section> 
+}
 
 Home :: State -> Element
 export Home = (state) =>
