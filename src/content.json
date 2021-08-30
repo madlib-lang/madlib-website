@@ -6,7 +6,7 @@
   "nav": [
     { "href": "/", "text": "Home" },
     { "href": "/examples", "text": "Examples" },
-    { "href": "/documentation", "text": "Documentation" },
+    { "href": "/docs", "text": "Documentation" },
     { "href": "/projects", "text": "Projects" }
   ],
   "sections": [

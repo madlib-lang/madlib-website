@@ -2,10 +2,10 @@ const run = commands => commands.join(" && ")
 
 const input = Object.freeze({
   mad: {
-    Main: `src/pages/Index.mad`,
-    Examples: `src/pages/Examples.mad`,
-    Docs: `src/pages/Docs.mad`,
-    Projects: `src/pages/Projects.mad`,
+    Main: `src/Index.mad`,
+    Examples: `src/Examples.mad`,
+    Docs: `src/Docs.mad`,
+    Projects: `src/Projects.mad`,
   },
   views: `src/views`,
 })
@@ -58,7 +58,7 @@ module.exports = {
         `nps "build.main --optimize"`,
         `nps "build.examples --optimize"`,
         `nps "build.docs --optimize"`,
-        `nps "build.projects--optimize"`,
+        `nps "build.projects --optimize"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
         `uglifyjs -m -c -o ${out.mad.Examples} ${out.mad.Examples}`,
         `uglifyjs -m -c -o ${out.mad.Docs} ${out.mad.Docs}`,
@@ -70,20 +70,22 @@ module.exports = {
         "cp src/projects.html build/",
         "cp -R src/assets build/",
       ]),
-      html: "copy-and-watch src/**/*.html build/",
+      html: "copy-and-watch src/*.html build/",
     },
     sync: {
       description: "sync the browser",
-      script: "browser-sync start --server build --files build/**",
+      script:
+        // "browser-sync start --server build --files build --serveStatic build --no-open --reload-debounce 100",
+        "browser-sync start -c browsersync.config.js",
     },
     dev: `concurrently ${[
-      `"nps sync"`,
       `"sass --watch ${input.views}:${out.styles.directory}"`,
       `"nps styles.group"`,
       `"copy-and-watch --watch src/**/*.{html,svg,json} build/"`,
       `"copy-and-watch --watch src/assets/* build/assets/"`,
       `"watch 'nps build.dev' src"`,
       `"watch 'nps styles.group' src"`,
+      `"nps sync"`,
     ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1',
   },
