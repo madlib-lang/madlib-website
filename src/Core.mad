@@ -1,3 +1,6 @@
+import {
+  renderWithSubscriptions
+} from "MadUI"
 import type {
   Element,
   Subscription
@@ -54,3 +57,5 @@ export loadContentSub = (dispatch) => pipe(
     )
   )
 )("/content.json")
+
+export renderer = (Renderable) => renderWithSubscriptions(RenderPage(Renderable), INITIAL_STATE, [loadContentSub], "app")

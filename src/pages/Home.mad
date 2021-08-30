@@ -1,35 +1,21 @@
 import type { Element } from "MadUI"
 import {
-  id,
   className,
   div,
   header,
   main,
-  p,
-  section,
   text
 } from 'MadUI'
 import { renderMarkdown } from 'MadMarkdownRenderer'
 import { strata } from 'Strata'
 
-import {Nav} from './Nav'
-import {Footer} from './Footer'
-import { LinkedHeader } from './LinkedHeader'
+import { Nav } from '../views/Nav'
+import { Footer } from '../views/Footer'
+import { PageSection } from '../views/Section'
 
-import type { State, Section } from '../Types'
-import {slug} from '../Utils'
+import type { State } from '../Types'
 
 stratum = strata("website")
-
-PageSection :: Section -> Element
-export PageSection = (raw) => {
-  clean = slug(raw.title)
-  sectionLinkProps = {id: clean, title: raw.title}
-  return <section id={clean} className={stratum.e('section')}>
-    {LinkedHeader(sectionLinkProps)} 
-    <p className={stratum.e('paragraph')}>{renderMarkdown(raw.content)}</p>
-  </section> 
-}
 
 Home :: State -> Element
 export Home = (state) =>
