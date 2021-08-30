@@ -2,9 +2,6 @@ import type {
   Element,
   Subscription
 } from "MadUI"
-import {
-  renderWithSubscriptions
-} from "MadUI"
 import { parse } from "Json"
 import { Left, Right } from "Either"
 import {} from "List"
@@ -13,36 +10,34 @@ import { fulfill } from "Wish"
 import { TextData } from "Data"
 import IO from "IO"
 
-// import contentJson from "./content.json"
+
 import type { State } from './Types'
 import {
   Transitioning,
   Loading
 } from './Types'
 import { contentParser } from './Parsers'
-import { Home } from './views/Home'
 import { SplashScreen } from './views/SplashScreen'
 
-
-DEFAULT_CONTENT = {
+export DEFAULT_CONTENT = {
   title: "Madlib",
   header: { content: "" },
   nav: [],
   sections: []
 }
 
-INITIAL_STATE = {
+export INITIAL_STATE = {
   content: DEFAULT_CONTENT,
   loadingState: Loading
 }
 
-Website :: State -> Element
-Website = (state) => state.loadingState == Loading || state.loadingState == Transitioning
+RenderPage :: (State -> Element) -> State -> Element
+export RenderPage = (ToRender, state) => state.loadingState == Loading || state.loadingState == Transitioning
   ? SplashScreen(state.loadingState)
-  : Home(state)
+  : ToRender(state)
 
 loadContentSub :: Subscription State
-loadContentSub = (dispatch) => pipe(
+export loadContentSub = (dispatch) => pipe(
   get,
   map(where {
     Response({data: TextData(t)}) => parse(contentParser, t)
@@ -59,5 +54,3 @@ loadContentSub = (dispatch) => pipe(
     )
   )
 )("/content.json")
-
-renderWithSubscriptions(Website, INITIAL_STATE, [loadContentSub], "app")

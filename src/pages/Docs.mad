@@ -1,0 +1,8 @@
+import {
+  renderWithSubscriptions
+} from "MadUI"
+import { RenderPage, INITIAL_STATE, loadContentSub } from '../Core'
+import { Home } from '../views/Home'
+
+Website = RenderPage(Home)
+renderWithSubscriptions(Website, INITIAL_STATE, [loadContentSub], "app")

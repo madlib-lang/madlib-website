@@ -95,21 +95,6 @@
     margin: 0 auto;
     margin-bottom: 3rem;
   }
-  &__linked-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  &__section-link {
-    border: 0px solid transparent;
-    padding: 0;
-    margin-right: 0.5rem;
-    &:hover {
-      border: 0px solid transparent;
-      padding: 0;
-    }
-  }
   &__section-list-item {
     margin-bottom: 0.25rem;
   }

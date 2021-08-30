@@ -1,12 +1,8 @@
 import type { Element } from "MadUI"
 import {
-  span,
-  a,
-  href,
   id,
   className,
   div,
-  h2,
   header,
   main,
   p,
@@ -18,22 +14,19 @@ import { strata } from 'Strata'
 
 import {Nav} from './Nav'
 import {Footer} from './Footer'
+import { LinkedHeader } from './LinkedHeader'
 
 import type { State, Section } from '../Types'
+import {slug} from '../Utils'
 
 stratum = strata("website")
-
-slug :: String -> String
-slug = (s) => #- s.toLowerCase().replace(/\s/g, '-').replace(/[,\.]/g, '') -#
 
 PageSection :: Section -> Element
 export PageSection = (raw) => {
   clean = slug(raw.title)
+  sectionLinkProps = {id: clean, title: raw.title}
   return <section id={clean} className={stratum.e('section')}>
-    <h2 className={stratum.e('linked-section')}>
-      <a href={`#${clean}`} className={stratum.e('section-link')}>#</a>
-      <span className={stratum.e('section-title')}>{raw.title}</span>
-    </h2>
+    {LinkedHeader(sectionLinkProps)} 
     <p className={stratum.e('paragraph')}>{renderMarkdown(raw.content)}</p>
   </section> 
 }
