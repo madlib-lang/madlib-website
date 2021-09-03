@@ -3,6 +3,7 @@ const run = commands => commands.join(" && ")
 const input = Object.freeze({
   mad: {
     Main: `src/Index.mad`,
+    GettingStarted: `src/GettingStarted.mad`,
     Examples: `src/Examples.mad`,
     Docs: `src/Docs.mad`,
     Projects: `src/Projects.mad`,
@@ -13,6 +14,7 @@ const input = Object.freeze({
 const out = Object.freeze({
   mad: {
     Main: `build/bundle-main.js`,
+    GettingStarted: `build/bundle-getting-started.js`,
     Examples: `build/bundle-examples.js`,
     Docs: `build/bundle-docs.js`,
     Projects: `build/bundle-projects.js`,
@@ -45,10 +47,11 @@ module.exports = {
     },
     build: {
       main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main}`,
+      starting: `madlib compile -i ${input.mad.GettingStarted} --target browser --bundle -o ${out.mad.GettingStarted}`,
       examples: `madlib compile -i ${input.mad.Examples} --target browser --bundle -o ${out.mad.Examples}`,
       docs: `madlib compile -i ${input.mad.Docs} --target browser --bundle -o ${out.mad.Docs}`,
       projects: `madlib compile -i ${input.mad.Projects} --target browser --bundle -o ${out.mad.Projects}`,
-      dev: "nps build.main build.examples build.docs build.projects",
+      dev: "nps build.main build.starting build.examples build.docs build.projects",
       vercel: run([
         "npm i @madlib-lang/madlib",
         "madlib install",
@@ -56,15 +59,18 @@ module.exports = {
       ]),
       prod: run([
         `nps "build.main --optimize"`,
+        `nps "build.starting --optimize"`,
         `nps "build.examples --optimize"`,
         `nps "build.docs --optimize"`,
         `nps "build.projects --optimize"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
+        `uglifyjs -m -c -o ${out.mad.GettingStarted} ${out.mad.GettingStarted}`,
         `uglifyjs -m -c -o ${out.mad.Examples} ${out.mad.Examples}`,
         `uglifyjs -m -c -o ${out.mad.Docs} ${out.mad.Docs}`,
         `uglifyjs -m -c -o ${out.mad.Projects} ${out.mad.Projects}`,
         `nps styles`,
         "cp src/index.html build/",
+        "cp src/getting-started.html build/",
         "cp src/examples.html build/",
         "cp src/docs.html build/",
         "cp src/projects.html build/",

@@ -2,7 +2,7 @@ import type { Element } from "MadUI"
 import {
   className,
   div,
-  header,
+  h1,
   main,
   text
 } from 'MadUI'
@@ -11,21 +11,21 @@ import { strata } from 'Strata'
 
 import { Nav } from '../views/Nav'
 import { Footer } from '../views/Footer'
-import { PageSection } from '../views/Section'
+// import { PageSection } from '../views/Section'
 
 import type { State } from '../Types'
 
 stratum = strata("website")
 
-Home :: State -> Element
-export Home = (state) =>
+GettingStarted :: State -> Element
+export GettingStarted = (state) =>
   <div className={stratum.e('')}>
     {Nav(state.content.nav)}
-    <header className={stratum.e('header')}>
-      {renderMarkdown(state.content.header.content)}
-    </header>
+    <h1 className={stratum.e('title')}>
+      Getting Started
+    </h1>
     <main className={stratum.e('main')}>
-      {map(PageSection, state.content.home)}
+     {renderMarkdown(state.content.gettingStarted.intro)} 
     </main>
     {Footer(state)}
   </div>

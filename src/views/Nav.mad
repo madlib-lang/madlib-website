@@ -18,7 +18,7 @@ stratum = strata('nav')
 NavLink :: Link -> Element
 NavLink = (s) =>
   <li className={stratum.e('item')}>
-    <a href={s.href}>
+    <a className={stratum.e('link')} href={s.href}>
       {s.text}
     </a>
   </li>

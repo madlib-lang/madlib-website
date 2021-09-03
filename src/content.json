@@ -5,11 +5,12 @@
   },
   "nav": [
     { "href": "/", "text": "Home" },
+    { "href": "/getting-started", "text": "Getting Started" },
     { "href": "/examples", "text": "Examples" },
-    { "href": "/docs", "text": "Documentation" },
+    { "href": "/docs", "text": "Docs" },
     { "href": "/projects", "text": "Projects" }
   ],
-  "sections": [
+  "home": [
     {
       "title": "A functional language with familiar syntax",
       "content": "Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures."
@@ -26,5 +27,9 @@
       "title": "Libraries and Examples",
       "content": "\n\n * UI View Library: build web apps in the browser\n * Server: simple servers inspired by `express`\n * [Parser library](https://madlib-lang.github.io/madparser): parse structured input with native Madlib\n * Markdown parser: parse markdown input with native Madlib"
     }
-  ]
+  ],
+  "gettingStarted": {
+    "intro": "*Madlib* is a hybrid language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\n*Madlib* takes inspiration from the “Good Stuff” and builds a more functional foundation atop it.",
+    "sections": []
+  }
 }

@@ -11,12 +11,17 @@ export alias Link = {
 export alias Header = {
   content :: String
 }
+export alias Page = {
+  intro    :: String,
+  sections :: List Section
+}
 
 export alias Content = {
-  title    :: String,
-  header   :: Header,
-  nav      :: List Link,
-  sections :: List Section
+  title          :: String,
+  header         :: Header,
+  nav            :: List Link,
+  home           :: List Section,
+  gettingStarted :: Page
 }
 
 export type LoadingState

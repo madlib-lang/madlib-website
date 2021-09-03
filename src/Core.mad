@@ -26,7 +26,11 @@ export DEFAULT_CONTENT = {
   title: "Madlib",
   header: { content: "" },
   nav: [],
-  sections: []
+  home: [],
+  gettingStarted: {
+    intro: "",
+    sections: []
+  }
 }
 
 export INITIAL_STATE = {
