@@ -1,0 +1,15 @@
+.linked-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  &__link {
+    border: 0px solid transparent;
+    padding: 0;
+    margin-right: 0.5rem;
+    &:hover {
+      border: 0px solid transparent;
+      padding: 0;
+    }
+  }
+}

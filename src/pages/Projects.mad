@@ -1,0 +1,30 @@
+import type { Element } from "MadUI"
+import {
+  className,
+  div,
+  h1,
+  main,
+  text
+} from 'MadUI'
+// import { renderMarkdown } from 'MadMarkdownRenderer'
+import { strata } from 'Strata'
+
+import { Nav } from '../views/Nav'
+import { Footer } from '../views/Footer'
+// import { PageSection } from '../views/Section'
+
+import type { State } from '../Types'
+
+stratum = strata("website")
+
+Projects :: State -> Element
+export Projects = (state) =>
+  <div className={stratum.e('')}>
+    {Nav(state.content.nav)}
+    <h1>
+      Projects
+    </h1>
+    <main className={stratum.e('main')}>
+    </main>
+    {Footer(state)}
+  </div>
