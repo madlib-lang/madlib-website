@@ -4,7 +4,6 @@
   "description": "Madlib official website - powered by madlib",
   "main": "index.js",
   "dependencies": {
-    "@madlib-lang/madlib": "^0.10.1",
     "sass": "^1.32.6"
   },
   "devDependencies": {

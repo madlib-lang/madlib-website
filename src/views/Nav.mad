@@ -7,25 +7,25 @@ import {
   li,
   text,
   ul
-} from 'MadUI'
-import { strata } from 'Strata'
+} from "MadUI"
+import { strata } from "Strata"
 
 
-import type { Link } from '../Types'
+import type { State, Link } from "../State"
 
-stratum = strata('nav')
+stratum = strata("nav")
 
-NavLink :: Link -> Element
+NavLink :: Link -> Element State
 NavLink = (s) =>
-  <li className={stratum.e('item')}>
-    <a className={stratum.e('link')} href={s.href}>
+  <li className={stratum.e("item")}>
+    <a className={stratum.e("link")} href={`${s.href}.html`}>
       {s.text}
     </a>
   </li>
 
 export Nav = (s) =>
-  <div className={stratum.e('')}>
-    <ul className={stratum.e('list')}>
-      {map(NavLink, s)}
+  <div className={stratum.e("")}>
+    <ul className={stratum.e("list")}>
+      {...map(NavLink, s)}
     </ul>
   </div>

@@ -1,26 +1,26 @@
 export alias Section = {
-  title   :: String,
+  title :: String,
   content :: String
 }
 
 export alias Link = {
-  href  :: String,
-  text  :: String
+  href :: String,
+  text :: String
 }
 
 export alias Header = {
   content :: String
 }
 export alias Page = {
-  intro    :: String,
+  intro :: String,
   sections :: List Section
 }
 
 export alias Content = {
-  title          :: String,
-  header         :: Header,
-  nav            :: List Link,
-  home           :: List Section,
+  title :: String,
+  header :: Header,
+  nav :: List Link,
+  home :: List Section,
   gettingStarted :: Page
 }
 
@@ -30,6 +30,6 @@ export type LoadingState
   | Ready
 
 export alias State = {
-  content      :: Content,
+  content :: Content,
   loadingState :: LoadingState
 } 

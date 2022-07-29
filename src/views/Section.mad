@@ -1,26 +1,28 @@
-import type { Element } from 'MadUI'
+import type { Element } from "MadUI"
 import {
   className,
   id,
   section,
   text,
   p
-} from 'MadUI'
-import { renderMarkdown } from 'MadMarkdownRenderer'
-import { strata } from 'Strata'
+} from "MadUI"
+import { renderMarkdown } from "MadMarkdownRenderer"
+import { strata } from "Strata"
 
-import { LinkedHeader } from '../views/LinkedHeader'
-import type { Section } from '../Types'
-import {slug} from '../Utils'
+import { LinkedHeader } from "@/views/LinkedHeader"
+import type { Section } from "@/State"
+import {slug} from "@/Utils"
+import type { State } from "@/State"
 
-stratum = strata('website')
 
-PageSection :: Section -> Element
+stratum = strata("website")
+
+PageSection :: Section -> Element State
 export PageSection = (raw) => {
   clean = slug(raw.title)
   sectionLinkProps = {id: clean, title: raw.title}
-  return <section id={clean} className={stratum.e('section')}>
+  return <section id={clean} className={stratum.e("section")}>
     {LinkedHeader(sectionLinkProps)} 
-    <p className={stratum.e('paragraph')}>{renderMarkdown(raw.content)}</p>
+    <p className={stratum.e("paragraph")}>{renderMarkdown(raw.content)}</p>
   </section> 
 }

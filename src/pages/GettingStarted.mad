@@ -5,26 +5,27 @@ import {
   h1,
   main,
   text
-} from 'MadUI'
-import { renderMarkdown } from 'MadMarkdownRenderer'
-import { strata } from 'Strata'
+} from "MadUI"
+import { renderMarkdown } from "MadMarkdownRenderer"
+import { strata } from "Strata"
 
-import { Nav } from '../views/Nav'
-import { Footer } from '../views/Footer'
-// import { PageSection } from '../views/Section'
+import { Nav } from "@/views/Nav"
+import { Header } from "@/views/Header"
+import { Footer } from "@/views/Footer"
 
-import type { State } from '../Types'
+import type { State } from "@/State"
 
 stratum = strata("website")
 
-GettingStarted :: State -> Element
+GettingStarted :: State -> Element State
 export GettingStarted = (state) =>
-  <div className={stratum.e('')}>
+  <div className={stratum.e("")}>
     {Nav(state.content.nav)}
-    <h1 className={stratum.e('title')}>
+    {Header(state)}
+    <h1 className={stratum.e("title")}>
       Getting Started
     </h1>
-    <main className={stratum.e('main')}>
+    <main className={stratum.e("main")}>
      {renderMarkdown(state.content.gettingStarted.intro)} 
     </main>
     {Footer(state)}

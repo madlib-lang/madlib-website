@@ -13,11 +13,11 @@ const input = Object.freeze({
 
 const out = Object.freeze({
   mad: {
-    Main: `build/bundle-main.js`,
-    GettingStarted: `build/bundle-getting-started.js`,
-    Examples: `build/bundle-examples.js`,
-    Docs: `build/bundle-docs.js`,
-    Projects: `build/bundle-projects.js`,
+    Main: `build/main/bundle.js`,
+    GettingStarted: `build/getting-started/bundle.js`,
+    Examples: `build/examples/bundle.js`,
+    Docs: `build/docs/bundle.js`,
+    Projects: `build/projects/bundle.js`,
   },
   styles: {
     directory: `build/styles`,
@@ -46,11 +46,11 @@ module.exports = {
       script: `nps styles.all styles.group`,
     },
     build: {
-      main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main}`,
-      starting: `madlib compile -i ${input.mad.GettingStarted} --target browser --bundle -o ${out.mad.GettingStarted}`,
-      examples: `madlib compile -i ${input.mad.Examples} --target browser --bundle -o ${out.mad.Examples}`,
-      docs: `madlib compile -i ${input.mad.Docs} --target browser --bundle -o ${out.mad.Docs}`,
-      projects: `madlib compile -i ${input.mad.Projects} --target browser --bundle -o ${out.mad.Projects}`,
+      main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main} -w &`,
+      starting: `madlib compile -i ${input.mad.GettingStarted} --target browser --bundle -o ${out.mad.GettingStarted} -w &`,
+      examples: `madlib compile -i ${input.mad.Examples} --target browser --bundle -o ${out.mad.Examples} -w &`,
+      docs: `madlib compile -i ${input.mad.Docs} --target browser --bundle -o ${out.mad.Docs} -w &`,
+      projects: `madlib compile -i ${input.mad.Projects} --target browser --bundle -o ${out.mad.Projects} -w &`,
       dev: "nps build.main build.starting build.examples build.docs build.projects",
       vercel: run([
         "npm i @madlib-lang/madlib",
@@ -81,15 +81,18 @@ module.exports = {
     sync: {
       description: "sync the browser",
       script:
-        // "browser-sync start --server build --files build --serveStatic build --no-open --reload-debounce 100",
-        "browser-sync start -c browsersync.config.js",
+        "browser-sync start --server build --files build --serveStatic build --no-open --reload-debounce 100",
+        // "browser-sync start -c browsersync.config.js",
     },
     dev: `concurrently ${[
       `"sass --watch ${input.views}:${out.styles.directory}"`,
       `"nps styles.group"`,
       `"copy-and-watch --watch src/**/*.{html,svg,json} build/"`,
       `"copy-and-watch --watch src/assets/* build/assets/"`,
-      `"watch 'nps build.dev' src"`,
+      `"nps build.dev.main"`,
+      `"nps build.dev.starting"`,
+      `"nps build.dev.examples"`,
+      // `"watch 'nps build.dev' src"`,
       `"watch 'nps styles.group' src"`,
       `"nps sync"`,
     ].join(" ")}`,

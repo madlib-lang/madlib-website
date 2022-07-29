@@ -1,5 +1,5 @@
-import {strata} from 'Strata'
-import type { Element } from 'MadUI'
+import {strata} from "Strata"
+import type { Element } from "MadUI"
 import {
   h2,
   className,
@@ -7,18 +7,21 @@ import {
   href,
   span,
   text
-} from 'MadUI'
+} from "MadUI"
+
+import type { State } from "@/State"
+
 
 export alias LinkedSectionProps = {
   id    :: String,
   title :: String
 }
 
-stratum = strata('linked-section')
+stratum = strata("linked-section")
 
-LinkedHeader :: LinkedSectionProps -> Element
+LinkedHeader :: LinkedSectionProps -> Element State
 export LinkedHeader = (raw) =>
-  <h2 className={stratum.e('')}>
-    <a href={`#${raw.id}`} className={stratum.e('link')}>#</a>
-    <span className={stratum.e('title')}>{raw.title}</span>
+  <h2 className={stratum.e("")}>
+    <a href={`#${raw.id}`} className={stratum.e("link")}>#</a>
+    <span className={stratum.e("title")}>{raw.title}</span>
   </h2>

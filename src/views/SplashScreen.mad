@@ -1,4 +1,4 @@
-import type { Action, Element } from 'MadUI'
+import type { Action, Element } from "MadUI"
 import {
   className,
   div,
@@ -9,13 +9,13 @@ import {
 } from "MadUI"
 import { always, equals, ifElse } from "Function"
 import { strata } from "Strata"
-import type { LoadingState, State } from '../Types'
+import type { LoadingState, State } from "@/State"
 import {
   Ready,
   Transitioning
-} from "../Types"
+} from "@/State"
 
-stratum = strata('splash-screen')
+stratum = strata("splash-screen")
 
 handleTransitionEnd :: Action State
 handleTransitionEnd = syncAction((s, _) => ({
@@ -23,14 +23,14 @@ handleTransitionEnd = syncAction((s, _) => ({
   loadingState: Ready
 }))
 
-SplashScreen :: LoadingState -> Element
+SplashScreen :: LoadingState -> Element State
 export SplashScreen = pipe(
   ifElse(
     equals(Transitioning),
     always(stratum.em("logo", ["transitioning"])),
     always(stratum.e("logo"))
   ),
-  (logoClassName) => (
+  (logoClassName) =>
     <div className={stratum.e("")}>
       <img
         className={logoClassName}
@@ -38,5 +38,4 @@ export SplashScreen = pipe(
         onTransitionEnd={handleTransitionEnd}
       />
     </div>
-  )
 )

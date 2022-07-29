@@ -1,5 +1,5 @@
-import { renderer } from './Core'
-import { GettingStarted } from './pages/GettingStarted'
+import { renderer } from "./Core"
+import { GettingStarted } from "./pages/GettingStarted"
 
 renderer(GettingStarted)
 
