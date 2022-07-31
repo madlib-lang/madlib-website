@@ -1,0 +1,46 @@
+import type { IncomingRequest } from "MadServer"
+import type { Header } from "Http"
+
+import { run, create, get, DEFAULT_OPTIONS } from "MadServer"
+import { mapRej } from "Wish"
+import { Header } from "Http"
+import { Just, Nothing } from "Maybe"
+import File from "File"
+import Process from "Process"
+import String from "String"
+import List from "List"
+
+
+buildHeaders :: IncomingRequest -> List Header
+buildHeaders = (req) => pipe(
+  .url,
+  String.split("."),
+  List.last,
+  where {
+    Just("svg") =>
+      [Header("Content-Type", "image/svg+xml")]
+
+    _ =>
+      []
+  }
+)(req)
+
+
+pipe(
+  create,
+  get("/*", (req) => pipe(
+    map((cwd) => `${cwd}/build/public${req.url}`),
+    chain(File.read),
+    map((content) => ({
+      status: 200,
+      body: content,
+      headers: buildHeaders(req)
+    })),
+    mapRej(() => ({ status: 404, body: `{ "error": "file not found" }`, headers: [] }))
+  )(Process.getCurrentPath)),
+  run(3000)
+)({
+  ...DEFAULT_OPTIONS,
+  verbose: true,
+  ssl: Nothing
+})

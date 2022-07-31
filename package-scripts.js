@@ -2,36 +2,38 @@ const run = commands => commands.join(" && ")
 
 const input = Object.freeze({
   mad: {
-    Main: `src/Index.mad`,
-    GettingStarted: `src/GettingStarted.mad`,
-    Examples: `src/Examples.mad`,
-    Docs: `src/Docs.mad`,
-    Projects: `src/Projects.mad`,
+    Main: `client/src/Index.mad`,
   },
-  views: `src/views`,
+  views: `client/src/views`,
 })
 
 const out = Object.freeze({
   mad: {
-    Main: `build/main/bundle.js`,
-    GettingStarted: `build/getting-started/bundle.js`,
-    Examples: `build/examples/bundle.js`,
-    Docs: `build/docs/bundle.js`,
-    Projects: `build/projects/bundle.js`,
+    Main: `build/public/bundle.js`,
   },
   styles: {
-    directory: `build/styles`,
+    directory: `build/public/styles`,
     files: [
-      `build/styles/global.css`,
-      `build/styles/Footer.css`,
-      `build/styles/SplashScreen.css`,
-      `build/styles/Website.css`,
-      `build/styles/Nav.css`,
-      `build/styles/LinkedHeader.css`,
+      `build/public/styles/global.css`,
+      `build/public/styles/Footer.css`,
+      `build/public/styles/SplashScreen.css`,
+      `build/public/styles/Website.css`,
+      `build/public/styles/Nav.css`,
+      `build/public/styles/LinkedHeader.css`,
     ],
-    main: `build/styles/main.css`,
+    main: `build/public/styles/main.css`,
   },
 })
+
+
+const runWhen = (cond, cmd) => `
+until ${cond}; do
+  echo waiting...
+  sleep 0.5
+done
+exec ${cmd}
+`
+
 
 module.exports = {
   scripts: {
@@ -40,6 +42,7 @@ module.exports = {
       description: `get sassy with those files`,
       all: `sass ${input.views}:${out.styles.directory}`,
       group: run([
+        `mkdir -p ${out.styles.directory}`,
         `touch ${out.styles.main}`,
         `cat ${out.styles.files.join(" ")} > ${out.styles.main}`,
       ]),
@@ -47,11 +50,7 @@ module.exports = {
     },
     build: {
       main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main} -w &`,
-      starting: `madlib compile -i ${input.mad.GettingStarted} --target browser --bundle -o ${out.mad.GettingStarted} -w &`,
-      examples: `madlib compile -i ${input.mad.Examples} --target browser --bundle -o ${out.mad.Examples} -w &`,
-      docs: `madlib compile -i ${input.mad.Docs} --target browser --bundle -o ${out.mad.Docs} -w &`,
-      projects: `madlib compile -i ${input.mad.Projects} --target browser --bundle -o ${out.mad.Projects} -w &`,
-      dev: "nps build.main build.starting build.examples build.docs build.projects",
+      dev: "nps build.main",
       vercel: run([
         "npm i @madlib-lang/madlib",
         "madlib install",
@@ -59,43 +58,38 @@ module.exports = {
       ]),
       prod: run([
         `nps "build.main --optimize"`,
-        `nps "build.starting --optimize"`,
-        `nps "build.examples --optimize"`,
-        `nps "build.docs --optimize"`,
-        `nps "build.projects --optimize"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
-        `uglifyjs -m -c -o ${out.mad.GettingStarted} ${out.mad.GettingStarted}`,
-        `uglifyjs -m -c -o ${out.mad.Examples} ${out.mad.Examples}`,
-        `uglifyjs -m -c -o ${out.mad.Docs} ${out.mad.Docs}`,
-        `uglifyjs -m -c -o ${out.mad.Projects} ${out.mad.Projects}`,
         `nps styles`,
-        "cp src/index.html build/",
-        "cp src/getting-started.html build/",
-        "cp src/examples.html build/",
-        "cp src/docs.html build/",
-        "cp src/projects.html build/",
-        "cp -R src/assets build/",
+        "cp client/src/index.html build/public/",
+        "cp -R client/src/assets build/public/",
       ]),
-      html: "copy-and-watch src/*.html build/",
+      html: "copy-and-watch client/src/*.html build/public/",
+    },
+    server: {
+      dev: {
+        build: "madlib compile --target llvm -i server/src/Main.mad -o build/service -w",
+        start: runWhen('cat ./build/service >&/dev/null', `./build/service`),
+      },
     },
     sync: {
       description: "sync the browser",
       script:
-        "browser-sync start --server build --files build --serveStatic build --no-open --reload-debounce 100",
+        "browser-sync start --proxy localhost:3000 --files build/public/ --no-open --reload-debounce 100",
+        // "browser-sync start --server build/public/ --files build/public/ --serveStatic build/public/ --no-open --reload-debounce 100",
         // "browser-sync start -c browsersync.config.js",
     },
     dev: `concurrently ${[
       `"sass --watch ${input.views}:${out.styles.directory}"`,
       `"nps styles.group"`,
-      `"copy-and-watch --watch src/**/*.{html,svg,json} build/"`,
-      `"copy-and-watch --watch src/assets/* build/assets/"`,
-      `"nps build.dev.main"`,
-      `"nps build.dev.starting"`,
-      `"nps build.dev.examples"`,
-      // `"watch 'nps build.dev' src"`,
-      `"watch 'nps styles.group' src"`,
-      `"nps sync"`,
+      `"copy-and-watch --watch client/src/**/*.{html,svg,json} build/public/"`,
+      `"copy-and-watch --watch client/src/assets/* build/public/assets/"`,
+      `"nps build.dev"`,
+      `"nps server.dev.build"`,
+      `"watch 'nps styles.group' client/src"`,
+      `"nps server.dev.start"`,
+      `"${runWhen('curl localhost:3000 >&/dev/null', 'nps sync')}"`,
     ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1',
   },
 }
+
