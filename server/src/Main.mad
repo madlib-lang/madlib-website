@@ -1,46 +1,23 @@
-import type { IncomingRequest } from "MadServer"
-import type { Header } from "Http"
 
-import { run, create, get, DEFAULT_OPTIONS } from "MadServer"
-import { mapRej } from "Wish"
-import { Header } from "Http"
-import { Just, Nothing } from "Maybe"
-import File from "File"
-import Process from "Process"
+import Server from "MadServer"
 import String from "String"
-import List from "List"
+import { Nothing } from "Maybe"
+import { fileHandler } from "@server/FileHandler"
+import { postPlaygroundHandler } from "@server/Api"
 
 
-buildHeaders :: IncomingRequest -> List Header
-buildHeaders = (req) => pipe(
-  .url,
-  String.split("."),
-  List.last,
-  where {
-    Just("svg") =>
-      [Header("Content-Type", "image/svg+xml")]
-
-    _ =>
-      []
-  }
-)(req)
+BASE_API_PATH = "/api"
+makeApiPath :: String -> String
+makeApiPath = (path) => mconcat(BASE_API_PATH, path)
 
 
 pipe(
-  create,
-  get("/*", (req) => pipe(
-    map((cwd) => `${cwd}/build/public${req.url}`),
-    chain(File.read),
-    map((content) => ({
-      status: 200,
-      body: content,
-      headers: buildHeaders(req)
-    })),
-    mapRej(() => ({ status: 404, body: `{ "error": "file not found" }`, headers: [] }))
-  )(Process.getCurrentPath)),
-  run(3000)
+  Server.create,
+  Server.post(makeApiPath("plagrounds"), postPlaygroundHandler),
+  Server.get("/*", fileHandler),
+  Server.run(3000)
 )({
-  ...DEFAULT_OPTIONS,
+  ...Server.DEFAULT_OPTIONS,
   verbose: true,
   ssl: Nothing
 })

@@ -1,0 +1,58 @@
+import type { IncomingRequest } from "MadServer"
+import type { Response } from "Http"
+import type { Wish } from "Wish"
+import type { Maybe } from "Maybe"
+
+import Json from "JsonParser"
+import { bad } from "Wish"
+import { Left, Right } from "Either"
+import { Just, Nothing } from "Maybe"
+
+
+alias Playground = {
+  id :: Maybe String,
+  code :: String,
+}
+
+
+playgroundParser :: Json.Parser Playground
+playgroundParser = do {
+  id <- Json.maybe(Json.field("id", Json.string))
+  code <- Json.field("code", Json.string)
+
+  return of({ id, code })
+}
+
+
+makeError :: String -> Wish (Response String) a
+makeError = (message) => bad({
+  status: 400,
+  headers: [],
+  body: `{ "error": "${message}" }`
+})
+
+
+postPlaygroundHandler :: IncomingRequest -> Wish (Response String) (Response String)
+export postPlaygroundHandler = (req) => pipe(
+  .body,
+  where {
+    Just(body) =>
+      of(body)
+
+    Nothing =>
+      makeError("body is empty")
+  },
+  chain(
+    pipe(
+      Json.parse(playgroundParser),
+      where {
+        Right(parsed) =>
+          of(parsed)
+
+        Left(parseError) =>
+          makeError(parseError)
+      }
+    )
+  ),
+  () => of({ status: 201, headers: [], body: "" })
+)(req)
