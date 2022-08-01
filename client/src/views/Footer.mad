@@ -8,7 +8,7 @@ import {
   span
 } from "MadUI"
 import type {Element} from "MadUI"
-import type { State } from "@/State"
+import type { State } from "@client/State"
 
 stratum = strata("footer")
 

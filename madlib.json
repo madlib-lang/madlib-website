@@ -4,7 +4,8 @@
   "main": "src/Main.mad",
   "madlibVersion": "0.13.0",
   "importAliases": {
-    ".": "src"
+    "client": "client/src",
+    "server": "server/src"
   },
   "dependencies": [
     {
@@ -18,9 +19,13 @@
       "minVersion": "1.0.0"
     },
     {
-      
       "url": "https://github.com/madlib-lang/strata/archive/refs/tags/v0.0.1.zip",
       "description": "Strata",
+      "minVersion": "0.0.1"
+    },
+    {
+      "url": "https://github.com/madlib-lang/madserver/archive/refs/tags/v0.0.1.zip",
+      "description": "MadServer",
       "minVersion": "0.0.1"
     }
   ]
