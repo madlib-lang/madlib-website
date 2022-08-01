@@ -32,8 +32,8 @@ makeError = (message) => bad({
 })
 
 
-postPlaygroundHandler :: IncomingRequest -> Wish (Response String) (Response String)
-export postPlaygroundHandler = (req) => pipe(
+readBody :: IncomingRequest -> Wish (Response String) String
+readBody = (req) => pipe(
   .body,
   where {
     Just(body) =>
@@ -41,18 +41,26 @@ export postPlaygroundHandler = (req) => pipe(
 
     Nothing =>
       makeError("body is empty")
-  },
-  chain(
-    pipe(
-      Json.parse(playgroundParser),
-      where {
-        Right(parsed) =>
-          of(parsed)
+  }
+)(req)
 
-        Left(parseError) =>
-          makeError(parseError)
-      }
-    )
-  ),
+
+parsePlayground :: String -> Wish (Response String) Playground
+parsePlayground = (jsonString) => pipe(
+  Json.parse(playgroundParser),
+  where {
+    Right(parsed) =>
+      of(parsed)
+
+    Left(parseError) =>
+      makeError(parseError)
+  }
+)(jsonString)
+
+
+postPlaygroundHandler :: IncomingRequest -> Wish (Response String) (Response String)
+export postPlaygroundHandler = (req) => pipe(
+  readBody,
+  chain(parsePlayground),
   () => of({ status: 201, headers: [], body: "" })
 )(req)
