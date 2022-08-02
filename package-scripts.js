@@ -25,19 +25,10 @@ const out = Object.freeze({
   },
 })
 
-<<<<<<< HEAD
 
-const runWhen = (cond, cmd) => `
-until ${cond}; do
-  echo waiting...
-  sleep 0.5
-done
-exec ${cmd}
-`
+const runWhen = (cond, cmd) => `wait-on ${cond} && ${cmd}`
 
-=======
 const compile = (from, to) => `madlib compile -i ${from} --target browser --bundle -o ${to}`
->>>>>>> 425f156 (updates)
 
 module.exports = {
   scripts: {
@@ -76,7 +67,7 @@ module.exports = {
     server: {
       dev: {
         build: "madlib compile --target llvm -i server/src/Main.mad -o build/service -w",
-        start: runWhen('cat ./build/service >&/dev/null', `./build/service`),
+        start: runWhen('./build/service', `./build/service`),
       },
     },
     sync: {
@@ -95,8 +86,7 @@ module.exports = {
       `"nps server.dev.build"`,
       `"watch 'nps styles.group' client/src"`,
       `"nps server.dev.start"`,
-      `"${runWhen('curl localhost:3000 >&/dev/null', 'nps sync')}"`,
-      `"nps sync"`,
+      `"${runWhen('http://localhost:3000', 'nps sync')}"`,
     ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1',
   },
