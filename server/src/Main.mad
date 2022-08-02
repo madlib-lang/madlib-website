@@ -14,7 +14,7 @@ makeApiPath = (path) => mconcat(BASE_API_PATH, path)
 
 pipe(
   Server.create,
-  Server.post(makeApiPath("plagrounds"), postPlaygroundHandler),
+  Server.post(makeApiPath("/playgrounds"), postPlaygroundHandler),
   Server.get("/*", fileHandler),
   Server.run(3000)
 )({

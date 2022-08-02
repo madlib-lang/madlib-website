@@ -1,18 +1,21 @@
 import type { IncomingRequest } from "MadServer"
 import type { Response } from "Http"
 import type { Wish } from "Wish"
-import type { Maybe } from "Maybe"
 
 import Json from "JsonParser"
-import { bad } from "Wish"
+import List from "List"
+import Math from "Math"
+import Number from "Number"
+import String from "String"
+import Process from "Process"
+import File from "File"
+import { bad, bichain, chainRej } from "Wish"
 import { Left, Right } from "Either"
 import { Just, Nothing } from "Maybe"
+import { always } from "Function"
 
-
-alias Playground = {
-  id :: Maybe String,
-  code :: String,
-}
+import type { Playground } from "@server/Playground"
+import { toHexadecimal } from "@server/Utils"
 
 
 playgroundParser :: Json.Parser Playground
@@ -20,13 +23,13 @@ playgroundParser = do {
   id <- Json.maybe(Json.field("id", Json.string))
   code <- Json.field("code", Json.string)
 
-  return of({ id, code })
+  return of({ id, code, stdout: Nothing, stderr: Nothing })
 }
 
 
-makeError :: String -> Wish (Response String) a
-makeError = (message) => bad({
-  status: 400,
+makeError :: Integer -> String -> Wish (Response String) a
+makeError = (status, message) => bad({
+  status,
   headers: [],
   body: `{ "error": "${message}" }`
 })
@@ -40,7 +43,7 @@ readBody = (req) => pipe(
       of(body)
 
     Nothing =>
-      makeError("body is empty")
+      makeError(400, "body is empty")
   }
 )(req)
 
@@ -53,14 +56,116 @@ parsePlayground = (jsonString) => pipe(
       of(parsed)
 
     Left(parseError) =>
-      makeError(parseError)
+      makeError(400, parseError)
   }
 )(jsonString)
 
 
+generatePlaygroundId :: a -> String
+generatePlaygroundId = () => pipe(
+  List.repeatWith(Math.random),
+  map(
+    pipe(
+      Math.multiply(15),
+      Number.floatToByte,
+      toHexadecimal
+    )
+  ),
+  String.fromList
+)(16)
+
+
+createDirectory :: String -> a -> Wish (Response String) a
+createDirectory = (playgroundId, passThrough) => pipe(
+  chain((cwd) => Process.exec(`mkdir -p ${cwd}/build/playgrounds/${playgroundId}`)),
+  chainRej(always(makeError(500, "Playground failed to be created"))),
+  map(always(passThrough))
+)(Process.getCurrentPath)
+
+
+saveCode :: Playground -> Wish (Response String) Playground
+saveCode = (playground) => where(playground.id) {
+  Just(playgroundId) =>
+    pipe(
+      map((cwd) =>`${cwd}/build/playgrounds/${playgroundId}/Playground.mad`),
+      chain(File.write($, playground.code)),
+      map(always(playground)),
+      chainRej(always(makeError(500, "Playground failed to be created")))
+    )(Process.getCurrentPath)
+
+  Nothing =>
+    makeError(500, "Playground failed to be created")
+}
+
+compileCode :: Playground -> Wish (Response String) Playground
+compileCode = (playground) => pipe(
+  getPlaygroundPath,
+  chain(
+    pipe(
+      (playgroundPath) => Process.exec(`madlib compile --target llvm -i ${playgroundPath}/Playground.mad -o ${playgroundPath}/build/runPlayground`),
+      map(always(playground)),
+      chainRej((result) => makeError(400, `CompilationErrors:\n${escapeQuotes(result.stderr)}${escapeQuotes(result.stdout)}`))
+    )
+  )
+)(playground)
+
+
+escapeQuotes :: String -> String
+escapeQuotes = (input) => pipe(
+  String.toList,
+  chain(where {
+    '"' =>
+      ['\\', '"']
+
+    or =>
+      [or]
+  }),
+  String.fromList
+)(input)
+
+
+getPlaygroundPath :: Playground -> Wish (Response String) String
+getPlaygroundPath = (playground) => where(playground.id){
+  Just(id) =>
+    map((cwd) => `${cwd}/build/playgrounds/${id}`, Process.getCurrentPath)
+
+  Nothing =>
+    makeError(400, "Playground path could not be resolved")
+}
+
+runPlayground :: Playground -> Wish (Response String) Playground
+runPlayground = (playground) => pipe(
+  getPlaygroundPath,
+  map((playgroundPath) => `${playgroundPath}/build/runPlayground`),
+  chain(
+    pipe(
+      Process.exec,
+      bichain(
+        (result) => makeError(400, result.stderr),
+        (result) => of({
+          ...playground,
+          stdout: Just(result.stdout),
+          stderr: result.exitCode != 0 ? Nothing : Just(result.stderr)
+        })
+      )
+    )
+  )
+)(playground)
+
+
 postPlaygroundHandler :: IncomingRequest -> Wish (Response String) (Response String)
-export postPlaygroundHandler = (req) => pipe(
-  readBody,
-  chain(parsePlayground),
-  () => of({ status: 201, headers: [], body: "" })
-)(req)
+export postPlaygroundHandler = (req) => {
+  playgroundId :: String
+  playgroundId = generatePlaygroundId()
+
+  return pipe(
+    readBody,
+    chain(parsePlayground),
+    map((playground) => ({ ...playground, id: Just(playgroundId) })),
+    chain(createDirectory(playgroundId)),
+    chain(saveCode),
+    chain(compileCode),
+    chain(runPlayground),
+    chain((output) => (of({ status: 201, headers: [], body: inspect(output) })))
+  )(req)
+}
