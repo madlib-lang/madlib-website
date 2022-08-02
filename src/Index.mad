@@ -1,0 +1,8 @@
+import { renderer } from "./Core"
+import { Home } from "./pages/Home"
+import { GettingStarted } from "./pages/GettingStarted"
+import { Docs } from "./pages/Docs"
+import { Projects } from "./pages/Projects"
+import { Examples } from "./pages/Examples"
+
+renderer( Home )

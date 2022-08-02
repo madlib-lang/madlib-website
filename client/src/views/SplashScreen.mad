@@ -30,12 +30,13 @@ export SplashScreen = pipe(
     always(stratum.em("logo", ["transitioning"])),
     always(stratum.e("logo"))
   ),
-  (logoClassName) =>
-    <div className={stratum.e("")}>
+  (logoClassName) => (
+    <div>
       <img
         className={logoClassName}
         src="/assets/logo.svg"
         onTransitionEnd={handleTransitionEnd}
       />
     </div>
+  )
 )

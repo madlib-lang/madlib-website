@@ -25,6 +25,7 @@ const out = Object.freeze({
   },
 })
 
+<<<<<<< HEAD
 
 const runWhen = (cond, cmd) => `
 until ${cond}; do
@@ -34,6 +35,9 @@ done
 exec ${cmd}
 `
 
+=======
+const compile = (from, to) => `madlib compile -i ${from} --target browser --bundle -o ${to}`
+>>>>>>> 425f156 (updates)
 
 module.exports = {
   scripts: {
@@ -49,8 +53,12 @@ module.exports = {
       script: `nps styles.all styles.group`,
     },
     build: {
-      main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main} -w &`,
-      dev: "nps build.main",
+      main: compile(input.mad.Main, out.mad.Main),
+      starting: compile(input.mad.GettingStarted, out.mad.GettingStarted),
+      examples: compile(input.mad.Examples, out.mad.Examples),
+      docs: compile(input.mad.Docs, out.mad.Docs),
+      projects: compile(input.mad.Projects, out.mad.Projects),
+      dev: "nps build.main build.starting build.examples build.docs build.projects",
       vercel: run([
         "npm i @madlib-lang/madlib",
         "madlib install",
@@ -83,11 +91,12 @@ module.exports = {
       `"nps styles.group"`,
       `"copy-and-watch --watch client/src/**/*.{html,svg,json} build/public/"`,
       `"copy-and-watch --watch client/src/assets/* build/public/assets/"`,
-      `"nps build.dev"`,
+      `"nps 'build.main -w'"`,
       `"nps server.dev.build"`,
       `"watch 'nps styles.group' client/src"`,
       `"nps server.dev.start"`,
       `"${runWhen('curl localhost:3000 >&/dev/null', 'nps sync')}"`,
+      `"nps sync"`,
     ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1',
   },
