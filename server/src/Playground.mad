@@ -22,10 +22,11 @@ getOptionalPropAs = (accessor, fieldName, playground, values) => where(accessor(
 }
 
 
-playgroundDoc :: Playground -> JsonValue
-playgroundDoc = (playground) => pipe(
+playgroundToJsonString :: Playground -> String
+export playgroundToJsonString = (playground) => pipe(
   .code,
   (codeValue) => [#["code", Json.string(codeValue)]],
   getOptionalPropAs(.id, "id", playground),
-  Json.object
+  Json.object,
+  Json.printJson(80)
 )(playground)
