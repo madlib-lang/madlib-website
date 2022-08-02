@@ -15,6 +15,7 @@ import { Just, Nothing } from "Maybe"
 import { always } from "Function"
 
 import type { Playground } from "@server/Playground"
+import Playground from "@server/Playground"
 import { toHexadecimal } from "@server/Utils"
 
 
@@ -161,7 +162,7 @@ export postPlaygroundHandler = (req) => {
   return pipe(
     readBody,
     chain(parsePlayground),
-    map((playground) => ({ ...playground, id: Just(playgroundId) })),
+    map(Playground.setId(playgroundId)),
     chain(createDirectory(playgroundId)),
     chain(saveCode),
     chain(compileCode),

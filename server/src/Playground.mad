@@ -12,6 +12,10 @@ export alias Playground = {
 }
 
 
+setId :: String -> Playground -> Playground
+export setId = (id, playground) => ({ ...playground, id: Just(id) })
+
+
 getOptionalPropAs :: (Playground -> Maybe String) -> String -> Playground -> List #[String, JsonValue] -> List #[String, JsonValue]
 getOptionalPropAs = (accessor, fieldName, playground, values) => where(accessor(playground)) {
   Just(value) =>
