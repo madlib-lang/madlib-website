@@ -66,7 +66,7 @@ module.exports = {
     },
     server: {
       dev: {
-        build: "madlib compile --target llvm -i server/src/Main.mad -o build/service -w",
+        build: "madlib compile --target llvm -i server/Main.mad -o build/service -w",
         start: runWhen('./build/service', `./build/service`),
       },
     },

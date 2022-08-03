@@ -7,7 +7,7 @@
     "pages": "client/pages",
     "views": "client/views",
     "client": "client",
-    "server": "server/src"
+    "server": "server"
   },
   "dependencies": [
     {
