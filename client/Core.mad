@@ -17,7 +17,7 @@ import {
   Loading
 } from "./State"
 import { contentParser } from "@client/Parsers"
-import { SplashScreen } from "@client/views/SplashScreen"
+import { SplashScreen } from "@views/SplashScreen"
 
 export DEFAULT_CONTENT = {
   title: "Madlib",

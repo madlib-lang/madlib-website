@@ -1,4 +1,4 @@
-import { renderer } from "@client/Core"
-import { Home } from "@client/pages/Home"
+import { renderer } from "./Core"
+import { Home } from "@pages/Home"
 
 renderer(Home)

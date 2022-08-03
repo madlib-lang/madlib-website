@@ -1,4 +1,4 @@
 import { renderer } from "./Core"
-import { Examples } from "./pages/Examples"
+import { Examples } from "@pages/Examples"
 
 renderer(Examples)
