@@ -2,9 +2,9 @@ const run = commands => commands.join(" && ")
 
 const input = Object.freeze({
   mad: {
-    Main: `client/src/Index.mad`,
+    Main: `client/Index.mad`,
   },
-  views: `client/src/views`,
+  views: `client/views`,
 })
 
 const out = Object.freeze({
@@ -59,10 +59,10 @@ module.exports = {
         `nps "build.main --optimize"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
         `nps styles`,
-        "cp client/src/index.html build/public/",
-        "cp -R client/src/assets build/public/",
+        "cp client/index.html build/public/",
+        "cp -R client/assets build/public/",
       ]),
-      html: "copy-and-watch client/src/*.html build/public/",
+      html: "copy-and-watch client/*.html build/public/",
     },
     server: {
       dev: {
@@ -80,11 +80,11 @@ module.exports = {
     dev: `concurrently ${[
       `"sass --watch ${input.views}:${out.styles.directory}"`,
       `"nps styles.group"`,
-      `"copy-and-watch --watch client/src/**/*.{html,svg,json} build/public/"`,
-      `"copy-and-watch --watch client/src/assets/* build/public/assets/"`,
+      `"copy-and-watch --watch client/**/*.{html,svg,json} build/public/"`,
+      `"copy-and-watch --watch client/assets/* build/public/assets/"`,
       `"nps 'build.main -w'"`,
       `"nps server.dev.build"`,
-      `"watch 'nps styles.group' client/src"`,
+      `"watch 'nps styles.group' client"`,
       `"nps server.dev.start"`,
       `"${runWhen('http://localhost:3000', 'nps sync')}"`,
     ].join(" ")}`,
