@@ -20,6 +20,7 @@ const out = Object.freeze({
       `build/public/styles/Website.css`,
       `build/public/styles/Nav.css`,
       `build/public/styles/LinkedHeader.css`,
+      `build/public/styles/Playground.css`,
     ],
     main: `build/public/styles/main.css`,
   },

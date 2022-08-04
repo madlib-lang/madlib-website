@@ -11,6 +11,7 @@ import { Nav } from "@client/views/Nav"
 import { Header } from "@client/views/Header"
 import { Footer } from "@client/views/Footer"
 import { PageSection } from "@client/views/Section"
+import { Playground } from "@client/views/Playground"
 
 import type { State } from "@client/State"
 
@@ -21,6 +22,7 @@ export Home = (state) =>
   <div className={stratum.e("")}>
     {Nav(state.content.nav)}
     {Header(state)}
+    {Playground(state)}
     <main className={stratum.e("main")}>
       {...map(PageSection, state.content.home)}
     </main>

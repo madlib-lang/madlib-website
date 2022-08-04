@@ -78,21 +78,21 @@ generatePlaygroundId = () => pipe(
 
 createDirectory :: String -> a -> Wish (Response String) a
 createDirectory = (playgroundId, passThrough) => pipe(
-  chain((cwd) => Process.exec(`mkdir -p ${cwd}/build/playgrounds/${playgroundId}`)),
+  (cwd) => Process.exec("mkdir", ["-p", `${cwd}/build/playgrounds/${playgroundId}`], Process.DEFAULT_COMMAND_OPTIONS),
   chainRej(always(makeError(500, "Playground failed to be created"))),
   map(always(passThrough))
-)(Process.getCurrentPath)
+)(Process.getCurrentWorkingDirectory())
 
 
 saveCode :: Playground -> Wish (Response String) Playground
 saveCode = (playground) => where(playground.id) {
   Just(playgroundId) =>
     pipe(
-      map((cwd) =>`${cwd}/build/playgrounds/${playgroundId}/Playground.mad`),
-      chain(File.write($, playground.code)),
+      (cwd) =>`${cwd}/build/playgrounds/${playgroundId}/Playground.mad`,
+      File.write($, playground.code),
       map(always(playground)),
       chainRej(always(makeError(500, "Playground failed to be created")))
-    )(Process.getCurrentPath)
+    )(Process.getCurrentWorkingDirectory())
 
   Nothing =>
     makeError(500, "Playground failed to be created")
@@ -103,7 +103,19 @@ compileCode = (playground) => pipe(
   getPlaygroundPath,
   chain(
     pipe(
-      (playgroundPath) => Process.exec(`madlib compile --target llvm -i ${playgroundPath}/Playground.mad -o ${playgroundPath}/build/runPlayground`),
+      (playgroundPath) => Process.exec(
+        "madlib",
+        [
+          "compile",
+          "--target",
+          "llvm",
+          "-i",
+          `${playgroundPath}/Playground.mad`,
+          "-o",
+          `${playgroundPath}/build/runPlayground`
+        ],
+        Process.DEFAULT_COMMAND_OPTIONS
+      ),
       map(always(playground)),
       chainRej((result) => makeError(400, `CompilationErrors:\n${escapeQuotes(result.stderr)}${escapeQuotes(result.stdout)}`))
     )
@@ -128,7 +140,7 @@ escapeQuotes = (input) => pipe(
 getPlaygroundPath :: Playground -> Wish (Response String) String
 getPlaygroundPath = (playground) => where(playground.id){
   Just(id) =>
-    map((cwd) => `${cwd}/build/playgrounds/${id}`, Process.getCurrentPath)
+    of(`${Process.getCurrentWorkingDirectory()}/build/playgrounds/${id}`)
 
   Nothing =>
     makeError(400, "Playground path could not be resolved")
@@ -140,7 +152,7 @@ runPlayground = (playground) => pipe(
   map((playgroundPath) => `${playgroundPath}/build/runPlayground`),
   chain(
     pipe(
-      Process.exec,
+      Process.exec($, [], Process.DEFAULT_COMMAND_OPTIONS),
       bichain(
         (result) => makeError(400, result.stderr),
         (result) => of({

@@ -1,3 +1,13 @@
+import type { Maybe } from "Maybe"
+
+
+export alias Playground = {
+  id :: Maybe String,
+  code :: String,
+  stdout :: Maybe String,
+  stderr :: Maybe String,
+}
+
 export alias Section = {
   title :: String,
   content :: String
@@ -29,7 +39,10 @@ export type LoadingState
   | Transitioning
   | Ready
 
+
 export alias State = {
   content :: Content,
-  loadingState :: LoadingState
-} 
+  loadingState :: LoadingState,
+  playground :: Playground,
+}
+

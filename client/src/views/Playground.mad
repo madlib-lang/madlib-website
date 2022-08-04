@@ -1,0 +1,92 @@
+import type { Element, Action } from "MadUI"
+import { div, br, className, textarea, innerHTML, onInput, InputEvent, text } from "MadUI"
+import String from "String"
+import List from "List"
+
+import { strata } from "Strata"
+
+import type { State } from "@client/State"
+
+
+stratum = strata("playground")
+
+
+handleInput :: Action State
+handleInput = (state, event) => pipe(
+  where {
+    InputEvent({ target: { value } }) =>
+        value
+
+    _ =>
+        state.playground.code
+  },
+  String.replace("\n", "<br />"),
+  (code) => of(() => ({
+    ...state,
+    playground: { ...state.playground, code },
+  })),
+  of
+)(event)
+
+
+Playground :: State -> Element State
+export Playground = (code) =>
+  <div className={stratum.e("")}>
+    <textarea className={stratum.e("input")} onInput={handleInput}></textarea>
+    <div className={stratum.e("screen")} innerHTML={code.playground.code} />
+  </div>
+
+
+//   <html>
+//   <head>
+//       <style>
+//           .parent {
+//               position: relative;
+//           }
+//          .editable {
+//           position: relative;
+//           width: 200px;
+//           height: 200px;
+//           z-index: 2;
+//           color: rgba(0, 0, 0, 0);
+//           caret-color: black;
+//           background-color: rgba(0, 0, 0, 0);
+//       }
+//       .below {
+//           position: absolute;
+//           top: 0;
+//              width: 200px;
+//              height: 200px;
+
+//          }
+
+//          .editable, .below {
+//           font-family: Arial, Helvetica, sans-serif;
+//           font-size: 13px;
+//           letter-spacing: normal;
+//           margin: 0;
+//           padding: 0;
+//          }
+//          textarea:focus { 
+//   outline: none !important;
+//   border-color: #719ECE;
+//   box-shadow: 0 0 10px #719ECE;
+// }
+//       </style>
+//   </head>
+//   <body>
+//       <div class="parent">
+//           <textarea id="source" class="editable"></textarea>
+//           <div id="target" class="below"></div>
+//       </div>
+//       <script>
+//           var s = document.getElementById("source");
+//           var t = document.getElementById("target");
+
+//           s.addEventListener("input", function(e) {
+//               console.log(e.target.value);
+//             t.innerHTML = e.target.value.replaceAll("\n", "<br />");
+//           });
+//       </script>
+//   </body>
+// </html>

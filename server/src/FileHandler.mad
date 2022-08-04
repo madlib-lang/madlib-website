@@ -29,12 +29,12 @@ buildHeaders = (req) => pipe(
 
 fileHandler :: IncomingRequest -> Wish (Response String) (Response String)
 export fileHandler = (req) => pipe(
-  map((cwd) => `${cwd}/build/public${req.url}`),
-  chain(File.read),
+  (cwd) => `${cwd}/build/public${req.url}`,
+  File.read,
   map((content) => ({
     status: 200,
     body: content,
     headers: buildHeaders(req)
   })),
   mapRej(() => ({ status: 404, body: `{ "error": "file not found" }`, headers: [] }))
-)(Process.getCurrentPath)
+)(Process.getCurrentWorkingDirectory())

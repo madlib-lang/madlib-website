@@ -8,6 +8,7 @@ import { Left, Right } from "Either"
 import {} from "List"
 import { get } from "Http"
 import { fulfill } from "Wish"
+import { Nothing } from "Maybe"
 import IO from "IO"
 
 
@@ -32,7 +33,8 @@ export DEFAULT_CONTENT = {
 
 export INITIAL_STATE = {
   content: DEFAULT_CONTENT,
-  loadingState: Loading
+  loadingState: Loading,
+  playground: { code: "", id: Nothing, stdout: Nothing, stderr: Nothing }
 }
 
 RenderPage :: (State -> Element State) -> State -> Element State
