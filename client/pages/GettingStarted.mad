@@ -9,11 +9,11 @@ import {
 import { renderMarkdown } from "MadMarkdownRenderer"
 import { strata } from "Strata"
 
-import { Nav } from "@/views/Nav"
-import { Header } from "@/views/Header"
-import { Footer } from "@/views/Footer"
+import { Nav } from "@views/Nav"
+import { Header } from "@views/Header"
+import { Footer } from "@views/Footer"
 
-import type { State } from "@/State"
+import type { State } from "@client/State"
 
 stratum = strata("website")
 

@@ -67,7 +67,7 @@ module.exports = {
     },
     server: {
       dev: {
-        build: "madlib compile --target llvm -i server/Main.mad -o build/service -w",
+        build: "madlib compile --target llvm -i server/Main.mad -o build/service -w &",
         start: runWhen('./build/service', `./build/service`),
       },
     },
@@ -79,18 +79,18 @@ module.exports = {
         // "browser-sync start -c browsersync.config.js",
     },
     dev: {
-      client: `concurrently ${[
+      clientNonMad: `concurrently ${[
         `"sass --watch ${input.views}:${out.styles.directory}"`,
         `"nps styles.group"`,
         `"copy-and-watch --watch client/**/*.{html,svg,json} build/public/"`,
         `"copy-and-watch --watch client/assets/* build/public/assets/"`,
-        `"nps 'build.main -w'"`,
+        // `"nps 'build.main -w &'"`,
         `"watch 'nps styles.group' client"`,
         `"${runWhen('http://localhost:3000', 'nps sync')}"`,
       ].join(" ")}`,
       server: series.nps(`server.dev.build`, `server.dev.start`),
       script: `concurrently ${[
-        `"nps dev.client"`,
+        `"nps dev.clientNonMad"`,
         `"nps dev.server"`
       ].join(" ")}`
     },

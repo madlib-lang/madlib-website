@@ -53,4 +53,3 @@ export fileHandler = (req) => pipe(
   mapRej(() => ({ status: 404, body: `{ "error": "file not found" }`, headers: [] }))
 )(req)
 
-

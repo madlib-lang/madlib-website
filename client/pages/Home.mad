@@ -7,12 +7,12 @@ import {
 } from "MadUI"
 import { strata } from "Strata"
 
-import { Nav } from "@/views/Nav"
-import { Header } from "@/views/Header"
-import { Footer } from "@/views/Footer"
-import { PageSection } from "@/views/Section"
+import { Nav } from "@views/Nav"
+import { Header } from "@views/Header"
+import { Footer } from "@views/Footer"
+import { PageSection } from "@views/Section"
 
-import type { State } from "@/client/State"
+import type { State } from "@client/State"
 
 stratum = strata("website")
 
