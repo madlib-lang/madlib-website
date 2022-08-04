@@ -7,7 +7,7 @@ import {
 import { renderMarkdown } from "MadMarkdownRenderer"
 import { strata } from "Strata"
 
-import type { State } from "@client/State"
+import type { State } from "@/client/State"
 
 stratum = strata("website")
 

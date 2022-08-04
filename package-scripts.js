@@ -1,3 +1,4 @@
+const {series, seriesNPS} = require("nps-utils")
 const run = commands => commands.join(" && ")
 
 const input = Object.freeze({
@@ -77,17 +78,22 @@ module.exports = {
         // "browser-sync start --server build/public/ --files build/public/ --serveStatic build/public/ --no-open --reload-debounce 100",
         // "browser-sync start -c browsersync.config.js",
     },
-    dev: `concurrently ${[
-      `"sass --watch ${input.views}:${out.styles.directory}"`,
-      `"nps styles.group"`,
-      `"copy-and-watch --watch client/**/*.{html,svg,json} build/public/"`,
-      `"copy-and-watch --watch client/assets/* build/public/assets/"`,
-      `"nps 'build.main -w'"`,
-      `"nps server.dev.build"`,
-      `"watch 'nps styles.group' client"`,
-      `"nps server.dev.start"`,
-      `"${runWhen('http://localhost:3000', 'nps sync')}"`,
-    ].join(" ")}`,
+    dev: {
+      client: `concurrently ${[
+        `"sass --watch ${input.views}:${out.styles.directory}"`,
+        `"nps styles.group"`,
+        `"copy-and-watch --watch client/**/*.{html,svg,json} build/public/"`,
+        `"copy-and-watch --watch client/assets/* build/public/assets/"`,
+        `"nps 'build.main -w'"`,
+        `"watch 'nps styles.group' client"`,
+        `"${runWhen('http://localhost:3000', 'nps sync')}"`,
+      ].join(" ")}`,
+      server: series.nps(`server.dev.build`, `server.dev.start`),
+      script: `concurrently ${[
+        `"nps dev.client"`,
+        `"nps dev.server"`
+      ].join(" ")}`
+    },
     test: 'echo "Error: no test specified" && exit 1',
   },
 }

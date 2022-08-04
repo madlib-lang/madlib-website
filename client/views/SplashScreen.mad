@@ -9,11 +9,11 @@ import {
 } from "MadUI"
 import { always, equals, ifElse } from "Function"
 import { strata } from "Strata"
-import type { LoadingState, State } from "@client/State"
+import type { LoadingState, State } from "@/client/State"
 import {
   Ready,
   Transitioning
-} from "@client/State"
+} from "@/client/State"
 
 stratum = strata("splash-screen")
 

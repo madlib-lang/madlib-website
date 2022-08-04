@@ -1,6 +1,6 @@
 import { map1, map2, map5, list, field, string } from "JsonParser"
 import type { Parser } from "JsonParser"
-import type { Section, Header, Content, Link } from "@client/State"
+import type { Section, Header, Content, Link } from "@/client/State"
 
 sectionParser :: Parser Section
 export sectionParser = map2(
