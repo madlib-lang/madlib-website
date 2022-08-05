@@ -2,7 +2,6 @@ import type { IncomingRequest } from "MadServer"
 import type { Response } from "Http"
 import type { Wish } from "Wish"
 
-import Json from "JsonParser"
 import List from "List"
 import Math from "Math"
 import Number from "Number"
@@ -12,26 +11,32 @@ import File from "File"
 import { bad, bichain, chainRej } from "Wish"
 import { Left, Right } from "Either"
 import { Just, Nothing } from "Maybe"
+import { Header } from "Http"
 import { always } from "Function"
 
-import type { Playground } from "@server/Playground"
-import Playground from "@server/Playground"
+import type { Playground } from "@common/Playground"
+import Playground from "@common/Playground"
 import { toHexadecimal } from "@server/Utils"
 
 
-playgroundParser :: Json.Parser Playground
-playgroundParser = do {
-  id <- Json.maybe(Json.field("id", Json.string))
-  code <- Json.field("code", Json.string)
 
-  return of({ id, code, stdout: Nothing, stderr: Nothing })
-}
+parsePlayground :: String -> Wish (Response String) Playground
+parsePlayground = (jsonString) => pipe(
+  Playground.parse,
+  where {
+    Right(parsed) =>
+      of(parsed)
+
+    Left(parseError) =>
+      makeError(400, parseError)
+  }
+)(jsonString)
 
 
 makeError :: Integer -> String -> Wish (Response String) a
 makeError = (status, message) => bad({
   status,
-  headers: [],
+  headers: [Header("Content-Type", "application/json")],
   body: `{ "error": "${message}" }`
 })
 
@@ -47,19 +52,6 @@ readBody = (req) => pipe(
       makeError(400, "body is empty")
   }
 )(req)
-
-
-parsePlayground :: String -> Wish (Response String) Playground
-parsePlayground = (jsonString) => pipe(
-  Json.parse(playgroundParser),
-  where {
-    Right(parsed) =>
-      of(parsed)
-
-    Left(parseError) =>
-      makeError(400, parseError)
-  }
-)(jsonString)
 
 
 generatePlaygroundId :: a -> String
@@ -179,6 +171,6 @@ export postPlaygroundHandler = (req) => {
     chain(saveCode),
     chain(compileCode),
     chain(runPlayground),
-    chain((output) => (of({ status: 201, headers: [], body: inspect(output) })))
+    chain((output) => (of({ status: 201, headers: [Header("Content-Type", "application/json")], body: Playground.toJsonString(output) })))
   )(req)
 }

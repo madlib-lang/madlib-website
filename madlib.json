@@ -4,8 +4,9 @@
   "main": "src/Main.mad",
   "madlibVersion": "0.13.0",
   "importAliases": {
-    "client": "client/src",
-    "server": "server/src"
+    "client": "src/client",
+    "server": "src/server",
+    "common": "src/common"
   },
   "dependencies": [
     {

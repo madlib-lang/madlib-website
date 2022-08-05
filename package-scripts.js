@@ -2,9 +2,9 @@ const run = commands => commands.join(" && ")
 
 const input = Object.freeze({
   mad: {
-    Main: `client/src/Index.mad`,
+    Main: `src/client/Index.mad`,
   },
-  views: `client/src/views`,
+  views: `src/client/views`,
 })
 
 const out = Object.freeze({
@@ -61,14 +61,14 @@ module.exports = {
         `nps "build.main --optimize"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
         `nps styles`,
-        "cp client/src/index.html build/public/",
-        "cp -R client/src/assets build/public/",
+        "cp src/client/index.html build/public/",
+        "cp -R src/client/assets build/public/",
       ]),
-      html: "copy-and-watch client/src/*.html build/public/",
+      html: "copy-and-watch src/client/*.html build/public/",
     },
     server: {
       dev: {
-        build: "madlib compile --target llvm -i server/src/Main.mad -o build/service -w",
+        build: "madlib compile --target llvm -i src/server/Main.mad -o build/service -w",
         start: runWhen('cat ./build/service >&/dev/null', `./build/service`),
       },
     },
@@ -82,11 +82,11 @@ module.exports = {
     dev: `concurrently ${[
       `"sass --watch ${input.views}:${out.styles.directory}"`,
       `"nps styles.group"`,
-      `"copy-and-watch --watch client/src/**/*.{html,svg,json} build/public/"`,
-      `"copy-and-watch --watch client/src/assets/* build/public/assets/"`,
+      `"copy-and-watch --watch src/client/**/*.{html,svg,json} build/public/"`,
+      `"copy-and-watch --watch src/client/assets/* build/public/assets/"`,
       `"nps build.dev"`,
       `"nps server.dev.build"`,
-      `"watch 'nps styles.group' client/src"`,
+      `"watch 'nps styles.group' src/client"`,
       `"nps server.dev.start"`,
       `"${runWhen('curl localhost:3000 >&/dev/null', 'nps sync')}"`,
     ].join(" ")}`,

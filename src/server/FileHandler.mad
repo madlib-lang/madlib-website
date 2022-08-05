@@ -10,6 +10,7 @@ import File from "File"
 import Process from "Process"
 import String from "String"
 import List from "List"
+import { notEquals } from "Function"
 
 
 buildHeaders :: IncomingRequest -> List Header
@@ -30,6 +31,7 @@ buildHeaders = (req) => pipe(
 fileHandler :: IncomingRequest -> Wish (Response String) (Response String)
 export fileHandler = (req) => pipe(
   (cwd) => `${cwd}/build/public${req.url}`,
+  String.takeWhile(notEquals('?')),
   File.read,
   map((content) => ({
     status: 200,

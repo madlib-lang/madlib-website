@@ -1,12 +1,32 @@
-import type { Maybe } from "Maybe"
+import type { Playground } from "@common/Playground"
+import { Nothing } from "Maybe"
 
 
-export alias Playground = {
-  id :: Maybe String,
-  code :: String,
-  stdout :: Maybe String,
-  stderr :: Maybe String,
+export DEFAULT_CONTENT = {
+  title: "Madlib",
+  header: { content: "" },
+  nav: [],
+  home: [],
+  gettingStarted: {
+    intro: "",
+    sections: []
+  }
 }
+
+
+INITIAL_CODE =
+`import IO from "IO"
+
+IO.putLine("Hello world")
+`
+
+
+export INITIAL_STATE = {
+  content: DEFAULT_CONTENT,
+  loadingState: Loading,
+  playground: { code: INITIAL_CODE, id: Nothing, stdout: Nothing, stderr: Nothing }
+}
+
 
 export alias Section = {
   title :: String,

@@ -1,0 +1,76 @@
+$lineHeight: 20px;
+$font: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+
+.playground__container {
+  overflow: scroll;
+  background: rgb(255, 255, 255, 0.1);
+  padding: 10px 0 10px 40px;
+  border-radius: 5px;
+}
+
+.playground__content {
+  position: relative;
+  min-height: $lineHeight * 4;
+}
+
+.playground__input, .playground__screen {
+  border: 0;
+  font-family: $font;
+  font-size: 13px;
+  letter-spacing: normal;
+  margin: 0;
+  padding: 0;
+  line-height: $lineHeight;
+  white-space: pre;
+  height: 100%;
+
+  &>div {
+    height: $lineHeight;
+  }
+}
+
+.playground__screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  pointer-events: none;
+}
+
+.playground__input {
+  position: relative;
+  resize: none;
+  width: 10000px;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0);
+  caret-color: white;
+  background-color: rgba(0, 0, 0, 0);
+
+  &:focus { 
+    outline: none !important;
+    border-color: #719ECE;
+  }
+}
+
+.playground__line-number {
+  width: 30px;
+  position: absolute;
+  left: -40px;
+  text-align: right;
+  opacity: 0.5;
+  float: left;
+}
+
+.playground__highlighted-content--keyword {
+  font-weight: bold;
+  color: rgb(221, 136, 0);
+}
+
+.playground__highlighted-content--literal {
+  color: rgb(165, 221, 254);
+}
+
+.playground__highlighted-content--special {
+  font-weight: bold;
+  color: rgb(165, 221, 254);
+}

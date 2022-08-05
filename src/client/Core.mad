@@ -8,54 +8,46 @@ import { Left, Right } from "Either"
 import {} from "List"
 import { get } from "Http"
 import { fulfill } from "Wish"
-import { Nothing } from "Maybe"
 import IO from "IO"
 
 
 import type { State } from "./State"
 import {
   Transitioning,
-  Loading
+  Loading,
+  DEFAULT_CONTENT,
+  INITIAL_STATE
 } from "./State"
 import { contentParser } from "@client/Parsers"
 import { SplashScreen } from "@client/views/SplashScreen"
 
-export DEFAULT_CONTENT = {
-  title: "Madlib",
-  header: { content: "" },
-  nav: [],
-  home: [],
-  gettingStarted: {
-    intro: "",
-    sections: []
-  }
-}
 
-export INITIAL_STATE = {
-  content: DEFAULT_CONTENT,
-  loadingState: Loading,
-  playground: { code: "", id: Nothing, stdout: Nothing, stderr: Nothing }
-}
 
 RenderPage :: (State -> Element State) -> State -> Element State
 export RenderPage = (ToRender, state) => state.loadingState == Loading || state.loadingState == Transitioning
   ? SplashScreen(state.loadingState)
   : ToRender(state)
 
+
 loadContentSub :: Subscription State
 export loadContentSub = (dispatch) => pipe(
   get,
-  map((res) => parse(contentParser, res.body)),
-  map(where {
-    Right(c) => c
-    Left (_) => DEFAULT_CONTENT
-  }),
+  map(
+    pipe(
+      .body,
+      parse(contentParser),
+      where {
+        Right(c) =>
+          c
+
+        Left (_) =>
+          DEFAULT_CONTENT
+      }
+    )
+  ),
   fulfill(
     IO.log,
-    pipe(
-      IO.trace("content"),
-      (c) => dispatch((s) => ({ ...s, content: c, loadingState: Transitioning }))
-    )
+    (c) => dispatch((s) => ({ ...s, content: c, loadingState: Transitioning }))
   )
 )("/content.json")
 
