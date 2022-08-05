@@ -42,33 +42,18 @@ outputToJsonValue = (output) => JsonPrinter.object(
 
 toJsonString :: Playground -> String
 export toJsonString = (playground) => pipe(
-  (x) => #[x.code, x.output],
-  (stuff) => where(stuff) {
-    #[codeValue, Just(output)] =>
-      [#["output", outputToJsonValue(output)], #["code", JsonPrinter.string(codeValue)]]
+  .code,
+  (codeValue) => [#["code", JsonPrinter.string(codeValue)]],
+  (values) => where(playground.output) {
+    Just(output) =>
+      [#["output", outputToJsonValue(output)], ...values]
 
-    #[codeValue, _] =>
-      [#["code", JsonPrinter.string(codeValue)]]
+    Nothing =>
+      values
   },
-  // (codeValue) => [#["code", JsonPrinter.string(codeValue)]],
   JsonPrinter.object,
   JsonPrinter.printJson(80)
 )(playground)
-
-// toJsonString :: Playground -> String
-// export toJsonString = (playground) => pipe(
-//   .code,
-//   (codeValue) => [#["code", JsonPrinter.string(codeValue)]],
-//   (values) => where(playground.output) {
-//     Just(output) =>
-//       [#["output", outputToJsonValue(output)], ...values]
-
-//     Nothing =>
-//       values
-//   },
-//   JsonPrinter.object,
-//   JsonPrinter.printJson(80)
-// )(playground)
 
 
 
