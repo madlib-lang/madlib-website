@@ -2,6 +2,8 @@ import type { Maybe } from "Maybe"
 import type { Either } from "Either"
 import type { JsonValue } from "JsonValue"
 import type { Parser } from "JsonParser"
+import type { CommandResult } from "Process"
+
 import JsonParser from "JsonParser"
 import JsonPrinter from "JsonPrinter"
 import { Just, Nothing } from "Maybe"
@@ -10,8 +12,7 @@ import { Just, Nothing } from "Maybe"
 export alias Playground = {
   id :: Maybe String,
   code :: String,
-  stdout :: Maybe String,
-  stderr :: Maybe String,
+  output :: Maybe CommandResult,
 }
 
 
@@ -29,26 +30,64 @@ getOptionalPropAs = (accessor, fieldName, playground, values) => where(accessor(
 }
 
 
+outputToJsonValue :: CommandResult -> JsonValue
+outputToJsonValue = (output) => JsonPrinter.object(
+  [
+    #["stdout", JsonPrinter.string(output.stdout)],
+    #["stderr", JsonPrinter.string(output.stderr)],
+    #["exitCode", JsonPrinter.integer(output.exitCode)],
+  ]
+)
+
+
 toJsonString :: Playground -> String
 export toJsonString = (playground) => pipe(
-  .code,
-  (codeValue) => [#["code", JsonPrinter.string(codeValue)]],
-  getOptionalPropAs(.id, "id", playground),
-  getOptionalPropAs(.stdout, "stdout", playground),
-  getOptionalPropAs(.stderr, "stderr", playground),
+  (x) => #[x.code, x.output],
+  (stuff) => where(stuff) {
+    #[codeValue, Just(output)] =>
+      [#["output", outputToJsonValue(output)], #["code", JsonPrinter.string(codeValue)]]
+
+    #[codeValue, _] =>
+      [#["code", JsonPrinter.string(codeValue)]]
+  },
+  // (codeValue) => [#["code", JsonPrinter.string(codeValue)]],
   JsonPrinter.object,
   JsonPrinter.printJson(80)
 )(playground)
 
+// toJsonString :: Playground -> String
+// export toJsonString = (playground) => pipe(
+//   .code,
+//   (codeValue) => [#["code", JsonPrinter.string(codeValue)]],
+//   (values) => where(playground.output) {
+//     Just(output) =>
+//       [#["output", outputToJsonValue(output)], ...values]
+
+//     Nothing =>
+//       values
+//   },
+//   JsonPrinter.object,
+//   JsonPrinter.printJson(80)
+// )(playground)
+
+
+
+outputParser :: Parser CommandResult
+outputParser = do {
+  stdout <- JsonParser.field("stdout", JsonParser.string)
+  stderr <- JsonParser.field("stderr", JsonParser.string)
+  exitCode <- JsonParser.field("exitCode", JsonParser.integer)
+
+  return of({ stdout, stderr, exitCode })
+}
 
 playgroundParser :: Parser Playground
 playgroundParser = do {
   id <- JsonParser.maybe(JsonParser.field("id", JsonParser.string))
   code <- JsonParser.field("code", JsonParser.string)
-  stdout <- JsonParser.maybe(JsonParser.field("stdout", JsonParser.string))
-  stderr <- JsonParser.maybe(JsonParser.field("stderr", JsonParser.string))
+  output <- JsonParser.maybe(JsonParser.field("output", outputParser))
 
-  return of({ id, code, stdout, stderr })
+  return of({ id, code, output })
 }
 
 

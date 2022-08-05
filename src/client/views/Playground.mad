@@ -63,10 +63,18 @@ handleRun = (state, _) => pipe(
   map(
     pipe(
       .body,
+      IO.trace("body"),
       parse,
+      IO.trace("parsed"),
       where {
         Right(playground) =>
-          (newState) => ({ ...newState, playground: playground })
+          (newState) => ({
+            ...newState,
+            playground: {
+              ...newState.playground,
+              output: playground.output,
+            },
+          })
 
         Left(_) =>
           identity
@@ -115,19 +123,14 @@ deriveHeight = (state) => pipe(
   mconcat($, "px")
 )(state)
 
-
+import IO from "IO"
 displayPlaygroundOutput :: State -> Element State
-displayPlaygroundOutput = (state) => where(state.playground.stdout) {
-  Just(output) =>
-    text(output)
+displayPlaygroundOutput = (state) => where(IO.trace("output", state.playground).output) {
+  Just({ stdout }) =>
+    text(stdout)
 
   Nothing =>
     text("")
-}
-
-{
-  ok: "",
-  bool: true,
 }
 
 
@@ -135,13 +138,15 @@ Playground :: State -> Element State
 export Playground = (state) =>
   <div className={stratum.e("")}>
     <div className={stratum.e("container")}>
-      <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
-        <textarea spellcheck={false} value={state.playground.code} className={stratum.e("input")} onInput={handleInput}></textarea>
-        <div className={stratum.e("screen")}>
-          {...buildCodeElements(state.playground.code)}
+      <div className={stratum.e("editor")}>
+        <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
+          <textarea spellcheck={false} value={state.playground.code} className={stratum.e("input")} onInput={handleInput}></textarea>
+          <div className={stratum.e("screen")}>
+            {...buildCodeElements(state.playground.code)}
+          </div>
         </div>
       </div>
+      <div className={stratum.e("output")}>{displayPlaygroundOutput(state)}</div>
     </div>
     <button onClick={handleRun}>Run</button>
-    <div>{displayPlaygroundOutput(state)}</div>
   </div>

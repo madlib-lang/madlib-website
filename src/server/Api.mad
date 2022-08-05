@@ -40,6 +40,13 @@ makeError = (status, message) => bad({
   body: `{ "error": "${message}" }`
 })
 
+// makePlaygroundError :: Integer -> String -> Playground -> Wish (Response String) a
+// makePlaygroundError = (status, message, playground) => bad({
+//   status,
+//   headers: [Header("Content-Type", "application/json")],
+//   body: `{ "error": "${message}" }`
+// })
+
 
 readBody :: IncomingRequest -> Wish (Response String) String
 readBody = (req) => pipe(
@@ -109,7 +116,13 @@ compileCode = (playground) => pipe(
         Process.DEFAULT_COMMAND_OPTIONS
       ),
       map(always(playground)),
-      chainRej((result) => makeError(400, `CompilationErrors:\n${escapeQuotes(result.stderr)}${escapeQuotes(result.stdout)}`))
+      chainRej(
+        pipe(
+          (result) => ({ ...playground, output: Just(result)}),
+          Playground.toJsonString,
+          (body) => bad({ body, status: 201, headers: [] })
+        )
+      )
     )
   )
 )(playground)
@@ -149,8 +162,7 @@ runPlayground = (playground) => pipe(
         (result) => makeError(400, result.stderr),
         (result) => of({
           ...playground,
-          stdout: Just(result.stdout),
-          stderr: result.exitCode != 0 ? Nothing : Just(result.stderr)
+          output: Just(result),
         })
       )
     )

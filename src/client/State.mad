@@ -24,7 +24,7 @@ IO.putLine("Hello world")
 export INITIAL_STATE = {
   content: DEFAULT_CONTENT,
   loadingState: Loading,
-  playground: { code: INITIAL_CODE, id: Nothing, stdout: Nothing, stderr: Nothing }
+  playground: { code: INITIAL_CODE, id: Nothing, output: Nothing }
 }
 
 

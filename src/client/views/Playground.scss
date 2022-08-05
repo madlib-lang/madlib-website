@@ -1,16 +1,32 @@
 $lineHeight: 20px;
 $font: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
 
+
 .playground__container {
-  overflow: scroll;
-  background: rgb(255, 255, 255, 0.1);
-  padding: 10px 0 10px 40px;
+  display: flex;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 5px;
+}
+
+.playground__editor {
+  overflow: scroll;
+  padding: 10px 0 10px 40px;
 }
 
 .playground__content {
   position: relative;
   min-height: $lineHeight * 4;
+}
+
+.playground__output {
+  display: flex;
+  min-width: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 10px;
+  font-size: 13px;
+  line-height: 20px;
+  white-space: pre;
 }
 
 .playground__input, .playground__screen {
