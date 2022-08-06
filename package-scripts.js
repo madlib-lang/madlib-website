@@ -50,8 +50,9 @@ module.exports = {
       script: `nps styles.all styles.group`,
     },
     build: {
-      main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main} -w &`,
-      dev: "nps build.main",
+      main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main}`,
+      watch: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main} -w &`,
+      dev: "nps build.watch",
       vercel: run([
         "npm i @madlib-lang/madlib",
         "madlib install",
