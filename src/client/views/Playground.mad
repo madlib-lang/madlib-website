@@ -29,7 +29,7 @@ import {
 } from "MadUI"
 
 import { parse, toJsonString } from "@common/Playground"
-
+import ServerInfo from "@client/ServerInfo"
 
 
 LINE_HEIGHT :: Integer
@@ -59,7 +59,7 @@ handleRun :: Action State
 handleRun = (state, _) => pipe(
   .playground,
   toJsonString,
-  Http.post("http://localhost:3001/api/playgrounds"),
+  Http.post(ServerInfo.endpoint("/api/playgrounds")),
   map(
     pipe(
       .body,

@@ -1,0 +1,18 @@
+import String from "String"
+import { Just } from "Maybe"
+
+
+getServerBaseUrl :: a -> String
+export getServerBaseUrl = () => String.isEmpty(#SERVER_BASE_URL)
+  ? "http://localhost:3000"
+  : #SERVER_BASE_URL
+
+
+endpoint :: String -> String
+export endpoint = (path) => where(String.firstChar(path)) {
+  Just('/') =>
+    `${getServerBaseUrl()}${path}`
+
+  _ =>
+    `${getServerBaseUrl()}/${path}`
+}

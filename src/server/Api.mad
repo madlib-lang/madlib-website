@@ -19,6 +19,19 @@ import Playground from "@common/Playground"
 import { toHexadecimal } from "@server/Utils"
 
 
+// Access-Control-Allow-Origin: https://foo.example
+// Access-Control-Allow-Methods: POST, GET, OPTIONS
+// Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
+// Access-Control-Max-Age: 86400
+
+CORS_HEADERS = [
+  Header("Access-Control-Allow-Origin", "*"),
+  Header("Access-Control-Allow-Methods", "POST, PUT, GET"),
+  Header("Access-Control-Allow-Headers", "*"),
+  Header("Access-Control-Max-Age", "86400"),
+]
+
+
 
 parsePlayground :: String -> Wish (Response String) Playground
 parsePlayground = (jsonString) => pipe(
@@ -36,7 +49,7 @@ parsePlayground = (jsonString) => pipe(
 makeError :: Integer -> String -> Wish (Response String) a
 makeError = (status, message) => bad({
   status,
-  headers: [Header("Content-Type", "application/json")],
+  headers: [Header("Content-Type", "application/json"), ...CORS_HEADERS],
   body: `{ "error": "${message}" }`
 })
 
@@ -120,7 +133,7 @@ compileCode = (playground) => pipe(
         pipe(
           (result) => ({ ...playground, output: Just(result)}),
           Playground.toJsonString,
-          (body) => bad({ body, status: 201, headers: [] })
+          (body) => bad({ body, status: 201, headers: CORS_HEADERS })
         )
       )
     )
@@ -150,6 +163,7 @@ getPlaygroundPath = (playground) => where(playground.id){
   Nothing =>
     makeError(400, "Playground path could not be resolved")
 }
+
 
 runPlayground :: Playground -> Wish (Response String) Playground
 runPlayground = (playground) => pipe(
@@ -183,6 +197,10 @@ export postPlaygroundHandler = (req) => {
     chain(saveCode),
     chain(compileCode),
     chain(runPlayground),
-    chain((output) => (of({ status: 201, headers: [Header("Content-Type", "application/json")], body: Playground.toJsonString(output) })))
+    chain((output) => (of({
+      status: 201,
+      headers: [Header("Content-Type", "application/json"), ...CORS_HEADERS],
+      body: Playground.toJsonString(output)
+    })))
   )(req)
 }

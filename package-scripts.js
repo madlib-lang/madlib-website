@@ -69,7 +69,8 @@ module.exports = {
     server: {
       dev: {
         build: "madlib compile --target llvm -i src/server/Main.mad -o build/service -w",
-        start: runWhen('cat ./build/service >&/dev/null', `./build/service`),
+        start: runWhen('cat ./build/service >&/dev/null', `kill -9 $(lsof -n -i :3000 | grep LISTEN | awk '{print $2;}') && ./build/service &`),
+        restart: "echo 'restarting server' && kill -9 $(lsof -n -i :3000 | grep LISTEN | awk '{print $2;}') 2>/dev/null || echo 'not running' && ./build/service",
       },
     },
     sync: {
@@ -81,13 +82,14 @@ module.exports = {
     },
     dev: `concurrently ${[
       `"sass --watch ${input.views}:${out.styles.directory}"`,
-      `"nps styles.group"`,
+      `"nps styles.all styles.group && watch 'nps styles.group' src/client"`,
       `"copy-and-watch --watch src/client/**/*.{html,svg,json} build/public/"`,
       `"copy-and-watch --watch src/client/assets/* build/public/assets/"`,
       `"nps build.dev"`,
       `"nps server.dev.build"`,
-      `"watch 'nps styles.group' src/client"`,
-      `"nps server.dev.start"`,
+      // `"nps server.dev.start"`,
+      // `"watch --filter=serverExe.js 'nps server.dev.restart' ./build/service"`,
+      `"watch --filter=serverExe.js 'nps server.dev.restart' ./build/"`,
       `"${runWhen('curl localhost:3000 >&/dev/null', 'nps sync')}"`,
     ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1',
