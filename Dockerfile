@@ -1,4 +1,6 @@
 FROM node:18
+WORKDIR /home/madlib-website
+
 
 COPY . .
 
