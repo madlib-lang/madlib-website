@@ -1,0 +1,39 @@
+import { map1, map2, map5, list, field, string } from "JsonParser"
+import type { Parser } from "JsonParser"
+import type { Section, Header, Content, Link } from "@client/State"
+
+sectionParser :: Parser Section
+export sectionParser = map2(
+  (title, content) => ({ title, content }),
+  field("title", string),
+  field("content", string)
+)
+
+headerParser :: Parser Header
+export headerParser = map1(
+  (content) => ({ content }),
+  field("content", string)
+)
+
+navParser :: Parser Link
+export navParser = map2(
+  (href, text) => ({text, href}),
+  field("href", string),
+  field("text", string)
+)
+
+gettingStartedParser = map2(
+  (intro, sections) => ({intro, sections}),
+  field("intro", string),
+  field("sections", list(sectionParser))
+)
+
+contentParser :: Parser Content
+export contentParser = map5(
+  (title, headerContent, nav, home, gettingStarted) => ({ title, header: headerContent, home, nav, gettingStarted }),
+  field("title", string),
+  field("header", headerParser),
+  field("nav", list(navParser)),
+  field("home", list(sectionParser)),
+  field("gettingStarted", gettingStartedParser)
+)

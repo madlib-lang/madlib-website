@@ -1,0 +1,31 @@
+import type { Element } from "MadUI"
+import {
+  a,
+  className,
+  div,
+  href,
+  li,
+  text,
+  ul
+} from "MadUI"
+import { strata } from "Strata"
+
+
+import type { State, Link } from "../State"
+
+stratum = strata("nav")
+
+NavLink :: Link -> Element State
+NavLink = (s) =>
+  <li className={stratum.e("item")}>
+    <a className={stratum.e("link")} href={`${s.href}.html`}>
+      {s.text}
+    </a>
+  </li>
+
+export Nav = (s) =>
+  <div className={stratum.e("")}>
+    <ul className={stratum.e("list")}>
+      {...map(NavLink, s)}
+    </ul>
+  </div>

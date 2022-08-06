@@ -1,0 +1,18 @@
+import type { Element } from "MadUI"
+import {
+  className,
+  header,
+  text
+} from "MadUI"
+import { renderMarkdown } from "MadMarkdownRenderer"
+import { strata } from "Strata"
+
+import type { State } from "@client/State"
+
+stratum = strata("website")
+
+Header :: State -> Element State
+export Header = (state) =>
+  <header className={stratum.e("header")}>
+    {renderMarkdown(state.content.header.content)}
+  </header>

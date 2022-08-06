@@ -1,0 +1,206 @@
+import type { IncomingRequest } from "MadServer"
+import type { Response } from "Http"
+import type { Wish } from "Wish"
+
+import List from "List"
+import Math from "Math"
+import Number from "Number"
+import String from "String"
+import Process from "Process"
+import File from "File"
+import { bad, bichain, chainRej } from "Wish"
+import { Left, Right } from "Either"
+import { Just, Nothing } from "Maybe"
+import { Header } from "Http"
+import { always } from "Function"
+
+import type { Playground } from "@common/Playground"
+import Playground from "@common/Playground"
+import { toHexadecimal } from "@server/Utils"
+
+
+// Access-Control-Allow-Origin: https://foo.example
+// Access-Control-Allow-Methods: POST, GET, OPTIONS
+// Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
+// Access-Control-Max-Age: 86400
+
+CORS_HEADERS = [
+  Header("Access-Control-Allow-Origin", "*"),
+  Header("Access-Control-Allow-Methods", "POST, PUT, GET"),
+  Header("Access-Control-Allow-Headers", "*"),
+  Header("Access-Control-Max-Age", "86400"),
+]
+
+
+
+parsePlayground :: String -> Wish (Response String) Playground
+parsePlayground = (jsonString) => pipe(
+  Playground.parse,
+  where {
+    Right(parsed) =>
+      of(parsed)
+
+    Left(parseError) =>
+      makeError(400, parseError)
+  }
+)(jsonString)
+
+
+makeError :: Integer -> String -> Wish (Response String) a
+makeError = (status, message) => bad({
+  status,
+  headers: [Header("Content-Type", "application/json"), ...CORS_HEADERS],
+  body: `{ "error": "${message}" }`
+})
+
+// makePlaygroundError :: Integer -> String -> Playground -> Wish (Response String) a
+// makePlaygroundError = (status, message, playground) => bad({
+//   status,
+//   headers: [Header("Content-Type", "application/json")],
+//   body: `{ "error": "${message}" }`
+// })
+
+
+readBody :: IncomingRequest -> Wish (Response String) String
+readBody = (req) => pipe(
+  .body,
+  where {
+    Just(body) =>
+      of(body)
+
+    Nothing =>
+      makeError(400, "body is empty")
+  }
+)(req)
+
+
+generatePlaygroundId :: a -> String
+generatePlaygroundId = () => pipe(
+  List.repeatWith(Math.random),
+  map(
+    pipe(
+      Math.multiply(15),
+      Number.floatToByte,
+      toHexadecimal
+    )
+  ),
+  String.fromList
+)(16)
+
+
+createDirectory :: String -> a -> Wish (Response String) a
+createDirectory = (playgroundId, passThrough) => pipe(
+  (cwd) => Process.exec("mkdir", ["-p", `${cwd}/build/playgrounds/${playgroundId}`], Process.DEFAULT_COMMAND_OPTIONS),
+  chainRej(always(makeError(500, "Playground failed to be created"))),
+  map(always(passThrough))
+)(Process.getCurrentWorkingDirectory())
+
+
+saveCode :: Playground -> Wish (Response String) Playground
+saveCode = (playground) => where(playground.id) {
+  Just(playgroundId) =>
+    pipe(
+      (cwd) =>`${cwd}/build/playgrounds/${playgroundId}/Playground.mad`,
+      File.write($, playground.code),
+      map(always(playground)),
+      chainRej(always(makeError(500, "Playground failed to be created")))
+    )(Process.getCurrentWorkingDirectory())
+
+  Nothing =>
+    makeError(500, "Playground failed to be created")
+}
+
+compileCode :: Playground -> Wish (Response String) Playground
+compileCode = (playground) => pipe(
+  getPlaygroundPath,
+  chain(
+    pipe(
+      (playgroundPath) => Process.exec(
+        "madlib",
+        [
+          "compile",
+          "--target",
+          "llvm",
+          "-i",
+          `${playgroundPath}/Playground.mad`,
+          "-o",
+          `${playgroundPath}/build/runPlayground`
+        ],
+        Process.DEFAULT_COMMAND_OPTIONS
+      ),
+      map(always(playground)),
+      chainRej(
+        pipe(
+          (result) => ({ ...playground, output: Just(result)}),
+          Playground.toJsonString,
+          (body) => bad({ body, status: 201, headers: CORS_HEADERS })
+        )
+      )
+    )
+  )
+)(playground)
+
+
+escapeQuotes :: String -> String
+escapeQuotes = (input) => pipe(
+  String.toList,
+  chain(where {
+    '"' =>
+      ['\\', '"']
+
+    or =>
+      [or]
+  }),
+  String.fromList
+)(input)
+
+
+getPlaygroundPath :: Playground -> Wish (Response String) String
+getPlaygroundPath = (playground) => where(playground.id){
+  Just(id) =>
+    of(`${Process.getCurrentWorkingDirectory()}/build/playgrounds/${id}`)
+
+  Nothing =>
+    makeError(400, "Playground path could not be resolved")
+}
+
+
+runPlayground :: Playground -> Wish (Response String) Playground
+runPlayground = (playground) => pipe(
+  getPlaygroundPath,
+  map((playgroundPath) => `${playgroundPath}/build/runPlayground`),
+  chain(
+    pipe(
+      Process.exec($, [], Process.DEFAULT_COMMAND_OPTIONS),
+      bichain(
+        (result) => makeError(400, result.stderr),
+        (result) => of({
+          ...playground,
+          output: Just(result),
+        })
+      )
+    )
+  )
+)(playground)
+
+
+postPlaygroundHandler :: IncomingRequest -> Wish (Response String) (Response String)
+export postPlaygroundHandler = (req) => {
+  playgroundId :: String
+  playgroundId = generatePlaygroundId()
+
+  return pipe(
+    readBody,
+    chain(parsePlayground),
+    map(Playground.setId(playgroundId)),
+    chain(createDirectory(playgroundId)),
+    chain(saveCode),
+    chain(compileCode),
+    chain(runPlayground),
+    chain((output) => (of({
+      status: 201,
+      headers: [Header("Content-Type", "application/json"), ...CORS_HEADERS],
+      body: Playground.toJsonString(output)
+    })))
+  )(req)
+}

@@ -1,0 +1,68 @@
+import type { Playground } from "@common/Playground"
+import { Nothing } from "Maybe"
+
+
+export DEFAULT_CONTENT = {
+  title: "Madlib",
+  header: { content: "" },
+  nav: [],
+  home: [],
+  gettingStarted: {
+    intro: "",
+    sections: []
+  }
+}
+
+
+INITIAL_CODE =
+`import IO from "IO"
+
+IO.putLine("Hello world")
+`
+
+
+export INITIAL_STATE = {
+  content: DEFAULT_CONTENT,
+  loadingState: Loading,
+  playground: { code: INITIAL_CODE, id: Nothing, output: Nothing }
+}
+
+
+export alias Section = {
+  title :: String,
+  content :: String
+}
+
+export alias Link = {
+  href :: String,
+  text :: String
+}
+
+export alias Header = {
+  content :: String
+}
+export alias Page = {
+  intro :: String,
+  sections :: List Section
+}
+
+export alias Content = {
+  title :: String,
+  header :: Header,
+  nav :: List Link,
+  home :: List Section,
+  gettingStarted :: Page
+}
+
+export type LoadingState
+  = Loading
+  | Transitioning
+  | Ready
+
+
+export alias State = {
+  content :: Content,
+  loadingState :: LoadingState,
+  playground :: Playground,
+}
+

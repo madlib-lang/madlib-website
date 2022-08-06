@@ -1,0 +1,152 @@
+import type { Element, Action } from "MadUI"
+import type { State } from "@client/State"
+
+import { Just, Nothing } from "Maybe"
+import { Left, Right } from "Either"
+import { mapRej } from "Wish"
+import { multiply } from "Math"
+import { identity } from "Function"
+import String from "String"
+import List from "List"
+import Http from "Http"
+import Dictionary from "Dictionary"
+
+import { strata } from "Strata"
+import {
+  button,
+  div,
+  className,
+  innerHTML,
+  value,
+  textarea,
+  span,
+  spellcheck,
+  onClick,
+  onInput,
+  InputEvent,
+  style,
+  text
+} from "MadUI"
+
+import { parse, toJsonString } from "@common/Playground"
+import ServerInfo from "@client/ServerInfo"
+
+
+LINE_HEIGHT :: Integer
+LINE_HEIGHT = 20
+
+stratum = strata("playground")
+
+
+handleInput :: Action State
+handleInput = (state, event) => pipe(
+  where {
+    InputEvent({ target: { value: v } }) =>
+      v
+
+    _ =>
+      state.playground.code
+  },
+  (code) => of(() => ({
+    ...state,
+    playground: { ...state.playground, code },
+  })),
+  of
+)(event)
+
+
+handleRun :: Action State
+handleRun = (state, _) => pipe(
+  .playground,
+  toJsonString,
+  Http.post(ServerInfo.endpoint("/api/playgrounds")),
+  map(
+    pipe(
+      .body,
+      IO.trace("body"),
+      parse,
+      IO.trace("parsed"),
+      where {
+        Right(playground) =>
+          (newState) => ({
+            ...newState,
+            playground: {
+              ...newState.playground,
+              output: playground.output,
+            },
+          })
+
+        Left(_) =>
+          identity
+      }
+    )
+  ),
+  mapRej((_, newState) => newState),
+  of
+)(state)
+
+
+highlight :: List String -> String -> String -> String
+highlight = (keywords, modifier, input) => pipe(
+  String.join("|"),
+  (asStr) => `(${asStr})`,
+  String.replace($, `<span class="${stratum.em("highlighted-content", [modifier])}">$1</span>`, input)
+)(keywords)
+
+
+buildCodeElements :: String -> List (Element State)
+buildCodeElements = (code) => pipe(
+  highlight(["true", "false", "[0-9]+(\\.[0-9]+)?", "\".*\""], "literal"),
+  highlight(["if", "else", "where", "instance", "interface", "import", "export", "from", "type", "alias", "do", "pipe", "return"], "keyword"),
+  // highlight(["[A-Z]+[a-zA-Z0-9]*"], "special"),
+  String.split("\n"),
+  List.mapWithIndex(
+    (line, index) =>
+        <div>
+          <span className={stratum.e("line-number")}>
+            {inspect(index + 1)}
+          </span>
+          <span innerHTML={line}></span>
+        </div>
+  )
+)(code)
+
+
+deriveHeight :: State -> String
+deriveHeight = (state) => pipe(
+  .playground,
+  .code,
+  String.split("\n"),
+  List.length,
+  multiply(LINE_HEIGHT),
+  inspect,
+  mconcat($, "px")
+)(state)
+
+import IO from "IO"
+displayPlaygroundOutput :: State -> Element State
+displayPlaygroundOutput = (state) => where(IO.trace("output", state.playground).output) {
+  Just({ stdout }) =>
+    text(stdout)
+
+  Nothing =>
+    text("")
+}
+
+
+Playground :: State -> Element State
+export Playground = (state) =>
+  <div className={stratum.e("")}>
+    <div className={stratum.e("container")}>
+      <div className={stratum.e("editor")}>
+        <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
+          <textarea spellcheck={false} value={state.playground.code} className={stratum.e("input")} onInput={handleInput}></textarea>
+          <div className={stratum.e("screen")}>
+            {...buildCodeElements(state.playground.code)}
+          </div>
+        </div>
+      </div>
+      <div className={stratum.e("output")}>{displayPlaygroundOutput(state)}</div>
+    </div>
+    <button onClick={handleRun}>Run</button>
+  </div>

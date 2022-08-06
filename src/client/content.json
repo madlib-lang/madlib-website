@@ -1,0 +1,31 @@
+{
+  "title": "Madlib",
+  "header": {
+    "content": "![madlib logo](/assets/logo.svg)\n> A compile-to-JS language designed to make writing code a **delight**"
+  },
+  "nav": [
+    { "href": "/index", "text": "Home" }
+  ],
+  "home": [
+    {
+      "title": "A functional language with familiar syntax",
+      "content": "Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures."
+    },
+    {
+      "title": "Safety, Types and Pragmatism",
+      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley-Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in “the fence”, i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without the benefits of type inference)"
+    },
+    {
+      "title": "Tooling",
+      "content": "\n\n * Auto-generated documentation — powered by the rich type system\n * VSCode language server — provides in-IDE feedback including real-time errors and type annotations for a faster development loop"
+    },
+    {
+      "title": "Libraries and Examples",
+      "content": "\n\n * UI View Library: build web apps in the browser\n * Server: simple servers inspired by `express`\n * [Parser library](https://madlib-lang.github.io/madparser): parse structured input with native Madlib\n * Markdown parser: parse markdown input with native Madlib"
+    }
+  ],
+  "gettingStarted": {
+    "intro": "*Madlib* is a hybrid language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\n*Madlib* takes inspiration from the “Good Stuff” and builds a more functional foundation atop it.",
+    "sections": []
+  }
+}

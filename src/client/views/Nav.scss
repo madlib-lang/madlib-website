@@ -1,0 +1,66 @@
+@use 'sass:color';
+
+@mixin link($color) {
+  a {
+    padding-bottom: 0.25rem;
+    border-bottom-color: $color;
+    &:hover {
+      color: $color;
+      text-shadow: 0 1px 10px $color;
+      border-bottom-color: color.scale($color, $alpha: -50%);
+      border-bottom-width: 6px;
+      padding-bottom: 0.75rem;
+    }
+  }
+}
+
+.nav {
+  font-size: 0.75rem;
+  font-weight: bolder;
+  &__list {
+    text-transform: uppercase;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0.25rem auto;
+    max-width: 38rem;
+    // overflow-x: hidden;
+  }
+  &__item {
+    margin: 0.5rem 0.25rem;
+    list-style: none;
+    display: block;
+    &:nth-of-type(1) {
+      @include link(#f06);
+    }
+    &:nth-of-type(2) {
+      @include link(#f60);
+    }
+    &:nth-of-type(3) {
+      @include link(#ff0);
+    }
+    &:nth-of-type(4) {
+      @include link(#0f6);
+    }
+    &:nth-of-type(5) {
+      @include link(#0cf);
+    }
+    &:nth-of-type(6) {
+      @include link(#60f);
+    }
+    /*
+    &:nth-of-type(5),
+    &:nth-of-type(6) {
+      display: none;
+      @media screen and (min-width: 640px) {
+        display: block;
+      }
+    }
+    */
+  }
+  &__link {
+  }
+}

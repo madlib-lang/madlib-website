@@ -1,0 +1,80 @@
+import type { Maybe } from "Maybe"
+import type { Either } from "Either"
+import type { JsonValue } from "JsonValue"
+import type { Parser } from "JsonParser"
+import type { CommandResult } from "Process"
+
+import JsonParser from "JsonParser"
+import JsonPrinter from "JsonPrinter"
+import { Just, Nothing } from "Maybe"
+
+
+export alias Playground = {
+  id :: Maybe String,
+  code :: String,
+  output :: Maybe CommandResult,
+}
+
+
+setId :: String -> Playground -> Playground
+export setId = (id, playground) => ({ ...playground, id: Just(id) })
+
+
+getOptionalPropAs :: (Playground -> Maybe String) -> String -> Playground -> List #[String, JsonValue] -> List #[String, JsonValue]
+getOptionalPropAs = (accessor, fieldName, playground, values) => where(accessor(playground)) {
+  Just(value) =>
+    [#[fieldName, JsonPrinter.string(value)], ...values]
+
+  Nothing =>
+   values
+}
+
+
+outputToJsonValue :: CommandResult -> JsonValue
+outputToJsonValue = (output) => JsonPrinter.object(
+  [
+    #["stdout", JsonPrinter.string(output.stdout)],
+    #["stderr", JsonPrinter.string(output.stderr)],
+    #["exitCode", JsonPrinter.integer(output.exitCode)],
+  ]
+)
+
+
+toJsonString :: Playground -> String
+export toJsonString = (playground) => pipe(
+  .code,
+  (codeValue) => [#["code", JsonPrinter.string(codeValue)]],
+  (values) => where(playground.output) {
+    Just(output) =>
+      [#["output", outputToJsonValue(output)], ...values]
+
+    Nothing =>
+      values
+  },
+  JsonPrinter.object,
+  JsonPrinter.printJson(80)
+)(playground)
+
+
+
+outputParser :: Parser CommandResult
+outputParser = do {
+  stdout <- JsonParser.field("stdout", JsonParser.string)
+  stderr <- JsonParser.field("stderr", JsonParser.string)
+  exitCode <- JsonParser.field("exitCode", JsonParser.integer)
+
+  return of({ stdout, stderr, exitCode })
+}
+
+playgroundParser :: Parser Playground
+playgroundParser = do {
+  id <- JsonParser.maybe(JsonParser.field("id", JsonParser.string))
+  code <- JsonParser.field("code", JsonParser.string)
+  output <- JsonParser.maybe(JsonParser.field("output", outputParser))
+
+  return of({ id, code, output })
+}
+
+
+parse :: String -> Either String Playground
+export parse = (jsonString) => JsonParser.parse(playgroundParser, jsonString)
