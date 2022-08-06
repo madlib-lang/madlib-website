@@ -64,6 +64,7 @@ module.exports = {
         `nps styles.all styles.group`,
         "cp src/client/index.html build/public/",
         "cp -R src/client/assets build/public/",
+        "cp src/client/*.json build/public/",
         "nps server.prod.build",
       ]),
       html: "copy-and-watch src/client/*.html build/public/",

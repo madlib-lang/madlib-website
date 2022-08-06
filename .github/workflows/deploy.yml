@@ -23,8 +23,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
-      # - name: Build
-      #   run: Docker build -t madlib-website .
 
   deploy:
     needs: build
@@ -40,5 +38,5 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            ls -la
-            pwd
+            ls -l
+            docker-compose up --force-recreate --remove-orphans -d
