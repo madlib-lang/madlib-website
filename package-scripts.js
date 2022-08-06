@@ -58,11 +58,12 @@ module.exports = {
         "nps build.prod",
       ]),
       prod: run([
-        `nps "build.main --optimize"`,
+        `nps "build.main"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
-        `nps styles`,
+        `nps styles.all styles.group`,
         "cp src/client/index.html build/public/",
         "cp -R src/client/assets build/public/",
+        "nps server.prod.build",
       ]),
       html: "copy-and-watch src/client/*.html build/public/",
     },
@@ -71,6 +72,9 @@ module.exports = {
         build: "madlib compile --target llvm -i src/server/Main.mad -o build/service -w",
         start: runWhen('cat ./build/service >&/dev/null', `kill -9 $(lsof -n -i :3000 | grep LISTEN | awk '{print $2;}') && ./build/service &`),
         restart: "echo 'restarting server' && kill -9 $(lsof -n -i :3000 | grep LISTEN | awk '{print $2;}') 2>/dev/null || echo 'not running' && ./build/service",
+      },
+      prod: {
+        build: "madlib compile --target llvm -i src/server/Main.mad -o build/service",
       },
     },
     sync: {
