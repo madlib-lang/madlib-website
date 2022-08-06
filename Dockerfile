@@ -15,6 +15,6 @@ RUN npm i -g @madlib-lang/madlib nps
 RUN npm i
 RUN madlib install
 
-RUN SERVER_BASE_URL="http://localhost:80" nps build.prod
+RUN SERVER_BASE_URL="http://46.101.219.54" nps build.prod
 
 CMD ./build/service 80

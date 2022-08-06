@@ -39,4 +39,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             ls -l
+            docker-compose pull
             docker-compose up --force-recreate --remove-orphans -d
