@@ -71,8 +71,8 @@ module.exports = {
     server: {
       dev: {
         build: "madlib compile --target llvm -i src/server/Main.mad -o build/service -w",
-        start: runWhen('cat ./build/service >&/dev/null', `kill -9 $(lsof -n -i :3000 | grep LISTEN | awk '{print $2;}') && ./build/service &`),
-        restart: "echo 'restarting server' && kill -9 $(lsof -n -i :3000 | grep LISTEN | awk '{print $2;}') 2>/dev/null || echo 'not running' && ./build/service",
+        start: "sh ./start-server.sh",
+        restart: "sh ./restart-server.sh",
       },
       prod: {
         build: "madlib compile --target llvm -i src/server/Main.mad -o build/service",
