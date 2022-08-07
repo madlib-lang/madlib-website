@@ -19,10 +19,6 @@ import Playground from "@common/Playground"
 import { toHexadecimal } from "@server/Utils"
 
 
-// Access-Control-Allow-Origin: https://foo.example
-// Access-Control-Allow-Methods: POST, GET, OPTIONS
-// Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
-// Access-Control-Max-Age: 86400
 
 CORS_HEADERS = [
   Header("Access-Control-Allow-Origin", "*"),
@@ -30,7 +26,6 @@ CORS_HEADERS = [
   Header("Access-Control-Allow-Headers", "*"),
   Header("Access-Control-Max-Age", "86400"),
 ]
-
 
 
 parsePlayground :: String -> Wish (Response String) Playground
@@ -52,13 +47,6 @@ makeError = (status, message) => bad({
   headers: [Header("Content-Type", "application/json"), ...CORS_HEADERS],
   body: `{ "error": "${message}" }`
 })
-
-// makePlaygroundError :: Integer -> String -> Playground -> Wish (Response String) a
-// makePlaygroundError = (status, message, playground) => bad({
-//   status,
-//   headers: [Header("Content-Type", "application/json")],
-//   body: `{ "error": "${message}" }`
-// })
 
 
 readBody :: IncomingRequest -> Wish (Response String) String

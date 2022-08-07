@@ -1,6 +1,7 @@
 import String from "String"
 import List from "List"
 import { Just, Nothing } from "Maybe"
+import { Header } from "Http"
 import Process from "Process"
 
 import Server from "MadServer"
@@ -34,8 +35,8 @@ port = pipe(
 )(Process.Argv)
 
 
-sslOptions :: Server.Options
-sslOptions = pipe(
+withSSLOptions :: Server.Options
+withSSLOptions = pipe(
   map(Process.getEnv),
   where {
     [Just(certificateFile), Just(keyFile), caFile] =>
@@ -60,4 +61,21 @@ pipe(
   Server.post(makeApiPath("/playgrounds"), postPlaygroundHandler),
   Server.get("/*", fileHandler),
   Server.run(port)
-)({  ...sslOptions, verbose: true, })
+)({  ...withSSLOptions, verbose: true, })
+
+// TODO: make configurable
+if (withSSLOptions.ssl != Nothing) {
+  do {
+    pipe(
+      Server.create,
+      Server.any("/*", (req) => of({
+        body: "",
+        status: 301,
+        headers: [Header("Location", `https://www.madlib.space${req.url}`)],
+      })),
+      Server.run(80)
+    )({  ssl: Nothing, verbose: true, })
+
+    return {}
+  }
+} else { {} }
