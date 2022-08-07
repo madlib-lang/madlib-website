@@ -30,7 +30,9 @@ buildHeaders = (req) => pipe(
 
 fileHandler :: IncomingRequest -> Wish (Response String) (Response String)
 export fileHandler = (req) => pipe(
-  (cwd) => `${cwd}/build/public${req.url}`,
+  (cwd) => req.url == "/"
+    ? `${cwd}/build/public/index.html`
+    : `${cwd}/build/public${req.url}`,
   String.takeWhile(notEquals('?')),
   File.read,
   map((content) => ({
