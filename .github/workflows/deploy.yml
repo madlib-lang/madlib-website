@@ -55,7 +55,7 @@ jobs:
         run: |
           content=$(cat docker-compose.yml)
           content=${content//$'\n'/\\n}
-          content=${content//$'"'/\"}
+          content=${content//$'"'/\\"}
           echo "::set-output name=content::$content"
         id: docker-compose
 
@@ -71,9 +71,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "$SSL_CERTIFICATE" > cert.crt
-            echo "$SSL_CA_BUNDLE" > cert.ca-bundle
-            echo "$SSL_KEY" > cert.key
+            echo -e "$SSL_CERTIFICATE" > cert.crt
+            echo -e "$SSL_CA_BUNDLE" > cert.ca-bundle
+            echo -e "$SSL_KEY" > cert.key
 
             echo -e "${{ steps.docker-compose.outputs.content }}" > docker-compose.yml
             docker-compose pull
