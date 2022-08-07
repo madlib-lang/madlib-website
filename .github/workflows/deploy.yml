@@ -31,30 +31,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Read docker-compose.yml content
-        run: |
-          content="$(cat docker-compose.yml)"
-          echo "DOCKER_COMPOSE_CONTENT=$content" >> $GITHUB_ENV
-          # echo "::set-output name=content::${content//$'\n'/\\n}"
-        id: docker-compose
-
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            echo ${{ secrets.SSL_CERTIFICATE }} > cert.crt
-            echo ${{ secrets.SSL_CA_BUNDLE }} > cert.ca-bundle
-            echo ${{ secrets.SSL_KEY }} > cert.key
-            echo ${{ env.DOCKER_COMPOSE_CONTENT }} > docker-compose.yml
-            docker-compose pull
-            docker-compose up --force-recreate --remove-orphans -d
       # - name: Read docker-compose.yml content
       #   run: |
-      #     $content=$(cat docker-compose.yml)
-      #     echo "::set-output name=content::${content//$'\n'/\\n}"
+      #     content="$(cat docker-compose.yml)"
+      #     echo "DOCKER_COMPOSE_CONTENT=$content" >> $GITHUB_ENV
+      #     # echo "::set-output name=content::${content//$'\n'/\\n}"
       #   id: docker-compose
 
       # - name: Deploy
@@ -67,6 +48,25 @@ jobs:
       #       echo ${{ secrets.SSL_CERTIFICATE }} > cert.crt
       #       echo ${{ secrets.SSL_CA_BUNDLE }} > cert.ca-bundle
       #       echo ${{ secrets.SSL_KEY }} > cert.key
-      #       echo ${{ steps.docker-compose.outputs.content }} > docker-compose.yml
+      #       echo ${{ env.DOCKER_COMPOSE_CONTENT }} > docker-compose.yml
       #       docker-compose pull
       #       docker-compose up --force-recreate --remove-orphans -d
+      - name: Read docker-compose.yml content
+        run: |
+          content=$(cat docker-compose.yml)
+          echo "::set-output name=content::${content//$'\n'/\\n}"
+        id: docker-compose
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo ${{ secrets.SSL_CERTIFICATE }} > cert.crt
+            echo ${{ secrets.SSL_CA_BUNDLE }} > cert.ca-bundle
+            echo ${{ secrets.SSL_KEY }} > cert.key
+            echo ${{ steps.docker-compose.outputs.content }} > docker-compose.yml
+            docker-compose pull
+            docker-compose up --force-recreate --remove-orphans -d
