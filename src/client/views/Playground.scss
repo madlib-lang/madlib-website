@@ -218,6 +218,11 @@ $editorWidth: 27%;
     background: transparent;
     padding: 0;
   }
+  &__output-code {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
   &__syntax {
     &--keyword {
       font-weight: bold;
