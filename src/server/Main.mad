@@ -15,8 +15,10 @@ BASE_API_PATH = "/api"
 DEFAULT_PORT :: Integer
 DEFAULT_PORT = 3000
 
+
 makeApiPath :: String -> String
 makeApiPath = (path) => mconcat(BASE_API_PATH, path)
+
 
 port :: Integer
 port = pipe(
@@ -32,13 +34,30 @@ port = pipe(
 )(Process.Argv)
 
 
+sslOptions :: Server.Options
+sslOptions = pipe(
+  map(Process.getEnv),
+  where {
+    [Just(certificateFile), Just(keyFile), caFile] =>
+      {
+        ...Server.DEFAULT_OPTIONS,
+        ssl: Just({
+          certificateFile,
+          keyFile,
+          caFile,
+          passphrase: Nothing
+        })
+      }
+
+    _ =>
+      Server.DEFAULT_OPTIONS
+  }
+)(["SSL_CERT", "SSL_KEY", "SSL_CA"])
+
+
 pipe(
   Server.create,
   Server.post(makeApiPath("/playgrounds"), postPlaygroundHandler),
   Server.get("/*", fileHandler),
   Server.run(port)
-)({
-  ...Server.DEFAULT_OPTIONS,
-  verbose: true,
-  ssl: Nothing
-})
+)({  ...sslOptions, verbose: true, })
