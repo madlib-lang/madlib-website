@@ -15,6 +15,6 @@ RUN npm i -g @madlib-lang/madlib nps
 RUN npm i
 RUN madlib install
 
-RUN SERVER_BASE_URL="http://madlib.space" nps build.prod
+RUN SERVER_BASE_URL="https://madlib.space" nps build.prod
 
-CMD ./build/service 80
+CMD ./build/service 443
