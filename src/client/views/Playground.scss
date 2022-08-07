@@ -107,14 +107,6 @@ $editorWidth: 27%;
         background-color: #00ffe7;
         border: 1px solid rgba(0, 200, 200, 0.2);
         box-shadow: 0px 0px 3px rgba(0, 255, 255, 0.4);
-        &::before {
-          height: calc(#{$height} + 4rem);
-          margin-top: calc(-#{$height} - 2.2rem);
-          // margin-top: -calc(#{$height} - 10rem);
-          transition: background 0.3s ease-out, height 0.3s 0.6s ease-out,
-            margin 0.3s 0.6s ease-out;
-          background: cyan;
-        }
       }
     }
   }
