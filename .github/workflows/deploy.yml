@@ -55,7 +55,7 @@ jobs:
         run: |
           content=$(cat docker-compose.yml)
           content=${content//$'\n'/\\n}
-          content=${content//$'"'/\\"}
+          content=${content//$'"'/\\\"}
           echo "::set-output name=content::$content"
         id: docker-compose
 
