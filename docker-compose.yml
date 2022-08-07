@@ -4,6 +4,7 @@ services:
     image: arnaudboeglin/madlib-website:latest
     ports:
       - "443:443"
+      - "80:80"
     volumes:
       - type: bind
         source: ./cert.crt
