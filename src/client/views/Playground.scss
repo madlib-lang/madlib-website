@@ -1,3 +1,4 @@
+$height: 150px;
 $lineHeight: 20px;
 $font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
   Liberation Mono, monospace;
@@ -6,6 +7,7 @@ $editorWidth: 27%;
 .playground {
   font-family: $font;
   position: relative;
+  overflow: hidden;
   &__editor {
     width: calc(100% - #{$editorWidth});
     background-color: rgba(255, 255, 255, 0.1);
@@ -15,7 +17,7 @@ $editorWidth: 27%;
   }
   &__content {
     position: relative;
-    min-height: calc(150px - 2rem);
+    min-height: calc(#{$height} - 2rem);
   }
   &__run-indicator {
     width: 0.5rem;
@@ -28,6 +30,18 @@ $editorWidth: 27%;
       0px 0px 8px rgba(255, 0, 0, 0.6), 0px 0px 13px rgba(255, 0, 0, 0.7);
     transition: box-shadow 0.3s ease-out, margin 0.3s ease-out,
       border 0.3s ease-out, background 0.3s ease-out;
+    position: relative;
+    &::before {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      transition: background 0.3s -0.3s ease-out, height 0.3s -0.3s ease-out,
+        margin 0.3s ease-out;
+      // transition-delay: 0.3s;
+      background: transparent;
+      content: "";
+      margin-top: 0.125rem;
+    }
   }
   &__run-button {
     cursor: pointer;
@@ -45,8 +59,8 @@ $editorWidth: 27%;
     padding: 0.25rem 0.75rem;
     font-family: $font;
     font-weight: bolder;
-    transition: border 0.3s ease-out, background 0.3s ease-out,
-      color 0.3s ease-out, box-shadow 0.3s ease-out;
+    transition: width 0.3s ease-out, border 0.3s ease-out,
+      background 0.3s ease-out, color 0.3s ease-out, box-shadow 0.3s ease-out;
     &--waiting {
       color: black;
       background: white;
@@ -66,10 +80,19 @@ $editorWidth: 27%;
     }
     &:hover {
       .playground__run-indicator {
-        margin-left: 2.25rem;
+        transition-delay: -0.1s;
+        margin-left: 2.15rem;
         background-color: cyan;
         border: 1px solid rgba(255, 255, 0, 0.4);
         box-shadow: 0px 0px 3px rgba(0, 255, 255, 0.4);
+        &::before {
+          height: calc(#{$height} + 4rem);
+          margin-top: calc(-#{$height} - 2.2rem);
+          // margin-top: -calc(#{$height} - 10rem);
+          transition: background 0.3s ease-out, height 0.3s 0.6s ease-out,
+            margin 0.3s 0.6s ease-out;
+          background: cyan;
+        }
       }
     }
   }
@@ -92,7 +115,7 @@ $editorWidth: 27%;
     margin: 0;
     border: 0;
     width: calc(100% - 4rem);
-    min-height: 150px;
+    min-height: $height;
     position: absolute;
     top: 0;
     left: 0;
@@ -142,7 +165,7 @@ $editorWidth: 27%;
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
     height: 100%;
-    min-height: 150px;
+    min-height: $height;
   }
   &__output-code {
     border: none;
