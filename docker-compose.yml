@@ -3,7 +3,7 @@ services:
   madlib-website:
     image: arnaudboeglin/madlib-website:latest
     ports:
-      - "443:443"
+      # - "443:443"
       - "80:80"
     volumes:
       - type: bind
@@ -18,7 +18,7 @@ services:
         source: ./cert.key
         target: /ssl/cert.key
         read_only: true
-    environment:
-      - SSL_CERT=/ssl/cert.crt
-      - SSL_KEY=/ssl/cert.key
-      - SSL_CA=/ssl/cert.ca-bundle
+    # environment:
+    #   - SSL_CERT=/ssl/cert.crt
+    #   - SSL_KEY=/ssl/cert.key
+    #   - SSL_CA=/ssl/cert.ca-bundle

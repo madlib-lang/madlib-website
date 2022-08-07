@@ -63,6 +63,7 @@ pipe(
   Server.run(port)
 )({  ...withSSLOptions, verbose: true, })
 
+
 // TODO: make configurable
 if (withSSLOptions.ssl != Nothing) {
   do {
@@ -74,7 +75,7 @@ if (withSSLOptions.ssl != Nothing) {
         headers: [Header("Location", `https://www.madlib.space${req.url}`)],
       })),
       Server.run(80)
-    )({  ssl: Nothing, verbose: true, })
+    )({ ssl: Nothing, verbose: true, })
 
     return {}
   }
