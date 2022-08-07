@@ -7,13 +7,13 @@ services:
     volumes:
       - type: bind
         source: ./cert.crt
-        target: ./cert.crt
+        target: /ssl/cert.crt
         read_only: true
       - type: bind
         source: ./cert.ca-bundle
-        target: ./cert.ca-bundle
+        target: /ssl/cert.ca-bundle
         read_only: true
       - type: bind
         source: ./cert.key
-        target: ./cert.key
+        target: /ssl/cert.key
         read_only: true
