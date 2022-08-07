@@ -1,7 +1,7 @@
 $lineHeight: 20px;
 $font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
   Liberation Mono, monospace;
-$editorWidth: 24%;
+$editorWidth: 27%;
 
 .playground {
   font-family: $font;
@@ -22,7 +22,7 @@ $editorWidth: 24%;
     height: 0.5rem;
     border-radius: 10rem;
     background-color: red;
-    margin-left: 0.25rem;
+    margin-left: 0.5rem;
     border: 1px solid rgba(255, 80, 0, 0.4);
     box-shadow: 0px 0px 3px rgba(255, 0, 0, 0.4),
       0px 0px 8px rgba(255, 0, 0, 0.6), 0px 0px 13px rgba(255, 0, 0, 0.7);
@@ -36,7 +36,7 @@ $editorWidth: 24%;
     justify-content: center;
     align-items: center;
     position: absolute;
-    left: -4.25rem;
+    left: -4.75rem;
     bottom: 0.75rem;
     color: black;
     background: white;
@@ -66,7 +66,7 @@ $editorWidth: 24%;
     }
     &:hover {
       .playground__run-indicator {
-        margin-left: 0.75rem;
+        margin-left: 2.25rem;
         background-color: cyan;
         border: 1px solid rgba(255, 255, 0, 0.4);
         box-shadow: 0px 0px 3px rgba(0, 255, 255, 0.4);
