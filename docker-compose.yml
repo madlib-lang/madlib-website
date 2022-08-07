@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  madlib-website:
+    image: arnaudboeglin/madlib-website:latest
+    ports:
+      - "80:80"
+    volumes:
+      - type: bind
+        source: ./cert.crt
+        target: ./cert.crt
+        read_only: true
+      - type: bind
+        source: ./cert.ca-bundle
+        target: ./cert.ca-bundle
+        read_only: true
+      - type: bind
+        source: ./cert.key
+        target: ./cert.key
+        read_only: true
