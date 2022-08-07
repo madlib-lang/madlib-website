@@ -1,12 +1,13 @@
 $lineHeight: 20px;
 $font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
   Liberation Mono, monospace;
+$editorWidth: 24%;
 
 .playground {
   font-family: $font;
   position: relative;
   &__editor {
-    width: calc(100% - 200px - 4rem);
+    width: calc(100% - #{$editorWidth});
     background-color: rgba(255, 255, 255, 0.1);
     padding: 1rem;
     border-top-left-radius: 0.25rem;
@@ -35,9 +36,8 @@ $font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 0;
-    margin-left: -4rem;
-    bottom: 0;
+    left: -4.25rem;
+    bottom: 0.75rem;
     color: black;
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.6);
@@ -96,7 +96,7 @@ $font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
     position: absolute;
     top: 0;
     left: 0;
-    overflow: auto;
+    overflow-x: hidden;
     white-space: nowrap; /* Allows textarea to scroll horizontally */
   }
   &__input,
@@ -129,19 +129,25 @@ $font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
     background: transparent;
   }
   &__output {
-    min-width: 200px;
+    min-width: $editorWidth;
     margin-left: 0.5rem;
     padding-top: 0.5rem;
     padding-left: 1rem;
+    white-space: nowrap;
     position: absolute;
     top: 0;
-    right: calc(200px - 8.5rem);
+    right: 0;
     background-color: black;
     border-left: 2px solid rgba(255, 255, 255, 0.2);
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
     height: 100%;
     min-height: 150px;
+  }
+  &__output-code {
+    border: none;
+    background: transparent;
+    padding: 0;
   }
   &__syntax {
     &--keyword {
