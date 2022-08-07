@@ -22,7 +22,7 @@ import { Just, Nothing } from "Maybe"
 
 IO.putLine("Hello world")
 
-
+IO.trace("Important", Just(123 + 297))
 `
 
 
