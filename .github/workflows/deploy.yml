@@ -33,7 +33,7 @@ jobs:
 
       - name: Read docker-compose.yml content
         run: |
-          $content="$(cat docker-compose.yml)"
+          content="$(cat docker-compose.yml)"
           echo "DOCKER_COMPOSE_CONTENT=$content" >> $GITHUB_ENV
           # echo "::set-output name=content::${content//$'\n'/\\n}"
         id: docker-compose
