@@ -4,6 +4,18 @@ $font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
   Liberation Mono, monospace;
 $editorWidth: 27%;
 
+@mixin makePulse($name, $a1, $a2, $a3, $b1, $b2, $b3) {
+  @keyframes #{$name} {
+    0%,
+    100% {
+      box-shadow: $a1, $a2, $a3;
+    }
+    50% {
+      box-shadow: $b1, $b2, $b3;
+    }
+  }
+}
+
 .playground {
   font-family: $font;
   position: relative;
@@ -25,23 +37,13 @@ $editorWidth: 27%;
     border-radius: 10rem;
     background-color: red;
     margin-left: 0.5rem;
-    border: 1px solid rgba(255, 80, 0, 0.4);
+    border: 1px solid rgba(255, 80, 80, 0.6);
+    border-bottom-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 3px rgba(255, 0, 0, 0.4),
-      0px 0px 8px rgba(255, 0, 0, 0.6), 0px 0px 13px rgba(255, 0, 0, 0.7);
-    transition: box-shadow 0.3s ease-out, margin 0.3s ease-out,
-      border 0.3s ease-out, background 0.3s ease-out;
+      0px 0px 8px rgba(255, 0, 0, 0.5), 0px 0px 13px rgba(255, 0, 0, 0.3);
+    transition: box-shadow 0.3s -0.3s ease-out, margin 0.3s ease-out,
+      border 0.3s ease-out, background 0.3s -0.1s ease-out;
     position: relative;
-    &::before {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      transition: background 0.3s -0.3s ease-out, height 0.3s -0.3s ease-out,
-        margin 0.3s ease-out;
-      // transition-delay: 0.3s;
-      background: transparent;
-      content: "";
-      margin-top: 0.125rem;
-    }
   }
   &__run-button {
     cursor: pointer;
@@ -54,7 +56,7 @@ $editorWidth: 27%;
     bottom: 0.75rem;
     color: black;
     background: white;
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0);
     border-radius: 1rem;
     padding: 0.25rem 0.75rem;
     font-family: $font;
@@ -64,7 +66,7 @@ $editorWidth: 27%;
     &--waiting {
       color: black;
       background: white;
-      border: 1px solid rgba(0, 0, 0, 0.6);
+      border: 2px solid #888;
     }
     &--in-sync {
       background: black;
@@ -79,20 +81,25 @@ $editorWidth: 27%;
       }
     }
     &:hover {
+      border-color: #000;
+      transition: width 0.3s 0.3s ease-out, border 0.3s 0.3s ease-out,
+        background 0.3s ease-out, color 0.3s ease-out, box-shadow 0.3s ease-out;
       .playground__run-indicator {
-        transition-delay: -0.1s;
+        @include makePulse(
+          "redpulse",
+          0px 0px 3px rgba(0, 200, 255, 0.1),
+          0px 0px 3px rgba(0, 255, 255, 0.1),
+          0px 0px 3px rgba(0, 255, 255, 0.1),
+          0px 0px 3px rgba(0, 200, 255, 0.4),
+          0px 0px 8px rgba(0, 255, 255, 0.6),
+          0px 0px 13px rgba(0, 255, 255, 0.3)
+        );
+        animation: 3s redpulse ease-in-out infinite;
+        // transition-delay: -0.1s;
         margin-left: 2.15rem;
-        background-color: cyan;
-        border: 1px solid rgba(255, 255, 0, 0.4);
+        background-color: #00ffe7;
+        border: 1px solid rgba(0, 200, 200, 0.2);
         box-shadow: 0px 0px 3px rgba(0, 255, 255, 0.4);
-        &::before {
-          height: calc(#{$height} + 4rem);
-          margin-top: calc(-#{$height} - 2.2rem);
-          // margin-top: -calc(#{$height} - 10rem);
-          transition: background 0.3s ease-out, height 0.3s 0.6s ease-out,
-            margin 0.3s 0.6s ease-out;
-          background: cyan;
-        }
       }
     }
   }
@@ -161,7 +168,7 @@ $editorWidth: 27%;
     top: 0;
     right: 0;
     background-color: black;
-    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    // border-left: 2px solid rgba(255, 255, 255, 0.2);
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
     height: 100%;
