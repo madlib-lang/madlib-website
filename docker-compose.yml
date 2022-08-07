@@ -17,3 +17,7 @@ services:
         source: ./cert.key
         target: /ssl/cert.key
         read_only: true
+    environment:
+      - SSL_CERT=/ssl/cert.crt
+      - SSL_KEY=/ssl/cert.key
+      - SSL_CA=/ssl/cert.ca-bundle
