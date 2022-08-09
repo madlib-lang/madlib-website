@@ -25,9 +25,9 @@
       "minVersion": "0.0.2"
     },
     {
-      "url": "https://github.com/madlib-lang/madserver/archive/refs/tags/v1.0.0.zip",
+      "url": "https://github.com/madlib-lang/madserver/archive/refs/tags/v1.0.1.zip",
       "description": "MadServer",
-      "minVersion": "1.0.0"
+      "minVersion": "1.0.1"
     }
   ]
 }

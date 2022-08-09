@@ -63,9 +63,7 @@ handleRun = (state, _) => pipe(
   map(
     pipe(
       .body,
-      IO.trace("body"),
       parse,
-      IO.trace("parsed"),
       where {
         Right(playground) =>
           (newState) => ({
@@ -123,9 +121,9 @@ deriveHeight = (state) => pipe(
   mconcat($, "px")
 )(state)
 
-import IO from "IO"
+
 displayPlaygroundOutput :: State -> Element State
-displayPlaygroundOutput = (state) => where(IO.trace("output", state.playground).output) {
+displayPlaygroundOutput = (state) => where(state.playground.output) {
   Just({ stdout }) =>
     text(stdout)
 

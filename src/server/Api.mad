@@ -10,7 +10,7 @@ import Process from "Process"
 import File from "File"
 import { bad, bichain, chainRej } from "Wish"
 import { Left, Right } from "Either"
-import { Just, Nothing } from "Maybe"
+import { Just, Nothing, fromMaybe } from "Maybe"
 import { Header } from "Http"
 import { always } from "Function"
 
@@ -108,11 +108,11 @@ compileCode = (playground) => pipe(
         [
           "compile",
           "--target",
-          "llvm",
+          "node",
           "-i",
           `${playgroundPath}/Playground.mad`,
           "-o",
-          `${playgroundPath}/build/runPlayground`
+          `${playgroundPath}/build/`
         ],
         Process.DEFAULT_COMMAND_OPTIONS
       ),
@@ -156,13 +156,13 @@ getPlaygroundPath = (playground) => where(playground.id){
 runPlayground :: Playground -> Wish (Response String) Playground
 runPlayground = (playground) => pipe(
   getPlaygroundPath,
-  map((playgroundPath) => `${playgroundPath}/build/runPlayground`),
+  map((playgroundPath) => [`${playgroundPath}/build/build/playgrounds/${fromMaybe("", playground.id)}/Playground.mjs`]),
   chain(
     pipe(
-      Process.exec($, [], Process.DEFAULT_COMMAND_OPTIONS),
+      Process.exec("node", $, Process.DEFAULT_COMMAND_OPTIONS),
       bichain(
-        (result) => makeError(400, result.stderr),
-        (result) => of({
+        (result) =>  makeError(400, result.stderr),
+        (result) =>  of({
           ...playground,
           output: Just(result),
         })
