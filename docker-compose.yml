@@ -11,14 +11,10 @@ services:
         target: /ssl/cert.crt
         read_only: true
       - type: bind
-        source: ./cert.ca-bundle
-        target: /ssl/cert.ca-bundle
-        read_only: true
-      - type: bind
         source: ./cert.key
         target: /ssl/cert.key
         read_only: true
     environment:
       - SSL_CERT=/ssl/cert.crt
       - SSL_KEY=/ssl/cert.key
-      - SSL_CA=/ssl/cert.ca-bundle
+      # - SSL_CA=/ssl/cert.ca-bundle
