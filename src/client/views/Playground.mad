@@ -39,7 +39,7 @@ LINE_HEIGHT :: Integer
 LINE_HEIGHT = 20
 
 stratum = strata("playground")
-
+import IO from "IO"
 // syncScroll :: Action State
 syncScroll = (state, event) => pipe(
   (x) => {
