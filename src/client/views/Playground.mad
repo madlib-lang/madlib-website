@@ -273,12 +273,23 @@ displayPlaygroundOutput = (state) => where(state.playground.output) {
 }
 
 
+renderLines :: String -> List (Element State)
+renderLines = (playgroundCode) => pipe(
+  String.split("\n"),
+  List.mapWithIndex((_, i) => inspect(i + 1)),
+  map((line) => <div>{line}</div>)
+)(playgroundCode)
+
+
 Playground :: State -> Element State
 export Playground = (state) => {
   output = displayPlaygroundOutput(state) 
   return <div className={stratum.e("")}>
     <div className={stratum.e("container")}>
       <div className={stratum.e("editor")}>
+        <div className={stratum.e("lines")}>
+          {...renderLines(state.playground.code)}
+        </div>
         <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
           
           <textarea
