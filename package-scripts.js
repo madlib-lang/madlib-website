@@ -63,6 +63,7 @@ module.exports = {
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
         `nps styles.all styles.group`,
         "cp src/client/index.html build/public/",
+        "cp src/client/robots.txt build/public/",
         "cp -R src/client/assets build/public/",
         "cp src/client/*.json build/public/",
         "nps server.prod.build",
