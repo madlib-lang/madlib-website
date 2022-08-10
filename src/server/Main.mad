@@ -65,18 +65,18 @@ pipe(
 
 
 // TODO: make configurable
-if (withSSLOptions.ssl != Nothing) {
-  do {
-    pipe(
-      Server.create,
-      Server.any("/*", (req) => of({
-        body: "",
-        status: 301,
-        headers: [Header("Location", `https://www.madlib.space${req.url}`)],
-      })),
-      Server.run(80)
-    )({ ssl: Nothing, verbose: true, })
+// if (withSSLOptions.ssl != Nothing) {
+//   do {
+//     pipe(
+//       Server.create,
+//       Server.any("/*", (req) => of({
+//         body: "",
+//         status: 301,
+//         headers: [Header("Location", `https://www.madlib.space${req.url}`)],
+//       })),
+//       Server.run(80)
+//     )({ ssl: Nothing, verbose: true, })
 
-    return {}
-  }
-} else { {} }
+//     return {}
+//   }
+// } else { {} }
