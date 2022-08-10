@@ -22,14 +22,20 @@ $editorWidth: 27%;
   overflow: hidden;
   &__editor {
     width: calc(100% - #{$editorWidth});
-    background-color: rgba(255, 255, 255, 0.1);
+    // background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgb(61 42 64);
     padding: 1rem;
     border-top-left-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
+    // min-width: 100%;
+    overflow-x: scroll;
   }
   &__content {
     position: relative;
     min-height: calc(#{$height} - 2rem);
+    height: 180px;
+    display: inline-flex;
+    min-width: 100%;
   }
   &__run-indicator {
     width: 0.5rem;
@@ -46,6 +52,7 @@ $editorWidth: 27%;
     position: relative;
   }
   &__run-button {
+    z-index: 10;
     cursor: pointer;
     display: flex;
     flex-direction: row;
@@ -121,9 +128,9 @@ $editorWidth: 27%;
   &__highlight {
     margin: 0;
     border: 0;
-    width: calc(100% - 4rem);
+    // width: calc(100% - 4rem);
+    min-width: 100%;
     min-height: $height;
-    position: absolute;
     top: 0;
     left: 0;
     overflow-x: hidden;
@@ -139,10 +146,18 @@ $editorWidth: 27%;
 
   &__input {
     z-index: 1;
-    color: transparent;
+    // color: transparent;
+    color: rgba(255, 255, 255, 0.5);
     background: transparent;
-    // caret-color: white;
+    caret-color: white;
+    overflow: hidden;
+    margin-left: 50px;
+    padding: 0;
+    height: 100%;
     resize: none;
+
+    min-width: calc(100% - 50px);
+    position: absolute;
     &:focus {
       outline: none;
     }

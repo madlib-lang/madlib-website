@@ -25,8 +25,10 @@ import {
   spellcheck,
   onClick,
   onInput,
+  onResize,
   onScroll,
   InputEvent,
+  syncAction,
   style,
   text
 } from "MadUI"
@@ -41,14 +43,14 @@ LINE_HEIGHT = 20
 stratum = strata("playground")
 import IO from "IO"
 // syncScroll :: Action State
-syncScroll = (state, event) => pipe(
+syncScroll = syncAction((state, event) => pipe(
   (x) => {
     IO.trace("what kinda event you got?", x)
     IO.trace("what kinda state?", state)
     return x
   },
   of
-)(event)
+)(event))
 
 handleInput :: Action State
 handleInput = (state, event) => pipe(
@@ -281,11 +283,12 @@ export Playground = (state) => {
           
           <textarea
             spellcheck={false}
-            value={state.playground.code}
             className={stratum.e("input")}
             onInput={handleInput}
             // onScroll={syncScroll}
-          />
+          >
+            {state.playground.code}
+          </textarea>
           <pre className={stratum.e("highlight")}>
             <code className={stratum.e("code")}>
               {...buildCodeElements(state.playground.code)}
