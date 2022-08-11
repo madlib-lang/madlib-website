@@ -2,6 +2,10 @@ version: "3.9"
 services:
   madlib-website:
     image: arnaudboeglin/madlib-website:latest
+    init: true
+    ulimits:
+      core: -1
+    restart: always
     ports:
       - "443:443"
       - "80:80"
@@ -11,14 +15,13 @@ services:
         target: /ssl/cert.crt
         read_only: true
       - type: bind
-        source: ./cert.ca-bundle
-        target: /ssl/cert.ca-bundle
-        read_only: true
-      - type: bind
         source: ./cert.key
         target: /ssl/cert.key
         read_only: true
+      # for core dumps, configured on host with: echo '/tmp/core.%e.%p' | sudo tee /proc/sys/kernel/core_pattern
+      - type: bind
+        source: /tmp/
+        target: /tmp/
     environment:
       - SSL_CERT=/ssl/cert.crt
       - SSL_KEY=/ssl/cert.key
-      - SSL_CA=/ssl/cert.ca-bundle

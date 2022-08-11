@@ -5,7 +5,7 @@ import { Just, Nothing } from "Maybe"
 import { Left, Right } from "Either"
 import { mapRej } from "Wish"
 import { multiply } from "Math"
-import { identity } from "Function"
+import { identity, complement, when } from "Function"
 import String from "String"
 import List from "List"
 import Http from "Http"
@@ -13,6 +13,8 @@ import Dictionary from "Dictionary"
 
 import { strata } from "Strata"
 import {
+  pre,
+  code,
   button,
   div,
   className,
@@ -23,7 +25,10 @@ import {
   spellcheck,
   onClick,
   onInput,
+  onResize,
+  onScroll,
   InputEvent,
+  syncAction,
   style,
   text
 } from "MadUI"
@@ -36,7 +41,16 @@ LINE_HEIGHT :: Integer
 LINE_HEIGHT = 20
 
 stratum = strata("playground")
-
+import IO from "IO"
+// syncScroll :: Action State
+syncScroll = syncAction((state, event) => pipe(
+  (x) => {
+    IO.trace("what kinda event you got?", x)
+    IO.trace("what kinda state?", state)
+    return x
+  },
+  of
+)(event))
 
 handleInput :: Action State
 handleInput = (state, event) => pipe(
@@ -47,9 +61,9 @@ handleInput = (state, event) => pipe(
     _ =>
       state.playground.code
   },
-  (code) => of(() => ({
+  (c) => of(() => ({
     ...state,
-    playground: { ...state.playground, code },
+    playground: { ...state.playground, code: c },
   })),
   of
 )(event)
@@ -88,26 +102,153 @@ highlight :: List String -> String -> String -> String
 highlight = (keywords, modifier, input) => pipe(
   String.join("|"),
   (asStr) => `(${asStr})`,
-  String.replace($, `<span class="${stratum.em("highlighted-content", [modifier])}">$1</span>`, input)
+  String.replace($, `<span class="${stratum.em("syntax", [modifier])}">$1</span>`, input)
 )(keywords)
 
+renderLine :: String -> Element State
+renderLine = (raw) => <div className={stratum.e("line")} innerHTML={raw} />
+
+SYNTAX_LITERALS = ["true", "false", "[0-9]+(\\.[0-9]+)?", "\".*\""]
+SYNTAX_KEYWORDS = [
+  "if",
+  "else",
+  "where",
+  "instance",
+  "interface",
+  "import",
+  "export",
+  "from",
+  "type",
+  "alias",
+  "do",
+  "pipe",
+  "map",
+  "chain",
+  "return"
+]
+// highlight(["[A-Z]+[a-zA-Z0-9]*"], "special"),
+
+SYNTAX_SPECIAL = ["$"]
+SYNTAX_OPERATORS = ["\+\+", "-", "/", "*"]
+
+// this is close but not quite
+// \b(?:[^"'])(IO|String|Either)(?:[^"'])\b
+
+SYNTAX_TYPES = [
+  "JsonValue",
+  "AssertionError",
+  "Either",
+  "Parser",
+  "Maybe",
+  "IOError",
+  "Location",
+  "Parser",
+  "Error",
+  "Doc",
+  "SimpleDoc",
+  "Wish",
+  "TransferEncoding",
+  "Header",
+  "Method",
+  "ClientError",
+  "Error",
+  "DateTime",
+  "LocalDateTime",
+  "TimeUnit"
+]
+SYNTAX_CONSTRUCTORS = [
+  "JsonString",
+  "JsonInteger",
+  "JsonFloat",
+  "JsonBoolean",
+  "JsonNull",
+  "JsonObject",
+  "JsonArray",
+  "AssertionError",
+  "Error",
+  "ErrorWithMessage",
+  "NotImplemented",
+  "Left",
+  "Right",
+  "Parser",
+  "Just",
+  "Nothing",
+  "ArgumentListToLong",
+  "PermissionDenied",
+  "AddressAlreadyInUse",
+  "UnknownError",
+  "Loc",
+  "Parser",
+  "Error",
+  "EmptyDoc",
+  "CharDoc",
+  "TextDoc",
+  "LineDoc",
+  "CatDoc",
+  "NestDoc",
+  "UnionDoc",
+  "ColumnDoc",
+  "NestingDoc",
+  "SEmpty",
+  "SChar",
+  "SText",
+  "SLine",
+  "Wish",
+  "Chunked",
+  "Compress",
+  "Deflate",
+  "Gzip",
+  "Header",
+  "CONNECT",
+  "DELETE",
+  "GET",
+  "HEAD",
+  "OPTIONS",
+  "PATCH",
+  "POST",
+  "PUT",
+  "TRACE",
+  "AccessDenied",
+  "AddressNotFound",
+  "BadTransferEncoding",
+  "BadUrl",
+  "ConnectionFailed",
+  "Http2FramingError",
+  "IncompleteResponse",
+  "InternalError",
+  "InvalidSSLCertificate",
+  "MalformedResponse",
+  "NotSupported",
+  "SSLConnectionFailed",
+  "SSLEngineNotFound",
+  "SSLInitializationFailed",
+  "Timeout",
+  "TooManyRedirects",
+  "UnresolvedProxy",
+  "UnsupportedProtocol",
+  "BadResponse",
+  "ClientError",
+  "DateTime",
+  "LocalDateTime",
+  "Millisecond",
+  "Second",
+  "Minute",
+  "Hour",
+  "Day",
+  "Month",
+  "Year"
+]
 
 buildCodeElements :: String -> List (Element State)
-buildCodeElements = (code) => pipe(
-  highlight(["true", "false", "[0-9]+(\\.[0-9]+)?", "\".*\""], "literal"),
-  highlight(["if", "else", "where", "instance", "interface", "import", "export", "from", "type", "alias", "do", "pipe", "return"], "keyword"),
-  // highlight(["[A-Z]+[a-zA-Z0-9]*"], "special"),
+buildCodeElements = pipe(
+  highlight(SYNTAX_LITERALS, "literal"),
+  highlight(SYNTAX_KEYWORDS, "keyword"),
+  highlight(SYNTAX_CONSTRUCTORS, "constructor"),
+  highlight(SYNTAX_TYPES, "type"),
   String.split("\n"),
-  List.mapWithIndex(
-    (line, index) =>
-        <div>
-          <span className={stratum.e("line-number")}>
-            {inspect(index + 1)}
-          </span>
-          <span innerHTML={line}></span>
-        </div>
-  )
-)(code)
+  map(renderLine)
+  // map(when(complement(String.isEmpty), renderLine))
+)
 
 
 deriveHeight :: State -> String
@@ -132,19 +273,61 @@ displayPlaygroundOutput = (state) => where(state.playground.output) {
 }
 
 
+renderLines :: String -> List (Element State)
+renderLines = (playgroundCode) => pipe(
+  String.split("\n"),
+  List.mapWithIndex((_, i) => inspect(i + 1)),
+  map((line) => <div>{line}</div>)
+)(playgroundCode)
+
+
 Playground :: State -> Element State
-export Playground = (state) =>
-  <div className={stratum.e("")}>
+export Playground = (state) => {
+  output = displayPlaygroundOutput(state) 
+  return <div className={stratum.e("")}>
     <div className={stratum.e("container")}>
       <div className={stratum.e("editor")}>
+        <div className={stratum.e("lines")}>
+          {...renderLines(state.playground.code)}
+        </div>
         <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
-          <textarea spellcheck={false} value={state.playground.code} className={stratum.e("input")} onInput={handleInput}></textarea>
-          <div className={stratum.e("screen")}>
-            {...buildCodeElements(state.playground.code)}
-          </div>
+          
+          <textarea
+            spellcheck={false}
+            className={stratum.e("input")}
+            onInput={handleInput}
+            // onScroll={syncScroll}
+          >
+            {state.playground.code}
+          </textarea>
+          <pre className={stratum.e("highlight")}>
+            <code className={stratum.e("code")}>
+              {...buildCodeElements(state.playground.code)}
+            </code>
+          </pre>
         </div>
       </div>
-      <div className={stratum.e("output")}>{displayPlaygroundOutput(state)}</div>
+      <div className={
+        stratum.em(
+          "output",
+          [String.isEmpty(output) ? "empty" : "compiled"]
+        )
+      }>
+          <button
+            className={stratum.em("run-button", ["waiting"])}
+            onClick={handleRun}
+          >
+            Run
+            <div className={
+              stratum.e("run-indicator")
+            }/>
+          </button>
+        <pre className={stratum.e("output-feed")}>
+          <code className={stratum.e("output-code")}>
+            {output}
+          </code>
+        </pre>
+      </div>
     </div>
-    <button onClick={handleRun}>Run</button>
   </div>
+}

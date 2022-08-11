@@ -1,92 +1,249 @@
+$height: 150px;
 $lineHeight: 20px;
-$font: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+$font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
+  Liberation Mono, monospace;
+$editorWidth: 27%;
 
-
-.playground__container {
-  display: flex;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
+@mixin makePulse($name, $a1, $a2, $a3, $b1, $b2, $b3) {
+  @keyframes #{$name} {
+    0%,
+    100% {
+      box-shadow: $a1, $a2, $a3;
+    }
+    50% {
+      box-shadow: $b1, $b2, $b3;
+    }
+  }
 }
 
-.playground__editor {
-  overflow: scroll;
-  padding: 10px 0 10px 40px;
-}
-
-.playground__content {
-  position: relative;
-  min-height: $lineHeight * 4;
-}
-
-.playground__output {
-  display: flex;
-  min-width: 200px;
-  background: rgba(255, 255, 255, 0.1);
-  border-left: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 10px;
-  font-size: 13px;
-  line-height: 20px;
-  white-space: pre;
-}
-
-.playground__input, .playground__screen {
-  border: 0;
+.playground {
   font-family: $font;
-  font-size: 13px;
-  letter-spacing: normal;
-  margin: 0;
-  padding: 0;
-  line-height: $lineHeight;
-  white-space: pre;
-  height: 100%;
-
-  &>div {
-    height: $lineHeight;
-  }
-}
-
-.playground__screen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: white;
-  pointer-events: none;
-}
-
-.playground__input {
   position: relative;
-  resize: none;
-  width: 10000px;
-  z-index: 2;
-  color: rgba(0, 0, 0, 0);
-  caret-color: white;
-  background-color: rgba(0, 0, 0, 0);
-
-  &:focus { 
-    outline: none !important;
-    border-color: #719ECE;
+  overflow: hidden;
+  &__editor {
+    width: calc(100% - #{$editorWidth});
+    // background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgb(61 42 64);
+    padding: 1rem;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    // min-width: 100%;
+    overflow-x: scroll;
   }
-}
+  &__content {
+    position: relative;
+    min-height: calc(#{$height} - 2rem);
+    height: 180px;
+    display: inline-flex;
+    min-width: 100%;
+  }
+  &__run-indicator {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 10rem;
+    background-color: red;
+    margin-left: 0.5rem;
+    border: 1px solid rgba(255, 80, 80, 0.6);
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 3px rgba(255, 0, 0, 0.4),
+      0px 0px 8px rgba(255, 0, 0, 0.5), 0px 0px 13px rgba(255, 0, 0, 0.3);
+    transition: box-shadow 0.3s -0.3s ease-out, margin 0.3s ease-out,
+      border 0.3s ease-out, background 0.3s -0.1s ease-out;
+    position: relative;
+  }
+  &__run-button {
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: -4.75rem;
+    bottom: 0.75rem;
+    color: black;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-family: $font;
+    font-weight: bolder;
+    transition: width 0.3s ease-out, border 0.3s ease-out,
+      background 0.3s ease-out, color 0.3s ease-out, box-shadow 0.3s ease-out;
+    &--waiting {
+      color: black;
+      background: white;
+      border: 2px solid #888;
+    }
+    &--in-sync {
+      background: black;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.5);
+      .playground__run-indicator {
+        background-color: lime;
+        border: 1px solid rgba(255, 255, 0, 0.4);
+        box-shadow: 0px 0px 3px rgba(255, 255, 0, 0.4),
+          0px 0px 8px rgba(255, 255, 0, 0.6),
+          0px 0px 13px rgba(255, 255, 0, 0.7);
+      }
+    }
+    &:hover {
+      border-color: #000;
+      transition: width 0.3s 0.3s ease-out, border 0.3s 0.3s ease-out,
+        background 0.3s ease-out, color 0.3s ease-out, box-shadow 0.3s ease-out;
+      .playground__run-indicator {
+        @include makePulse(
+          "redpulse",
+          0px 0px 3px rgba(0, 200, 255, 0.1),
+          0px 0px 3px rgba(0, 255, 255, 0.1),
+          0px 0px 3px rgba(0, 255, 255, 0.1),
+          0px 0px 3px rgba(0, 200, 255, 0.4),
+          0px 0px 8px rgba(0, 255, 255, 0.6),
+          0px 0px 13px rgba(0, 255, 255, 0.3)
+        );
+        animation: 3s redpulse ease-in-out infinite;
+        // transition-delay: -0.1s;
+        margin-left: 2.15rem;
+        background-color: #00ffe7;
+        border: 1px solid rgba(0, 200, 200, 0.2);
+        box-shadow: 0px 0px 3px rgba(0, 255, 255, 0.4);
+      }
+    }
+  }
+  &__line {
+    height: $lineHeight;
+    // &::before {
+    //   display: inline-block;
+    //   counter-increment: line;
+    //   content: counter(line);
+    //   padding-right: 0.5rem;
+    //   border-right: 2px solid rgba(255, 255, 255, 0.3);
+    //   margin-right: 0.5rem;
+    //   color: rgba(255, 255, 255, 0.3);
+    //   text-align: right;
+    //   min-width: 2rem;
+    // }
+  }
 
-.playground__line-number {
-  width: 30px;
-  position: absolute;
-  left: -40px;
-  text-align: right;
-  opacity: 0.5;
-  float: left;
-}
+  &__lines {
+    position: absolute;
+    width: 50px;
+    left: 0;
+    background-color: #3d2a40;
+    z-index: 10;
+    box-shadow: 11px 0px 10px -7px rgba(0,0,0,0.94);
 
-.playground__highlighted-content--keyword {
-  font-weight: bold;
-  color: rgb(221, 136, 0);
-}
+    &>div {
+      height: $lineHeight;
+      text-align: right;
+      padding-right: 0.5rem;
+      min-width: 2rem;
+      color: rgba(255, 255, 255, 0.3);
+      border-right: 2px solid rgba(255, 255, 255, 0.3);
+    }
+  }
 
-.playground__highlighted-content--literal {
-  color: rgb(165, 221, 254);
-}
+  // &__line-number {
 
-.playground__highlighted-content--special {
-  font-weight: bold;
-  color: rgb(165, 221, 254);
+  // }
+
+  &__input,
+  &__highlight {
+    margin: 0;
+    border: 0;
+    // width: calc(100% - 4rem);
+    min-width: 100%;
+    min-height: $height;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    white-space: nowrap; /* Allows textarea to scroll horizontally */
+  }
+  &__input,
+  &__highlight,
+  &__highlight * {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    tab-size: 2;
+  }
+
+  &__input {
+    z-index: 1;
+    // color: transparent;
+    color: rgba(255, 255, 255, 0.5);
+    background: transparent;
+    caret-color: white;
+    overflow: hidden;
+    margin-left: 50px;
+    padding: 0;
+    height: 100%;
+    resize: none;
+
+    min-width: calc(100% - 50px);
+    position: absolute;
+    &:focus {
+      outline: none;
+    }
+  }
+  &__highlight {
+    z-index: 0;
+    counter-reset: line;
+    margin-left: 50px;
+  }
+
+  &__code {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+  &__output {
+    min-width: $editorWidth;
+    margin-left: 0.5rem;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    white-space: nowrap;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: black;
+    // border-left: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    height: 100%;
+    min-height: $height;
+  }
+  &__output-code {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+  &__output-code {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+  &__syntax {
+    &--keyword {
+      font-weight: bold;
+      color: rgb(221, 136, 0);
+    }
+
+    &--literal {
+      color: rgb(165, 221, 254);
+    }
+
+    &--special {
+      font-weight: bold;
+      color: rgb(165, 221, 254);
+    }
+    &--constructor {
+      font-weight: bold;
+      color: rgba(200, 255, 0);
+    }
+    &--type {
+      font-weight: bold;
+      color: #fc0068;
+    }
+  }
 }

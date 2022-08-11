@@ -15,9 +15,14 @@ export DEFAULT_CONTENT = {
 
 
 INITIAL_CODE =
-`import IO from "IO"
+`import type { Maybe } from "Maybe"
+
+import IO from "IO"
+import { Just, Nothing } from "Maybe"
 
 IO.putLine("Hello world")
+
+IO.trace("Important", Just(123 + 297))
 `
 
 
