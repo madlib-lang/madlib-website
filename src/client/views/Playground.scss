@@ -112,17 +112,6 @@ $editorWidth: 27%;
   }
   &__line {
     height: $lineHeight;
-    // &::before {
-    //   display: inline-block;
-    //   counter-increment: line;
-    //   content: counter(line);
-    //   padding-right: 0.5rem;
-    //   border-right: 2px solid rgba(255, 255, 255, 0.3);
-    //   margin-right: 0.5rem;
-    //   color: rgba(255, 255, 255, 0.3);
-    //   text-align: right;
-    //   min-width: 2rem;
-    // }
   }
 
   &__lines {
@@ -131,7 +120,6 @@ $editorWidth: 27%;
     left: 0;
     background-color: #3d2a40;
     z-index: 10;
-    box-shadow: 11px 0px 10px -7px rgba(0,0,0,0.94);
 
     &>div {
       height: $lineHeight;
@@ -142,10 +130,6 @@ $editorWidth: 27%;
       border-right: 2px solid rgba(255, 255, 255, 0.3);
     }
   }
-
-  // &__line-number {
-
-  // }
 
   &__input,
   &__highlight {
