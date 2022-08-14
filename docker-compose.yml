@@ -25,3 +25,8 @@ services:
     environment:
       - SSL_CERT=/ssl/cert.crt
       - SSL_KEY=/ssl/cert.key
+    labels:
+      com.datadoghq.ad.check_names: '["madlib-website"]'
+      com.datadoghq.ad.init_configs: '[{}]'
+      com.datadoghq.ad.instances": '[{"nginx_status_url": "http://%%host%%:%%port%%/"}]'
+      com.datadoghq.ad.logs": '[{"source": "madserver", "service": "madlib-website"}]'
