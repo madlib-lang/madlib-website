@@ -4,7 +4,7 @@ import type { Wish } from "Wish"
 
 import { mapRej } from "Wish"
 import { Just } from "Maybe"
-import { bichain, mapRej } from "Wish"
+import { chainRej, mapRej } from "Wish"
 import { Header } from "Http"
 import File from "File"
 import Process from "Process"
@@ -38,8 +38,8 @@ export fileHandler = (req) => {
       ? indexDotHtml
       : `${cwd}/build/public${req.url}`,
     String.takeWhile(notEquals('?')),
-    (path) => map(always(path), File.exists(path)),
-    bichain(always(File.read(indexDotHtml)), File.read),
+    File.read,
+    chainRej(always(File.read(indexDotHtml))),
     map((content) => ({
       status: 200,
       body: content,
