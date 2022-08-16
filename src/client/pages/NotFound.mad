@@ -16,15 +16,16 @@ import type { State } from "@client/State"
 
 stratum = strata("website")
 
-Examples :: State -> Element State
-export Examples = (state) =>
+NotFound :: State -> Element State
+export NotFound = (state) =>
   <div className={stratum.e("")}>
     {Nav(state.content.nav)}
     {Header(state)}
     <h1>
-      Examples
+      Not found
     </h1>
     <main className={stratum.e("main")}>
+      The resource could not be found.
     </main>
     {Footer(state)}
   </div>

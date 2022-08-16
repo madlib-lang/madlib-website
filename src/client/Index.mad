@@ -1,4 +1,0 @@
-import { renderer } from "@client/Core"
-import { Home } from "@client/pages/Home"
-
-renderer(Home)

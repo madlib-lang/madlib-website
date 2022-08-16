@@ -4,7 +4,11 @@
     "content": "![madlib logo](/assets/logo.svg)\n> A compile-to-JS language designed to make writing code a **delight**"
   },
   "nav": [
-    { "href": "/index", "text": "Home" }
+    { "href": "/", "text": "Home" },
+    { "href": "/getting-started", "text": "Getting started" },
+    { "href": "/examples", "text": "Examples" },
+    { "href": "/projects", "text": "Projects" },
+    { "href": "/docs", "text": "Docs" }
   ],
   "home": [
     {

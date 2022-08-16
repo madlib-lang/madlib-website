@@ -24,9 +24,11 @@ import { SplashScreen } from "@client/views/SplashScreen"
 
 
 RenderPage :: (State -> Element State) -> State -> Element State
-export RenderPage = (ToRender, state) => state.loadingState == Loading || state.loadingState == Transitioning
-  ? SplashScreen(state.loadingState)
-  : ToRender(state)
+export RenderPage = (ToRender, state) =>
+  state.loadingState == Loading
+  || state.loadingState == Transitioning
+    ? SplashScreen(state.loadingState)
+    : ToRender(state)
 
 
 loadContentSub :: Subscription State

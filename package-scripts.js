@@ -2,7 +2,7 @@ const run = commands => commands.join(" && ")
 
 const input = Object.freeze({
   mad: {
-    Main: `src/client/Index.mad`,
+    Main: `src/client/Main.mad`,
   },
   views: `src/client/views`,
 })

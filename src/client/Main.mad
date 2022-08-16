@@ -1,0 +1,4 @@
+import { renderer } from "@client/Core"
+import { App } from "@client/App"
+
+renderer(App)

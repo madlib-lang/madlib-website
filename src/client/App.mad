@@ -1,0 +1,13 @@
+import type { Element } from "MadUI"
+
+import { div, id, className } from "MadUI"
+
+import type { State } from "@client/State"
+import { Router } from "@client/Router"
+
+
+App :: State -> Element State
+export App = (state) =>
+  <div id="madlib-website" className="madlib-website-app">
+    {Router(state)}
+  </div>

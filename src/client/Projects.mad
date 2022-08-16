@@ -1,4 +1,0 @@
-import { renderer } from "./Core"
-import { Projects } from "./pages/Projects"
-
-renderer(Projects)

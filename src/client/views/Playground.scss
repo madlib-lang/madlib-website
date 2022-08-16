@@ -153,6 +153,7 @@ $editorWidth: 27%;
 
   &__input {
     z-index: 1;
+    white-space: pre;
     // color: transparent;
     color: rgba(255, 255, 255, 0.5);
     background: transparent;

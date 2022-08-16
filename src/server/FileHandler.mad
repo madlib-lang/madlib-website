@@ -4,13 +4,13 @@ import type { Wish } from "Wish"
 
 import { mapRej } from "Wish"
 import { Just } from "Maybe"
-import { mapRej } from "Wish"
+import { bichain, mapRej } from "Wish"
 import { Header } from "Http"
 import File from "File"
 import Process from "Process"
 import String from "String"
 import List from "List"
-import { notEquals } from "Function"
+import { always, notEquals } from "Function"
 
 
 buildHeaders :: IncomingRequest -> List Header
@@ -29,16 +29,22 @@ buildHeaders = (req) => pipe(
 
 
 fileHandler :: IncomingRequest -> Wish (Response String) (Response String)
-export fileHandler = (req) => pipe(
-  (cwd) => req.url == "/"
-    ? `${cwd}/build/public/index.html`
-    : `${cwd}/build/public${req.url}`,
-  String.takeWhile(notEquals('?')),
-  File.read,
-  map((content) => ({
-    status: 200,
-    body: content,
-    headers: buildHeaders(req)
-  })),
-  mapRej(() => ({ status: 404, body: `{ "error": "file not found" }`, headers: [] }))
-)(Process.getCurrentWorkingDirectory())
+export fileHandler = (req) => {
+  cwd = Process.getCurrentWorkingDirectory()
+  indexDotHtml = `${cwd}/build/public/index.html`
+
+  return pipe(
+    (r) => r.url == "/"
+      ? indexDotHtml
+      : `${cwd}/build/public${req.url}`,
+    String.takeWhile(notEquals('?')),
+    (path) => map(always(path), File.exists(path)),
+    bichain(always(File.read(indexDotHtml)), File.read),
+    map((content) => ({
+      status: 200,
+      body: content,
+      headers: buildHeaders(req)
+    })),
+    mapRej(() => ({ status: 404, body: `{ "error": "file not found" }`, headers: [] }))
+  )(req)
+}

@@ -1,11 +1,11 @@
 import type { Element } from "MadUI"
 import {
-  a,
   className,
   div,
-  href,
   li,
+  link,
   text,
+  to,
   ul
 } from "MadUI"
 import { strata } from "Strata"
@@ -18,9 +18,9 @@ stratum = strata("nav")
 NavLink :: Link -> Element State
 NavLink = (s) =>
   <li className={stratum.e("item")}>
-    <a className={stratum.e("link")} href={`${s.href}.html`}>
+    <link className={stratum.e("link")} to={s.href}>
       {s.text}
-    </a>
+    </link>
   </li>
 
 export Nav = (s) =>
