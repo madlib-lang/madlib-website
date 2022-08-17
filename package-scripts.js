@@ -24,6 +24,7 @@ const out = Object.freeze({
     ],
     main: `build/public/styles/main.css`,
   },
+  sitemap: "build/public/sitemap.xml",
 })
 
 
@@ -39,6 +40,10 @@ exec ${cmd}
 module.exports = {
   scripts: {
     info: "madlib --version",
+    sitemap: {
+      description: "builds sitemap based on content.json",
+      script: `node generateSitemap.js > ${out.sitemap}`,
+    },
     styles: {
       description: `get sassy with those files`,
       all: `sass ${input.views}:${out.styles.directory}`,
@@ -67,6 +72,7 @@ module.exports = {
         "cp -R src/client/assets build/public/",
         "cp src/client/*.json build/public/",
         "nps server.prod.build",
+        "nps sitemap",
       ]),
       html: "copy-and-watch src/client/*.html build/public/",
     },
@@ -94,6 +100,7 @@ module.exports = {
       `"copy-and-watch --watch src/client/assets/* build/public/assets/"`,
       `"nps build.dev"`,
       `"nps server.dev.build"`,
+      `"nps sitemap"`,
       // `"nps server.dev.start"`,
       // `"watch --filter=serverExe.js 'nps server.dev.restart' ./build/service"`,
       `"watch --filter=serverExe.js 'nps server.dev.restart' ./build/"`,

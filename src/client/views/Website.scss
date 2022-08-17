@@ -11,7 +11,6 @@
     margin-bottom: 3.25rem;
     height: 10.5rem;
     width: 100%;
-    max-width: 50rem;
     align-items: center;
     margin: 0 auto 3rem;
 
@@ -41,13 +40,9 @@
       transition: top 0.5s;
       text-shadow: 0 0 1rem rgba(200, 0, 255, 0.4);
     }
-    &::before {
-      margin-left: -2rem;
-    }
     &::after {
       content: "-#";
       align-self: flex-end;
-      margin-right: -2rem;
     }
 
     p {
@@ -91,7 +86,7 @@
   }
 
   &__section {
-    max-width: 50rem;
+    // max-width: 50rem;
     margin: 0 auto;
     margin-bottom: 3rem;
   }

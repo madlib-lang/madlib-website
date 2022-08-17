@@ -16,6 +16,6 @@ Footer :: State -> Element State
 export Footer = (state) => 
   <footer className={stratum.e("")}>
     <span className={stratum.e("power")}>
-      This site powered by <a href="https://github.com/madlib-lang/madlib" className={stratum.e("link")}>Madlib</a>
+      This site is powered by <a href="https://github.com/madlib-lang/madlib" className={stratum.e("link")}>Madlib</a>
     </span>
   </footer>

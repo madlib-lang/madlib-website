@@ -5,7 +5,7 @@ import { Just, Nothing } from "Maybe"
 import { Left, Right } from "Either"
 import { mapRej } from "Wish"
 import { multiply } from "Math"
-import { identity, complement, when } from "Function"
+import { identity } from "Function"
 import String from "String"
 import List from "List"
 import Http from "Http"
@@ -19,16 +19,11 @@ import {
   div,
   className,
   innerHTML,
-  value,
   textarea,
-  span,
   spellcheck,
   onClick,
   onInput,
-  onResize,
-  onScroll,
   InputEvent,
-  syncAction,
   style,
   text
 } from "MadUI"
@@ -38,19 +33,10 @@ import ServerInfo from "@client/ServerInfo"
 
 
 LINE_HEIGHT :: Integer
-LINE_HEIGHT = 20
+LINE_HEIGHT = 25
 
 stratum = strata("playground")
-import IO from "IO"
-// syncScroll :: Action State
-syncScroll = syncAction((state, event) => pipe(
-  (x) => {
-    IO.trace("what kinda event you got?", x)
-    IO.trace("what kinda state?", state)
-    return x
-  },
-  of
-)(event))
+
 
 handleInput :: Action State
 handleInput = (state, event) => pipe(
@@ -126,7 +112,6 @@ SYNTAX_KEYWORDS = [
   "chain",
   "return"
 ]
-// highlight(["[A-Z]+[a-zA-Z0-9]*"], "special"),
 
 SYNTAX_SPECIAL = ["$"]
 SYNTAX_OPERATORS = ["\+\+", "-", "/", "*"]
@@ -247,7 +232,6 @@ buildCodeElements = pipe(
   highlight(SYNTAX_TYPES, "type"),
   String.split("\n"),
   map(renderLine)
-  // map(when(complement(String.isEmpty), renderLine))
 )
 
 
@@ -286,17 +270,15 @@ export Playground = (state) => {
   output = displayPlaygroundOutput(state) 
   return <div className={stratum.e("")}>
     <div className={stratum.e("container")}>
+      <div className={stratum.e("lines")}>
+        {...renderLines(state.playground.code)}
+      </div>
       <div className={stratum.e("editor")}>
-        <div className={stratum.e("lines")}>
-          {...renderLines(state.playground.code)}
-        </div>
         <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
-          
           <textarea
             spellcheck={false}
             className={stratum.e("input")}
             onInput={handleInput}
-            // onScroll={syncScroll}
           >
             {state.playground.code}
           </textarea>

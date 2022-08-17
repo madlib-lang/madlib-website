@@ -1,9 +1,12 @@
 import type { Element } from "MadUI"
 import {
+  alt,
   className,
   div,
+  img,
   li,
   link,
+  src,
   text,
   to,
   ul
@@ -25,6 +28,9 @@ NavLink = (s) =>
 
 export Nav = (s) =>
   <div className={stratum.e("")}>
+    <link to="/">
+      <img className={stratum.e("logo")} src="/assets/logo.svg" alt="Madlib logo" />
+    </link>
     <ul className={stratum.e("list")}>
       {...map(NavLink, s)}
     </ul>

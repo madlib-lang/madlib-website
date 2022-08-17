@@ -1,7 +1,6 @@
 $height: 150px;
-$lineHeight: 20px;
-$font: "Fira Code", ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
-  Liberation Mono, monospace;
+$lineHeight: 25px;
+$font: monospace;
 $editorWidth: 27%;
 
 @mixin makePulse($name, $a1, $a2, $a3, $b1, $b2, $b3) {
@@ -20,15 +19,21 @@ $editorWidth: 27%;
   font-family: $font;
   position: relative;
   overflow: hidden;
+
+  &__container {
+    background-color: rgba(255, 255,  255, 0.05);
+    padding: 5px;
+    border-radius: 1rem;
+    border-radius: 0.5rem;
+  }
+
   &__editor {
-    width: calc(100% - #{$editorWidth});
-    // background-color: rgba(255, 255, 255, 0.1);
-    background-color: rgb(61 42 64);
-    padding: 1rem;
+    width: calc(100% - #{$editorWidth} - 3rem);
+    padding: 0 0.5rem;
     border-top-left-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
-    // min-width: 100%;
     overflow-x: scroll;
+    margin-left: 50px;
   }
   &__content {
     position: relative;
@@ -118,8 +123,8 @@ $editorWidth: 27%;
     position: absolute;
     width: 50px;
     left: 0;
-    background-color: #3d2a40;
     z-index: 10;
+    border-right: 2px solid rgba(255, 255, 255, 0.3);
 
     &>div {
       height: $lineHeight;
@@ -127,7 +132,6 @@ $editorWidth: 27%;
       padding-right: 0.5rem;
       min-width: 2rem;
       color: rgba(255, 255, 255, 0.3);
-      border-right: 2px solid rgba(255, 255, 255, 0.3);
     }
   }
 
@@ -135,7 +139,6 @@ $editorWidth: 27%;
   &__highlight {
     margin: 0;
     border: 0;
-    // width: calc(100% - 4rem);
     min-width: 100%;
     min-height: $height;
     top: 0;
@@ -146,34 +149,29 @@ $editorWidth: 27%;
   &__input,
   &__highlight,
   &__highlight * {
-    font-size: 1rem;
-    line-height: 1.25rem;
+    font-size: 16px;
     tab-size: 2;
   }
 
   &__input {
+    line-height: 25px;
+    font-family: $font;
     z-index: 1;
     white-space: pre;
-    // color: transparent;
-    color: rgba(255, 255, 255, 0.5);
+    // color: rgba(255, 255, 255, 0.5);
+    color: transparent;
     background: transparent;
     caret-color: white;
     overflow: hidden;
-    margin-left: 50px;
     padding: 0;
     height: 100%;
     resize: none;
-
-    min-width: calc(100% - 50px);
+    min-width: 100%;
     position: absolute;
+
     &:focus {
       outline: none;
     }
-  }
-  &__highlight {
-    z-index: 0;
-    counter-reset: line;
-    margin-left: 50px;
   }
 
   &__code {
@@ -192,16 +190,15 @@ $editorWidth: 27%;
     top: 0;
     right: 0;
     background-color: black;
-    // border-left: 2px solid rgba(255, 255, 255, 0.2);
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
     height: 100%;
     min-height: $height;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
   }
-  &__output-code {
-    border: none;
-    background: transparent;
-    padding: 0;
+  &__output-feed {
+    margin: 0;
   }
   &__output-code {
     border: none;

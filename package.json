@@ -12,8 +12,10 @@
     "copy-and-watch": "^0.1.5",
     "nps": "^5.10.0",
     "ramda": "^0.27.1",
+    "sitemap": "^7.1.1",
     "uglify-es": "^3.3.9",
-    "watch": "^1.0.2"
+    "watch": "^1.0.2",
+    "xml-formatter": "^2.6.1"
   },
   "scripts": {
     "info": "nps info",
