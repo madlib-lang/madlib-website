@@ -29,6 +29,12 @@
       "changefreq": "weekly"
     },
     {
+      "href": "/playground",
+      "text": "Playground",
+      "priority": 0.9,
+      "changefreq": "monthly"
+    },
+    {
       "href": "/contribute",
       "text": "Contribute",
       "priority": 1,
