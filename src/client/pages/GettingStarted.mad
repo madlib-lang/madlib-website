@@ -10,7 +10,6 @@ import { renderMarkdown } from "MadMarkdownRenderer"
 import { strata } from "Strata"
 
 import { Nav } from "@client/views/Nav"
-import { Header } from "@client/views/Header"
 import { Footer } from "@client/views/Footer"
 
 import type { State } from "@client/State"
@@ -21,7 +20,6 @@ GettingStarted :: State -> Element State
 export GettingStarted = (state) =>
   <div className={stratum.e("")}>
     {Nav(state.content.nav)}
-    {Header(state)}
     <h1 className={stratum.e("title")}>
       Getting Started
     </h1>

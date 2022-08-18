@@ -8,31 +8,81 @@
       color: $color;
       text-shadow: 0 1px 10px $color;
       border-bottom-color: color.scale($color, $alpha: -50%);
-      border-bottom-width: 6px;
-      padding-bottom: 0.75rem;
+      border-bottom-width: 1px;
+      padding-bottom: 1.8885rem;
     }
   }
 }
 
+@keyframes rainbowload {
+  0% {
+    background: linear-gradient(
+      to right,
+      #f00 14.29%,
+      #ff0 28.57%,
+      #0f0 42.86%,
+      #0ff 57.14%,
+      #00f 71.43%,
+      #f0f 85.71%
+    );
+  }
+}
+
 .nav {
-  background: linear-gradient(-50deg, #101020, #2d0024);
-  background-size: 100% 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-30deg, #180920, #2c0024);
+  // background: #200d1f;
+  // background: linear-gradient(-50deg, #101020, #2d0024);
+  // background-size: 100% 100vh;
   position: sticky;
   top: 0;
-  z-index: 2000;
-  padding: 10px 0;
-  box-shadow: 0px 2px 46px rgb(0 0 0 / 50%);
-  margin: 0 -40px;
-  margin-bottom: 50px;
+  z-index: 20;
+  height: 5rem;
+  padding: 1rem 0;
+  // box-shadow: 0px 2px 46px rgb(0 0 0 / 50%);
+  margin: 0;
+  margin-bottom: 2rem;
+  width: 100%;
   font-size: 0.9rem;
   font-weight: bolder;
+  transition: background 0.3s 0.3s ease-out;
+
+  &::after {
+    position: absolute;
+    display: block;
+    content: "";
+    height: 1px;
+    width: 100%;
+    transition: background 0.3s 0.3s ease-out, box-shadow 0.3s ease-out;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.2),
+      0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.6),
+      0 0 13px rgba(255, 255, 255, 0.8);
+    bottom: 0;
+  }
+  &--loading {
+    &::after {
+      // animation: rainbowload 0.5s ease-out infinite;
+    }
+  }
+  /*
+  &:hover {
+    &::after {
+      background: #ffa700;
+      box-shadow: 0 0 1px rgba(255, 255, 0, 0.2), 0 0 5px rgba(255, 255, 0, 0.4),
+        0 0 9px rgba(255, 255, 0, 0.6), 0 0 13px rgba(255, 255, 0, 0.8);
+    }
+  }
+  */
 
   &__logo {
     filter: invert(100%);
     max-width: 6rem;
-    position: absolute;
-    top: 1.5rem;
-    margin-left: 2.5rem;
+    height: 100%;
+    min-height: 2rem;
   }
 
   &__list {
@@ -52,7 +102,7 @@
     align-items: baseline;
   }
   &__item {
-    margin: 0.5rem 0.25rem;
+    margin: 0.5rem;
     list-style: none;
     display: block;
     &:nth-of-type(1) {
@@ -84,5 +134,17 @@
     */
   }
   &__link {
+    &--logo {
+      text-decoration: none;
+      border: none;
+    }
+    svg {
+      fill: white;
+    }
+    &:hover {
+      svg {
+        fill: yellow;
+      }
+    }
   }
 }
