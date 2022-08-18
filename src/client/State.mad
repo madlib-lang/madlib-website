@@ -21,11 +21,14 @@ import IO from "IO"
 import { Just, Nothing } from "Maybe"
 
 
-main :: List String -> {}
-main = () => {
-  IO.putLine("Hello world")
-  IO.trace("Important", Just(123 + 297))
-}
+x = Just(123 + 297)
+
+IO.trace("Important", x)
+
+where (x) {
+  Just(v) => v * 10
+  Nothing => 1000
+} |> IO.trace("output!")
 `
 
 

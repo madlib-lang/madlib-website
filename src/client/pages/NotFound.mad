@@ -9,7 +9,6 @@ import {
 import { strata } from "Strata"
 
 import { Nav } from "@client/views/Nav"
-import { Header } from "@client/views/Header"
 import { Footer } from "@client/views/Footer"
 
 import type { State } from "@client/State"
@@ -20,7 +19,6 @@ NotFound :: State -> Element State
 export NotFound = (state) =>
   <div className={stratum.e("")}>
     {Nav(state.content.nav)}
-    {Header(state)}
     <h1>
       Not found
     </h1>
