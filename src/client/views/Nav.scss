@@ -9,7 +9,7 @@
       text-shadow: 0 1px 10px $color;
       border-bottom-color: color.scale($color, $alpha: -50%);
       border-bottom-width: 1px;
-      padding-bottom: 1.8885rem;
+      padding-bottom: 2.945rem;
     }
   }
 }
@@ -31,7 +31,7 @@
 .nav {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background: linear-gradient(-30deg, #180920, #2c0024);
   // background: #200d1f;
@@ -40,7 +40,7 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  height: 5rem;
+  height: 7rem;
   padding: 1rem 0;
   // box-shadow: 0px 2px 46px rgb(0 0 0 / 50%);
   margin: 0;
@@ -80,9 +80,13 @@
 
   &__logo {
     filter: invert(100%);
-    max-width: 6rem;
+    // max-width: 8rem;
     height: 100%;
-    min-height: 2rem;
+    min-height: 3rem;
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
 
   &__list {
@@ -94,15 +98,15 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 0;
-    margin: 0.25rem auto;
-    left: calc(50% - 2.5rem);
-    transform: translateX(-50%);
     position: relative;
-    max-width: 38rem;
     align-items: baseline;
+    justify-self: flex-end;
   }
   &__item {
     margin: 0.5rem 0.75rem;
+    &:last-of-type {
+      margin-right: 0;
+    }
     list-style: none;
     display: block;
     &:nth-of-type(1) {
@@ -139,11 +143,15 @@
       border: none;
       margin: 0;
       padding: 0;
-      &:hover {
+      text-shadow: 0 0 0 transparent;
+      &:hover,
+      &:focus,
+      &:active {
         text-decoration: none;
         border: none;
         margin: 0;
         padding: 0;
+        text-shadow: 0 0 0 transparent;
       }
     }
     svg {
