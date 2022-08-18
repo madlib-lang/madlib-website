@@ -102,7 +102,7 @@
     align-items: baseline;
   }
   &__item {
-    margin: 0.5rem;
+    margin: 0.5rem 0.75rem;
     list-style: none;
     display: block;
     &:nth-of-type(1) {
@@ -137,6 +137,13 @@
     &--logo {
       text-decoration: none;
       border: none;
+      margin: 0;
+      padding: 0;
+      &:hover {
+        text-decoration: none;
+        margin: 0;
+        padding: 0;
+      }
     }
     svg {
       fill: white;
