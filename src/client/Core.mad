@@ -11,15 +11,18 @@ import { fulfill } from "Wish"
 import IO from "IO"
 
 
-import type { State } from "./State"
+import type { Content, State } from "./State"
 import {
   Transitioning,
   Loading,
+  Ready,
   DEFAULT_CONTENT,
   INITIAL_STATE
 } from "./State"
 import { contentParser } from "@client/Parsers"
 import { SplashScreen } from "@client/views/SplashScreen"
+
+import json from "@client/content.json"
 
 
 
@@ -49,11 +52,23 @@ export loadContentSub = (dispatch) => pipe(
   ),
   fulfill(
     IO.log,
-    (c) => dispatch((s) => ({ ...s, content: c, loadingState: Transitioning }))
+    (c) => dispatch((s) => ({ ...s, content: c, loadingState: Ready }))
   )
 )("/content.json")
 
-config = addSubscription(loadContentSub, DEFAULT_CONFIG)
+parseContent :: String -> Content
+parseContent = (jsonString) => pipe(
+  parse(contentParser),
+  where {
+    Right(c) =>
+      c
+
+    Left (_) =>
+      DEFAULT_CONTENT
+  }
+)(jsonString)
+
+config = DEFAULT_CONFIG//addSubscription(loadContentSub, DEFAULT_CONFIG)
 
 export renderer = (Renderable) =>
-  renderWithConfig(config, RenderPage(Renderable), INITIAL_STATE, "app")
+  renderWithConfig(config, RenderPage(Renderable), { ...INITIAL_STATE, content: parseContent(json),  }, "app")

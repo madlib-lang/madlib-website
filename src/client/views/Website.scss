@@ -77,6 +77,12 @@
 
   &__main {
     flex-grow: 1;
+    margin: 0 -200px;
+    padding: 50px 200px 0 200px;
+    background: white;
+    color: #222;
+    text-shadow: none;
+    box-shadow: inset 0px 4px 10px 0px rgb(0 0 0 / 30%);
 
     p {
       padding-left: 0.5rem;

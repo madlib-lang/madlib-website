@@ -16,15 +16,19 @@
 
 @keyframes rainbowload {
   0% {
-    background: linear-gradient(
-      to right,
-      #f00 14.29%,
-      #ff0 28.57%,
-      #0f0 42.86%,
-      #0ff 57.14%,
-      #00f 71.43%,
-      #f0f 85.71%
-    );
+    background-position-x: 0vw;
+    // background: linear-gradient(
+    //   to right,
+    //   #f00 14.29%,
+    //   #ff0 28.57%,
+    //   #0f0 42.86%,
+    //   #0ff 57.14%,
+    //   #00f 71.43%,
+    //   #f0f 85.71%
+    // );
+  }
+  100% {
+    background-position-x: 100vw;
   }
 }
 
@@ -58,17 +62,24 @@
     width: 100%;
     transition: background 0.3s 0.3s ease-out, box-shadow 0.3s ease-out;
     background: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.2),
-      0 0 5px rgba(255, 255, 255, 0.4), 0 0 9px rgba(255, 255, 255, 0.6),
-      0 0 13px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.2), 0 0 5px rgba(255, 255, 255, 0.4),
+      0 0 9px rgba(255, 255, 255, 0.6), 0 0 13px rgba(255, 255, 255, 0.8);
     bottom: 0;
   }
   &--loading {
     &::after {
       // animation: rainbowload 0.5s ease-out infinite;
+      // background-image: linear-gradient(
+      //   to right,
+      //   #f00 14.29%,
+      //   #ff0 28.57%,
+      //   #0f0 42.86%,
+      //   #0ff 57.14%,
+      //   #00f 71.43%,
+      //   #f0f 85.71%
+      // );
     }
   }
-  /*
   &:hover {
     &::after {
       background: #ffa700;
@@ -76,7 +87,6 @@
         0 0 9px rgba(255, 255, 0, 0.6), 0 0 13px rgba(255, 255, 0, 0.8);
     }
   }
-  */
 
   &__logo {
     filter: invert(100%);
