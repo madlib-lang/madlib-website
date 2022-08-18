@@ -4,7 +4,6 @@
     "content": "> A language designed to make writing code a **delight**"
   },
   "nav": [
-    { "href": "/", "text": "Home", "priority": 1, "changefreq": "weekly" },
     {
       "href": "/getting-started",
       "text": "Getting started",
@@ -23,7 +22,18 @@
       "priority": 0.7,
       "changefreq": "weekly"
     },
-    { "href": "/docs", "text": "Docs", "priority": 0.7, "changefreq": "weekly" }
+    {
+      "href": "/docs",
+      "text": "Docs",
+      "priority": 0.7,
+      "changefreq": "weekly"
+    },
+    {
+      "href": "/contribute",
+      "text": "Contribute",
+      "priority": 1,
+      "changefreq": "monthly"
+    }
   ],
   "home": [
     {
