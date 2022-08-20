@@ -34,7 +34,7 @@ where (x) {
 
 export INITIAL_STATE = {
   content: DEFAULT_CONTENT,
-  loadingState: Loading,
+  loadingState: Ready,
   playground: { code: INITIAL_CODE, id: Nothing, output: Nothing }
 }
 
