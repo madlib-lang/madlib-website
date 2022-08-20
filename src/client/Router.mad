@@ -9,6 +9,7 @@ import { GettingStarted } from "@client/pages/GettingStarted"
 import { Docs } from "@client/pages/Docs"
 import { Examples } from "@client/pages/Examples"
 import { Projects } from "@client/pages/Projects"
+import { PlaygroundPage } from "@client/pages/Playground"
 
 
 Router :: State -> Element State
@@ -20,5 +21,6 @@ export Router = (state) => switchRoute([
   #["/getting-started", () => GettingStarted(state)],
   #["/examples", () => Examples(state)],
   #["/projects", () => Projects(state)],
+  #["/playground", () => PlaygroundPage(state)],
   #["/*", () => NotFound(state)],
 ])

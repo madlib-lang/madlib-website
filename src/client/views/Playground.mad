@@ -273,7 +273,7 @@ export Playground = (state) => {
       <div className={stratum.e("lines")}>
         {...renderLines(state.playground.code)}
       </div>
-      <div className={stratum.e("editor")}>
+      <div className={stratum.em("editor", ["standalone"])}>
         <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
           <textarea
             spellcheck={false}
@@ -292,11 +292,11 @@ export Playground = (state) => {
       <div className={
         stratum.em(
           "output",
-          [String.isEmpty(output) ? "empty" : "compiled"]
+          ["standalone", String.isEmpty(output) ? "empty" : "compiled"]
         )
       }>
           <button
-            className={stratum.em("run-button", ["waiting"])}
+            className={stratum.em("run-button", ["waiting", "standalone"])}
             onClick={handleRun}
           >
             Run

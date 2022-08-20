@@ -36,23 +36,29 @@ $editorWidth: 27%;
 
   &__container {
     background-color: rgba(255, 255, 255, 0.05);
-    padding: 1rem;
+    // padding: 1rem;
     border-radius: 1rem;
     border-radius: 0.5rem;
+    box-shadow: 0 0 10px / 5px rgba(0, 0, 0, 0.8),
+      0 0 4px / 2px rgba(0, 0, 0, 0.6), 0 0 10px / 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   &__editor {
     width: calc(100% - #{$editorWidth} - 3rem);
-    padding: 0 0.5rem;
+    padding: 1rem 1.5rem;
     border-top-left-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
     overflow-x: scroll;
-    margin-left: 50px;
+    margin-left: 3.125rem;
+    &--standalone {
+      width: calc(100% - 3rem);
+    }
   }
   &__content {
     position: relative;
     min-height: calc(#{$height} - 2rem);
-    height: 180px;
+    height: 11.25rem;
     display: inline-flex;
     min-width: 100%;
     &::after {
@@ -93,7 +99,7 @@ $editorWidth: 27%;
     justify-content: center;
     align-items: center;
     position: absolute;
-    left: -4.75rem;
+    right: -4.75rem;
     bottom: 0.75rem;
     color: black;
     background: white;
@@ -104,6 +110,13 @@ $editorWidth: 27%;
     font-weight: bolder;
     transition: width 0.3s ease-out, border 0.3s ease-out,
       background 0.3s ease-out, color 0.3s ease-out, box-shadow 0.3s ease-out;
+    &--standalone {
+      display: flex;
+      flex-direction: row;
+      right: 1rem;
+      top: -1rem;
+      height: 2rem;
+    }
     &--waiting {
       color: black;
       background: white;
@@ -152,6 +165,7 @@ $editorWidth: 27%;
   }
 
   &__lines {
+    top: 1rem;
     position: absolute;
     width: 3.125rem;
     left: 0;
@@ -181,7 +195,7 @@ $editorWidth: 27%;
   &__input,
   &__highlight,
   &__highlight * {
-    font-size: 16px;
+    font-size: 1rem;
     tab-size: 2;
   }
 
@@ -214,21 +228,32 @@ $editorWidth: 27%;
     text-shadow: 2px 2px rgba(0, 0, 0, 0.6);
   }
   &__output {
-    min-width: $editorWidth;
-    margin-left: 0.5rem;
-    padding-top: 0.5rem;
-    padding-left: 1rem;
-    white-space: nowrap;
-    position: absolute;
-    top: 0;
-    right: 0;
     background-color: black;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-    height: 100%;
-    min-height: $height;
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
+    &--inline {
+      min-width: $editorWidth;
+      margin-left: 0.5rem;
+      padding-top: 0.5rem;
+      padding-left: 1rem;
+      white-space: nowrap;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+      height: 100%;
+      min-height: $height;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+    }
+    &--standalone {
+      display: block;
+      position: relative;
+      min-height: 4rem;
+      border-radius: 0.5rem;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      padding: 1.5rem 1rem;
+    }
   }
   &__output-feed {
     margin: 0;
