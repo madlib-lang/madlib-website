@@ -1,8 +1,15 @@
-// we should only use rem for everything
+// we should use rem for _mostly_ everything
+
+$point0: 20rem;
+$point1: 30rem;
+$point2: 50rem;
+$point3: 64rem;
+$point4: 75rem;
+
 $height: 10rem;
 $lineHeight: 1.5rem;
 $font: "Fira Code", monospace;
-$editorWidth: 27%;
+$outputWidth: 27%;
 
 @mixin makePulse($name, $a1, $a2, $a3, $b1, $b2, $b3) {
   @keyframes #{$name} {
@@ -45,14 +52,14 @@ $editorWidth: 27%;
   }
 
   &__editor {
-    width: calc(100% - #{$editorWidth} - 3rem);
+    width: calc(100% - 3rem);
     padding: 1rem 1.5rem;
     border-top-left-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
     overflow-x: scroll;
     margin-left: 3.125rem;
-    &--standalone {
-      width: calc(100% - 3rem);
+    @media screen and (min-width: $point2) {
+      width: calc(100% - #{$outputWidth} - 3rem);
     }
   }
   &__content {
@@ -92,31 +99,27 @@ $editorWidth: 27%;
     position: relative;
   }
   &__run-button {
-    z-index: 10;
+    align-items: center;
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0);
+    bottom: 0.75rem;
+    color: black;
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: -4.75rem;
-    bottom: 0.75rem;
-    color: black;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0);
-    border-radius: 1rem;
-    padding: 0.25rem 0.75rem;
     font-family: $font;
     font-weight: bolder;
+    height: 2rem;
+    justify-content: center;
+    padding: 0.25rem 0.75rem;
+    position: absolute;
+    right: 1rem;
+    top: -1rem;
+    z-index: 10;
     transition: width 0.3s ease-out, border 0.3s ease-out,
-      background 0.3s ease-out, color 0.3s ease-out, box-shadow 0.3s ease-out;
-    &--standalone {
-      display: flex;
-      flex-direction: row;
-      right: 1rem;
-      top: -1rem;
-      height: 2rem;
-    }
+      background 0.3s ease-out, color 0.3s ease-out, box-shadow 0.3s ease-out,
+      left 0.3s -0.2s ease-out, top 0.3s -0.2s ease-out;
     &--waiting {
       color: black;
       background: white;
@@ -158,6 +161,10 @@ $editorWidth: 27%;
         transition: box-shadow 0.3s -0.3s ease-out, margin 0.3s ease-out,
           border 0.3s ease-out, background 0.3s ease-out;
       }
+    }
+    @media screen and (min-width: $point2) {
+      left: -4.75rem;
+      top: calc(100% - 3rem);
     }
   }
   &__line {
@@ -229,30 +236,27 @@ $editorWidth: 27%;
   }
   &__output {
     background-color: black;
-    &--inline {
-      min-width: $editorWidth;
-      margin-left: 0.5rem;
-      padding-top: 0.5rem;
-      padding-left: 1rem;
-      white-space: nowrap;
-      position: absolute;
-      top: 0;
-      right: 0;
-      border-top-right-radius: 0.25rem;
-      border-bottom-right-radius: 0.25rem;
-      height: 100%;
-      min-height: $height;
-      border-top-right-radius: 0.5rem;
+    border-radius: 0.5rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    display: block;
+    min-height: 4rem;
+    padding: 1.5rem 1rem;
+    position: relative;
+    @media screen and (min-width: $point2) {
       border-bottom-right-radius: 0.5rem;
-    }
-    &--standalone {
-      display: block;
-      position: relative;
-      min-height: 4rem;
-      border-radius: 0.5rem;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 0.5rem;
       border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      padding: 1.5rem 1rem;
+      height: calc(100% - 2px);
+      margin-left: 0.5rem;
+      min-width: $outputWidth + 4%;
+      padding-left: 1rem;
+      padding-top: 0.5rem;
+      position: absolute;
+      right: 1px;
+      top: 1px;
+      white-space: nowrap;
     }
   }
   &__output-feed {
