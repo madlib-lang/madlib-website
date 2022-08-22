@@ -20,9 +20,12 @@ INITIAL_CODE =
 import IO from "IO"
 import { Just, Nothing } from "Maybe"
 
-IO.putLine("Hello world")
 
-IO.trace("Important", Just(123 + 297))
+main :: List String -> {}
+main = () => {
+  IO.putLine("Hello world")
+  IO.trace("Important", Just(123 + 297))
+}
 `
 
 

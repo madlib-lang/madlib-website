@@ -56,27 +56,28 @@ withSSLOptions = pipe(
 )(["SSL_CERT", "SSL_KEY", "SSL_CA"])
 
 
-pipe(
-  Server.create,
-  Server.post(makeApiPath("/playgrounds"), postPlaygroundHandler),
-  Server.get("/*", fileHandler),
-  Server.run(port)
-)({  ...withSSLOptions, verbose: true, })
+main :: List String -> {}
+main = () => {
+  pipe(
+    Server.create,
+    Server.post(makeApiPath("/playgrounds"), postPlaygroundHandler),
+    Server.get("/*", fileHandler),
+    Server.run(port)
+  )({  ...withSSLOptions, verbose: true, })
 
 
-// TODO: make configurable
-if (withSSLOptions.ssl != Nothing) {
-  do {
-    pipe(
-      Server.create,
-      Server.any("/*", (req) => of({
-        body: "",
-        status: 301,
-        headers: [Header("Location", `https://www.madlib.space${req.url}`)],
-      })),
-      Server.run(80)
-    )({ ssl: Nothing, verbose: true, })
-
-    return {}
-  }
-} else { {} }
+  // TODO: make configurable
+  if (withSSLOptions.ssl != Nothing) {
+    do {
+      pipe(
+        Server.create,
+        Server.any("/*", (req) => of({
+          body: "",
+          status: 301,
+          headers: [Header("Location", `https://www.madlib.space${req.url}`)],
+        })),
+        Server.run(80)
+      )({ ssl: Nothing, verbose: true, })
+    }
+  } else { {} }
+}

@@ -1,4 +1,8 @@
 import { renderer } from "@client/Core"
 import { App } from "@client/App"
 
-renderer(App)
+
+main :: List String -> {}
+main = () => {
+  renderer(App)
+}

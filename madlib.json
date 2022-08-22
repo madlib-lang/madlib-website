@@ -10,9 +10,9 @@
   },
   "dependencies": [
     {
-      "url": "https://github.com/madlib-lang/madui/archive/refs/tags/v5.0.0.zip",
+      "url": "https://github.com/madlib-lang/madui/archive/refs/tags/v5.0.1.zip",
       "description": "MadUI",
-      "minVersion": "5.0.0"
+      "minVersion": "5.0.1"
     },
     {
       "url": "https://github.com/madlib-lang/madmarkdown-renderer/archive/refs/tags/v1.0.0.zip",
