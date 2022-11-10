@@ -1,18 +1,15 @@
 import type { Element } from "MadUI"
-import {
-  className,
-  div,
-  h1,
-  main,
-  text
-} from "MadUI"
-import { strata } from "Strata"
-
-import { Nav } from "@client/views/Nav"
-import { Header } from "@client/views/Header"
-import { Footer } from "@client/views/Footer"
 
 import type { State } from "@client/State"
+
+import { className, div, h1, main, text } from "MadUI"
+import { strata } from "Strata"
+
+import { Footer } from "@client/views/Footer"
+import { Header } from "@client/views/Header"
+import { Nav } from "@client/views/Nav"
+
+
 
 stratum = strata("website")
 

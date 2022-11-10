@@ -1,21 +1,20 @@
 import type { Playground } from "@common/Playground"
+
 import { Nothing } from "Maybe"
+
 
 
 export DEFAULT_CONTENT = {
   title: "Madlib",
-  header: { content: "" },
+  header: { content: "", },
   nav: [],
   home: [],
-  gettingStarted: {
-    intro: "",
-    sections: []
-  }
+  gettingStarted: { intro: "", sections: [], },
+  docs: [],
 }
 
 
-INITIAL_CODE =
-`import type { Maybe } from "Maybe"
+INITIAL_CODE = `import type { Maybe } from "Maybe"
 
 import IO from "IO"
 import { Just, Nothing } from "Maybe"
@@ -32,45 +31,30 @@ main = () => {
 export INITIAL_STATE = {
   content: DEFAULT_CONTENT,
   loadingState: Loading,
-  playground: { code: INITIAL_CODE, id: Nothing, output: Nothing }
+  playground: { code: INITIAL_CODE, id: Nothing, output: Nothing, },
 }
 
 
-export alias Section = {
-  title :: String,
-  content :: String
-}
+export alias Section = { content :: String, title :: String, }
 
-export alias Link = {
-  href :: String,
-  text :: String
-}
+export alias Link = { href :: String, text :: String, }
 
-export alias Header = {
-  content :: String
-}
-export alias Page = {
-  intro :: String,
-  sections :: List Section
-}
+export alias Header = { content :: String, }
+
+export alias Page = { intro :: String, sections :: List Section, }
+
+export alias DocumentationPage = { slug :: String, title :: String, content :: String, depth :: Integer }
 
 export alias Content = {
-  title :: String,
+  gettingStarted :: Page,
   header :: Header,
-  nav :: List Link,
   home :: List Section,
-  gettingStarted :: Page
+  nav :: List Link,
+  title :: String,
+  docs :: List DocumentationPage,
 }
 
-export type LoadingState
-  = Loading
-  | Transitioning
-  | Ready
+export type LoadingState = Loading | Transitioning | Ready
 
 
-export alias State = {
-  content :: Content,
-  loadingState :: LoadingState,
-  playground :: Playground,
-}
-
+export alias State = { content :: Content, loadingState :: LoadingState, playground :: Playground, }

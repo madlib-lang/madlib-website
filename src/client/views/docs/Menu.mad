@@ -1,0 +1,28 @@
+import type { Element } from "MadUI"
+
+import type { DocumentationPage, State } from "@client/State"
+
+import { className, getPathname, li, link, text, to, ul, key, style } from "MadUI"
+
+import { documentationPageSlugToLink } from "@client/Utils"
+
+
+
+makeLinkClassname :: String -> String
+makeLinkClassname = (slug) => documentationPageSlugToLink(slug) == getPathname() ? "active" : ""
+
+
+MenuItem :: DocumentationPage -> Element State
+MenuItem = (document) =>
+  <li key={document.slug}>
+    <link
+      to={documentationPageSlugToLink(document.slug)}
+      className={makeLinkClassname(document.slug)}
+      style={{{ "margin-left": `${inspect(document.depth * 20)}px` }}}
+    >
+      {document.title}
+    </link>
+  </li>
+
+Menu :: List DocumentationPage -> Element State
+export Menu = (documents) => <ul>{...map(MenuItem, documents)}</ul>

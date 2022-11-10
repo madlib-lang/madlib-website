@@ -5,9 +5,24 @@
   },
   "nav": [
     { "href": "/", "text": "Home", "priority": 1, "changefreq": "weekly" },
-    { "href": "/getting-started", "text": "Getting started", "priority": 0.7, "changefreq": "weekly" },
-    { "href": "/examples", "text": "Examples", "priority": 0.7, "changefreq": "weekly" },
-    { "href": "/projects", "text": "Projects", "priority": 0.7, "changefreq": "weekly" },
+    {
+      "href": "/getting-started",
+      "text": "Getting started",
+      "priority": 0.7,
+      "changefreq": "weekly"
+    },
+    {
+      "href": "/examples",
+      "text": "Examples",
+      "priority": 0.7,
+      "changefreq": "weekly"
+    },
+    {
+      "href": "/projects",
+      "text": "Projects",
+      "priority": 0.7,
+      "changefreq": "weekly"
+    },
     { "href": "/docs", "text": "Docs", "priority": 0.7, "changefreq": "weekly" }
   ],
   "home": [
@@ -31,5 +46,31 @@
   "gettingStarted": {
     "intro": "*Madlib* is a functional language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\nIt compiles to both Javascript and native binary executables. It is primarily designed for the web and can be used for client and server applications as well as scripting.\n\nIts main goal is to enable users to write reliable code that can be easily tested and robust in a playful way. The playfulness and succint syntax is achieved via tacit ( aka pointfree ) notation and the `pipe` utility to compose functions. Here is a small example that displays some user files after reading them from disk, all in parallel:\n\n```madlib\nimport type { Wish } from \"Wish\"\n\nimport Wish from \"Wish\"\nimport List from \"List\"\nimport File from \"File\"\nimport IO from \"IO\"\n\ntype User = User(String)\n\ngetInfoFilePath :: User -> String\ngetInfoFilePath = (user) => where(user) {\n  User(path) =>\n    path\n}\n\nreadUserInfos :: List User -> Wish {} (List String)\nreadUserInfos = (users) => pipe(\n  map(pipe(getInfoFilePath, File.read)),\n  Wish.parallel,\n  Wish.mapRej(() => ({}))\n)(users)\n\nWish.fulfill(\n  () => IO.errLine(\"Info files could not be read\"),\n  IO.log,\n  readUserInfos([User(\"./users/1.csv\"), User(\"./users/2.csv\")])\n)\n```",
     "sections": []
-  }
+  },
+  "docs": [
+    {
+      "slug": "introduction",
+      "title": "Introduction",
+      "content": "Intro\n```madlib\nsome code\n```",
+      "depth": 0
+    },
+    {
+      "slug": "getting-started",
+      "title": "Getting started",
+      "content": "TBD",
+      "depth": 0
+    },
+    {
+      "slug": "installation",
+      "title": "Installation",
+      "content": "Here is how to install it",
+      "depth": 1
+    },
+    {
+      "slug": "hello-world",
+      "title": "Hello world",
+      "content": "Here is a hello world",
+      "depth": 1
+    }
+  ]
 }

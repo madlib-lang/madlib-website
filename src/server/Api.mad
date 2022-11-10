@@ -129,18 +129,18 @@ compileCode = (playground) => pipe(
 )(playground)
 
 
-escapeQuotes :: String -> String
-escapeQuotes = (input) => pipe(
-  String.toList,
-  chain(where {
-    '"' =>
-      ['\\', '"']
+// escapeQuotes :: String -> String
+// escapeQuotes = (input) => pipe(
+//   String.toList,
+//   chain(where {
+//     '"' =>
+//       ['\\', '"']
 
-    or =>
-      [or]
-  }),
-  String.fromList
-)(input)
+//     or =>
+//       [or]
+//   }),
+//   String.fromList
+// )(input)
 
 
 getPlaygroundPath :: Playground -> Wish (Response String) String

@@ -1,13 +1,14 @@
-import String from "String"
+import { Header } from "Http"
 import List from "List"
 import { Just, Nothing } from "Maybe"
-import { Header } from "Http"
 import Process from "Process"
+import String from "String"
 
 import Server from "MadServer"
 
-import { fileHandler } from "@server/FileHandler"
 import { postPlaygroundHandler } from "@server/Api"
+import { fileHandler } from "@server/FileHandler"
+
 
 
 BASE_API_PATH :: String
@@ -39,21 +40,16 @@ withSSLOptions :: Server.Options
 withSSLOptions = pipe(
   map(Process.getEnv),
   where {
-    [Just(certificateFile), Just(keyFile), caFile] =>
+    [Just(certificateFile), Just(keyFile), caFile,] =>
       {
         ...Server.DEFAULT_OPTIONS,
-        ssl: Just({
-          certificateFile,
-          keyFile,
-          caFile,
-          passphrase: Nothing
-        })
+        ssl: Just({ certificateFile, keyFile, caFile, passphrase: Nothing, }),
       }
 
     _ =>
       Server.DEFAULT_OPTIONS
   }
-)(["SSL_CERT", "SSL_KEY", "SSL_CA"])
+)(["SSL_CERT", "SSL_KEY", "SSL_CA",])
 
 
 main :: List String -> {}
@@ -63,21 +59,22 @@ main = () => {
     Server.post(makeApiPath("/playgrounds"), postPlaygroundHandler),
     Server.get("/*", fileHandler),
     Server.run(port)
-  )({  ...withSSLOptions, verbose: true, })
+  )({ ...withSSLOptions, verbose: true, })
 
 
   // TODO: make configurable
-  if (withSSLOptions.ssl != Nothing) {
-    do {
-      pipe(
-        Server.create,
-        Server.any("/*", (req) => of({
+  if (withSSLOptions.ssl != Nothing) do {
+    pipe(
+      Server.create,
+      Server.any(
+        "/*",
+        (req) => of({
           body: "",
           status: 301,
-          headers: [Header("Location", `https://www.madlib.space${req.url}`)],
-        })),
-        Server.run(80)
-      )({ ssl: Nothing, verbose: true, })
-    }
-  } else { {} }
+          headers: [Header("Location", `https://www.madlib.space${req.url}`),],
+        })
+      ),
+      Server.run(80)
+    )({ ssl: Nothing, verbose: true, })
+  }
 }
