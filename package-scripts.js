@@ -1,11 +1,11 @@
-const run = commands => commands.join(" && ")
+const run = (commands) => commands.join(" && ");
 
 const input = Object.freeze({
   mad: {
     Main: `src/client/Main.mad`,
   },
   views: `src/client/views`,
-})
+});
 
 const out = Object.freeze({
   mad: {
@@ -25,8 +25,14 @@ const out = Object.freeze({
     main: `build/public/styles/main.css`,
   },
   sitemap: "build/public/sitemap.xml",
-})
+});
 
+const DOCS_TO_UPDATE = [
+  {
+    jsonPath: "docs.1.content",
+    filePath: "docs/GETTING_STARTED.md",
+  },
+];
 
 const runWhen = (cond, cmd) => `
 until ${cond}; do
@@ -34,8 +40,7 @@ until ${cond}; do
   sleep 0.5
 done
 exec ${cmd}
-`
-
+`;
 
 module.exports = {
   scripts: {
@@ -53,6 +58,19 @@ module.exports = {
         `cat ${out.styles.files.join(" ")} > ${out.styles.main}`,
       ]),
       script: `nps styles.all styles.group`,
+    },
+    docs: {
+      update: {
+        description:
+          "updates content keys for the docs in the content.json file",
+        script: run([
+          "madlib compile --target llvm -i src/scripts/UpdateJsonFieldWithFile.mad -o build/updateDocs",
+          ...DOCS_TO_UPDATE.map(
+            ({ jsonPath, filePath }) =>
+              `./build/updateDocs src/client/content.json ${filePath} ${jsonPath}`
+          ),
+        ]),
+      },
     },
     build: {
       main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main}`,
@@ -78,20 +96,22 @@ module.exports = {
     },
     server: {
       dev: {
-        build: "madlib compile --target llvm -i src/server/Main.mad -o build/service -w",
+        build:
+          "madlib compile --target llvm -i src/server/Main.mad -o build/service -w",
         start: "sh ./start-server.sh",
         restart: "sh ./restart-server.sh",
       },
       prod: {
-        build: "madlib compile --target llvm -i src/server/Main.mad -o build/service",
+        build:
+          "madlib compile --target llvm -i src/server/Main.mad -o build/service",
       },
     },
     sync: {
       description: "sync the browser",
       script:
         "browser-sync start --proxy localhost:3000 --files build/public/ --no-open --reload-debounce 100",
-        // "browser-sync start --server build/public/ --files build/public/ --serveStatic build/public/ --no-open --reload-debounce 100",
-        // "browser-sync start -c browsersync.config.js",
+      // "browser-sync start --server build/public/ --files build/public/ --serveStatic build/public/ --no-open --reload-debounce 100",
+      // "browser-sync start -c browsersync.config.js",
     },
     dev: `concurrently ${[
       `"sass --watch ${input.views}:${out.styles.directory}"`,
@@ -104,9 +124,8 @@ module.exports = {
       // `"nps server.dev.start"`,
       // `"watch --filter=serverExe.js 'nps server.dev.restart' ./build/service"`,
       `"watch --filter=serverExe.js 'nps server.dev.restart' ./build/"`,
-      `"${runWhen('curl localhost:3000 >&/dev/null', 'nps sync')}"`,
+      `"${runWhen("curl localhost:3000 >&/dev/null", "nps sync")}"`,
     ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1',
   },
-}
-
+};

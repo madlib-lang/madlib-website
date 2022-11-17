@@ -37,14 +37,14 @@ withSurroundingPagesLinks = (pages) => {
   -> List DocumentationPage
   -> List DocumentationPageWithLinks
   go = (previousLink, _pages) => where(_pages) {
-    [{ slug, title, content, depth, }, after, ...next,] =>
+    [page, after, ...next,] =>
       [
-        { slug, title, content, depth, previousLink, nextLink: Just(generatePageLink(after)), },
-        ...go(Just(generatePageLink({ slug, title, content, })), [after, ...next,]),
+        { ...page, previousLink, nextLink: Just(generatePageLink(after)), },
+        ...go(Just(generatePageLink(page)), [after, ...next,]),
       ]
 
-    [{ content, slug, title, depth, },] =>
-      [{ slug, title, content, depth, previousLink, nextLink: Nothing, },]
+    [page,] =>
+      [{ ...page, previousLink, nextLink: Nothing, },]
 
     _ =>
       []
@@ -97,7 +97,7 @@ export Docs = (state) =>
           ],
           withSurroundingPagesLinks(state.content.docs)
         ),
-        #[DOCS_URL_BASE, () => <h2>Welcome to the docs</h2>]
+        #[DOCS_URL_BASE, () => <h2>Welcome to the docs</h2>],
       ])}
     </main>
     {Footer(state)}

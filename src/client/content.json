@@ -1,76 +1,81 @@
 {
-  "title": "Madlib",
-  "header": {
-    "content": "![madlib logo](/assets/logo.svg)\n> A language designed to make writing code a **delight**"
-  },
-  "nav": [
-    { "href": "/", "text": "Home", "priority": 1, "changefreq": "weekly" },
+  "docs": [
     {
-      "href": "/getting-started",
-      "text": "Getting started",
-      "priority": 0.7,
-      "changefreq": "weekly"
+      "content": "Intro\n```madlib\nsome code\n```",
+      "depth": 0,
+      "slug": "introduction",
+      "title": "Introduction"
     },
     {
-      "href": "/examples",
-      "text": "Examples",
-      "priority": 0.7,
-      "changefreq": "weekly"
+      "content": "# Introduction to Madlib\n\n*Madlib* is a functional language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\nIt compiles to both Javascript and native binary executables. It is primarily designed for the web and can be used for client and server applications as well as scripting.\n\nIts main goal is to enable users to write reliable code that can be easily tested and robust in a playful way. The playfulness and succint syntax is achieved via tacit ( aka pointfree ) notation and the `pipe` utility to compose functions. Here is a small example that displays some user files after reading them from disk, all in parallel:\n\n```madlib\nimport type { Wish } from \"Wish\"\n\nimport Wish from \"Wish\"\nimport List from \"List\"\nimport File from \"File\"\nimport IO from \"IO\"\n\ntype User = User(String)\n\ngetInfoFilePath :: User -> String\ngetInfoFilePath = (user) => where(user) {\n  User(path) =>\n    path\n}\n\nreadUserInfos :: List User -> Wish {} (List String)\nreadUserInfos = (users) => pipe(\n  map(pipe(getInfoFilePath, File.read)),\n  Wish.parallel,\n  Wish.mapRej(() => ({}))\n)(users)\n\nWish.fulfill(\n  () => IO.errLine(\"Info files could not be read\"),\n  IO.log,\n  readUserInfos([User(\"./users/1.csv\"), User(\"./users/2.csv\")])\n)\n```\n",
+      "depth": 0,
+      "slug": "getting-started",
+      "title": "Getting started"
     },
     {
-      "href": "/projects",
-      "text": "Projects",
-      "priority": 0.7,
-      "changefreq": "weekly"
-    },
-    { "href": "/docs", "text": "Docs", "priority": 0.7, "changefreq": "weekly" }
-  ],
-  "home": [
-    {
-      "title": "A functional language with familiar syntax",
-      "content": "Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures."
+      "content": "Here is how to install it",
+      "depth": 1,
+      "slug": "installation",
+      "title": "Installation"
     },
     {
-      "title": "Safety, Types and Pragmatism",
-      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley-Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in “the fence”, i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without the benefits of type inference)"
-    },
-    {
-      "title": "Tooling",
-      "content": "\n\n * Auto-generated documentation — powered by the rich type system\n * VSCode language server — provides in-IDE feedback including real-time errors and type annotations for a faster development loop"
-    },
-    {
-      "title": "Libraries and Examples",
-      "content": "\n\n * UI View Library: build web apps in the browser\n * Server: simple servers inspired by `express`\n * [Parser library](https://madlib-lang.github.io/madparser): parse structured input with native Madlib\n * Markdown parser: parse markdown input with native Madlib"
+      "content": "Here is a hello world",
+      "depth": 1,
+      "slug": "hello-world",
+      "title": "Hello world"
     }
   ],
   "gettingStarted": {
     "intro": "*Madlib* is a functional language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\nIt compiles to both Javascript and native binary executables. It is primarily designed for the web and can be used for client and server applications as well as scripting.\n\nIts main goal is to enable users to write reliable code that can be easily tested and robust in a playful way. The playfulness and succint syntax is achieved via tacit ( aka pointfree ) notation and the `pipe` utility to compose functions. Here is a small example that displays some user files after reading them from disk, all in parallel:\n\n```madlib\nimport type { Wish } from \"Wish\"\n\nimport Wish from \"Wish\"\nimport List from \"List\"\nimport File from \"File\"\nimport IO from \"IO\"\n\ntype User = User(String)\n\ngetInfoFilePath :: User -> String\ngetInfoFilePath = (user) => where(user) {\n  User(path) =>\n    path\n}\n\nreadUserInfos :: List User -> Wish {} (List String)\nreadUserInfos = (users) => pipe(\n  map(pipe(getInfoFilePath, File.read)),\n  Wish.parallel,\n  Wish.mapRej(() => ({}))\n)(users)\n\nWish.fulfill(\n  () => IO.errLine(\"Info files could not be read\"),\n  IO.log,\n  readUserInfos([User(\"./users/1.csv\"), User(\"./users/2.csv\")])\n)\n```",
     "sections": []
   },
-  "docs": [
+  "header": {
+    "content": "![madlib logo](/assets/logo.svg)\n> A language designed to make writing code a **delight**"
+  },
+  "home": [
     {
-      "slug": "introduction",
-      "title": "Introduction",
-      "content": "Intro\n```madlib\nsome code\n```",
-      "depth": 0
+      "content": "Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures.",
+      "title": "A functional language with familiar syntax"
     },
     {
-      "slug": "getting-started",
-      "title": "Getting started",
-      "content": "TBD",
-      "depth": 0
+      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley-Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in “the fence”, i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without the benefits of type inference)",
+      "title": "Safety, Types and Pragmatism"
     },
     {
-      "slug": "installation",
-      "title": "Installation",
-      "content": "Here is how to install it",
-      "depth": 1
+      "content": "\n\n * Auto-generated documentation — powered by the rich type system\n * VSCode language server — provides in-IDE feedback including real-time errors and type annotations for a faster development loop",
+      "title": "Tooling"
     },
     {
-      "slug": "hello-world",
-      "title": "Hello world",
-      "content": "Here is a hello world",
-      "depth": 1
+      "content": "\n\n * UI View Library: build web apps in the browser\n * Server: simple servers inspired by `express`\n * [Parser library](https://madlib-lang.github.io/madparser): parse structured input with native Madlib\n * Markdown parser: parse markdown input with native Madlib",
+      "title": "Libraries and Examples"
     }
-  ]
+  ],
+  "nav": [
+    {"changefreq": "weekly", "href": "/", "priority": 1, "text": "Home"},
+    {
+      "changefreq": "weekly",
+      "href": "/getting-started",
+      "priority": 0.69999999999999995559,
+      "text": "Getting started"
+    },
+    {
+      "changefreq": "weekly",
+      "href": "/examples",
+      "priority": 0.69999999999999995559,
+      "text": "Examples"
+    },
+    {
+      "changefreq": "weekly",
+      "href": "/projects",
+      "priority": 0.69999999999999995559,
+      "text": "Projects"
+    },
+    {
+      "changefreq": "weekly",
+      "href": "/docs",
+      "priority": 0.69999999999999995559,
+      "text": "Docs"
+    }
+  ],
+  "title": "Madlib"
 }
