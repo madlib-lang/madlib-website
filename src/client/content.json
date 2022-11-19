@@ -1,7 +1,7 @@
 {
   "docs": [
     {
-      "content": "Intro\n```madlib\nsome code\n```",
+      "content": "# Introduction\n",
       "depth": 0,
       "slug": "introduction",
       "title": "Introduction"
@@ -13,16 +13,28 @@
       "title": "Getting started"
     },
     {
-      "content": "Here is how to install it",
+      "content": "# Via npm\n",
       "depth": 1,
       "slug": "installation",
       "title": "Installation"
     },
     {
-      "content": "Here is a hello world",
+      "content": "# Hello world!",
       "depth": 1,
       "slug": "hello-world",
       "title": "Hello world"
+    },
+    {
+      "content": "",
+      "depth": 0,
+      "slug": "language-features",
+      "title": "Language features"
+    },
+    {
+      "content": "## Literals\n\n### Integer\nInteger literals are whole numbers, possibly prefixed with `-`.\n\n#### Example\n```madlib\n1\n-1732\n```\n\n### Byte\nInteger literals are whole numbers between 0 and 255. \n\n#### Example\n```madlib\n(1 :: Byte)\n(255 :: Byte)\n(0 :: Byte)\n```\nNote that if used in a context where the type is not forced to be a byte it might resolve to an integer due to how the Number instance default resolution works.\n\n### Float\nFloat literals are numbers with a decimal part, possibly prefixed with `-`.\n\n#### Example\n```madlib\n1.0\n-1732.05\n```\n\n### String\nStrings are characters within double quotes, or backslashes for string templates.\n\n#### Example\n```madlib\n\"hello world\"\n`https://domain.tld/users/${userId}`\n```\n\n### Character\nCharacter literals are single characters within single quotes.\n\n#### Example\n```madlib\n'a'\n'\n'\n```\n\n#### Boolean\nCan be either true or false.\n\n#### Example\n```madlib\ntrue\nfalse\n```\n\n#### Unit\nOnly has one value possible: `{}` and can be seen as the empty record.\n\n## Lambdas\nIn Madlib, a function is simply a lambda, that can be assigned, or directly passed around or used in-line.\n\n#### Example\n```madlib\n(a, b) => a * b\n```\n",
+      "depth": 1,
+      "slug": "expressions",
+      "title": "Expressions"
     }
   ],
   "gettingStarted": {
@@ -38,11 +50,11 @@
       "title": "A functional language with familiar syntax"
     },
     {
-      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley-Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in “the fence”, i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without the benefits of type inference)",
+      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley-Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in \"the fence\", i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without the benefits of type inference)",
       "title": "Safety, Types and Pragmatism"
     },
     {
-      "content": "\n\n * Auto-generated documentation — powered by the rich type system\n * VSCode language server — provides in-IDE feedback including real-time errors and type annotations for a faster development loop",
+      "content": "\n\n * Auto-generated documentation — powered by the rich type system\n * VSCode language server - provides in-IDE feedback including real-time errors and type annotations for a faster development loop",
       "title": "Tooling"
     },
     {

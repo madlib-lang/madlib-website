@@ -28,7 +28,7 @@ type Error
 
 updateValueAtPathWith :: List String -> String -> JsonValue -> JsonValue
 updateValueAtPathWith = (pathSegments, value, jsonObject) => where(pathSegments) {
-  [lastSegment,] =>
+  [lastSegment] =>
     where(jsonObject) {
       JsonObject(fields) =>
         where(Dictionary.get(lastSegment, fields)) {
@@ -44,27 +44,23 @@ updateValueAtPathWith = (pathSegments, value, jsonObject) => where(pathSegments)
           scan,
           map(
             (index) => JsonArray(
-              List.mapWithIndex((item, i) => i == index ? JsonString(value) : item, items)
-            )
+              List.mapWithIndex((item, i) => i == index ? JsonString(value) : item, items),
+            ),
           ),
-          fromMaybe(JsonArray(items))
+          fromMaybe(JsonArray(items)),
         )(lastSegment)
 
       or =>
         or
     }
 
-  [segment, ...rest,] =>
+  [segment, ...rest] =>
     where(jsonObject) {
       JsonObject(fields) =>
         where(Dictionary.get(segment, fields)) {
           Just(nextJsonValue) =>
             JsonObject(
-              Dictionary.insert(
-                segment,
-                updateValueAtPathWith(rest, value, nextJsonValue),
-                fields
-              )
+              Dictionary.insert(segment, updateValueAtPathWith(rest, value, nextJsonValue), fields),
             )
 
           _ =>
@@ -78,11 +74,11 @@ updateValueAtPathWith = (pathSegments, value, jsonObject) => where(pathSegments)
             (index) => JsonArray(
               List.mapWithIndex(
                 (item, i) => i == index ? updateValueAtPathWith(rest, value, item) : item,
-                items
-              )
-            )
+                items,
+              ),
+            ),
           ),
-          fromMaybe(JsonArray(items))
+          fromMaybe(JsonArray(items)),
         )(segment)
 
       or =>
@@ -97,7 +93,7 @@ updateValueAtPathWith = (pathSegments, value, jsonObject) => where(pathSegments)
 readFile :: Error -> String -> Wish Error String
 readFile = (error, path) => pipe(
   File.read,
-  mapRej(always(error))
+  mapRej(always(error)),
 )(path)
 
 
@@ -108,7 +104,7 @@ readJsonFile = readFile(ReadJsonFileError)
 writeJsonFile :: String -> String -> Wish Error {}
 writeJsonFile = (path, content) => pipe(
   File.write(path),
-  mapRej(always(WriteJsonFileError))
+  mapRej(always(WriteJsonFileError)),
 )(content)
 
 
@@ -126,8 +122,8 @@ parseJson = (path) => pipe(
 
       Left(_) =>
         bad(JsonParsingError)
-    }
-  )
+    },
+  ),
 )(path)
 
 
@@ -135,9 +131,9 @@ buildPathSegments :: String -> List String
 buildPathSegments = String.split(".")
 
 
-run :: List String -> Wish Error {}
+run :: List String -> Wish Error String
 run = (args) => where(args) {
-  [_, jsonPath, filePath, pathToUpdate,] =>
+  [_, jsonPath, filePath, pathToUpdate] =>
     do {
       jsonValue <- parseJson(jsonPath)
       textFile <- readTextFile(filePath)
@@ -146,7 +142,8 @@ run = (args) => where(args) {
         updateValueAtPathWith(buildPathSegments(pathToUpdate), textFile),
         JsonPrinter.jsonToDoc,
         PrettyPrint.prettyPrint(80),
-        writeJsonFile(jsonPath)
+        writeJsonFile(jsonPath),
+        map(always(`File ${jsonPath} updated - path '${pathToUpdate}' replaced with content from '${filePath}'`))
       )(jsonValue)
     }
 
@@ -162,5 +159,5 @@ run = (args) => where(args) {
  *   - path to the field to update in the form root.some.field
  */
 main = (args) => {
-  fulfill(IO.log, () => IO.putLine("File updated"), run(args))
+  fulfill(IO.log, IO.putLine, run(args))
 }

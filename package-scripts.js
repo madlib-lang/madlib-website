@@ -29,8 +29,28 @@ const out = Object.freeze({
 
 const DOCS_TO_UPDATE = [
   {
+    jsonPath: "docs.0.content",
+    filePath: "docs/INTRODUCTION.md",
+  },
+  {
     jsonPath: "docs.1.content",
     filePath: "docs/GETTING_STARTED.md",
+  },
+  {
+    jsonPath: "docs.2.content",
+    filePath: "docs/INSTALLATION.md",
+  },
+  {
+    jsonPath: "docs.3.content",
+    filePath: "docs/HELLO_WORLD.md",
+  },
+  {
+    jsonPath: "docs.4.content",
+    filePath: "docs/LANGUAGE_FEATURES.md",
+  },
+  {
+    jsonPath: "docs.5.content",
+    filePath: "docs/EXPRESSIONS.md",
   },
 ];
 
@@ -82,6 +102,7 @@ module.exports = {
         "nps build.prod",
       ]),
       prod: run([
+        `nps docs.update`,
         `nps "build.main"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
         `nps styles.all styles.group`,
@@ -114,6 +135,7 @@ module.exports = {
       // "browser-sync start -c browsersync.config.js",
     },
     dev: `concurrently ${[
+      `"watch 'nps docs.update' ./docs"`,
       `"sass --watch ${input.views}:${out.styles.directory}"`,
       `"nps styles.all styles.group && watch 'nps styles.group' src/client"`,
       `"copy-and-watch --watch src/client/**/*.{html,svg,json} build/public/"`,
