@@ -1,39 +1,53 @@
-import { map1, map2, map5, list, field, string } from "JsonParser"
 import type { Parser } from "JsonParser"
-import type { Section, Header, Content, Link } from "@client/State"
+
+import type { Content, Header, Link, Section, DocumentationPage } from "@client/State"
+
+import { field, list, map1, map2, map4, map6, string, integer } from "JsonParser"
+
+
 
 sectionParser :: Parser Section
 export sectionParser = map2(
-  (title, content) => ({ title, content }),
+  (title, content) => ({ title, content, }),
   field("title", string),
   field("content", string)
 )
 
 headerParser :: Parser Header
-export headerParser = map1(
-  (content) => ({ content }),
-  field("content", string)
-)
+export headerParser = map1((content) => ({ content, }), field("content", string))
 
 navParser :: Parser Link
 export navParser = map2(
-  (href, text) => ({text, href}),
+  (href, text) => ({ text, href, }),
   field("href", string),
   field("text", string)
 )
 
 gettingStartedParser = map2(
-  (intro, sections) => ({intro, sections}),
+  (intro, sections) => ({ intro, sections, }),
   field("intro", string),
   field("sections", list(sectionParser))
 )
 
+
+docsParser :: Parser DocumentationPage
+docsParser = map4(
+  (slug, title, content, depth) => ({ slug, title, content, depth }),
+  field("slug", string),
+  field("title", string),
+  field("content", string),
+  field("depth", integer)
+)
+
 contentParser :: Parser Content
-export contentParser = map5(
-  (title, headerContent, nav, home, gettingStarted) => ({ title, header: headerContent, home, nav, gettingStarted }),
+export contentParser = map6(
+  (title, headerContent, nav, home, gettingStarted, docs) => (
+    { title, header: headerContent, home, nav, gettingStarted, docs, }
+  ),
   field("title", string),
   field("header", headerParser),
   field("nav", list(navParser)),
   field("home", list(sectionParser)),
-  field("gettingStarted", gettingStartedParser)
+  field("gettingStarted", gettingStartedParser),
+  field("docs", list(docsParser))
 )

@@ -115,9 +115,9 @@ $editorWidth: 27%;
       }
     }
   }
-  &__line {
-    height: $lineHeight;
-  }
+  // &__line {
+  //   height: $lineHeight;
+  // }
 
   &__lines {
     position: absolute;
@@ -174,12 +174,6 @@ $editorWidth: 27%;
     }
   }
 
-  &__code {
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    background: transparent;
-  }
   &__output {
     min-width: $editorWidth;
     margin-left: 0.5rem;
@@ -205,27 +199,11 @@ $editorWidth: 27%;
     background: transparent;
     padding: 0;
   }
-  &__syntax {
-    &--keyword {
-      font-weight: bold;
-      color: rgb(221, 136, 0);
-    }
+}
 
-    &--literal {
-      color: rgb(165, 221, 254);
-    }
-
-    &--special {
-      font-weight: bold;
-      color: rgb(165, 221, 254);
-    }
-    &--constructor {
-      font-weight: bold;
-      color: rgba(200, 255, 0);
-    }
-    &--type {
-      font-weight: bold;
-      color: #fc0068;
-    }
-  }
+.code {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
 }

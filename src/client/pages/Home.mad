@@ -1,19 +1,17 @@
 import type { Element } from "MadUI"
-import {
-  className,
-  div,
-  main,
-  text
-} from "MadUI"
-import { strata } from "Strata"
-
-import { Nav } from "@client/views/Nav"
-import { Header } from "@client/views/Header"
-import { Footer } from "@client/views/Footer"
-import { PageSection } from "@client/views/Section"
-import { Playground } from "@client/views/Playground"
 
 import type { State } from "@client/State"
+
+import { className, div, main, text } from "MadUI"
+import { strata } from "Strata"
+
+import { Footer } from "@client/views/Footer"
+import { Header } from "@client/views/Header"
+import { Nav } from "@client/views/Nav"
+import { Playground } from "@client/views/Playground"
+import { PageSection } from "@client/views/Section"
+
+
 
 stratum = strata("website")
 

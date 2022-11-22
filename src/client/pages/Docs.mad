@@ -1,30 +1,106 @@
+import type { Maybe } from "Maybe"
+
 import type { Element } from "MadUI"
-import {
-  className,
-  div,
-  h1,
-  main,
-  text
-} from "MadUI"
+
+import type { DocumentationPage, State } from "@client/State"
+
+import { Just, Nothing } from "Maybe"
+
+import { className, div, empty, h2, link, main, switchRoute, to } from "MadUI"
 import { strata } from "Strata"
 
-import { Nav } from "@client/views/Nav"
-import { Header } from "@client/views/Header"
+import { DOCS_URL_BASE } from "@client/Constants"
+import { documentationPageSlugToLink } from "@client/Utils"
 import { Footer } from "@client/views/Footer"
+import { Nav } from "@client/views/Nav"
+import { Content } from "@client/views/docs/Content"
+import { Menu } from "@client/views/docs/Menu"
 
-import type { State } from "@client/State"
+
 
 stratum = strata("website")
+docsStratum = strata("docs")
+
+
+alias DocumentationPageWithLinks = {
+  ...DocumentationPage,
+  nextLink :: Maybe { href :: String, text :: String },
+  previousLink :: Maybe { href :: String, text :: String },
+}
+
+
+generatePageLink = (page) => ({ href: documentationPageSlugToLink(page.slug), text: page.title })
+
+
+withSurroundingPagesLinks :: List DocumentationPage -> List DocumentationPageWithLinks
+withSurroundingPagesLinks = (pages) => {
+  go :: Maybe { href :: String, text :: String }
+  -> List DocumentationPage
+  -> List DocumentationPageWithLinks
+  go = (previousLink, _pages) => where(_pages) {
+    [page, after, ...next] =>
+      [
+        { ...page, previousLink, nextLink: Just(generatePageLink(after)) },
+        ...go(Just(generatePageLink(page)), [after, ...next]),
+      ]
+
+    [page] =>
+      [{ ...page, previousLink, nextLink: Nothing }]
+
+    _ =>
+      []
+  }
+
+  return go(Nothing, pages)
+}
+
+
+SurroundingPageLink :: String -> Maybe { href :: String, text :: String } -> Element State
+SurroundingPageLink = (extraLabel, maybeLink) => where(maybeLink) {
+  Nothing =>
+    <empty  />
+
+  Just({ href }) =>
+    <link to={href}>
+      {extraLabel}
+    </link>
+}
+
 
 Docs :: State -> Element State
 export Docs = (state) =>
   <div className={stratum.e("")}>
     {Nav(state.content.nav)}
-    {Header(state)}
-    <h1>
-      Documentation
-    </h1>
     <main className={stratum.e("main")}>
+      <div className={docsStratum.e("")}>
+        {Menu(state.content.docs)}
+        <div className={docsStratum.e("content")}>
+          {switchRoute([
+            ...map(
+              (document) => #[
+                documentationPageSlugToLink(document.slug),
+                () =>
+                  <div>
+                    <h2>
+                      {document.title}
+                    </h2>
+                    <div>
+                      {Content(document)}
+                    </div>
+                    <div>
+                      {SurroundingPageLink("previous", document.previousLink)}
+                    </div>
+                    <div>
+                      {SurroundingPageLink("next", document.nextLink)}
+                    </div>
+                  </div>,
+              ],
+              withSurroundingPagesLinks(state.content.docs),
+            ),
+            #[DOCS_URL_BASE, () => <h2>Welcome to the docs</h2>],
+          ])}
+        </div>
+      </div>
     </main>
     {Footer(state)}
   </div>

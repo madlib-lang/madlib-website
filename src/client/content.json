@@ -1,35 +1,99 @@
 {
-  "title": "Madlib",
-  "header": {
-    "content": "![madlib logo](/assets/logo.svg)\n> A language designed to make writing code a **delight**"
-  },
-  "nav": [
-    { "href": "/", "text": "Home", "priority": 1, "changefreq": "weekly" },
-    { "href": "/getting-started", "text": "Getting started", "priority": 0.7, "changefreq": "weekly" },
-    { "href": "/examples", "text": "Examples", "priority": 0.7, "changefreq": "weekly" },
-    { "href": "/projects", "text": "Projects", "priority": 0.7, "changefreq": "weekly" },
-    { "href": "/docs", "text": "Docs", "priority": 0.7, "changefreq": "weekly" }
-  ],
-  "home": [
+  "docs": [
     {
-      "title": "A functional language with familiar syntax",
-      "content": "Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures."
+      "content": "# Introduction\n",
+      "depth": 0,
+      "slug": "introduction",
+      "title": "Introduction"
     },
     {
-      "title": "Safety, Types and Pragmatism",
-      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley-Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in “the fence”, i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without the benefits of type inference)"
+      "content": "# Introduction to Madlib\n\n*Madlib* is a functional language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\nIt compiles to both Javascript and native binary executables. It is primarily designed for the web and can be used for client and server applications as well as scripting.\n\nIts main goal is to enable users to write reliable code that can be easily tested and robust in a playful way. The playfulness and succint syntax is achieved via tacit ( aka pointfree ) notation and the `pipe` utility to compose functions. Here is a small example that displays some user files after reading them from disk, all in parallel:\n\n```madlib\nimport type { Wish } from \"Wish\"\n\nimport Wish from \"Wish\"\nimport List from \"List\"\nimport File from \"File\"\nimport IO from \"IO\"\n\ntype User = User(String)\n\ngetInfoFilePath :: User -> String\ngetInfoFilePath = (user) => where(user) {\n  User(path) =>\n    path\n}\n\nreadUserInfos :: List User -> Wish {} (List String)\nreadUserInfos = (users) => pipe(\n  map(pipe(getInfoFilePath, File.read)),\n  Wish.parallel,\n  Wish.mapRej(() => ({}))\n)(users)\n\nWish.fulfill(\n  () => IO.errLine(\"Info files could not be read\"),\n  IO.log,\n  readUserInfos([User(\"./users/1.csv\"), User(\"./users/2.csv\")])\n)\n```\n",
+      "depth": 0,
+      "slug": "getting-started",
+      "title": "Getting started"
     },
     {
-      "title": "Tooling",
-      "content": "\n\n * Auto-generated documentation — powered by the rich type system\n * VSCode language server — provides in-IDE feedback including real-time errors and type annotations for a faster development loop"
+      "content": "# Via npm\n",
+      "depth": 1,
+      "slug": "installation",
+      "title": "Installation"
     },
     {
-      "title": "Libraries and Examples",
-      "content": "\n\n * UI View Library: build web apps in the browser\n * Server: simple servers inspired by `express`\n * [Parser library](https://madlib-lang.github.io/madparser): parse structured input with native Madlib\n * Markdown parser: parse markdown input with native Madlib"
+      "content": "# Hello world!",
+      "depth": 1,
+      "slug": "hello-world",
+      "title": "Hello world"
+    },
+    {
+      "content": "",
+      "depth": 0,
+      "slug": "language-features",
+      "title": "Language features"
+    },
+    {
+      "content": "## Literals\n\n### Integer\nInteger literals are whole numbers, possibly prefixed with `-`.\n\n#### Example\n```madlib\n1\n-1732\n```\n\n### Byte\nInteger literals are whole numbers between 0 and 255. \n\n#### Example\n```madlib\n(1 :: Byte)\n(255 :: Byte)\n(0 :: Byte)\n```\nNote that if used in a context where the type is not forced to be a byte it might resolve to an integer due to how the Number instance default resolution works.\n\n### Float\nFloat literals are numbers with a decimal part, possibly prefixed with `-`.\n\n#### Example\n```madlib\n1.0\n-1732.05\n```\n\n### String\nStrings are characters within double quotes, or backslashes for string templates.\n\n#### Example\n```madlib\n\"hello world\"\n`https://domain.tld/users/${userId}`\n```\n\n### Character\nCharacter literals are single characters within single quotes.\n\n#### Example\n```madlib\n'a'\n'\\n'\n```\n\n#### Boolean\nCan be either true or false.\n\n#### Example\n```madlib\ntrue\nfalse\n```\n\n#### Unit\nOnly has one value possible: `{}` and can be seen as the empty record.\n\n## Lambdas\nIn Madlib, a function is simply a lambda, that can be assigned, or directly passed around or used in-line.\n\n#### Example\n```madlib\n(a, b) => a * b\n```\n",
+      "depth": 1,
+      "slug": "expressions",
+      "title": "Expressions"
+    },
+    {
+      "content": "# Type annotations\nIn Madlib there are two ways to give type annotation. You can annotate a function or assignment, or an expression.\n\n## Function types\nFunction types are declared as follows:\n```madlib\na -> b -> c\n```\nwhere `a` and `b` are parameter types and `c` is the type returned.\n\n## Type variables\nIf you're familiar with ML languages it is exactly what you already know. Otherwise you can think of it as some kind of generic or type that can take any form. They are represented with lower cased words, usually even single lower cased characters.\n\n**Important:** all type variables that are the same can only instantiate the same type. So in the function:\n```madlib\nidentity :: a -> a\nidentity = (x) => x\n```\nthe two `a` variables will always be the same concrete type when called. So `identity(3.3)` will always return a `Float` because it is called with a `Float`.\n\n### Applying a type variable\nThe type `List` is not complete. It must be applied a type to form be complete. You must say what goes in that list. For example, a list of integers is defined as: `List Integer`. It is also possible to apply a type variable to it, so that we have a list of \"whatever\": `List a`. For example, here is how `concat` from the standard library is defined:\n```madlib\nconcat :: List a -> List a -> List a\n```\n\n## Constraints\nAnalog to Haskell type classes, Madlib has interfaces (1). The standard library includes for example the `Inspect` interface, which as one method `inspect`. Now, if you want to have a function that calls it with a type variable as a parameter, say:\n```madlib\npushAndLog = (item, list) => {\n  IO.putLine(inspect(item))\n  return [item, ...list]\n}\n```\nThe type of the above function is the following:\n~~`a -> List a -> List a`~~\n\nWell, almost! Because inspect is called on that item parameter of type `a`, there's a missing constraint. The fact that we call a method on that item implies that the type `a` must be a type that implements `Inspect`. Therefore the correct type is:\n```madlib\nInspect a => a -> List a -> List a\n```\nA type annotation with constraints has the form:\n`constraints => type` where constraints has the form `Interface typeVar` or `(Interface typeVar, OtherInterface otherVar)`.\n\nNote that a type variable can have multiple constraints. Example:\n```madlib\n// for reference IO.log has type:\n// Inspect a => a -> {}\n\nsumAndLog :: (Number a, Inspect a) => a -> a -> a\nsumAndLog = (a, b) => {\n  result = a + b\n  IO.log(result)\n  return result\n}\n```\n\n*1 - Have a look at `INTERFACES.md` for more information.*\n\n\n## Function annotations\nHere is the syntax to annotate a function:\n```madlib\nadd :: Number a => a -> a -> a\nadd = (a, b) => a + b\n```\n\nNote that you can also annotate any assignment that way:\n```madlib\nSERVER_URL :: String\nSERVER_URL = \"https://myserver.tld\"\n```\n\n## Expression annotations\nHere is the syntax to annotate an expression:\n```madlib\n(expression :: type)\n```\nTo avoid confusion, the parentheses are always necessary. Consider the otherwise confusing:\n~~`1 + 3 :: Float`~~\nAre we annotating `3` or `1 + 3`?\n\n# Built-in types\n\n## Integer\n### with JS backend\nIntegers are represented as JS number.\n\n### with LLVM backend\nIntegers are represented as 64 bit signed numbers.\n\n### Examples\n```madlib\n1\n-1\n2384933\n```\n\n## Float\n### with JS backend\nFloats are represented as JS number.\n\n### with LLVM backend\nFloats are encoded as IEEE 754.\n\n### Examples\n```madlib\n1.3\n-1.3\n138.75\n```\n\n## Byte\n### with JS backend\nBytes are represented as JS numbers.\n\n### with LLVM backend\nBytes are 8-bit unsigned numbers.\n\n### Examples\n```madlib\n(1 :: Byte)\n(255 :: Byte)\n```\n\n## Number interface\nThe `Number` `interface` defines operations that can be used with numbers. It is implemented for the following types:\n- Integer\n- Float\n- Byte\n\nMethods of Number:\n- `+`\n- `-`\n- `*`\n- `>`\n- `<`\n- `>=`\n- `<=`\n\nThe default instance for Number is Integer. So if we're faced with an ambiguous instance, it resolves to Integer automatically except if a type annotation forces another type. Note that we had to do this above for the Byte examples as we'd otherwise would have gotten an Integer.\n\n## String\n### Examples\n```madlib\n\"Hello World\"\n`Hello World`\n```\n\n## Char\n### Examples\n```madlib\n'a'\n'\\n'\n```\n\n## Boolean\nA value that can be `true` or `false`\n\n### Examples\n```madlib\ntrue\nfalse\n```\n\n## Unit\nThe unit type in Madlib is seen as the empty record.\nThe type and the value are represented by the same characters: `{}`.\n\n### Examples\n```madlib\n{}\n```\n\n## List\n### Examples\n```madlib\nnumbers = [4, 5, 6]\n[1, 2, 3, ...numbers] // [1, 2, 3, 4, 5, 6]\n[true, false, false]\n[{}, {}, {}, {}]\n```\n\n## Dictionary\nDictionary is a key/value collection. A given key can only be present once in the collection. A key can be any type that implements the `Comparable` interface.\n\n### Examples\n```madlib\n{{ \"key\": \"value\" }}\n```\n\n## Set\nSet is a collection similar to List, but all contained items are unique and ordered. Only values of types implementing Comparable can be part of a Set. There is no built-in syntax sugar for Set like there is for List or Dictionary. So you must use the constructor from the Set module of the standard library.\n\n### Examples\n```madlib\nimport Set from \"Set\"\nSet.fromList([1, 2, 3])\n```\n\n## Tuples\nA tuple is a n-dimension grouping of values. It is analog to vector and can in fact be used to describe vectors or similar thing, but also to group things. As a matter of a fact, the Dictionary constructor `fromList` accepts a List of 2-tuples `#[key, value]`.\nThe type is represented like this: `#[type1, type2, ...typeN]`.\n\n### Examples\nTuple syntax is as follows:\n```madlib\n#[1, 2, 3]\n#[\"a string\", true, {}, {{ \"key\": \"value\" }}]\n```\n\n## ByteArray\nA ByteArray is an array of Byte. It can be used to represent any byte sequence such as binary file content, image data, or pretty much anything as raw bytes. Like Set it does not have any special syntax but a few handy constructors and conversion functions such as: `fromList`, `toList`, `fromString`, `toString`.\n\n### Examples\n```madlib\nimport ByteArray from \"ByteArray\"\n\nByteArray.fromList([50, 100, 150])\nByteArray.fromString(\"Hello\")\n```\n\n## Array\nArray offers a similar functionality as List but the internals are very much different. It is represented by arrays in JS and as a contiguous set of items in memory with the llvm backend. It is more efficient to push items at the end of an array or concatenate two arrays than lists, but it is more efficient to push items in front of a list. Other than that most functions for lists have their array equivalent such as `map`, `filter`, `reduce`.\n\n### Examples\n```madlib\nimport Array from \"Array\"\n\nArray.fromList([1, 2, 3])\n```\n\n\n## TO ADD:\n- Records\n- ADTs\n- Aliases\n",
+      "depth": 1,
+      "slug": "types",
+      "title": "Types"
     }
   ],
   "gettingStarted": {
     "intro": "*Madlib* is a functional language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\nIt compiles to both Javascript and native binary executables. It is primarily designed for the web and can be used for client and server applications as well as scripting.\n\nIts main goal is to enable users to write reliable code that can be easily tested and robust in a playful way. The playfulness and succint syntax is achieved via tacit ( aka pointfree ) notation and the `pipe` utility to compose functions. Here is a small example that displays some user files after reading them from disk, all in parallel:\n\n```madlib\nimport type { Wish } from \"Wish\"\n\nimport Wish from \"Wish\"\nimport List from \"List\"\nimport File from \"File\"\nimport IO from \"IO\"\n\ntype User = User(String)\n\ngetInfoFilePath :: User -> String\ngetInfoFilePath = (user) => where(user) {\n  User(path) =>\n    path\n}\n\nreadUserInfos :: List User -> Wish {} (List String)\nreadUserInfos = (users) => pipe(\n  map(pipe(getInfoFilePath, File.read)),\n  Wish.parallel,\n  Wish.mapRej(() => ({}))\n)(users)\n\nWish.fulfill(\n  () => IO.errLine(\"Info files could not be read\"),\n  IO.log,\n  readUserInfos([User(\"./users/1.csv\"), User(\"./users/2.csv\")])\n)\n```",
     "sections": []
-  }
+  },
+  "header": {
+    "content": "![madlib logo](/assets/logo.svg)\n> A language designed to make writing code a **delight**"
+  },
+  "home": [
+    {
+      "content": "Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures.",
+      "title": "A functional language with familiar syntax"
+    },
+    {
+      "content": "Mutation is only possible in explicit safe places. Madlib is powered by the [Hindley-Milner type system](https://en.wikipedia.org/wiki/Hindley-Milner_type_system), which means that it has powerful type inference and doesn't need annotations in most cases. Madlib also allows for unsafe native JavaScript wrapped in \"the fence\", i.e. `#- Math.random() -#` which gives developers a potential escape hatch (but without the benefits of type inference)",
+      "title": "Safety, Types and Pragmatism"
+    },
+    {
+      "content": "\n\n * Auto-generated documentation — powered by the rich type system\n * VSCode language server - provides in-IDE feedback including real-time errors and type annotations for a faster development loop",
+      "title": "Tooling"
+    },
+    {
+      "content": "\n\n * UI View Library: build web apps in the browser\n * Server: simple servers inspired by `express`\n * [Parser library](https://madlib-lang.github.io/madparser): parse structured input with native Madlib\n * Markdown parser: parse markdown input with native Madlib",
+      "title": "Libraries and Examples"
+    }
+  ],
+  "nav": [
+    {"changefreq": "weekly", "href": "/", "priority": 1, "text": "Home"},
+    {
+      "changefreq": "weekly",
+      "href": "/getting-started",
+      "priority": 0.69999999999999995559,
+      "text": "Getting started"
+    },
+    {
+      "changefreq": "weekly",
+      "href": "/examples",
+      "priority": 0.69999999999999995559,
+      "text": "Examples"
+    },
+    {
+      "changefreq": "weekly",
+      "href": "/projects",
+      "priority": 0.69999999999999995559,
+      "text": "Projects"
+    },
+    {
+      "changefreq": "weekly",
+      "href": "/docs",
+      "priority": 0.69999999999999995559,
+      "text": "Docs"
+    }
+  ],
+  "title": "Madlib"
 }

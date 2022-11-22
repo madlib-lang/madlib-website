@@ -1,0 +1,2 @@
+DOCS_URL_BASE :: String
+export DOCS_URL_BASE = "/docs"
