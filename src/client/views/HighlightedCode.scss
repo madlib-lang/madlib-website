@@ -1,0 +1,44 @@
+$lineHeight: 25px;
+
+.code {
+  &__line {
+    height: $lineHeight;
+  }
+
+  &__syntax {
+    &--keyword {
+      font-weight: bold;
+      color: rgb(221, 136, 0);
+    }
+    &--literal, &--literal * {
+      color: rgb(165, 221, 254) !important;
+      opacity: 1 !important;
+    }
+    &--special {
+      font-weight: bold;
+      color: rgb(165, 221, 254);
+    }
+    &--constructor {
+      font-weight: bold;
+      color: rgba(200, 255, 0);
+    }
+    &--type {
+      font-weight: bold;
+      color: #fc0068;
+    }
+    &--function-declaration {
+      font-weight: bold;
+      color: #fc0068;
+    }
+    &--comment {
+      //color: rgba(255, 255, 255, 0.8);
+      color: white;
+      opacity: 0.4;
+
+      * {
+        color: white;
+        font-weight: normal;
+      }
+    }
+  }
+}

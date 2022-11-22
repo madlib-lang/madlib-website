@@ -1,0 +1,18 @@
+.docs-menu {
+  position: fixed;
+  top: 72px;
+  margin-top: 0;
+  margin-right: 40px;
+  padding-right: 20px;
+  border-right: 1px solid white;
+  min-height: 100vh;
+  list-style: none;
+  padding: 25px 20px;
+}
+
+.docs-menu__menu-item-link--active {
+  color: yellow !important;
+  text-shadow: 0 1px 10px yellow !important;
+  border-bottom: 4px solid transparent !important;
+  padding-bottom: 0.5rem;
+}

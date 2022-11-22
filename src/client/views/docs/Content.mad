@@ -1,0 +1,24 @@
+import type { Element } from "MadUI"
+
+import type { State } from "@client/State"
+
+import type { Config } from "MadMarkdownRenderer"
+import { renderMarkdownWithConfig, defaultConfig, setCodeView } from "MadMarkdownRenderer"
+import { className, div } from "MadUI"
+import { strata } from "Strata"
+import { HighlightedCode } from "@client/views/HighlightedCode"
+
+
+
+stratum = strata("doc-content")
+
+
+MARKDOWN_RENDERER_CONFIG :: Config State
+MARKDOWN_RENDERER_CONFIG = setCodeView((_, code) => HighlightedCode(code), defaultConfig)
+
+
+Content :: { ...a, content :: String } -> Element State
+export Content = (document) =>
+  <div className={stratum.e("")}>
+    {renderMarkdownWithConfig(MARKDOWN_RENDERER_CONFIG, document.content)}
+  </div>

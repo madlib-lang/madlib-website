@@ -131,6 +131,49 @@ buildPathSegments :: String -> List String
 buildPathSegments = String.split(".")
 
 
+escapeTextFile :: String -> String
+escapeTextFile = (s) => {
+  go :: List Char -> List Char
+  go = (chars) => where(chars) {
+    // ['\\', '"', ...cs] =>
+    //   ['\\', '"', ...go(cs)]
+
+    // ['"', ...cs] =>
+    //   ['\\', '"', ...go(cs)]
+
+    ['\\', 'n', ...cs] =>
+      ['\\', '\\', 'n', ...go(cs)]
+
+    ['\n', ...cs] =>
+      ['\\', 'n', ...go(cs)]
+
+    ['\\', 't', ...cs] =>
+      ['\\', '\\', 't', ...go(cs)]
+
+    ['\t', ...cs] =>
+      ['\\', 't', ...go(cs)]
+
+    ['\\', 'r', ...cs] =>
+      ['\\', '\\', 'r', ...go(cs)]
+
+    ['\r', ...cs] =>
+      ['\\', 'r', ...go(cs)]
+
+    [c, ...cs] =>
+      [c, ...go(cs)]
+
+    [] =>
+      []
+  }
+
+  return pipe(
+    String.toList,
+    go,
+    String.fromList
+  )(s)
+}
+
+
 run :: List String -> Wish Error String
 run = (args) => where(args) {
   [_, jsonPath, filePath, pathToUpdate] =>
@@ -138,8 +181,10 @@ run = (args) => where(args) {
       jsonValue <- parseJson(jsonPath)
       textFile <- readTextFile(filePath)
 
+      escapedFile = escapeTextFile(textFile)
+
       return pipe(
-        updateValueAtPathWith(buildPathSegments(pathToUpdate), textFile),
+        updateValueAtPathWith(buildPathSegments(pathToUpdate), escapedFile),
         JsonPrinter.jsonToDoc,
         PrettyPrint.prettyPrint(80),
         writeJsonFile(jsonPath),

@@ -4,7 +4,7 @@ const input = Object.freeze({
   mad: {
     Main: `src/client/Main.mad`,
   },
-  views: `src/client/views`,
+  views: `src/client/`,
 });
 
 const out = Object.freeze({
@@ -14,13 +14,17 @@ const out = Object.freeze({
   styles: {
     directory: `build/public/styles`,
     files: [
-      `build/public/styles/global.css`,
-      `build/public/styles/Footer.css`,
-      `build/public/styles/SplashScreen.css`,
-      `build/public/styles/Website.css`,
-      `build/public/styles/Nav.css`,
-      `build/public/styles/LinkedHeader.css`,
-      `build/public/styles/Playground.css`,
+      `build/public/styles/views/global.css`,
+      `build/public/styles/views/Footer.css`,
+      `build/public/styles/views/SplashScreen.css`,
+      `build/public/styles/views/Website.css`,
+      `build/public/styles/views/Nav.css`,
+      `build/public/styles/views/LinkedHeader.css`,
+      `build/public/styles/views/HighlightedCode.css`,
+      `build/public/styles/views/Playground.css`,
+      `build/public/styles/views/docs/Content.css`,
+      `build/public/styles/views/docs/Menu.css`,
+      `build/public/styles/pages/Docs.css`,
     ],
     main: `build/public/styles/main.css`,
   },
@@ -51,6 +55,10 @@ const DOCS_TO_UPDATE = [
   {
     jsonPath: "docs.5.content",
     filePath: "docs/EXPRESSIONS.md",
+  },
+  {
+    jsonPath: "docs.6.content",
+    filePath: "docs/TYPES.md",
   },
 ];
 
