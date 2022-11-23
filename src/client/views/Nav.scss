@@ -1,5 +1,13 @@
 @use "sass:color";
 
+$point0: 20rem;
+$point1: 30rem;
+$point2: 50rem;
+$point3: 64rem;
+$point4: 75rem;
+
+$menu-switch: 950px;
+
 @mixin link($color) {
   a {
     padding-bottom: 0.25rem;
@@ -9,7 +17,9 @@
       text-shadow: 0 1px 10px $color;
       border-bottom-color: color.scale($color, $alpha: -50%);
       border-bottom-width: 1px;
-      padding-bottom: 2.945rem;
+      @media screen and (max-width: $menu-switch) {
+        padding-bottom: 0.75rem;
+      }
     }
   }
 }
@@ -49,6 +59,13 @@
   font-size: 0.9rem;
   font-weight: bolder;
   transition: background 0.3s 0.3s ease-out;
+
+  @media screen and (max-width: $menu-switch) {
+    flex-direction: column;
+    height: auto;
+    background: none;
+    position: relative;
+  }
 
   &::after {
     position: absolute;
@@ -101,6 +118,10 @@
     position: relative;
     align-items: baseline;
     justify-self: flex-end;
+
+    @media screen and (max-width: $menu-switch) {
+      flex-direction: column;
+    }
   }
   &__item {
     margin: 0.5rem 0.75rem;

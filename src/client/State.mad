@@ -1,5 +1,7 @@
 import type { Playground } from "@common/Playground"
+
 import { Nothing } from "Maybe"
+
 
 
 export DEFAULT_CONTENT = {
@@ -7,73 +9,69 @@ export DEFAULT_CONTENT = {
   header: { content: "" },
   nav: [],
   home: [],
-  gettingStarted: {
-    intro: "",
-    sections: []
-  }
+  gettingStarted: { intro: "", sections: [] },
+  docs: [],
 }
 
 
-INITIAL_CODE =
-`import type { Maybe } from "Maybe"
+INITIAL_CODE = `import type { Maybe } from "Maybe"
 
 import IO from "IO"
 import { Just, Nothing } from "Maybe"
 
 
-x = Just(123 + 297)
-
-IO.trace("Important", x)
-
-where (x) {
-  Just(v) => v * 10
-  Nothing => 1000
-} |> IO.trace("output!")
+main = () => {
+  x = Just(123 + 297)
+  
+  IO.trace("Important", x)
+  
+  where (x) {
+    Just(v) => v * 10
+    Nothing => 1000
+  } |> IO.trace("output!")
+}
 `
 
-
+INITIAL_STATE :: State
 export INITIAL_STATE = {
   content: DEFAULT_CONTENT,
   loadingState: Ready,
-  playground: { code: INITIAL_CODE, id: Nothing, output: Nothing }
+  playground: {
+    data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
+    verticalSplitPosition: 9999,
+  },
 }
 
 
-export alias Section = {
+export alias Section = { content :: String, title :: String }
+
+export alias Link = { href :: String, text :: String }
+
+export alias Header = { content :: String }
+
+export alias Page = { intro :: String, sections :: List Section }
+
+export alias DocumentationPage = {
+  content :: String,
+  depth :: Integer,
+  slug :: String,
   title :: String,
-  content :: String
-}
-
-export alias Link = {
-  href :: String,
-  text :: String
-}
-
-export alias Header = {
-  content :: String
-}
-export alias Page = {
-  intro :: String,
-  sections :: List Section
 }
 
 export alias Content = {
-  title :: String,
+  docs :: List DocumentationPage,
+  gettingStarted :: Page,
   header :: Header,
-  nav :: List Link,
   home :: List Section,
-  gettingStarted :: Page
+  nav :: List Link,
+  title :: String,
 }
 
-export type LoadingState
-  = Loading
-  | Transitioning
-  | Ready
+export type LoadingState = Loading | Transitioning | Ready
 
 
 export alias State = {
   content :: Content,
   loadingState :: LoadingState,
-  playground :: Playground,
+  playground :: { data :: Playground, verticalSplitPosition :: Integer },
 }
-

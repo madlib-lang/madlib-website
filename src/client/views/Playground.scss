@@ -59,7 +59,7 @@ $outputWidth: 27%;
     overflow-x: scroll;
     margin-left: 3.125rem;
     @media screen and (min-width: $point2) {
-      width: calc(100% - #{$outputWidth} - 3rem);
+      width: calc(100% - #{$outputWidth} - 3rem) !important;
     }
   }
   &__content {
@@ -166,9 +166,9 @@ $outputWidth: 27%;
       top: calc(100% - 3rem);
     }
   }
-  &__line {
-    height: $lineHeight;
-  }
+  // &__line {
+  //   height: $lineHeight;
+  // }
 
   &__lines {
     top: 1rem;
@@ -274,6 +274,9 @@ $outputWidth: 27%;
     min-height: 4rem;
     padding: 1.5rem 1rem;
     position: relative;
+    @media screen and (max-width: $point2) {
+      width: 100% !important;
+    }
     @media screen and (min-width: $point2) {
       border-bottom-right-radius: 0.5rem;
       border-bottom-left-radius: 0;
@@ -298,29 +301,13 @@ $outputWidth: 27%;
     background: transparent;
     padding: 0;
   }
-  &__syntax {
-    &--keyword {
-      font-weight: bold;
-      color: rgb(221, 136, 0);
-    }
+}
 
-    &--literal {
-      color: rgb(165, 221, 254);
-    }
-
-    &--special {
-      font-weight: bold;
-      color: rgb(165, 221, 254);
-    }
-    &--constructor {
-      font-weight: bold;
-      color: rgba(200, 255, 0);
-    }
-    &--type {
-      font-weight: bold;
-      color: #fc0068;
-    }
-  }
+.code {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
 }
 textarea,
 pre,

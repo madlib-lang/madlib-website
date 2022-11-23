@@ -1,11 +1,11 @@
-const run = commands => commands.join(" && ")
+const run = (commands) => commands.join(" && ");
 
 const input = Object.freeze({
   mad: {
     Main: `src/client/Main.mad`,
   },
-  views: `src/client/views`,
-})
+  views: `src/client/`,
+});
 
 const out = Object.freeze({
   mad: {
@@ -14,19 +14,53 @@ const out = Object.freeze({
   styles: {
     directory: `build/public/styles`,
     files: [
-      `build/public/styles/global.css`,
-      `build/public/styles/Footer.css`,
-      `build/public/styles/SplashScreen.css`,
-      `build/public/styles/Website.css`,
-      `build/public/styles/Nav.css`,
-      `build/public/styles/LinkedHeader.css`,
-      `build/public/styles/Playground.css`,
+      `build/public/styles/views/global.css`,
+      `build/public/styles/views/Footer.css`,
+      `build/public/styles/views/SplashScreen.css`,
+      `build/public/styles/views/Website.css`,
+      `build/public/styles/views/Nav.css`,
+      `build/public/styles/views/LinkedHeader.css`,
+      `build/public/styles/views/HighlightedCode.css`,
+      `build/public/styles/views/Playground.css`,
+      `build/public/styles/views/docs/Content.css`,
+      `build/public/styles/views/docs/Menu.css`,
+      `build/public/styles/pages/Docs.css`,
     ],
     main: `build/public/styles/main.css`,
   },
   sitemap: "build/public/sitemap.xml",
-})
+});
 
+const DOCS_TO_UPDATE = [
+  {
+    jsonPath: "docs.0.content",
+    filePath: "docs/INTRODUCTION.md",
+  },
+  {
+    jsonPath: "docs.1.content",
+    filePath: "docs/GETTING_STARTED.md",
+  },
+  {
+    jsonPath: "docs.2.content",
+    filePath: "docs/INSTALLATION.md",
+  },
+  {
+    jsonPath: "docs.3.content",
+    filePath: "docs/HELLO_WORLD.md",
+  },
+  {
+    jsonPath: "docs.4.content",
+    filePath: "docs/LANGUAGE_FEATURES.md",
+  },
+  {
+    jsonPath: "docs.5.content",
+    filePath: "docs/EXPRESSIONS.md",
+  },
+  {
+    jsonPath: "docs.6.content",
+    filePath: "docs/TYPES.md",
+  },
+];
 
 const runWhen = (cond, cmd) => `
 until ${cond}; do
@@ -34,8 +68,7 @@ until ${cond}; do
   sleep 0.5
 done
 exec ${cmd}
-`
-
+`;
 
 module.exports = {
   scripts: {
@@ -54,6 +87,19 @@ module.exports = {
       ]),
       script: `nps styles.all styles.group`,
     },
+    docs: {
+      update: {
+        description:
+          "updates content keys for the docs in the content.json file",
+        script: run([
+          "madlib compile --target llvm -i src/scripts/UpdateJsonFieldWithFile.mad -o build/updateDocs",
+          ...DOCS_TO_UPDATE.map(
+            ({ jsonPath, filePath }) =>
+              `./build/updateDocs src/client/content.json ${filePath} ${jsonPath}`
+          ),
+        ]),
+      },
+    },
     build: {
       main: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main}`,
       watch: `madlib compile -i ${input.mad.Main} --target browser --bundle -o ${out.mad.Main} -w &`,
@@ -64,6 +110,7 @@ module.exports = {
         "nps build.prod",
       ]),
       prod: run([
+        `nps docs.update`,
         `nps "build.main"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
         `nps styles.all styles.group`,
@@ -78,22 +125,25 @@ module.exports = {
     },
     server: {
       dev: {
-        build: "madlib compile --target llvm -i src/server/Main.mad -o build/service -w",
+        build:
+          "madlib compile --target llvm -i src/server/Main.mad -o build/service -w",
         start: "sh ./start-server.sh",
         restart: "sh ./restart-server.sh",
       },
       prod: {
-        build: "madlib compile --target llvm -i src/server/Main.mad -o build/service",
+        build:
+          "madlib compile --target llvm -i src/server/Main.mad -o build/service",
       },
     },
     sync: {
       description: "sync the browser",
       script:
         "browser-sync start --proxy localhost:3000 --files build/public/ --no-open --reload-debounce 100",
-        // "browser-sync start --server build/public/ --files build/public/ --serveStatic build/public/ --no-open --reload-debounce 100",
-        // "browser-sync start -c browsersync.config.js",
+      // "browser-sync start --server build/public/ --files build/public/ --serveStatic build/public/ --no-open --reload-debounce 100",
+      // "browser-sync start -c browsersync.config.js",
     },
     dev: `concurrently ${[
+      `"watch 'nps docs.update' ./docs"`,
       `"sass --watch ${input.views}:${out.styles.directory}"`,
       `"nps styles.all styles.group && watch 'nps styles.group' src/client"`,
       `"copy-and-watch --watch src/client/**/*.{html,svg,json} build/public/"`,
@@ -104,9 +154,8 @@ module.exports = {
       // `"nps server.dev.start"`,
       // `"watch --filter=serverExe.js 'nps server.dev.restart' ./build/service"`,
       `"watch --filter=serverExe.js 'nps server.dev.restart' ./build/"`,
-      `"${runWhen('curl localhost:3000 >&/dev/null', 'nps sync')}"`,
+      `"${runWhen("curl localhost:3000 >&/dev/null", "nps sync")}"`,
     ].join(" ")}`,
     test: 'echo "Error: no test specified" && exit 1',
   },
-}
-
+};
