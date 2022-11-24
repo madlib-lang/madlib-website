@@ -1,8 +1,38 @@
-.doc-content {
+.documentation-page {
+  display: flex;
+
   code {
     display: block;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 0.5rem;
     padding: 1rem;
+    white-space: break-spaces;
+  }
+
+  &__previous-page-link,
+  &__next-page-link {
+    position: fixed;
+    top: 0;
+    padding-top: 48vh;
+    opacity: 0.2;
+    font-size: 48px;
+    border-bottom: none;
+
+    &:hover {
+      opacity: 0.9;
+      cursor: pointer;
+      border-bottom: none;
+  }
+  }
+
+  &__previous-page-link {
+    transform: translateX(-20px);
+  }
+  &__next-page-link {
+    right: 40px;
+  }
+  &__content {
+    margin-left: 30px;
+    width: calc(100% - 80px);
   }
 }

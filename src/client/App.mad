@@ -1,13 +1,72 @@
-import type { Element } from "MadUI"
-
-import { div, id, className } from "MadUI"
+import type { Action, Element } from "MadUI"
 
 import type { State } from "@client/State"
+
+import Math from "Math"
+
+import { MouseEvent, className, div, id, onMouseMove, onMouseUp, text, throttleAction } from "MadUI"
+
 import { Router } from "@client/Router"
+
+
+
+VERTICAL_SPLIT_MIN_LEFT :: Integer
+VERTICAL_SPLIT_MIN_LEFT = 200
+
+
+handleDrag :: Action State
+handleDrag = throttleAction(
+  40,
+  (currentState, event) => if (currentState.playground.dragData.dragging) {
+    where(event) {
+      MouseEvent({ clientX }) =>
+        [
+          of(
+            (state) => (
+              {
+                ...state,
+                playground: {
+                  ...state.playground,
+                  dragData: {
+                    verticalSplitPosition: Math.max(VERTICAL_SPLIT_MIN_LEFT, clientX - 40),
+                    dragging: true,
+                  },
+                },
+              }
+            ),
+          ),
+        ]
+
+      _ =>
+        []
+    }
+  } else { [] },
+)
+
+
+handleDragEnd :: Action State
+handleDragEnd = (_, _) => [
+  of(
+    (state) => (
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          dragData: { ...state.playground.dragData, dragging: false },
+        },
+      }
+    ),
+  ),
+]
 
 
 App :: State -> Element State
 export App = (state) =>
-  <div id="madlib-website" className="madlib-website-app">
+  <div
+    onMouseMove={handleDrag}
+    onMouseUp={handleDragEnd}
+    id="madlib-website"
+    className="madlib-website-app"
+  >
     {Router(state)}
   </div>

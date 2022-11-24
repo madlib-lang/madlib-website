@@ -1,4 +1,4 @@
-# Introduction to Madlib
+## Introduction to Madlib
 
 *Madlib* is a functional language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).
 

@@ -11,25 +11,21 @@ import { multiply } from "Math"
 import { Just, Nothing } from "Maybe"
 import String from "String"
 import { mapRej } from "Wish"
-import Math from "Math"
 
 import {
   InputEvent,
-  MouseEvent,
   button,
   className,
   code,
   div,
-  draggable,
   onClick,
-  onDrag,
   onInput,
+  onMouseDown,
   pre,
   spellcheck,
   style,
   text,
   textarea,
-  throttleAction,
 } from "MadUI"
 import { strata } from "Strata"
 
@@ -42,8 +38,7 @@ import { parse, toJsonString } from "@common/Playground"
 LINE_HEIGHT :: Integer
 LINE_HEIGHT = 24
 
-VERTICAL_SPLIT_MIN_LEFT :: Integer
-VERTICAL_SPLIT_MIN_LEFT = 200
+
 
 stratum = strata("playground")
 
@@ -129,29 +124,30 @@ renderLines = (playgroundCode) => pipe(
 )(playgroundCode)
 
 
-handleDrag :: Action State
-handleDrag = throttleAction(
-  40,
-  (_, event) => where(event) {
-    MouseEvent({ clientX }) =>
-      [
-        of(
-          (state) => (
-            { ...state, playground: { ...state.playground, verticalSplitPosition: Math.max(VERTICAL_SPLIT_MIN_LEFT, clientX - 40) } }
-          ),
-        ),
-      ]
+handleDragStart :: Action State
+handleDragStart = (_, _) => [
+  of(
+    (state) => (
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          dragData: { ...state.playground.dragData, dragging: true },
+        },
+      }
+    ),
+  ),
+]
 
-    _ =>
-      [of((state) => state)]
-  },
-)
+
+
+
 
 
 Playground :: State -> Element State
 export Playground = (state) => {
   output = displayPlaygroundOutput(state)
-  verticalSplitPosition = `${inspect(state.playground.verticalSplitPosition)}px`
+  verticalSplitPosition = `${inspect(state.playground.dragData.verticalSplitPosition)}px`
 
   return <div className={stratum.e("")}>
     <div className={stratum.e("container")}>
@@ -172,7 +168,10 @@ export Playground = (state) => {
         style={{{ "width": `calc(100% - ${verticalSplitPosition})` }}}
         className={stratum.em("output", [String.isEmpty(output) ? "empty" : "compiled"])}
       >
-        <div draggable={true} onDrag={handleDrag} className={stratum.e("drag-handle")}>
+        <div
+          onMouseDown={handleDragStart}
+          className={stratum.e("drag-handle")}
+        >
           {`←→`}
         </div>
         <button className={stratum.em("run-button", ["waiting"])} onClick={handleRun}>

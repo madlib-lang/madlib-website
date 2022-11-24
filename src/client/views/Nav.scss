@@ -17,6 +17,7 @@ $menu-switch: 950px;
       text-shadow: 0 1px 10px $color;
       border-bottom-color: color.scale($color, $alpha: -50%);
       border-bottom-width: 1px;
+      padding-bottom: 2.9rem;
       @media screen and (max-width: $menu-switch) {
         padding-bottom: 0.75rem;
       }

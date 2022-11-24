@@ -1,24 +1,68 @@
-import type { Element } from "MadUI"
-
-import type { State } from "@client/State"
+import type { Maybe } from "Maybe"
 
 import type { Config } from "MadMarkdownRenderer"
-import { renderMarkdownWithConfig, defaultConfig, setCodeView } from "MadMarkdownRenderer"
-import { className, div } from "MadUI"
+import type { Element } from "MadUI"
+
+import type { DocumentationPageWithLinks, State } from "@client/State"
+
+import { Just, Nothing } from "Maybe"
+
+import { defaultConfig, renderMarkdownWithConfig, setCodeView } from "MadMarkdownRenderer"
+import { className, code, div, empty, h1, link, to } from "MadUI"
 import { strata } from "Strata"
+
 import { HighlightedCode } from "@client/views/HighlightedCode"
 
 
 
-stratum = strata("doc-content")
+stratum = strata("documentation-page")
 
 
 MARKDOWN_RENDERER_CONFIG :: Config State
-MARKDOWN_RENDERER_CONFIG = setCodeView((_, code) => HighlightedCode(code), defaultConfig)
+MARKDOWN_RENDERER_CONFIG = setCodeView(
+  (lang, content) => lang == "madlib" ? HighlightedCode(content) : <code>{content}</code>,
+  defaultConfig,
+)
 
 
-Content :: { ...a, content :: String } -> Element State
+// SurroundingPageLink :: String -> Maybe { href :: String, text :: String } -> Element State
+// SurroundingPageLink = (extraLabel, maybeLink) => where(maybeLink) {
+//   Nothing =>
+//     <empty  />
+
+//   Just({ href }) =>
+//     <link to={href}>
+//       {extraLabel}
+//     </link>
+// }
+SurroundingPageLink :: String -> String -> Maybe { href :: String, text :: String } -> Element State
+SurroundingPageLink = (extraLabel, classSuffix, maybeLink) => where(maybeLink) {
+  Nothing =>
+    <empty  />
+
+  Just({ href }) =>
+    <link className={stratum.e(classSuffix)} to={href}>
+      {extraLabel}
+    </link>
+}
+
+
+Content :: DocumentationPageWithLinks -> Element State
 export Content = (document) =>
   <div className={stratum.e("")}>
-    {renderMarkdownWithConfig(MARKDOWN_RENDERER_CONFIG, document.content)}
+    {SurroundingPageLink("⦉", "previous-page-link", document.previousLink)}
+    // <div className={stratum.e("previous-page-link")}>
+    //   {SurroundingPageLink("⦉", document.previousLink)}
+    // </div>
+    <div className={stratum.e("content")}>
+      <h1>
+        {document.title}
+      </h1>
+      {renderMarkdownWithConfig(MARKDOWN_RENDERER_CONFIG, document.content)}
+    </div>
+    {SurroundingPageLink("⦊", "next-page-link", document.nextLink)}
   </div>
+
+// <div className={stratum.e("next-page-link")}>
+//   {SurroundingPageLink("⦊", document.nextLink)}
+// </div>

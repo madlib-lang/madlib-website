@@ -60,6 +60,10 @@ const DOCS_TO_UPDATE = [
     jsonPath: "docs.6.content",
     filePath: "docs/TYPES.md",
   },
+  {
+    jsonPath: "docs.7.content",
+    filePath: "docs/INTERFACES.md",
+  },
 ];
 
 const runWhen = (cond, cmd) => `

@@ -1,69 +1,46 @@
-import { renderWithConfig, addSubscription, DEFAULT_CONFIG } from "MadUI"
-import type {
-  Element,
-  Subscription
-} from "MadUI"
-import { parse } from "JsonParser"
-import { Left, Right } from "Either"
-import {} from "List"
-import { get } from "Http"
-import { fulfill } from "Wish"
-import IO from "IO"
-
+import type { Element } from "MadUI"
 
 import type { Content, State } from "./State"
-import {
-  Transitioning,
-  Loading,
-  Ready,
-  DEFAULT_CONTENT,
-  INITIAL_STATE
-} from "./State"
+
+import { Left, Right } from "Either"
+import { parse } from "JsonParser"
+import {} from "List"
+
+import { DEFAULT_CONFIG, renderWithConfig } from "MadUI"
+
+import { DEFAULT_CONTENT, INITIAL_STATE, Loading, Transitioning } from "./State"
 import { contentParser } from "@client/Parsers"
-import { SplashScreen } from "@client/views/SplashScreen"
 import json from "@client/content.json"
+import { SplashScreen } from "@client/views/SplashScreen"
+
 
 
 RenderPage :: (State -> Element State) -> State -> Element State
-export RenderPage = (ToRender, state) =>
-  state.loadingState == Loading
-  || state.loadingState == Transitioning
-    ? SplashScreen(state.loadingState)
-    : ToRender(state)
+export RenderPage = (ToRender, state) => state.loadingState
+  == Loading
+  || state.loadingState
+  == Transitioning
+  ? SplashScreen(state.loadingState)
+  : ToRender(state)
 
-
-loadContentSub :: Subscription State
-export loadContentSub = (dispatch) => pipe(
-  get,
-  map(
-    pipe(
-      .body,
-      parse(contentParser),
-      where {
-        Right(c) =>
-          c
-
-        Left (_) =>
-          DEFAULT_CONTENT
-      }
-    )
-  ),
-  fulfill(
-    IO.log,
-    (c) => dispatch((s) => ({ ...s, content: c, loadingState: Ready }))
-  )
-)("/content.json")
 
 parseContent :: String -> Content
 parseContent = pipe(
   parse(contentParser),
   where {
-    Right(c) => c
-    Left (_) => DEFAULT_CONTENT
-  }
+    Right(c) =>
+      c
+
+    Left(_) =>
+      DEFAULT_CONTENT
+  },
 )
 
-config = DEFAULT_CONFIG // addSubscription(loadContentSub, DEFAULT_CONFIG)
 
-export renderer = (Renderable) =>
-  renderWithConfig(config, RenderPage(Renderable), {...INITIAL_STATE, content: parseContent(json)}, "app")
+renderer :: (State -> Element State) -> {}
+export renderer = (Renderable) => renderWithConfig(
+  DEFAULT_CONFIG,
+  RenderPage(Renderable),
+  { ...INITIAL_STATE, content: parseContent(json) },
+  "app",
+)

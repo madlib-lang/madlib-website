@@ -1,3 +1,4 @@
+import type { Maybe } from "Maybe"
 import type { Playground } from "@common/Playground"
 
 import { Nothing } from "Maybe"
@@ -38,7 +39,7 @@ export INITIAL_STATE = {
   loadingState: Ready,
   playground: {
     data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
-    verticalSplitPosition: 9999,
+    dragData: { verticalSplitPosition: 9999, dragging: false },
   },
 }
 
@@ -58,8 +59,14 @@ export alias DocumentationPage = {
   title :: String,
 }
 
+export alias DocumentationPageWithLinks = {
+  ...DocumentationPage,
+  nextLink :: Maybe { href :: String, text :: String },
+  previousLink :: Maybe { href :: String, text :: String },
+}
+
 export alias Content = {
-  docs :: List DocumentationPage,
+  docs :: List DocumentationPageWithLinks,
   gettingStarted :: Page,
   header :: Header,
   home :: List Section,
@@ -73,5 +80,8 @@ export type LoadingState = Loading | Transitioning | Ready
 export alias State = {
   content :: Content,
   loadingState :: LoadingState,
-  playground :: { data :: Playground, verticalSplitPosition :: Integer },
+  playground :: {
+    data :: Playground,
+    dragData :: { dragging :: Boolean, verticalSplitPosition :: Integer },
+  },
 }

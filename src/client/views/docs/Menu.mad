@@ -1,6 +1,6 @@
 import type { Element } from "MadUI"
 
-import type { DocumentationPage, State } from "@client/State"
+import type { DocumentationPageWithLinks, State } from "@client/State"
 
 import { className, getPathName, key, li, link, style, text, to, ul } from "MadUI"
 import { strata } from "Strata"
@@ -17,7 +17,7 @@ makeLinkClassname = (slug) => documentationPageSlugToLink(slug) == getPathName()
   : stratum.e("menu-item-link")
 
 
-MenuItem :: DocumentationPage -> Element State
+MenuItem :: DocumentationPageWithLinks -> Element State
 MenuItem = (document) =>
   <li className={stratum.e("menu-item")} key={document.slug}>
     <link
@@ -29,5 +29,5 @@ MenuItem = (document) =>
     </link>
   </li>
 
-Menu :: List DocumentationPage -> Element State
+Menu :: List DocumentationPageWithLinks -> Element State
 export Menu = (documents) => <ul className={stratum.e("")}>{...map(MenuItem, documents)}</ul>
