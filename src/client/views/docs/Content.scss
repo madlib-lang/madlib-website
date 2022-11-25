@@ -12,11 +12,14 @@
   &__previous-page-link,
   &__next-page-link {
     position: fixed;
+    text-align: center;
+    width: 85px;
     top: 0;
     padding-top: 48vh;
     opacity: 0.2;
     font-size: 48px;
     border-bottom: none;
+    height: 100%;
 
     &:hover {
       opacity: 0.9;
@@ -26,10 +29,10 @@
   }
 
   &__previous-page-link {
-    transform: translateX(-20px);
+    transform: translateX(-60px);
   }
   &__next-page-link {
-    right: 40px;
+    right: 0;
   }
   &__content {
     margin-left: 30px;

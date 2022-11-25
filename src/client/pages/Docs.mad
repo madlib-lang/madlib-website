@@ -1,19 +1,17 @@
-
 import type { Element } from "MadUI"
 
 import type { State } from "@client/State"
 
 
-import { className, div, h1, main, switchRoute } from "MadUI"
+import { className, div, main, switchRoute } from "MadUI"
 import { strata } from "Strata"
 
-import { DOCS_URL_BASE } from "@client/Constants"
+import { documentationPageSlugToLink } from "@client/Utils"
 import { Footer } from "@client/views/Footer"
 import { Nav } from "@client/views/Nav"
 import { Content } from "@client/views/docs/Content"
 import { Menu } from "@client/views/docs/Menu"
 
-import { documentationPageSlugToLink } from "@client/Utils"
 
 
 stratum = strata("website")
@@ -28,30 +26,12 @@ export Docs = (state) =>
       <div className={docsStratum.e("")}>
         {Menu(state.content.docs)}
         <div className={docsStratum.e("content")}>
-          {switchRoute([
-            ...map(
-              (document) => #[
-                documentationPageSlugToLink(document.slug),
-                () => Content(document)
-                  // <div>
-                  //   <h1>
-                  //     {document.title}
-                  //   </h1>
-                  //   <div>
-                      // {Content(document)}
-                    // </div>
-                    // <div>
-                    //   {SurroundingPageLink("previous", document.previousLink)}
-                    // </div>
-                    // <div>
-                    //   {SurroundingPageLink("next", document.nextLink)}
-                    // </div>
-                  // </div>,
-              ],
+          {switchRoute(
+            map(
+              (document) => #[documentationPageSlugToLink(document.slug), () => Content(document)],
               state.content.docs,
             ),
-            #[DOCS_URL_BASE, () => <h1>Welcome to the docs</h1>],
-          ])}
+          )}
         </div>
       </div>
     </main>

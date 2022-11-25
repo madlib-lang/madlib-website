@@ -25,16 +25,6 @@ MARKDOWN_RENDERER_CONFIG = setCodeView(
 )
 
 
-// SurroundingPageLink :: String -> Maybe { href :: String, text :: String } -> Element State
-// SurroundingPageLink = (extraLabel, maybeLink) => where(maybeLink) {
-//   Nothing =>
-//     <empty  />
-
-//   Just({ href }) =>
-//     <link to={href}>
-//       {extraLabel}
-//     </link>
-// }
 SurroundingPageLink :: String -> String -> Maybe { href :: String, text :: String } -> Element State
 SurroundingPageLink = (extraLabel, classSuffix, maybeLink) => where(maybeLink) {
   Nothing =>
@@ -62,7 +52,3 @@ export Content = (document) =>
     </div>
     {SurroundingPageLink("⦊", "next-page-link", document.nextLink)}
   </div>
-
-// <div className={stratum.e("next-page-link")}>
-//   {SurroundingPageLink("⦊", document.nextLink)}
-// </div>
