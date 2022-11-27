@@ -32,7 +32,7 @@ NavLink = (s) =>
 export Nav = (s) =>
   <nav className={stratum.m(["loading"])}>
     <link to="/" className={stratum.em("link", ["logo"])}>
-      <img className={stratum.e("logo")} src="/assets/logo.svg" alt="Madlib logo" />
+      <img className={stratum.e("logo")} src="/assets/logo-white.svg" alt="Madlib Logo" />
     </link>
     <ul className={stratum.e("list")}>
       {...map(NavLink, s)}

@@ -8,11 +8,8 @@ import { MouseEvent, className, div, id, onMouseMove, onMouseUp, text, throttleA
 
 import { Router } from "@client/Router"
 
-
-
 VERTICAL_SPLIT_MIN_LEFT :: Integer
 VERTICAL_SPLIT_MIN_LEFT = 200
-
 
 handleDrag :: Action State
 handleDrag = throttleAction(

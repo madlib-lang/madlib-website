@@ -1,0 +1,14 @@
+@use "sass:color";
+
+.breakpoint {
+  display: block;
+  position: fixed;
+  z-index: 9999;
+  &--vertical {
+    border-top: 1px dotted lime;
+  }
+  &--horizontal {
+    border-left: 1px dotted lime;
+  }
+  left: "'" attr(data-point) "'";
+}

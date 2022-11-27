@@ -12,8 +12,6 @@ import { NotFound } from "@client/pages/NotFound"
 import { Projects } from "@client/pages/Projects"
 import { PlaygroundPage } from "@client/pages/Playground"
 
-
-
 Router :: State -> Element State
 export Router = (state) => switchRoute([
   #["/", () => Home(state)],

@@ -1,0 +1,18 @@
+import type { Element } from "MadUI"
+import {
+  div,
+  title,
+  className,
+  dataAttr
+} from "MadUI"
+import { strata } from "Strata"
+import type { State, Vector } from "../State"
+
+stratum = strata("breakpoint")
+
+Breakpoint :: Vector -> Element State
+export Breakpoint = (s) =>
+  <div
+    title={s.label}
+    className={stratum.m([s.vertical ? "vertical" : "horizontal", s.label])}
+  />

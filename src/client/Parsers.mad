@@ -8,9 +8,10 @@ import type {
   Header,
   Link,
   Section,
+  Vector
 } from "@client/State"
 
-import { field, integer, list, map1, map2, map3, map4, map6, string } from "JsonParser"
+import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, string } from "JsonParser"
 import { Just, Nothing } from "Maybe"
 
 import { documentationPageSlugToLink } from "@client/Utils"
@@ -34,6 +35,14 @@ export navParser = map4(
   field("text", string),
   field("shortText", string),
   field("icon", string)
+)
+
+breakpointsParser :: Parser Vector
+export breakpointsParser = map3(
+  (vertical, point, label) => ({ vertical, point, label }),
+  field("vertical", boolean),
+  field("point", string),
+  field("label", string)
 )
 
 gettingStartedParser = map2(
@@ -78,8 +87,8 @@ withSurroundingPagesLinks = (pages) => {
 }
 
 contentParser :: Parser Content
-export contentParser = map6(
-  (title, headerContent, nav, home, gettingStarted, docs) => (
+export contentParser = map7(
+  (title, headerContent, nav, home, gettingStarted, docs, breakpoints) => (
     {
       title,
       header: headerContent,
@@ -87,11 +96,13 @@ export contentParser = map6(
       nav,
       gettingStarted,
       docs: withSurroundingPagesLinks(docs),
+      breakpoints,
     }
   ),
   field("title", string),
   field("header", headerParser),
   field("nav", list(navParser)),
+  field("breakpoints", list(breakpointsParser)),
   field("home", list(sectionParser)),
   field("gettingStarted", gettingStartedParser),
   field("docs", list(docsParser)),

@@ -9,6 +9,7 @@ import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
 import { Playground } from "@client/views/Playground"
 import { PageSection } from "@client/views/Section"
+import { Breakpoint } from "@client/views/Breakpoint"
 
 
 
@@ -23,4 +24,7 @@ export Home = (state) =>
       {...map(PageSection, state.content.home)}
     </main>
     {Footer(state)}
+    <div className={stratum.e("breakpoints")}>
+      {...map(Breakpoint, state.breakpoints)}
+    </div>
   </div>

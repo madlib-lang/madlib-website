@@ -7,21 +7,19 @@ $point3: 64rem;
 $point4: 75rem;
 
 $menu-switch: 950px;
-/*
+
 @mixin link($color) {
-  a {
-    padding-bottom: 0.25rem;
-    border-bottom-color: $color;
-    &:hover {
-      color: $color;
-      text-shadow: 0 1px 10px $color;
-      border-bottom-color: color.scale($color, $alpha: -50%);
-      border-bottom-width: 1px;
-      padding-bottom: 2.9rem;
+  .nav__link:hover {
+    color: $color;
+    text-shadow: color.scale($color, $lightness: -20%) 0 0 0.25rem;
+    .nav__link-icon {
+      background-color: $color;
+      transform: rotate(180deg);
+      filter: invert(0%);
+      border-color: transparent;
     }
   }
 }
-*/
 
 @keyframes rainbowload {
   0% {
@@ -42,7 +40,7 @@ $menu-switch: 950px;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(-30deg, #180920, #2c0024);
+  // background: linear-gradient(-30deg, #180920, #2c0024);
   top: 0;
   z-index: 20;
   min-height: 7rem;
@@ -50,11 +48,9 @@ $menu-switch: 950px;
   width: 100%;
   font-size: 0.9rem;
   font-weight: bolder;
-  transition: background 0.3s 0.3s ease-out;
 
   &__logo {
     margin-top: 1rem;
-    filter: invert(100%);
     width: 100%;
     img {
       width: 100%;
@@ -70,6 +66,7 @@ $menu-switch: 950px;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 0;
+    padding-bottom: 0.5rem;
     position: relative;
     align-items: baseline;
     width: 100%;
@@ -99,7 +96,7 @@ $menu-switch: 950px;
     text-decoration: none;
     border: none;
     margin: 0;
-    padding: 0;
+    padding: 1rem 0 0.5rem;
     text-shadow: 0 0 0 transparent;
     &:hover,
     &:focus,
@@ -107,20 +104,24 @@ $menu-switch: 950px;
       text-decoration: none;
       border: none;
       margin: 0;
-      padding: 0;
+      padding: 1rem 0 0.5rem;
       text-shadow: 0 0 0 transparent;
     }
   }
   &__link-icon {
-    width: 1.1rem;
-    max-width: 1.1rem;
-    height: 1.1rem;
-    max-height: 1.1rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    transition: background 0.3s ease-out;
-    border-radius: 10rem;
+    $size: calc(1.1rem);
+    width: $size;
+    max-width: $size;
+    height: $size;
+    max-height: $size;
+    // border: 1px solid rgba(0, 0, 0, 0.6);
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: background 0.3s ease-out 0.1s, transform 0.3s ease-out 0.6s,
+      filter 0.3s ease-out, border 0.3s ease-out 0.1s;
+    border-radius: 100%;
     margin: 0 0.25rem;
     padding: 0.1rem;
+    filter: invert(100%);
   }
   &__item {
     width: 50%;
@@ -136,34 +137,22 @@ $menu-switch: 950px;
       }
     }
     &:nth-of-type(1) {
-      .nav__link:hover .nav__link-icon {
-        background-color: #f06;
-      }
+      @include link(#f06);
     }
     &:nth-of-type(2) {
-      .nav__link:hover .nav__link-icon {
-        background-color: #f60;
-      }
+      @include link(#f60);
     }
     &:nth-of-type(3) {
-      .nav__link:hover .nav__link-icon {
-        background-color: #ff0;
-      }
+      @include link(#ff0);
     }
     &:nth-of-type(4) {
-      .nav__link:hover .nav__link-icon {
-        background-color: #0f6;
-      }
+      @include link(#0f6);
     }
     &:nth-of-type(5) {
-      .nav__link:hover .nav__link-icon {
-        background-color: #0cf;
-      }
+      @include link(#0cf);
     }
     &:nth-of-type(6) {
-      .nav__link:hover .nav__link-icon {
-        background-color: #60f;
-      }
+      @include link(#60f);
     }
   }
 

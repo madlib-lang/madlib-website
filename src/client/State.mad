@@ -48,6 +48,12 @@ export alias Section = { content :: String, title :: String }
 
 export alias Link = { href :: String, text :: String, shortText :: String, icon :: String }
 
+export alias Vector = {
+  vertical :: Boolean,
+  point :: String,
+  label :: String,
+}
+
 export alias Header = { content :: String }
 
 export alias Page = { intro :: String, sections :: List Section }
