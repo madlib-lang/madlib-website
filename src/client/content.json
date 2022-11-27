@@ -87,38 +87,50 @@
     {
       "changefreq": "weekly",
       "href": "/getting-started",
+      "icon": "/assets/icon-star.svg",
       "priority": 0.69999999999999995559,
+      "shortText": "Intro",
       "text": "Getting started"
     },
     {
       "changefreq": "weekly",
       "href": "/examples",
+      "icon": "/assets/icon-star.svg",
       "priority": 0.69999999999999995559,
+      "shortText": "Examples",
       "text": "Examples"
     },
     {
       "changefreq": "weekly",
       "href": "/projects",
+      "icon": "/assets/icon-star.svg",
       "priority": 0.69999999999999995559,
+      "shortText": "Projects",
       "text": "Projects"
     },
     {
       "changefreq": "weekly",
       "href": "/docs/introduction",
+      "icon": "/assets/icon-star.svg",
       "priority": 0.69999999999999995559,
+      "shortText": "Docs",
       "text": "Docs"
     },
     {
       "changefreq": "monthly",
       "href": "/playground",
+      "icon": "/assets/icon-star.svg",
       "priority": 0.9000000000000000222,
+      "shortText": "Try it out",
       "text": "Playground"
     },
     {
       "changefreq": "monthly",
       "href": "/contribute",
+      "icon": "/assets/icon-star.svg",
       "priority": 1,
-      "text": "Contribute"
+      "shortText": "Contribute",
+      "text": "Contribute to Madlib"
     }
   ],
   "title": "Madlib"

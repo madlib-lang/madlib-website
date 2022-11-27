@@ -1,5 +1,6 @@
 import type { Element } from "MadUI"
 import {
+span,
   nav,
   alt,
   className,
@@ -22,7 +23,9 @@ NavLink :: Link -> Element State
 NavLink = (s) =>
   <li className={stratum.e("item")}>
     <link className={stratum.e("link")} to={s.href}>
-      {s.text}
+      <img className={stratum.e("link-icon")} src={s.icon} alt={s.text} />
+      <span className={stratum.em("link-text", ["summary"])}>{s.shortText}</span>
+      <span className={stratum.em("link-text", ["detail"])}>{s.text}</span>
     </link>
   </li>
 

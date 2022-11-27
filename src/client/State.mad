@@ -46,7 +46,7 @@ export INITIAL_STATE = {
 
 export alias Section = { content :: String, title :: String }
 
-export alias Link = { href :: String, text :: String }
+export alias Link = { href :: String, text :: String, shortText :: String, icon :: String }
 
 export alias Header = { content :: String }
 

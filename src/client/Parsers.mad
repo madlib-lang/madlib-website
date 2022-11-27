@@ -10,7 +10,7 @@ import type {
   Section,
 } from "@client/State"
 
-import { field, integer, list, map1, map2, map4, map6, string } from "JsonParser"
+import { field, integer, list, map1, map2, map3, map4, map6, string } from "JsonParser"
 import { Just, Nothing } from "Maybe"
 
 import { documentationPageSlugToLink } from "@client/Utils"
@@ -28,10 +28,12 @@ headerParser :: Parser Header
 export headerParser = map1((content) => ({ content }), field("content", string))
 
 navParser :: Parser Link
-export navParser = map2(
-  (href, text) => ({ text, href }),
+export navParser = map4(
+  (href, text, shortText, icon) => ({ text, href, shortText, icon }),
   field("href", string),
   field("text", string),
+  field("shortText", string),
+  field("icon", string)
 )
 
 gettingStartedParser = map2(
