@@ -3,8 +3,6 @@ import type { Playground } from "@common/Playground"
 
 import { Nothing } from "Maybe"
 
-
-
 export DEFAULT_CONTENT = {
   title: "Madlib",
   header: { content: "" },
@@ -12,6 +10,7 @@ export DEFAULT_CONTENT = {
   home: [],
   gettingStarted: { intro: "", sections: [] },
   docs: [],
+  breakpoints: []
 }
 
 
@@ -78,6 +77,7 @@ export alias Content = {
   home :: List Section,
   nav :: List Link,
   title :: String,
+  breakpoints :: List Vector,
 }
 
 export type LoadingState = Loading | Transitioning | Ready

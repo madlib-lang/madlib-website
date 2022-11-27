@@ -1,18 +1,24 @@
 import type { Element } from "MadUI"
 import {
   div,
-  title,
   className,
-  dataAttr
+  titleAttr,
+  style
 } from "MadUI"
 import { strata } from "Strata"
+import {replace} from "String"
 import type { State, Vector } from "../State"
 
 stratum = strata("breakpoint")
 
+pointToValue = replace("rem", "")
+
 Breakpoint :: Vector -> Element State
 export Breakpoint = (s) =>
   <div
-    title={s.label}
-    className={stratum.m([s.vertical ? "vertical" : "horizontal"])}
+    titleAttr={s.label}
+    style={{{
+      "--offset-value": s.point
+    }}}
+    className={stratum.m([s.vertical ? "vertical" : "horizontal", s.label])}
   />

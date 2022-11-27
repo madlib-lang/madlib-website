@@ -25,6 +25,6 @@ export Home = (state) =>
     </main>
     {Footer(state)}
     <div className={stratum.e("breakpoints")}>
-      {...map(Breakpoint, state.breakpoints)}
+      {...map(Breakpoint, state.content.breakpoints)}
     </div>
   </div>

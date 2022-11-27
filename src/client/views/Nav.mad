@@ -14,7 +14,6 @@ span,
 } from "MadUI"
 import { strata } from "Strata"
 
-
 import type { State, Link } from "../State"
 
 stratum = strata("nav")
