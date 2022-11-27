@@ -14,5 +14,5 @@ Breakpoint :: Vector -> Element State
 export Breakpoint = (s) =>
   <div
     title={s.label}
-    className={stratum.m([s.vertical ? "vertical" : "horizontal", s.label])}
+    className={stratum.m([s.vertical ? "vertical" : "horizontal"])}
   />

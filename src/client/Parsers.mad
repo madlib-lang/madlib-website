@@ -102,8 +102,8 @@ export contentParser = map7(
   field("title", string),
   field("header", headerParser),
   field("nav", list(navParser)),
-  field("breakpoints", list(breakpointsParser)),
   field("home", list(sectionParser)),
   field("gettingStarted", gettingStartedParser),
   field("docs", list(docsParser)),
+  field("breakpoints", list(breakpointsParser)),
 )
