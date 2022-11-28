@@ -21,15 +21,16 @@ stratum = strata("breakpoint")
 Breakpoint :: Vector -> Element State
 export Breakpoint = (s) =>
   <div
-    titleAttr={`${s.label} - ${pointToValue(s.point)}`}
+    titleAttr={s.label}
     style={{{
       "--offset-value": s.point
     }}}
     className={stratum.m([s.label, s.vertical ? "vertical" : "horizontal"])}
   />
 
-// generateCustomVariablesFromBreakpoints :: List Breakpoints => 
+// generateCustomVariablesFromBreakpoints :: List Vector => ??? 
 generateCustomVariablesFromBreakpoints = pipe(
+  // ???,
   trace("in"),
   fromList, 
   trace("out")
@@ -38,8 +39,7 @@ generateCustomVariablesFromBreakpoints = pipe(
 Breakpoints :: List Vector -> Element State
 export Breakpoints = (s) =>
   <div
-    style={generateCustomVariablesFromBreakpoints(s.content.breakpoints)}
     className="breakpoints"
   >
-      {...map(Breakpoint, s.content.breakpoints)}
+      {...map(Breakpoint, s)}
   </div>
