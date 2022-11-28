@@ -1,12 +1,13 @@
 import type { Element } from "MadUI"
-
-import type { State } from "@client/State"
-
+import {
+  className,
+  header,
+  text
+} from "MadUI"
 import { renderMarkdown } from "MadMarkdownRenderer"
-import { className, header, text } from "MadUI"
 import { strata } from "Strata"
 
-
+import type { State } from "@client/State"
 
 stratum = strata("website")
 

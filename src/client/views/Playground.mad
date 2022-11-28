@@ -168,7 +168,10 @@ export Playground = (state) => {
         style={{{ "width": `calc(100% - ${verticalSplitPosition})` }}}
         className={stratum.em("output", [String.isEmpty(output) ? "empty" : "compiled"])}
       >
-        <div onMouseDown={handleDragStart} className={stratum.e("drag-handle")}>
+        <div
+          onMouseDown={handleDragStart}
+          className={stratum.e("drag-handle")}
+        >
           {`←→`}
         </div>
         <button className={stratum.em("run-button", ["waiting"])} onClick={handleRun}>

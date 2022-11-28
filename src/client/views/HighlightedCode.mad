@@ -20,25 +20,13 @@ highlight = (keywords, modifier, input) => pipe(
 )(keywords)
 
 highlightRegex :: String -> String -> String -> String
-highlightRegex = (regex, modifier, input) => String.replace(
-  regex,
-  `$1<span class="${stratum.em("syntax", [modifier])}">$2</span>$3`,
-  input,
-)
+highlightRegex = (regex, modifier, input) =>
+  String.replace(regex, `$1<span class="${stratum.em("syntax", [modifier])}">$2</span>$3`, input)
 
 renderLine :: String -> Element State
 renderLine = (raw) => <div className={stratum.e("line")} innerHTML={raw} />
 
-SYNTAX_LITERALS = [
-  "true",
-  "false",
-  "[0-9]+(\\.[0-9]+)?",
-  "\".*\"",
-  "`.*`",
-  "'.*'",
-  "'\\\\\n'",
-  "\{\}",
-]
+SYNTAX_LITERALS = ["true", "false", "[0-9]+(\\.[0-9]+)?", "\".*\"", "`.*`", "'.*'", "'\\\\\n'", "\{\}"]
 SYNTAX_KEYWORDS = [
   "if",
   "else",
@@ -175,8 +163,8 @@ escapeString :: String -> String
 escapeString = (s) => {
   go :: List Char -> List Char
   go = (chars) => where(chars) {
-    ['\', ' ', ...cs] =>
-      ['\', 'n', ...go(cs)]
+    ['\\', '\n', ...cs] =>
+      ['\\', 'n', ...go(cs)]
 
     [c, ...cs] =>
       [c, ...go(cs)]

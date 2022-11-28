@@ -1,11 +1,20 @@
 import type { Element } from "MadUI"
-
-import type { Link, State } from "../State"
-
-import { alt, className, img, li, link, nav, span, src, text, to, ul } from "MadUI"
+import {
+span,
+  nav,
+  alt,
+  className,
+  img,
+  li,
+  link,
+  src,
+  text,
+  to,
+  ul
+} from "MadUI"
 import { strata } from "Strata"
 
-
+import type { State, Link } from "../State"
 
 stratum = strata("nav")
 
@@ -14,12 +23,8 @@ NavLink = (s) =>
   <li className={stratum.e("item")}>
     <link className={stratum.e("link")} to={s.href}>
       <img className={stratum.e("link-icon")} src={s.icon} alt={s.text} />
-      <span className={stratum.em("link-text", ["summary"])}>
-        {s.shortText}
-      </span>
-      <span className={stratum.em("link-text", ["detail"])}>
-        {s.text}
-      </span>
+      <span className={stratum.em("link-text", ["summary"])}>{s.shortText}</span>
+      <span className={stratum.em("link-text", ["detail"])}>{s.text}</span>
     </link>
   </li>
 

@@ -1,6 +1,5 @@
-import { Just } from "Maybe"
 import String from "String"
-
+import { Just } from "Maybe"
 
 
 getServerBaseUrl :: a -> String

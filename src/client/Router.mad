@@ -9,10 +9,8 @@ import { Examples } from "@client/pages/Examples"
 import { GettingStarted } from "@client/pages/GettingStarted"
 import { Home } from "@client/pages/Home"
 import { NotFound } from "@client/pages/NotFound"
-import { PlaygroundPage } from "@client/pages/Playground"
 import { Projects } from "@client/pages/Projects"
-
-
+import { PlaygroundPage } from "@client/pages/Playground"
 
 Router :: State -> Element State
 export Router = (state) => switchRoute([

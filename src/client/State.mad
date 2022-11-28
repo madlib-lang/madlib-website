@@ -1,10 +1,7 @@
 import type { Maybe } from "Maybe"
-
 import type { Playground } from "@common/Playground"
 
 import { Nothing } from "Maybe"
-
-
 
 export DEFAULT_CONTENT = {
   title: "Madlib",
@@ -13,7 +10,7 @@ export DEFAULT_CONTENT = {
   home: [],
   gettingStarted: { intro: "", sections: [] },
   docs: [],
-  breakpoints: [],
+  breakpoints: []
 }
 
 
@@ -48,9 +45,13 @@ export INITIAL_STATE = {
 
 export alias Section = { content :: String, title :: String }
 
-export alias Link = { href :: String, icon :: String, shortText :: String, text :: String }
+export alias Link = { href :: String, text :: String, shortText :: String, icon :: String }
 
-export alias Vector = { label :: String, point :: String, vertical :: Boolean }
+export alias Vector = {
+  vertical :: Boolean,
+  point :: String,
+  label :: String,
+}
 
 export alias Header = { content :: String }
 
@@ -70,13 +71,13 @@ export alias DocumentationPageWithLinks = {
 }
 
 export alias Content = {
-  breakpoints :: List Vector,
   docs :: List DocumentationPageWithLinks,
   gettingStarted :: Page,
   header :: Header,
   home :: List Section,
   nav :: List Link,
   title :: String,
+  breakpoints :: List Vector,
 }
 
 export type LoadingState = Loading | Transitioning | Ready

@@ -17,7 +17,7 @@ stratum = strata("website")
 PageSection :: Section -> Element State
 export PageSection = (raw) => {
   clean = slug(raw.title)
-  sectionLinkProps = { id: clean, title: raw.title }
+  sectionLinkProps = { id: clean, title: raw.title, }
   return (
     <section id={clean} className={stratum.e("section")}>
       {LinkedHeader(sectionLinkProps)}
