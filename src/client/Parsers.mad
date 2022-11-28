@@ -8,10 +8,22 @@ import type {
   Header,
   Link,
   Section,
-  Vector
+  Vector,
 } from "@client/State"
 
-import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, string } from "JsonParser"
+import {
+  boolean,
+  field,
+  integer,
+  list,
+  map1,
+  map2,
+  map3,
+  map4,
+  map6,
+  map7,
+  string,
+} from "JsonParser"
 import { Just, Nothing } from "Maybe"
 
 import { documentationPageSlugToLink } from "@client/Utils"
@@ -34,7 +46,7 @@ export navParser = map4(
   field("href", string),
   field("text", string),
   field("shortText", string),
-  field("icon", string)
+  field("icon", string),
 )
 
 breakpointsParser :: Parser Vector
@@ -42,7 +54,7 @@ export breakpointsParser = map3(
   (vertical, point, label) => ({ vertical, point, label }),
   field("vertical", boolean),
   field("point", string),
-  field("label", string)
+  field("label", string),
 )
 
 gettingStartedParser = map2(

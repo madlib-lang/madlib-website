@@ -1,21 +1,21 @@
-import { strata } from "Strata"
-import {
-  a,
-  text,
-  href,
-  footer,
-  className,
-  span
-} from "MadUI"
-import type {Element} from "MadUI"
+import type { Element } from "MadUI"
+
 import type { State } from "@client/State"
+
+import { a, className, footer, href, span, text } from "MadUI"
+import { strata } from "Strata"
+
+
 
 stratum = strata("footer")
 
 Footer :: State -> Element State
-export Footer = (state) => 
+export Footer = (state) =>
   <footer className={stratum.e("")}>
     <span className={stratum.e("power")}>
-      This site is powered by <a href="https://github.com/madlib-lang/madlib" className={stratum.e("link")}>Madlib</a>
+      This site is powered by 
+      <a href="https://github.com/madlib-lang/madlib" className={stratum.e("link")}>
+        Madlib
+      </a>
     </span>
   </footer>

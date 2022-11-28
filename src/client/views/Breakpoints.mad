@@ -1,45 +1,38 @@
-import { fst, snd } from "Tuple"
-import {replace} from "String"
+import type { Element } from "MadUI"
+
+import type { State, Vector } from "../State"
+
 import { fromList } from "Dictionary"
 import { trace } from "IO"
 import { reduce } from "List"
+import { replace } from "String"
 
-import type { Element } from "MadUI"
-import {
-  div,
-  className,
-  titleAttr,
-  style
-} from "MadUI"
+import { className, div, style, titleAttr } from "MadUI"
 import { strata } from "Strata"
-import type { State, Vector } from "../State"
+
+
 
 pointToValue = replace("rem", "")
 
 stratum = strata("breakpoint")
 
 Breakpoint :: Vector -> Element State
-export Breakpoint = (s) =>
-  <div
-    titleAttr={s.label}
-    style={{{
-      "--offset-value": s.point
-    }}}
-    className={stratum.m([s.label, s.vertical ? "vertical" : "horizontal"])}
-  />
+export Breakpoint = (s) => <div
+  titleAttr={s.label}
+  style={{{ "--offset-value": s.point }}}
+  className={stratum.m([s.label, s.vertical ? "vertical" : "horizontal"])}
+/>
 
-// generateCustomVariablesFromBreakpoints :: List Vector => ??? 
+generateCustomVariablesFromBreakpoints :: List Vector -> Dictionary String String
 generateCustomVariablesFromBreakpoints = pipe(
-  // ???,
   trace("in"),
-  fromList, 
-  trace("out")
+  map((b) => #[`--break-${b.label}`, b.point]),
+  fromList,
+  trace("out"),
 )
 
 Breakpoints :: List Vector -> Element State
 export Breakpoints = (s) =>
-  <div
-    className="breakpoints"
-  >
-      {...map(Breakpoint, s)}
+  <div style={generateCustomVariablesFromBreakpoints(s)} className="breakpoints">
+    {...map(Breakpoint, s)}
   </div>
