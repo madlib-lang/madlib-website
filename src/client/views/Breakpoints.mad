@@ -28,7 +28,7 @@ export Breakpoint = (s) =>
     className={stratum.m([s.label, s.vertical ? "vertical" : "horizontal"])}
   />
 
-// generateCustomVariablesFromBreakpoints :: List Vector => ??? 
+generateCustomVariablesFromBreakpoints :: List Vector -> Dictionary String String
 generateCustomVariablesFromBreakpoints = pipe(
   // ???,
   trace("in"),
