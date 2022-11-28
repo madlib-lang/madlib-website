@@ -32,13 +32,15 @@ export Breakpoint = (s) =>
 generateCustomVariablesFromBreakpoints = pipe(
   // ???,
   trace("in"),
-  fromList, 
+  map((x) => #[x.label, x.point]),
+  fromList,
   trace("out")
 )
 
 Breakpoints :: List Vector -> Element State
 export Breakpoints = (s) =>
   <div
+  style={generateCustomVariablesFromBreakpoints(s)}
     className="breakpoints"
   >
       {...map(Breakpoint, s)}
