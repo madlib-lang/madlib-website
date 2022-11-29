@@ -1,10 +1,11 @@
 import type { Action, Element } from "MadUI"
 
 import type { State } from "@client/State"
+import {generateCustomVariables} from "@client/Style"
 
 import Math from "Math"
 
-import { MouseEvent, className, div, id, onMouseMove, onMouseUp, text, throttleAction } from "MadUI"
+import { MouseEvent, className, div, id, onMouseMove, style, onMouseUp, text, throttleAction } from "MadUI"
 
 import { Router } from "@client/Router"
 
@@ -64,6 +65,7 @@ export App = (state) =>
     onMouseUp={handleDragEnd}
     id="madlib-website"
     className="madlib-website-app"
+    style={generateCustomVariables(state)}
   >
     {Router(state)}
   </div>

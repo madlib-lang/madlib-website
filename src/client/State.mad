@@ -10,7 +10,10 @@ export DEFAULT_CONTENT = {
   home: [],
   gettingStarted: { intro: "", sections: [] },
   docs: [],
-  breakpoints: []
+  theme: {
+    colors: [],
+    breakpoints: [],
+  }
 }
 
 
@@ -53,6 +56,16 @@ export alias Vector = {
   label :: String,
 }
 
+export alias Color = {
+  name :: String,
+  color :: String,
+}
+
+export alias Theme = {
+  breakpoints: List Vector,
+  colors: List Color
+}
+
 export alias Header = { content :: String }
 
 export alias Page = { intro :: String, sections :: List Section }
@@ -77,7 +90,7 @@ export alias Content = {
   home :: List Section,
   nav :: List Link,
   title :: String,
-  breakpoints :: List Vector,
+  theme :: Theme
 }
 
 export type LoadingState = Loading | Transitioning | Ready

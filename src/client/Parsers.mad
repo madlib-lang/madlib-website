@@ -37,12 +37,26 @@ export navParser = map4(
   field("icon", string)
 )
 
+colorsParser :: Parser Color
+export colorsParser = map2(
+  (name, color) => ({ name, color }),
+  field("name", string),
+  field("color", string)
+)
+
 breakpointsParser :: Parser Vector
 export breakpointsParser = map3(
   (vertical, point, label) => ({ vertical, point, label }),
   field("vertical", boolean),
   field("point", string),
   field("label", string)
+)
+
+themeParser :: Parser Theme
+export themeParser = map2(
+  (colors, breakpoints) => ({ colors, breakpoints }),
+  field("colors", list(colorsParser)),
+  field("breakpoints", list(breakpointsParser))
 )
 
 gettingStartedParser = map2(
@@ -88,7 +102,7 @@ withSurroundingPagesLinks = (pages) => {
 
 contentParser :: Parser Content
 export contentParser = map7(
-  (title, headerContent, nav, home, gettingStarted, docs, breakpoints) => (
+  (title, headerContent, nav, home, gettingStarted, docs, theme) => (
     {
       title,
       header: headerContent,
@@ -96,7 +110,7 @@ export contentParser = map7(
       nav,
       gettingStarted,
       docs: withSurroundingPagesLinks(docs),
-      breakpoints,
+      theme
     }
   ),
   field("title", string),
@@ -105,5 +119,5 @@ export contentParser = map7(
   field("home", list(sectionParser)),
   field("gettingStarted", gettingStartedParser),
   field("docs", list(docsParser)),
-  field("breakpoints", list(breakpointsParser)),
+  field("theme", themeParser),
 )

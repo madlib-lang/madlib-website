@@ -28,19 +28,9 @@ export Breakpoint = (s) =>
     className={stratum.m([s.label, s.vertical ? "vertical" : "horizontal"])}
   />
 
-generateCustomVariablesFromBreakpoints :: List Vector -> Dictionary String String
-generateCustomVariablesFromBreakpoints = pipe(
-  // ???,
-  trace("in"),
-  map((x) => #[x.label, x.point]),
-  fromList,
-  trace("out")
-)
-
 Breakpoints :: List Vector -> Element State
 export Breakpoints = (s) =>
   <div
-  style={generateCustomVariablesFromBreakpoints(s)}
     className="breakpoints"
   >
       {...map(Breakpoint, s)}

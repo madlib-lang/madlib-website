@@ -1,0 +1,22 @@
+import type {State, Vector} from "./State"
+import {reduce} from "List"
+import { fromList, merge } from "Dictionary"
+import {trace} from "IO"
+
+generateCustomVariablesFromBreakpoints :: State -> Dictionary String String
+export generateCustomVariablesFromBreakpoints = pipe(
+  .content,
+  .breakpoints,
+  map((x) => #[`--break-${x.label}`, x.point]),
+  fromList,
+  trace("added breakpoints")
+)
+
+generateCustomVariables :: State -> Dictionary String String
+export generateCustomVariables = pipe(
+  // of,
+  // ap([generateCustomVariablesFromBreakpoints, (x) => x]),
+  // reduce(merge, {})
+  generateCustomVariablesFromBreakpoints
+)
+
