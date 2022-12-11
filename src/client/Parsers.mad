@@ -8,7 +8,9 @@ import type {
   Header,
   Link,
   Section,
-  Vector
+  Vector,
+  Color,
+  Theme,
 } from "@client/State"
 
 import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, string } from "JsonParser"

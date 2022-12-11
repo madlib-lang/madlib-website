@@ -1,11 +1,11 @@
-import type {State, Vector} from "./State"
-import {reduce} from "List"
-import { fromList, merge } from "Dictionary"
+import type {State } from "./State"
+import { fromList } from "Dictionary"
 import {trace} from "IO"
 
 generateCustomVariablesFromBreakpoints :: State -> Dictionary String String
 export generateCustomVariablesFromBreakpoints = pipe(
   .content,
+  .theme,
   .breakpoints,
   map((x) => #[`--break-${x.label}`, x.point]),
   fromList,

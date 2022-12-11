@@ -5,6 +5,7 @@ const input = Object.freeze({
     Main: `src/client/Main.mad`,
   },
   views: `src/client/`,
+  styles: `src/client/index.scss`
 });
 
 const out = Object.freeze({
@@ -12,21 +13,6 @@ const out = Object.freeze({
     Main: `build/public/bundle.js`,
   },
   styles: {
-    directory: `build/public/styles`,
-    files: [
-      `build/public/styles/views/global.css`,
-      `build/public/styles/views/Footer.css`,
-      `build/public/styles/views/SplashScreen.css`,
-      `build/public/styles/views/Website.css`,
-      `build/public/styles/views/Nav.css`,
-      `build/public/styles/views/Breakpoints.css`,
-      `build/public/styles/views/LinkedHeader.css`,
-      `build/public/styles/views/HighlightedCode.css`,
-      `build/public/styles/views/Playground.css`,
-      `build/public/styles/views/docs/Content.css`,
-      `build/public/styles/views/docs/Menu.css`,
-      `build/public/styles/pages/Docs.css`,
-    ],
     main: `build/public/styles/main.css`,
   },
   sitemap: "build/public/sitemap.xml",
@@ -84,13 +70,7 @@ module.exports = {
     },
     styles: {
       description: `get sassy with those files`,
-      all: `sass ${input.views}:${out.styles.directory}`,
-      group: run([
-        `mkdir -p ${out.styles.directory}`,
-        `touch ${out.styles.main}`,
-        `cat ${out.styles.files.join(" ")} > ${out.styles.main}`,
-      ]),
-      script: `nps styles.all styles.group`,
+      script: `sass ${input.styles} ${out.styles.main}`
     },
     docs: {
       update: {
@@ -118,7 +98,7 @@ module.exports = {
         `nps docs.update`,
         `nps "build.main"`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
-        `nps styles.all styles.group`,
+        `nps styles`,
         "cp src/client/index.html build/public/",
         "cp src/client/robots.txt build/public/",
         "cp -R src/client/assets build/public/",
@@ -149,8 +129,7 @@ module.exports = {
     },
     dev: `concurrently ${[
       `"watch 'nps docs.update' ./docs"`,
-      `"sass --watch ${input.views}:${out.styles.directory}"`,
-      `"nps styles.all styles.group && watch 'nps styles.group' src/client"`,
+      `"sass --watch ${input.styles.main} ${out.styles.main}"`,
       `"copy-and-watch --watch src/client/**/*.{html,svg,json} build/public/"`,
       `"copy-and-watch --watch src/client/assets/* build/public/assets/"`,
       `"nps build.dev"`,

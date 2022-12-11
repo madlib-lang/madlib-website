@@ -22,5 +22,5 @@ export Home = (state) =>
       {...map(PageSection, state.content.home)}
     </main>
     {Footer(state)}
-    {Breakpoints(state.content.breakpoints)}
+    {Breakpoints(state.content.theme.breakpoints)}
   </div>
