@@ -1,13 +1,10 @@
 import type { Element } from "MadUI"
-
 import type { DocumentationPageWithLinks, State } from "@client/State"
 
 import { className, getPathName, key, li, link, style, text, to, ul } from "MadUI"
 import { strata } from "Strata"
 
 import { documentationPageSlugToLink } from "@client/Utils"
-
-
 
 stratum = strata("docs-menu")
 

@@ -13,12 +13,10 @@ import type {
   Theme,
 } from "@client/State"
 
-import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, string } from "JsonParser"
+import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, string, float } from "JsonParser"
 import { Just, Nothing } from "Maybe"
 
 import { documentationPageSlugToLink } from "@client/Utils"
-
-
 
 sectionParser :: Parser Section
 export sectionParser = map2(
@@ -31,12 +29,21 @@ headerParser :: Parser Header
 export headerParser = map1((content) => ({ content }), field("content", string))
 
 navParser :: Parser Link
-export navParser = map4(
-  (href, text, shortText, icon) => ({ text, href, shortText, icon }),
+export navParser = map6(
+  (changefreq, href, icon, priority, shortText, text) => ({ 
+    changefreq,
+    href,
+    icon,
+    priority,
+    shortText,
+    text
+  }),
+  field("changefreq", string),
   field("href", string),
-  field("text", string),
+  field("icon", string),
+  field("priority", float),
   field("shortText", string),
-  field("icon", string)
+  field("text", string),
 )
 
 colorsParser :: Parser Color
@@ -108,8 +115,8 @@ export contentParser = map7(
     {
       title,
       header: headerContent,
-      home,
       nav,
+      home,
       gettingStarted,
       docs: withSurroundingPagesLinks(docs),
       theme

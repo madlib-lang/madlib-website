@@ -1,14 +1,15 @@
 import type { Element } from "MadUI"
 
-import type { Content, State } from "./State"
 
 import { Left, Right } from "Either"
 import { parse } from "JsonParser"
 import {} from "List"
+import {trace} from "IO"
 
 import { DEFAULT_CONFIG, renderWithConfig } from "MadUI"
 
-import { DEFAULT_CONTENT, INITIAL_STATE, Loading, Transitioning } from "./State"
+import type { Content, State } from "@client/State"
+import { DEFAULT_CONTENT, INITIAL_STATE, Loading, Transitioning } from "@client/State"
 import { contentParser } from "@client/Parsers"
 import json from "@client/content.json"
 import { SplashScreen } from "@client/views/SplashScreen"
@@ -27,10 +28,10 @@ export RenderPage = (ToRender, state) => state.loadingState
 parseContent :: String -> Content
 parseContent = pipe(
   parse(contentParser),
+  trace("huhh"),
   where {
     Right(c) =>
       c
-
     Left(_) =>
       DEFAULT_CONTENT
   },

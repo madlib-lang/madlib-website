@@ -13,17 +13,13 @@ import { strata } from "Strata"
 
 import { HighlightedCode } from "@client/views/HighlightedCode"
 
-
-
 stratum = strata("documentation-page")
-
 
 MARKDOWN_RENDERER_CONFIG :: Config State
 MARKDOWN_RENDERER_CONFIG = setCodeView(
   (lang, content) => lang == "madlib" ? HighlightedCode(content) : <code>{content}</code>,
   defaultConfig,
 )
-
 
 SurroundingPageLink :: String -> String -> Maybe { href :: String, text :: String } -> Element State
 SurroundingPageLink = (extraLabel, classSuffix, maybeLink) => where(maybeLink) {
@@ -35,7 +31,6 @@ SurroundingPageLink = (extraLabel, classSuffix, maybeLink) => where(maybeLink) {
       {extraLabel}
     </link>
 }
-
 
 Content :: DocumentationPageWithLinks -> Element State
 export Content = (document) =>

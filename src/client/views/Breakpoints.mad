@@ -1,8 +1,5 @@
-import { fst, snd } from "Tuple"
-import {replace} from "String"
 import { fromList } from "Dictionary"
-import { trace } from "IO"
-import { reduce } from "List"
+// import { trace } from "IO"
 
 import type { Element } from "MadUI"
 import {
@@ -14,7 +11,7 @@ import {
 import { strata } from "Strata"
 import type { State, Vector } from "../State"
 
-pointToValue = replace("rem", "")
+// pointToValue = replace("rem", "")
 
 stratum = strata("breakpoint")
 

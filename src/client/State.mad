@@ -51,7 +51,14 @@ export alias Section = {
   title :: String
 }
 
-export alias Link = { href :: String, text :: String, shortText :: String, icon :: String }
+export alias Link = {
+  changefreq :: String,
+  href :: String,
+  icon :: String,
+  priority :: Float,
+  shortText :: String,
+  text :: String,
+}
 
 export alias Vector = {
   vertical :: Boolean,
@@ -97,7 +104,6 @@ export alias Content = {
 }
 
 export type LoadingState = Loading | Transitioning | Ready
-
 
 export alias State = {
   content :: Content,

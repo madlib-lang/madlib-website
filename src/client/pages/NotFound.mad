@@ -8,8 +8,6 @@ import { strata } from "Strata"
 import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
 
-
-
 stratum = strata("website")
 
 NotFound :: State -> Element State

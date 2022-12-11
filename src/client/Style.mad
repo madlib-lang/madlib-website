@@ -4,6 +4,7 @@ import {trace} from "IO"
 
 generateCustomVariablesFromBreakpoints :: State -> Dictionary String String
 export generateCustomVariablesFromBreakpoints = pipe(
+trace('yooooo'),
   .content,
   .theme,
   .breakpoints,

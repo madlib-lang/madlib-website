@@ -1,4 +1,4 @@
-const raw = require("./src/content.json")
+const raw = require("./src/client/content.json")
 const { nav } = raw
 const routes = nav.reduce((agg, { href }) => {
   const link = href.slice(1, Infinity)

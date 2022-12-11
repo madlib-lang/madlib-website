@@ -9,8 +9,6 @@ import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
 import { Header } from "@client/views/Header"
 
-
-
 stratum = strata("website")
 
 Projects :: State -> Element State
