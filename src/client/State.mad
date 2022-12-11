@@ -62,8 +62,8 @@ export alias Color = {
 }
 
 export alias Theme = {
-  breakpoints: List Vector,
-  colors: List Color
+  breakpoints :: List Vector,
+  colors :: List Color,
 }
 
 export alias Header = { content :: String }

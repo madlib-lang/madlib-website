@@ -14,13 +14,6 @@
       { "name": "offpurple", "color": "#2d0024" },
       { "name": "white", "color": "#fff" },
       { "name": "yellow", "color": "#ff0" }
-    ],
-    "breakpoints": [
-      { "label": "xs", "point": "-Infinity", "vertical": false },
-      { "label": "sm", "point": "22rem", "vertical": false },
-      { "label": "md", "point": "33rem", "vertical": false },
-      { "label": "lg", "point": "50rem", "vertical": false },
-      { "label": "xl", "point": "64rem", "vertical": false }
     ]
   },
   "docs": [

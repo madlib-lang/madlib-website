@@ -1,12 +1,7 @@
 @use "sass:color";
 
-$point0: 22rem;
-$point1: 33rem;
-$point2: 50rem;
-$point3: 64rem;
-$point4: 75rem;
-
-$menu-switch: 950px;
+@use "colors";
+@use "media";
 
 @mixin link($color) {
   .nav__link:hover {
@@ -21,26 +16,11 @@ $menu-switch: 950px;
   }
 }
 
-@keyframes rainbowload {
-  0% {
-    background: linear-gradient(
-      to right,
-      #f00 14.29%,
-      #ff0 28.57%,
-      #0f0 42.86%,
-      #0ff 57.14%,
-      #00f 71.43%,
-      #f0f 85.71%
-    );
-  }
-}
-
 .nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  // background: linear-gradient(-30deg, #180920, #2c0024);
   top: 0;
   z-index: 20;
   min-height: 7rem;
@@ -137,22 +117,22 @@ $menu-switch: 950px;
       }
     }
     &:nth-of-type(1) {
-      @include link(#f06);
+      @include link($c-magenta);
     }
     &:nth-of-type(2) {
-      @include link(#f60);
+      @include link($c-orange);
     }
     &:nth-of-type(3) {
-      @include link(#ff0);
+      @include link($c-yellow);
     }
     &:nth-of-type(4) {
-      @include link(#0f6);
+      @include link($c-lime);
     }
     &:nth-of-type(5) {
-      @include link(#0cf);
+      @include link($c-cyan);
     }
     &:nth-of-type(6) {
-      @include link(#60f);
+      @include link($c-purple);
     }
   }
 
@@ -160,13 +140,13 @@ $menu-switch: 950px;
     margin: 0 0.1rem;
     &--summary {
       display: inline;
-      @media screen and (min-width: $point1) {
+      @media screen and (min-width: $breakpoint-md) {
         display: none;
       }
     }
     &--detail {
       display: none;
-      @media screen and (min-width: $point1) {
+      @media screen and (min-width: $breakpoint-md) {
         display: inline;
       }
     }
