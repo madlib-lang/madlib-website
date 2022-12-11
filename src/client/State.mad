@@ -52,10 +52,10 @@ export alias Section = {
 }
 
 export alias Link = {
-  changefreq :: String,
+  // changefreq :: String,
   href :: String,
   icon :: String,
-  priority :: Float,
+  // priority :: Float,
   shortText :: String,
   text :: String,
 }

@@ -29,19 +29,15 @@ headerParser :: Parser Header
 export headerParser = map1((content) => ({ content }), field("content", string))
 
 navParser :: Parser Link
-export navParser = map6(
-  (changefreq, href, icon, priority, shortText, text) => ({ 
-    changefreq,
+export navParser = map4(
+  (href, icon, shortText, text) => ({ 
     href,
     icon,
-    priority,
     shortText,
     text
   }),
-  field("changefreq", string),
   field("href", string),
   field("icon", string),
-  field("priority", float),
   field("shortText", string),
   field("text", string),
 )

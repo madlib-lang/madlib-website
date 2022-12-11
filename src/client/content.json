@@ -1,5 +1,12 @@
 {
   "theme": {
+    "breakpoints": [
+      { "label": "xs", "point": "-Infinity", "vertical": false },
+      { "label": "sm", "point": "22rem", "vertical": false },
+      { "label": "md", "point": "33rem", "vertical": false },
+      { "label": "lg", "point": "50rem", "vertical": false },
+      { "label": "xl", "point": "64rem", "vertical": false }
+    ],
     "colors": [
       { "name": "black", "color": "#000" },
       { "name": "offblack", "color": "#101020" },
