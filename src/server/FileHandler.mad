@@ -37,7 +37,6 @@ export fileHandler = (req) => {
     (r) => r.url == "/"
       ? indexDotHtml
       : `${cwd}/build/public${req.url}`,
-    trace("butwait"),
     String.takeWhile(notEquals('?')),
     (path) => map(always(path), File.exists(path)),
     bichain(always(File.read(indexDotHtml)), File.read),
