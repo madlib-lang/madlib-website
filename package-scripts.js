@@ -70,7 +70,7 @@ module.exports = {
     },
     styles: {
       description: `get sassy with those files`,
-      script: `sass ${input.styles} ${out.styles.main}`
+      script: `sass ${input.styles}:${out.styles.main}`
     },
     docs: {
       update: {
@@ -129,7 +129,7 @@ module.exports = {
     },
     dev: `concurrently ${[
       `"watch 'nps docs.update' ./docs"`,
-      `"sass --watch ${input.styles.main} ${out.styles.main}"`,
+      `"sass --watch ${input.styles.main}:${out.styles.main}"`,
       `"copy-and-watch --watch src/client/**/*.{html,svg,json} build/public/"`,
       `"copy-and-watch --watch src/client/assets/* build/public/assets/"`,
       `"nps build.dev"`,

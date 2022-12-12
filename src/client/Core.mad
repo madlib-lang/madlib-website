@@ -4,6 +4,7 @@ import type { Element } from "MadUI"
 import { Left, Right } from "Either"
 import { parse } from "JsonParser"
 import {} from "List"
+import { always } from "Function"
 import {trace} from "IO"
 
 import { DEFAULT_CONFIG, renderWithConfig } from "MadUI"
@@ -28,12 +29,12 @@ export RenderPage = (ToRender, state) => state.loadingState
 parseContent :: String -> Content
 parseContent = pipe(
   parse(contentParser),
-  trace("huhh"),
   where {
-    Right(c) =>
-      c
-    Left(_) =>
-      DEFAULT_CONTENT
+    Right(c) => c
+    Left(x) => pipe(
+      trace("Unable to parse content!"),
+      always(DEFAULT_CONTENT)
+    )(x)
   },
 )
 

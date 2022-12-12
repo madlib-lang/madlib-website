@@ -1,7 +1,7 @@
 import type { Action, Element } from "MadUI"
 
 import type { State } from "@client/State"
-import {generateCustomVariables} from "@client/Style"
+import { generateCustomVariables } from "@client/Style"
 
 import Math from "Math"
 

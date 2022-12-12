@@ -1,12 +1,13 @@
-@use "sass:color";
+@use "sass:color" as color;
 
 @use "colors";
 @use "media";
 
 @mixin link($color) {
   .nav__link:hover {
+    $text: scale-color($color, $lightness: -20%);
     color: $color;
-    text-shadow: color.scale($color, $lightness: -20%) 0 0 0.25rem;
+    text-shadow: $text 0 0 0.25rem;
     .nav__link-icon {
       background-color: $color;
       transform: rotate(180deg);
@@ -150,5 +151,10 @@
         display: inline;
       }
     }
+  }
+  @media screen and (min-width: $breakpoint-xl) {
+    max-width: 21rem;
+    outline: 1px solid lime;
+    align-contnet: start;
   }
 }

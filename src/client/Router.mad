@@ -15,13 +15,13 @@ import { PlaygroundPage } from "@client/pages/Playground"
 Router :: State -> Element State
 export Router = (state) => switchRoute([
   #["/", () => Home(state)],
-  #["/index", () => Home(state)],
-  #["/index.html", () => Home(state)],
-  #["/docs", () => Docs(state)],
+  #["/index*", () => Home(state)],
+  #["/index.html*", () => Home(state)],
+  #["/docs*", () => Docs(state)],
   #["/docs/*", () => Docs(state)],
-  #["/getting-started", () => GettingStarted(state)],
-  #["/examples", () => Examples(state)],
-  #["/projects", () => Projects(state)],
-  #["/playground", () => PlaygroundPage(state)],
+  #["/getting-started*", () => GettingStarted(state)],
+  #["/examples*", () => Examples(state)],
+  #["/projects*", () => Projects(state)],
+  #["/playground*", () => PlaygroundPage(state)],
   #["/*", () => NotFound(state)],
 ])

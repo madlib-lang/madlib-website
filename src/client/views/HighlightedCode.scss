@@ -10,7 +10,8 @@ $lineHeight: 1.5rem;
       font-weight: bold;
       color: rgb(221, 136, 0);
     }
-    &--literal, &--literal * {
+    &--literal,
+    &--literal * {
       color: rgb(165, 221, 254) !important;
       opacity: 1 !important;
     }
@@ -20,7 +21,7 @@ $lineHeight: 1.5rem;
     }
     &--constructor {
       font-weight: bold;
-      color: rgba(200, 255, 0);
+      color: rgb(200, 255, 0);
     }
     &--type {
       font-weight: bold;

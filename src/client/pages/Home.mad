@@ -4,6 +4,7 @@ import type { State } from "@client/State"
 
 import { className, div, main, text } from "MadUI"
 import { strata } from "Strata"
+import { join } from "String"
 
 import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
@@ -11,7 +12,12 @@ import { Playground } from "@client/views/Playground"
 import { PageSection } from "@client/views/Section"
 import { Breakpoints } from "@client/views/Breakpoints"
 
+// import { qs } from "@client/views/QueryEnabled"
+import { trace } from "IO"
+
 stratum = strata("website")
+
+// #- console.log(qs()) -#
 
 Home :: State -> Element State
 export Home = (state) =>

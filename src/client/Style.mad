@@ -9,7 +9,6 @@ export generateCustomVariablesFromBreakpoints = pipe(
   .breakpoints,
   map((x) => #[`--break-${x.label}`, x.point]),
   fromList,
-  trace("added breakpoints")
 )
 
 generateCustomVariables :: State -> Dictionary String String
