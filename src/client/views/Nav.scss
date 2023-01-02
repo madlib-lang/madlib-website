@@ -141,24 +141,14 @@
     margin: 0 0.1rem;
     &--summary {
       display: inline;
-      /*
       @media screen and (min-width: $breakpoint-md) {
         display: none;
-      }
-      */
-      @media screen and (min-width: $breakpoint-lg) {
-        display: inline;
       }
     }
     &--detail {
       display: none;
-      /*
       @media screen and (min-width: $breakpoint-md) {
         display: inline;
-      }
-      */
-      @media screen and (min-width: $breakpoint-lg) {
-        display: none;
       }
     }
   }
@@ -170,12 +160,14 @@
     min-height: 6rem;
     margin-bottom: 1rem;
     &__link--logo {
+      flex-direction: row;
+      width: 14rem;
       margin: 0;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       padding: 0;
       padding-right: 0.5rem;
       &:hover {
-        margin-top: 1rem;
+        margin-top: 1.5rem;
         padding: 0;
         padding-right: 0.5rem;
       }
@@ -183,13 +175,12 @@
     &__logo {
       margin: 0;
       padding: 0;
-      width: 12rem;
+      width: 10rem;
     }
     &__list {
       width: calc(100% - 4rem);
       margin: 0;
       margin-top: 1rem;
-      margin-left: 1rem;
       height: 4rem;
       align-items: center;
       // justify-content: center;
