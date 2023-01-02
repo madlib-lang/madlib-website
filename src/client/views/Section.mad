@@ -4,7 +4,7 @@ import type { Section } from "@client/State"
 import type { State } from "@client/State"
 import type { Maybe } from "Maybe"
 
-import { Just, Nothing } from "Maybe"
+import { fromMaybe, Just, Nothing } from "Maybe"
 import { fromList } from "Dictionary"
 import { range } from "List"
 import {} from "Number"
@@ -23,35 +23,23 @@ stratum = strata("website")
 columns = range(0, 10)
 rows = range(0, 10)
 
-scanInt :: Number a => String -> Maybe a
-scanInt = (str) => (#- {
-  const n = parseInt(str)
-  return isNaN(n) ? Nothing : Just(n)
-} -#)
-
-
-parseInt = pipe(
-  scanInt,
-  where {
-    Just(x) => x
-    Nothing => "-1"
-  }
-)
-
+/*
 Grids = () => (
   <div className="grids">
     {...map(
-      (x) => <div className={`column col-${parseInt(x)}`} style={fromList(
+      (x) => <div className={`column col-${x}`} style={fromList(
         [#["borderLeft", "1px solid red"]]
       )}/>
     )(columns)}
     {...map(
-      (y) => <div className={`row row-${parseInt(y)}`} style={fromList(
+      (y) => <div className={`row row-${y}`} style={fromList(
         [#["borderTop", "1px solid red"]]
       )}/>
     )(rows)}
   </div>
-)
+)*/
+
+// {Grids()}
 
 PageSection :: Section -> Element State
 export PageSection = (raw) => {
@@ -59,7 +47,6 @@ export PageSection = (raw) => {
   sectionLinkProps = { id: clean, title: raw.title, }
   return (
     <section id={clean} className={stratum.e("section")}>
-      {Grids()}
       {LinkedHeader(sectionLinkProps)}
       <p className={stratum.e("paragraph")}>
         {renderMarkdown(raw.content)}
