@@ -1,8 +1,9 @@
 // we should use rem for _mostly_ everything
+@import "media";
 
 $point0: 20rem;
 $point1: 30rem;
-$point2: 50rem;
+$breakpoint-md: 50rem;
 $point3: 64rem;
 $point4: 75rem;
 
@@ -58,7 +59,7 @@ $outputWidth: 27%;
     border-bottom-left-radius: 0.25rem;
     overflow-x: scroll;
     margin-left: 3.125rem;
-    @media screen and (min-width: $point2) {
+    @media screen and (min-width: $breakpoint-md) {
       width: calc(100% - #{$outputWidth} - 3rem) !important;
     }
   }
@@ -161,9 +162,10 @@ $outputWidth: 27%;
           border 0.3s ease-out, background 0.3s ease-out;
       }
     }
-    @media screen and (min-width: $point2) {
+    @media screen and (min-width: $breakpoint-md) {
       left: -4.75rem;
       top: calc(100% - 3rem);
+      max-width: 6rem;
     }
   }
   // &__line {
@@ -258,7 +260,7 @@ $outputWidth: 27%;
     &:hover {
       border-color: white;
     }
-    @media screen and (min-width: $point2) {
+    @media screen and (min-width: $breakpoint-md) {
       transition: border 0.3s ease-out, left 0.3s 0.3s ease-out,
         opacity 0.3s 0.46s ease-out;
       opacity: 1;
@@ -274,10 +276,10 @@ $outputWidth: 27%;
     min-height: 4rem;
     padding: 1.5rem 1rem;
     position: relative;
-    @media screen and (max-width: $point2) {
+    @media screen and (max-width: $breakpoint-md) {
       width: 100% !important;
     }
-    @media screen and (min-width: $point2) {
+    @media screen and (min-width: $breakpoint-md) {
       border-bottom-right-radius: 0.5rem;
       border-bottom-left-radius: 0;
       border-top-right-radius: 0.5rem;
