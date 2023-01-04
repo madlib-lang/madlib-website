@@ -1,17 +1,32 @@
-## Via npm
-You must first have [nodejs](https://nodejs.org/) installed. Then with npm you can run:
-```shell
-npm i -g @madlib-lang/madlib
-madlib --help
-```
+Predominantly there are two ways you can install `madlib` today.
 
-Which should output:
-```shel
+## Via Node
+
+You must first have [nodejs](https://nodejs.org/) installed. Then you can run:
+
+Depending on your preferences, either of these should be identical in behavior. 
+- `yarn global add @madlib-lang/madlib`
+- `npm install @madlib-lang/madlib -g`
+
+## From Source Code
+
+You can download the archive of a build for your target from the [releases page](https://github.com/madlib-lang/madlib/releases), unarchive it wherever appropriate ( /opt might be a good candidate on linux/osx ), and add the location to your PATH in your bashrc file. Currently 5 targets are supported:
+- linux glibc
+- linux muslc
+- osx x64
+- osx arm64
+- windows x64
+
+### Debugging
+
+Once `madlib` has been installed, running `madlib` (no arguments) or `madlib -h` should show the following text:
+
+```shell
 ################################################
  ____    __  ____   _____   ____    ____  ______
-|    \  /  ||    \  |    \ |    |  |    ||      )
-|     \/   ||     \ |     \|    |_ |    ||     <
-|__/\__/|__||__|\__\|_____/|______||____||______)
+|    \\  /  ||    \\  |    \\ |    |  |    ||      )
+|     \\/   ||     \\ |     \\|    |_ |    ||     <
+|__/\\__/|__||__|\\__\\|_____/|______||____||______)
 
 
 
@@ -35,10 +50,3 @@ Available commands:
   config                   read informations about the current installation
 ```
 
-## Manually
-You can download the archive of a build for your target from the [releases page](https://github.com/madlib-lang/madlib/releases), unarchive it wherever appropriate ( /opt might be a good candidate on linux/osx ), and add the location to your PATH in your bashrc file. Currently 5 targets are supported:
-- glibc linux
-- muslc linux
-- osx x64
-- osx arm64
-- windows x64
