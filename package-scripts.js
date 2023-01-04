@@ -76,13 +76,13 @@ module.exports = {
       update: {
         description:
           "updates content keys for the docs in the content.json file",
-        script: 'echo "temporarily disabled"' /*run([
+        script: run([
           "madlib compile --target llvm -i src/scripts/UpdateJsonFieldWithFile.mad -o build/updateDocs",
           ...DOCS_TO_UPDATE.map(
             ({ jsonPath, filePath }) =>
               `./build/updateDocs src/client/content.json ${filePath} ${jsonPath}`
           ),
-        ]),*/
+        ]),
       },
     },
     build: {

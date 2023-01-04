@@ -1,28 +1,4 @@
 {
-  "theme": {
-    "breakpoints": [
-      { "label": "xs", "point": "-Infinity", "vertical": false },
-      { "label": "sm", "point": "22rem", "vertical": false },
-      { "label": "md", "point": "33rem", "vertical": false },
-      { "label": "lg", "point": "50rem", "vertical": false },
-      { "label": "xl", "point": "64rem", "vertical": false }
-    ],
-    "colors": [
-      { "name": "black", "color": "#000" },
-      { "name": "offblack", "color": "#101020" },
-      { "name": "chartreuse", "color": "#c8ff00" },
-      { "name": "cyan", "color": "#0cf" },
-      { "name": "gray", "color": "#888" },
-      { "name": "lime", "color": "#0f6" },
-      { "name": "magenta", "color": "#fc0068" },
-      { "name": "orange", "color": "#f60" },
-      { "name": "periwinkle", "color": "#a5ddfe" },
-      { "name": "purple", "color": "#60f" },
-      { "name": "offpurple", "color": "#2d0024" },
-      { "name": "white", "color": "#fff" },
-      { "name": "yellow", "color": "#ff0" }
-    ]
-  },
   "docs": [
     {
       "content": "*Madlib* is a functional language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\nIt compiles to both Javascript and native binary executables. It is primarily designed for the web and can be used for client and server applications as well as scripting.\n\nIts main goal is to enable users to write reliable code that can be easily tested and robust in a playful way. The playfulness and succint syntax is achieved via tacit ( aka pointfree ) notation and the `pipe` utility to compose functions. Here is a small example that displays some user files after reading them from disk, all in parallel:\n\n```madlib\nimport type { Wish } from \"Wish\"\n\nimport Wish from \"Wish\"\nimport List from \"List\"\nimport File from \"File\"\nimport IO from \"IO\"\n\ntype User = User(String)\n\ngetInfoFilePath :: User -> String\ngetInfoFilePath = (user) => where(user) {\n  User(path) =>\n    path\n}\n\nreadUserInfos :: List User -> Wish {} (List String)\nreadUserInfos = (users) => pipe(\n  map(pipe(getInfoFilePath, File.read)),\n  Wish.parallel,\n  Wish.mapRej(() => ({}))\n)(users)\n\nWish.fulfill(\n  () => IO.errLine(\"Info files could not be read\"),\n  IO.log,\n  readUserInfos([User(\"./users/1.csv\"), User(\"./users/2.csv\")])\n)\n```\n",
@@ -37,7 +13,7 @@
       "title": "Getting started"
     },
     {
-      "content": "## Via npm\nYou must first have [nodejs](https://nodejs.org/) installed. Then with npm you can run:\n```shell\nnpm i -g @madlib-lang/madlib\nmadlib --help\n```\n\nWhich should output:\n```shel\n################################################\n ____    __  ____   _____   ____    ____  ______\n|      /  ||      |     |    |  |    ||      )\n|     /   ||      |     |    |_ |    ||     <\n|__/__/|__||__|__|_____/|______||____||______)\n\n\n\nUsage: madlib COMMAND\n  madlib@0.18.5\n\nAvailable options:\n  -h,--help                Show this help text\n  -v,--version             Show version\n\nAvailable commands:\n  compile                  compile madlib code to js\n  run                      run a madlib module or package\n  test                     test tools\n  install                  install madlib packages\n  package                  packages a library\n  new                      create a new project\n  doc                      generate documentation\n  format                   format code\n  lsp                      start language server\n  config                   read informations about the current installation\n```\n\n## Manually\nYou can download the archive of a build for your target from the [releases page](https://github.com/madlib-lang/madlib/releases), unarchive it wherever appropriate ( /opt might be a good candidate on linux/osx ), and add the location to your PATH in your bashrc file. Currently 5 targets are supported:\n- glibc linux\n- muslc linux\n- osx x64\n- osx arm64\n- windows x64\n",
+      "content": "## Via npm\nYou must first have [nodejs](https://nodejs.org/) installed. Then with npm you can run:\n```shell\nnpm i -g @madlib-lang/madlib\nmadlib --help\n```\n\nWhich should output:\n```shel\n################################################\n ____    __  ____   _____   ____    ____  ______\n|    \  /  ||    \  |    \ |    |  |    ||      )\n|     \/   ||     \ |     \|    |_ |    ||     <\n|__/\__/|__||__|\__\|_____/|______||____||______)\n\n\n\nUsage: madlib COMMAND\n  madlib@0.18.5\n\nAvailable options:\n  -h,--help                Show this help text\n  -v,--version             Show version\n\nAvailable commands:\n  compile                  compile madlib code to js\n  run                      run a madlib module or package\n  test                     test tools\n  install                  install madlib packages\n  package                  packages a library\n  new                      create a new project\n  doc                      generate documentation\n  format                   format code\n  lsp                      start language server\n  config                   read informations about the current installation\n```\n\n## Manually\nYou can download the archive of a build for your target from the [releases page](https://github.com/madlib-lang/madlib/releases), unarchive it wherever appropriate ( /opt might be a good candidate on linux/osx ), and add the location to your PATH in your bashrc file. Currently 5 targets are supported:\n- glibc linux\n- muslc linux\n- osx x64\n- osx arm64\n- windows x64\n",
       "depth": 1,
       "slug": "installation",
       "title": "Installation"
@@ -66,21 +42,21 @@
       "slug": "types",
       "title": "Types"
     },
-    { "content": "", "depth": 1, "slug": "pipe", "title": "Pipe" },
+    {"content": "", "depth": 1, "slug": "pipe", "title": "Pipe"},
     {
       "content": "Interfaces are a tool to extend genericity possibilities. Let's take a concrete example to illustrate it. Let's see how we could implement an inspect function for a tuple without interfaces. The function should take a 2-tuple as input, and return its String representation:\n```madlib\ninspectList :: #[a, b] -> String\ninspectList = (tuple) => where(tuple) {\n  #[a, b] =>\n    `#[&#36;{inspectA(a)}, &#36;{inspectB(b)}]`\n}\n```\nNow, what we would like to do, is to define inspectA and inspectB. The issue is that these aren't defined types and could be any type. Unfortunately Madlib does not provide any sort of reflection like Java that would allow us to figure out at runtime how the value is structured. Luckily, interfaces come to the rescue! Let's see how to define the interface for our inspect problem:\n```madlib\ninterface Inspect a {\n  inspect :: a -> String\n}\n```\nSo with this we say, that if Inspect is implemented for a type `a`, we can call the method inspect with values of that type, that take that type and return a string.\n\nNow we can use constraints within type annotations, to force a type variable to be a type that implements an interface. The fat arrow is used for that purpose:\n```madlib\nComparable a => a -> a -> Boolean\n```\nHere the type annotation tells us that the function must be called with values of a type that implement the interface Comparable or else we'd get a compilation error telling us that an instance for Comparable was not found for that type.\n\nNow back to our initial problem, so we'd like to implement Inspect for the type `#[a, b]`. To do this, we can also constrain types in the head of an instance declaration:\n```madlib\ninstance (Inspect a, Inspect b) => Inspect #[a, b] {\n  inspect = (tuple) => where(tuple) {\n    #[a, b] =>\n      `#[&#36;{inspect(a)}, &#36;{inspect(b)}]`\n    }\n}\n```\nNow we can finally do it, and we need not care about how inspect will be done for the types contained in the tuple. The inspect method will be dispatched to the right implementation, based on the concrete types the method is called with. So:\ninspect(#[1, true]) would respectively call the method from `Inspect Integer` and `Inspect Boolean`.\n\n",
       "depth": 1,
       "slug": "interfaces",
       "title": "Interfaces"
     },
-    { "content": "", "depth": 1, "slug": "concurreny", "title": "Concurrency" },
+    {"content": "", "depth": 1, "slug": "concurreny", "title": "Concurrency"},
     {
       "content": "",
       "depth": 1,
       "slug": "standard library",
       "title": "Standard library"
     },
-    { "content": "", "depth": 0, "slug": "ffi", "title": "FFI" }
+    {"content": "", "depth": 0, "slug": "ffi", "title": "FFI"}
   ],
   "gettingStarted": {
     "intro": "*Madlib* is a functional language which is a combination of [JavaScript](https://www.javascript.com) and [Haskell](https://www.haskell.org/). It is similar in nature to [PureScript](https://www.purescript.org/), [ReasonML](https://reasonml.github.io) and [Elm](https://elm-lang.org/).\n\nIt compiles to both Javascript and native binary executables. It is primarily designed for the web and can be used for client and server applications as well as scripting.\n\nIts main goal is to enable users to write reliable code that can be easily tested and robust in a playful way. The playfulness and succint syntax is achieved via tacit ( aka pointfree ) notation and the `pipe` utility to compose functions. Here is a small example that displays some user files after reading them from disk, all in parallel:\n\n```madlib\nimport type { Wish } from \"Wish\"\n\nimport Wish from \"Wish\"\nimport List from \"List\"\nimport File from \"File\"\nimport IO from \"IO\"\n\ntype User = User(String)\n\ngetInfoFilePath :: User -> String\ngetInfoFilePath = (user) => where(user) {\n  User(path) =>\n    path\n}\n\nreadUserInfos :: List User -> Wish {} (List String)\nreadUserInfos = (users) => pipe(\n  map(pipe(getInfoFilePath, File.read)),\n  Wish.parallel,\n  Wish.mapRej(() => ({}))\n)(users)\n\nWish.fulfill(\n  () => IO.errLine(\"Info files could not be read\"),\n  IO.log,\n  readUserInfos([User(\"./users/1.csv\"), User(\"./users/2.csv\")])\n)\n```",
@@ -157,5 +133,29 @@
       "text": "Contribute"
     }
   ],
+  "theme": {
+    "breakpoints": [
+      {"label": "xs", "point": "-Infinity", "vertical": false},
+      {"label": "sm", "point": "22rem", "vertical": false},
+      {"label": "md", "point": "48rem", "vertical": false},
+      {"label": "lg", "point": "67rem", "vertical": false},
+      {"label": "xl", "point": "70rem", "vertical": false}
+    ],
+    "colors": [
+      {"color": "#000", "name": "black"},
+      {"color": "#101020", "name": "offblack"},
+      {"color": "#c8ff00", "name": "chartreuse"},
+      {"color": "#0cf", "name": "cyan"},
+      {"color": "#888", "name": "gray"},
+      {"color": "#0f6", "name": "lime"},
+      {"color": "#fc0068", "name": "magenta"},
+      {"color": "#f60", "name": "orange"},
+      {"color": "#a5ddfe", "name": "periwinkle"},
+      {"color": "#60f", "name": "purple"},
+      {"color": "#2d0024", "name": "offpurple"},
+      {"color": "#fff", "name": "white"},
+      {"color": "#ff0", "name": "yellow"}
+    ]
+  },
   "title": "Madlib"
 }
