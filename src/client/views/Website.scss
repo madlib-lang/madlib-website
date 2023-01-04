@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 2.5rem;
+  padding: 16rem 2.5rem 0;
 
   &__header {
     display: flex;
@@ -92,5 +92,8 @@
   }
   &__section-list-item {
     margin-bottom: 0.25rem;
+  }
+  @media screen and (min-width: $breakpoint-md) {
+    padding: 8rem 2.5rem 0;
   }
 }
