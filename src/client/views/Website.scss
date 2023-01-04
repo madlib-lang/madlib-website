@@ -1,9 +1,10 @@
 .website {
+  // font-family: "Fira Code", "Helvetica Neue", Helvetica, Arial, sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16rem 2.5rem 0;
+  padding: 14rem 2rem 0;
 
   &__header {
     display: flex;
@@ -79,9 +80,9 @@
     flex-grow: 1;
 
     p {
-      padding-left: 0.5rem;
+      // padding-left: 0.5rem;
 
-      letter-spacing: 0.3px;
+      // letter-spacing: 0.3px;
     }
   }
 
@@ -94,6 +95,6 @@
     margin-bottom: 0.25rem;
   }
   @media screen and (min-width: $breakpoint-md) {
-    padding: 8rem 2.5rem 0;
+    padding: 7rem 2rem 0;
   }
 }

@@ -2,6 +2,7 @@ import type { Element } from "MadUI"
 
 import type { State } from "@client/State"
 
+import { Breakpoints } from "@client/views/Breakpoints"
 
 import { className, div, main, switchRoute } from "MadUI"
 import { strata } from "Strata"
@@ -20,7 +21,7 @@ docsStratum = strata("docs")
 
 Docs :: State -> Element State
 export Docs = (state) =>
-  <div className={stratum.e("")}>
+  <div className={stratum.m(["docs"])}>
     {Nav(state.content.nav)}
     <main className={stratum.e("main")}>
       <div className={docsStratum.e("")}>
@@ -36,4 +37,5 @@ export Docs = (state) =>
       </div>
     </main>
     {Footer(state)}
+    {Breakpoints(state.content.theme.breakpoints)}
   </div>

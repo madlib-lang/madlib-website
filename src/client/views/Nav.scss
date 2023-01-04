@@ -39,6 +39,7 @@
   &__logo {
     margin-top: 1rem;
     width: 100%;
+    max-height: 3rem;
     img {
       width: 100%;
       height: auto;
@@ -160,7 +161,7 @@
   }
   @media screen and (min-width: $breakpoint-md) {
     width: 100%;
-    padding: 0 2.5rem;
+    padding: 0 2rem;
     // outline: 1px solid cyan;
     flex-direction: row;
     align-items: start;
