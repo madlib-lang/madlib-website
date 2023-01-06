@@ -13,7 +13,7 @@ import type {
   Theme,
 } from "@client/State"
 
-import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, string, float } from "JsonParser"
+import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, map8, string, float } from "JsonParser"
 import { Just, Nothing } from "Maybe"
 
 import { documentationPageSlugToLink } from "@client/Utils"
@@ -70,7 +70,6 @@ gettingStartedParser = map2(
   field("sections", list(sectionParser)),
 )
 
-
 docsParser :: Parser DocumentationPage
 docsParser = map4(
   (slug, title, content, depth) => ({ slug, title, content, depth }),
@@ -81,7 +80,6 @@ docsParser = map4(
 )
 
 generatePageLink = (page) => ({ href: documentationPageSlugToLink(page.slug), text: page.title })
-
 
 withSurroundingPagesLinks :: List DocumentationPage -> List DocumentationPageWithLinks
 withSurroundingPagesLinks = (pages) => {
@@ -106,8 +104,8 @@ withSurroundingPagesLinks = (pages) => {
 }
 
 contentParser :: Parser Content
-export contentParser = map7(
-  (title, headerContent, nav, home, gettingStarted, docs, theme) => (
+export contentParser = map8(
+  (title, headerContent, nav, home, gettingStarted, docs, pages, theme) => (
     {
       title,
       header: headerContent,
@@ -115,6 +113,7 @@ export contentParser = map7(
       home,
       gettingStarted,
       docs: withSurroundingPagesLinks(docs),
+      pages,
       theme
     }
   ),
@@ -124,5 +123,6 @@ export contentParser = map7(
   field("home", list(sectionParser)),
   field("gettingStarted", gettingStartedParser),
   field("docs", list(docsParser)),
+  field("pages", list(docsParser)),
   field("theme", themeParser),
 )

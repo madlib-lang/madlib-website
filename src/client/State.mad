@@ -10,6 +10,7 @@ export DEFAULT_CONTENT = {
   home: [],
   gettingStarted: { intro: "", sections: [] },
   docs: [],
+  pages: [],
   theme: {
     colors: [],
     breakpoints: [],
@@ -94,6 +95,7 @@ export alias DocumentationPageWithLinks = {
 }
 
 export alias Content = {
+  pages :: List DocumentationPage,
   docs :: List DocumentationPageWithLinks,
   gettingStarted :: Page,
   header :: Header,

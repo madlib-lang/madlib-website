@@ -51,6 +51,10 @@ const DOCS_TO_UPDATE = [
     jsonPath: "docs.8.content",
     filePath: "docs/INTERFACES.md",
   },
+  {
+    jsonPath: "pages.0.content",
+    filePath: "docs/PROJECTS.md",
+  },
 ];
 
 const runWhen = (cond, cmd) => `

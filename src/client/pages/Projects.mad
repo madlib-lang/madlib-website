@@ -1,22 +1,38 @@
 import type { Element } from "MadUI"
+import type { State, DocumentationPage } from "@client/State"
 
-import type { State } from "@client/State"
-
-import { className, div, h1, main, text } from "MadUI"
+import { find } from "List"
+import { equals } from "Function"
+import { Just, Nothing, fromMaybe } from "Maybe"
+import { empty, className, div, h1, main, text } from "MadUI"
 import { strata } from "Strata"
+import IO from "IO"
 
 import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
 import { Header } from "@client/views/Header"
+import { renderMarkdownCode } from "@client/RenderMarkdown"
 
 stratum = strata("website")
+
+renderNamedPage :: String -> List DocumentationPage -> Element State
+renderNamedPage = (n, pages) => pipe(
+  find((page) => pipe(
+    .slug,
+    equals(n),
+  )(page)),
+  IO.trace("hey!"),
+  map((z) => <div>{renderMarkdownCode(z.content)}</div>),
+  fromMaybe(<empty />),
+)(pages)
 
 Projects :: State -> Element State
 export Projects = (state) =>
   <div className={stratum.e("")}>
     {Nav(state.content.nav)}
-    {Header(state)}
     <h1>Projects</h1>
-    <main className={stratum.e("main")}></main>
+    <main className={stratum.e("main")}>
+      {renderNamedPage("projects", state.content.pages)}
+    </main>
     {Footer(state)}
   </div>
