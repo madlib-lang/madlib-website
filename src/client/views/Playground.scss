@@ -63,6 +63,12 @@ $outputWidth: 27%;
     height: 11.25rem;
     display: inline-flex;
     min-width: 100%;
+    .code {
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+    }
     &::after {
       position: absolute;
       top: -1.5rem;
@@ -299,12 +305,6 @@ $outputWidth: 27%;
   }
 }
 
-.code {
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-}
 textarea,
 pre,
 code {

@@ -199,4 +199,4 @@ buildCodeElements = pipe(
 
 
 HighlightedCode :: String -> Element State
-export HighlightedCode = (c) => <code className={stratum.e("")}>{...buildCodeElements(c)}</code>
+export HighlightedCode = (c) => <code className={stratum.m(["madlib"])}>{...buildCodeElements(c)}</code>

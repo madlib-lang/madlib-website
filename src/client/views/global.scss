@@ -79,3 +79,11 @@ code,
   background-color: rgba(255, 255, 255, 0.1);
   position: relative;
 }
+
+.code.code--madlib {
+  display: block;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  white-space: break-spaces;
+}
