@@ -8,8 +8,7 @@ import { strata } from "Strata"
 
 import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
-
-
+import { renderMarkdownCode } from "@client/RenderMarkdown"
 
 stratum = strata("website")
 
@@ -21,7 +20,7 @@ export GettingStarted = (state) =>
       Getting Started
     </h1>
     <main className={stratum.e("main")}>
-      {renderMarkdown(state.content.gettingStarted.intro)}
+      {renderMarkdownCode(state.content.gettingStarted.intro)}
     </main>
     {Footer(state)}
   </div>

@@ -5,6 +5,7 @@ It compiles to both JavaScript and native binary executables. It is designed for
 Its main goal is to enable users to write robust, reliable code that is expressive and easily tested. It uses an expressive and terse syntax that uses tacit (point-free) notation and `pipe` composition to combine functions in an easy and idiomatic way.
 
 Here's an example which facilitates displaying user files after reading them from disk, in parallel:
+
 ```madlib
 import type { Wish } from "Wish"
 
@@ -34,3 +35,4 @@ Wish.fulfill(
   readUserInfos([User("./users/1.csv"), User("./users/2.csv")])
 )
 ```
+
