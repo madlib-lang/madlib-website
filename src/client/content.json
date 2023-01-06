@@ -139,6 +139,12 @@
       "depth": 0,
       "slug": "projects",
       "title": "Projects"
+    },
+    {
+      "content": "## Quick Installation\n\nThe easiest way to install `madlib` is via `npm`:\n```sh\nnpm i @madlib-lang/madlib -g\n```\n\nYou are also welcome to [install from source](/docs/installation#from-source-code).\n\n## Troubleshooting\n\n_To be fleshed out with more details at a later date._\n\n## Making a new project\n\n```sh\nmadlib new <project-name>\ncd <project-name>\n```\n\n## Running your project\n\n```sh\nmadlib run src/Main.mad\n```\n\n## Play\n\n### Syntax\n\nYou can avail yourself of more details on the [Language Features](/docs/language-features') page, but here is a quick example of some Madlib syntax you could drop in your new project's `src/Main.mad` file:\n\n```madlib\nimport IO from \"IO\"\n\ngreetWith :: String -> String -> String\ngreetWith = (greeting, x) => `&#36;{greeting} &#36;{x}`\n\ntype PetType\n  = PetDog\n  | PetCat\n  | PetHamster\n  | PetCthulu\n\ntype Creature\n  = Human(String)\n  | Alien(String)\n  | Pet(String, PetType)\n  | UnknownCreature\n\ngreetCreature :: String -> Creature -> String\ngreetCreature = (greeting, critter) => pipe(\n  where {\n    Human(name) => name\n    Alien(name) => name\n    Pet(name, _) => name\n    UnknownCreature => \"Unknown\"\n  },\n  greetWith(greeting)\n)(critter)\n\nmain = () => {\n  pipe(\n    greetCreature(\"Sup?\"),\n    IO.trace(\"Transmission!\")\n  )(Alien(\"Xyxyxyxyx\"))\n}\n```\n\nAs [mentioned above](#running-your-project) you can run this with `madlib run src/Main.mad` \n\nOnce you've familiarized yourself with the core syntax, one of the best ways to get to know the language is to work through the [examples](/examples)\n",
+      "depth": 0,
+      "slug": "getting-started",
+      "title": "Getting Started"
     }
   ],
   "theme": {

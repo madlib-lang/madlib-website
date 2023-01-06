@@ -53,7 +53,11 @@ const DOCS_TO_UPDATE = [
   },
   {
     jsonPath: "pages.0.content",
-    filePath: "docs/PROJECTS.md",
+    filePath: "pages/PROJECTS.md",
+  },
+  {
+    jsonPath: "pages.1.content",
+    filePath: "pages/GETTING_STARTED.md",
   },
 ];
 

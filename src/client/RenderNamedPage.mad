@@ -1,0 +1,55 @@
+import type { Maybe } from "Maybe"
+import type { Element } from "MadUI"
+import type { State, DocumentationPage } from "@client/State"
+
+import { find } from "List"
+import { equals } from "Function"
+import { Just, Nothing, fromMaybe } from "Maybe"
+import { empty, className, div, h1, main, text } from "MadUI"
+import { strata } from "Strata"
+import IO from "IO"
+
+import { Nav } from "@client/views/Nav"
+import { Footer } from "@client/views/Footer"
+import { Header } from "@client/views/Header"
+import { renderMarkdownCode } from "@client/RenderMarkdown"
+
+stratum = strata("website")
+
+findNamedPage :: String -> List DocumentationPage -> Maybe DocumentationPage
+findNamedPage = (name, pages) =>
+  find(pipe(
+    .slug,
+    equals(name),
+  ))(pages)
+
+getPageTitle :: String -> List DocumentationPage -> String
+getPageTitle = (name, pages) => pipe(
+  findNamedPage(name),
+  map(.title),
+  fromMaybe("Unknown")
+)(pages)
+
+renderNamedPage :: String -> List DocumentationPage -> Element State
+export renderNamedPage = (n, pages) => pipe(
+  findNamedPage(n), 
+  map(
+    (z) => <div className={stratum.e("content")}>
+      {renderMarkdownCode(z.content)}
+    </div>
+  ),
+  fromMaybe(<empty />),
+)(pages)
+
+namedPage :: String -> State -> Element State
+export namedPage = (name, state) =>
+  <div className={stratum.m([name])}>
+    {Nav(state.content.nav)}
+    <h1 className={stratum.e("h1")}>
+      {getPageTitle(name, state.content.pages)}
+    </h1>
+    <main className={stratum.e("main")}>
+      {renderNamedPage(name, state.content.pages)}
+    </main>
+    {Footer(state)}
+  </div>

@@ -80,7 +80,8 @@ code,
   position: relative;
 }
 
-.code.code--madlib {
+.code.code--madlib,
+pre code {
   display: block;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;

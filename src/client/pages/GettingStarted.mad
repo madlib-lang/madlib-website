@@ -1,26 +1,3 @@
-import type { Element } from "MadUI"
+import { namedPage } from "@client/RenderNamedPage"
 
-import type { State } from "@client/State"
-
-import { renderMarkdown } from "MadMarkdownRenderer"
-import { className, div, h1, main, text } from "MadUI"
-import { strata } from "Strata"
-
-import { Nav } from "@client/views/Nav"
-import { Footer } from "@client/views/Footer"
-import { renderMarkdownCode } from "@client/RenderMarkdown"
-
-stratum = strata("website")
-
-GettingStarted :: State -> Element State
-export GettingStarted = (state) =>
-  <div className={stratum.e("")}>
-    {Nav(state.content.nav)}
-    <h1 className={stratum.e("title")}>
-      Getting Started
-    </h1>
-    <main className={stratum.e("main")}>
-      {renderMarkdownCode(state.content.gettingStarted.intro)}
-    </main>
-    {Footer(state)}
-  </div>
+export GettingStarted = namedPage("getting-started")
