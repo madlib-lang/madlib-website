@@ -145,6 +145,12 @@
       "depth": 0,
       "slug": "getting-started",
       "title": "Getting Started"
+    },
+    {
+      "content": "Here's a listing of several examples you can use to better understand idiomatic Madlib syntax and methodology.\n\n1. The Basics\n  a. Expressions\n  b. Type Signatures\n  c. Common Types\n  d. Custom Types\n  e. Keywords and Magic\n    i. pipe\n    ii. where\n    iii. ??? \n2. Tacit Functions\n3. Advanced Types\n",
+      "depth": 0,
+      "slug": "examples",
+      "title": "Examples"
     }
   ],
   "theme": {

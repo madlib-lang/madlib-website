@@ -6,23 +6,8 @@ import {
   main,
   text
 } from "MadUI"
-import { strata } from "Strata"
-
-import { Nav } from "@client/views/Nav"
-import { Footer } from "@client/views/Footer"
+import { namedPageWithChildren } from "@client/RenderNamedPage"
 
 import type { State } from "@client/State"
 
-stratum = strata("website")
-
-Examples :: State -> Element State
-export Examples = (state) =>
-  <div className={stratum.e("")}>
-    {Nav(state.content.nav)}
-    <h1>
-      Examples
-    </h1>
-    <main className={stratum.e("main")}>
-    </main>
-    {Footer(state)}
-  </div>
+export Examples = namedPageWithChildren("dope", "examples")

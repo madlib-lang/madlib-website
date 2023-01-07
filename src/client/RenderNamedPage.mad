@@ -12,7 +12,7 @@ import IO from "IO"
 import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
 import { Header } from "@client/views/Header"
-import { renderMarkdownCode } from "@client/RenderMarkdown"
+import { renderMarkdown } from "@client/RenderMarkdown"
 
 stratum = strata("website")
 
@@ -35,14 +35,14 @@ export renderNamedPage = (n, pages) => pipe(
   findNamedPage(n), 
   map(
     (z) => <div className={stratum.e("content")}>
-      {renderMarkdownCode(z.content)}
+      {renderMarkdown(z.content)}
     </div>
   ),
   fromMaybe(<empty />),
 )(pages)
 
-namedPage :: String -> State -> Element State
-export namedPage = (name, state) =>
+namedPageWithChildren :: Element State -> String -> State -> Element State
+export namedPageWithChildren = (children, name, state) =>
   <div className={stratum.m([name])}>
     {Nav(state.content.nav)}
     <h1 className={stratum.e("h1")}>
@@ -50,6 +50,10 @@ export namedPage = (name, state) =>
     </h1>
     <main className={stratum.e("main")}>
       {renderNamedPage(name, state.content.pages)}
+      {children}
     </main>
     {Footer(state)}
   </div>
+
+namedPage :: String -> State -> Element State
+export namedPage = namedPageWithChildren(<empty />)

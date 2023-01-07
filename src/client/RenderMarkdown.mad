@@ -13,5 +13,5 @@ export MARKDOWN_RENDERER_CONFIG = setCodeView(
   defaultConfig,
 )
 
-renderMarkdownCode :: String -> String
-export renderMarkdownCode = renderMarkdownWithConfig(MARKDOWN_RENDERER_CONFIG)
+renderMarkdown :: String -> String
+export renderMarkdown = renderMarkdownWithConfig(MARKDOWN_RENDERER_CONFIG)

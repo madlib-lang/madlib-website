@@ -8,7 +8,7 @@ import { Just, Nothing } from "Maybe"
 import { className, code, div, empty, h1, link, to } from "MadUI"
 import { strata } from "Strata"
 
-import { renderMarkdownCode } from "@client/RenderMarkdown"
+import { renderMarkdown } from "@client/RenderMarkdown"
 
 stratum = strata("documentation-page")
 
@@ -34,7 +34,7 @@ export Content = (document) =>
       <h1>
         {document.title}
       </h1>
-      {renderMarkdownCode(document.content)}
+      {renderMarkdown(document.content)}
     </div>
     {SurroundingPageLink("⦊", "next-page-link", document.nextLink)}
   </div>
