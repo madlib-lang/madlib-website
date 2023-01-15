@@ -6,8 +6,9 @@ import {
   main,
   text
 } from "MadUI"
-import { namedPageWithChildren } from "@client/RenderNamedPage"
+import { titledPageWithChildren } from "@client/RenderNamedPage"
 
 import type { State } from "@client/State"
 
-export Examples = namedPageWithChildren("dope", "examples")
+export Examples = titledPageWithChildren("examples", "dope")
+

@@ -139,11 +139,6 @@ handleDragStart = (_, _) => [
   ),
 ]
 
-
-
-
-
-
 Playground :: State -> Element State
 export Playground = (state) => {
   output = displayPlaygroundOutput(state)

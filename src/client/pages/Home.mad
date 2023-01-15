@@ -2,7 +2,7 @@ import type { Element } from "MadUI"
 
 import type { State } from "@client/State"
 
-import { className, div, main, text } from "MadUI"
+import { className, div, main, text, empty } from "MadUI"
 import { strata } from "Strata"
 import { join } from "String"
 
@@ -28,5 +28,5 @@ export Home = (state) =>
       {...map(PageSection, state.content.home)}
     </main>
     {Footer(state)}
-    {Breakpoints(state.content.theme.breakpoints)}
+    {state.debug ? Breakpoints(state.content.theme.breakpoints) : <empty />}
   </div>

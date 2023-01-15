@@ -36,15 +36,7 @@ main = () => {
 }
 `
 
-INITIAL_STATE :: State
-export INITIAL_STATE = {
-  content: DEFAULT_CONTENT,
-  loadingState: Ready,
-  playground: {
-    data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
-    dragData: { verticalSplitPosition: 9999, dragging: false },
-  },
-}
+
 
 
 export alias Section = {
@@ -114,4 +106,16 @@ export alias State = {
     data :: Playground,
     dragData :: { dragging :: Boolean, verticalSplitPosition :: Integer },
   },
+  debug :: Boolean
+}
+
+INITIAL_STATE :: State
+export INITIAL_STATE = {
+  content: DEFAULT_CONTENT,
+  loadingState: Ready,
+  playground: {
+    data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
+    dragData: { verticalSplitPosition: 9999, dragging: false },
+  },
+  debug: false
 }

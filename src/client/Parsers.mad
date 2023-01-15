@@ -126,3 +126,6 @@ export contentParser = map8(
   field("pages", list(docsParser)),
   field("theme", themeParser),
 )
+
+debugParser :: Parser Boolean
+export debugParser = field("debug", boolean)

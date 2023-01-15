@@ -4,6 +4,7 @@ import type { State, DocumentationPage } from "@client/State"
 
 import { find } from "List"
 import { equals } from "Function"
+import String from "String"
 import { Just, Nothing, fromMaybe } from "Maybe"
 import { empty, className, div, h1, main, text } from "MadUI"
 import { strata } from "Strata"
@@ -30,6 +31,26 @@ getPageTitle = (name, pages) => pipe(
   fromMaybe("Unknown")
 )(pages)
 
+slug :: String -> String
+export slug = pipe(
+  String.toLower,
+  String.replace(" ", "-"),
+)
+
+page :: String -> Element State -> State -> Element State
+export page = (title, children, state) =>
+  <div className={stratum.m([slug(title)])}>
+    {Nav(state.content.nav)}
+    <h1 className={stratum.e("h1")}>
+      {title}
+    </h1>
+    <main className={stratum.e("main")}>
+      {children}
+    </main>
+    {Footer(state)}
+  </div>
+
+
 renderNamedPage :: String -> List DocumentationPage -> Element State
 export renderNamedPage = (n, pages) => pipe(
   findNamedPage(n), 
@@ -41,19 +62,16 @@ export renderNamedPage = (n, pages) => pipe(
   fromMaybe(<empty />),
 )(pages)
 
-namedPageWithChildren :: Element State -> String -> State -> Element State
-export namedPageWithChildren = (children, name, state) =>
-  <div className={stratum.m([name])}>
-    {Nav(state.content.nav)}
-    <h1 className={stratum.e("h1")}>
-      {getPageTitle(name, state.content.pages)}
-    </h1>
-    <main className={stratum.e("main")}>
+titledPageWithChildren :: String -> Element State -> State -> Element State
+export titledPageWithChildren = (name, children, state) =>
+  page(  
+    getPageTitle(name, state.content.pages),
+    <div>
       {renderNamedPage(name, state.content.pages)}
       {children}
-    </main>
-    {Footer(state)}
-  </div>
-
-namedPage :: String -> State -> Element State
-export namedPage = namedPageWithChildren(<empty />)
+    </div>,
+    state
+  )
+  
+titledPage :: String -> State -> Element State
+export titledPage = titledPageWithChildren($, <empty />)

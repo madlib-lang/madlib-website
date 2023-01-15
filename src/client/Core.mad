@@ -10,6 +10,7 @@ import {trace} from "IO"
 import { DEFAULT_CONFIG, renderWithConfig } from "MadUI"
 
 import type { Content, State } from "@client/State"
+import { debugHook } from "@client/Debug"
 import { DEFAULT_CONTENT, INITIAL_STATE, Loading, Transitioning } from "@client/State"
 import { contentParser } from "@client/Parsers"
 import json from "@client/content.json"
@@ -43,6 +44,6 @@ renderer :: (State -> Element State) -> {}
 export renderer = (Renderable) => renderWithConfig(
   DEFAULT_CONFIG,
   RenderPage(Renderable),
-  { ...INITIAL_STATE, content: parseContent(json) },
+  { ...INITIAL_STATE, content: parseContent(json), debug: debugHook() },
   "app",
 )
