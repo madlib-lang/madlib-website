@@ -1,14 +1,12 @@
 import type { Element } from "MadUI"
-import {
-  className,
-  div,
-  h1,
-  main,
-  text
-} from "MadUI"
-import { titledPageWithChildren } from "@client/RenderNamedPage"
 
 import type { State } from "@client/State"
+import { titledPageWithChildren } from "@client/RenderNamedPage"
+import { Playground } from "@client/views/Playground"
 
-export Examples = titledPageWithChildren("examples", "dope")
-
+Examples :: State -> Element State
+export Examples = (state) => titledPageWithChildren(
+  "examples",
+  Playground(state),
+  state
+)

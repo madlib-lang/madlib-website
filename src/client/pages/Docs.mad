@@ -1,41 +1,32 @@
 import type { Element } from "MadUI"
-
 import type { State } from "@client/State"
 
-import { Breakpoints } from "@client/views/Breakpoints"
-
-import { className, div, main, switchRoute } from "MadUI"
+import { className, div, switchRoute } from "MadUI"
 import { strata } from "Strata"
 
 import { documentationPageSlugToLink } from "@client/Utils"
-import { Footer } from "@client/views/Footer"
-import { Nav } from "@client/views/Nav"
 import { Content } from "@client/views/docs/Content"
 import { Menu } from "@client/views/docs/Menu"
+import { page } from "@client/RenderNamedPage"
 
-
-
-stratum = strata("website")
 docsStratum = strata("docs")
-
-
 Docs :: State -> Element State
-export Docs = (state) =>
-  <div className={stratum.m(["docs"])}>
-    {Nav(state.content.nav)}
-    <main className={stratum.e("main")}>
-      <div className={docsStratum.e("")}>
-        {Menu(state.content.docs)}
-        <div className={docsStratum.e("content")}>
-          {switchRoute(
-            map(
-              (document) => #[documentationPageSlugToLink(document.slug), () => Content(document)],
-              state.content.docs,
-            ),
-          )}
-        </div>
-      </div>
-    </main>
-    {Footer(state)}
-    {Breakpoints(state.content.theme.breakpoints)}
-  </div>
+export Docs = (state) => page(
+  "Documentation",
+  <div className={docsStratum.e("")}>
+    {Menu(state.content.docs)}
+    <div className={docsStratum.e("content")}>
+      {switchRoute(
+        map(
+          (document) => #[
+            documentationPageSlugToLink(document.slug),
+            () => Content(document)
+          ],
+          state.content.docs,
+        ),
+      )}
+    </div>
+  </div>,
+  state
+)
+

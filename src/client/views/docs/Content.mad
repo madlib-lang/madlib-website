@@ -5,7 +5,7 @@ import type { Element } from "MadUI"
 import type { DocumentationPageWithLinks, State } from "@client/State"
 
 import { Just, Nothing } from "Maybe"
-import { className, code, div, empty, h1, link, to } from "MadUI"
+import { className, code, div, empty, h2, link, to } from "MadUI"
 import { strata } from "Strata"
 
 import { renderMarkdown } from "@client/RenderMarkdown"
@@ -27,13 +27,10 @@ Content :: DocumentationPageWithLinks -> Element State
 export Content = (document) =>
   <div className={stratum.e("")}>
     {SurroundingPageLink("⦉", "previous-page-link", document.previousLink)}
-    // <div className={stratum.e("previous-page-link")}>
-    //   {SurroundingPageLink("⦉", document.previousLink)}
-    // </div>
     <div className={stratum.e("content")}>
-      <h1>
+      <h2 className={stratum.e("subheader")}>
         {document.title}
-      </h1>
+      </h2>
       {renderMarkdown(document.content)}
     </div>
     {SurroundingPageLink("⦊", "next-page-link", document.nextLink)}

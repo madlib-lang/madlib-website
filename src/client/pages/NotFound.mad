@@ -7,18 +7,13 @@ import { strata } from "Strata"
 
 import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
+import { page } from "@client/RenderNamedPage"
 
 stratum = strata("website")
 
 NotFound :: State -> Element State
-export NotFound = (state) =>
-  <div className={stratum.e("")}>
-    {Nav(state.content.nav)}
-    <h1>
-      Not found
-    </h1>
-    <main className={stratum.e("main")}>
-      The resource could not be found.
-    </main>
-    {Footer(state)}
-  </div>
+export NotFound =
+  page(
+    "Not found",
+    "The requested page could not be found"
+  )
