@@ -4,6 +4,7 @@ import type { State } from "@client/State"
 
 import { switchRoute } from "MadUI"
 
+import { Contribute } from "@client/pages/Contribute"
 import { Docs } from "@client/pages/Docs"
 import { Examples } from "@client/pages/Examples"
 import { GettingStarted } from "@client/pages/GettingStarted"
@@ -16,12 +17,12 @@ Router :: State -> Element State
 export Router = (state) => switchRoute([
   #["/", () => Home(state)],
   #["/index*", () => Home(state)],
-  #["/index.html*", () => Home(state)],
+  #["/contribute", () => Contribute(state)],
   #["/docs", () => Docs(state)],
   #["/docs/*", () => Docs(state)],
-  #["/getting-started", () => GettingStarted(state)],
   #["/examples", () => Examples(state)],
-  #["/projects", () => Projects(state)],
+  #["/getting-started", () => GettingStarted(state)],
   #["/playground", () => PlaygroundPage(state)],
+  #["/projects", () => Projects(state)],
   #["/*", () => NotFound(state)],
 ])

@@ -63,6 +63,13 @@ const DOCS_TO_UPDATE = [
     jsonPath: "pages.2.content",
     filePath: "pages/EXAMPLES.md",
   },
+  {
+    jsonPath: "pages.3.content",
+    filePath: "pages/PLAYGROUND.md",
+  },
+  { jsonPath: "pages.4.content",
+    filePath: "pages/CONTRIBUTE.md"
+  }
 ];
 
 const runWhen = (cond, cmd) => `

@@ -1,0 +1,7 @@
+import type { Element } from "MadUI"
+
+import type { State } from "@client/State"
+import { titledPage } from "@client/RenderNamedPage"
+
+Contribute :: State -> Element State
+export Contribute = titledPage("contribute")

@@ -1,23 +1,12 @@
 import type { Element } from "MadUI"
-import {
-  className,
-  div,
-  text
-} from "MadUI"
-import { strata } from "Strata"
-
-import { Nav } from "@client/views/Nav"
-import { Footer } from "@client/views/Footer"
-import { Playground } from "@client/views/Playground"
 
 import type { State } from "@client/State"
-
-stratum = strata("website")
+import { titledPageWithChildren } from "@client/RenderNamedPage"
+import { Playground } from "@client/views/Playground"
 
 PlaygroundPage :: State -> Element State
-export PlaygroundPage = (state) =>
-  <div className={stratum.e("")}>
-    {Nav(state.content.nav)}
-    {Playground(state)}
-    {Footer(state)}
-  </div>
+export PlaygroundPage = (state) => titledPageWithChildren(
+  "playground",
+  Playground(state),
+  state
+)
