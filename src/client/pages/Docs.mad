@@ -5,8 +5,8 @@ import { className, div, switchRoute } from "MadUI"
 import { strata } from "Strata"
 
 import { docLink } from "@client/Documentation"
-import { Content } from "@client/views/docs/Content"
-import { Menu } from "@client/views/docs/Menu"
+import { Content } from "@client/views/DocsContent"
+import { Menu } from "@client/views/DocsMenu"
 import { page } from "@client/views/Page"
 
 docsStratum = strata("docs")
