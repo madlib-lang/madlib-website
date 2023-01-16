@@ -32,3 +32,6 @@ export Home = (state) =>
     {Footer(state)}
     {state.debug ? Breakpoints(state.content.theme.breakpoints) : <empty />}
   </div>
+
+export slug = ""
+export view = Home

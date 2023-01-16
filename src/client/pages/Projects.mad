@@ -1,3 +1,5 @@
 import { titledPage } from "@client/RenderNamedPage"
 
-export Projects = titledPage("projects")
+export slug = "projects"
+export Projects = titledPage(slug)
+export view = Projects

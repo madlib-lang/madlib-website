@@ -1,28 +1,41 @@
 import type { Element } from "MadUI"
 
 import type { State } from "@client/State"
+import List from "List"
+import IO from "IO"
+import { always } from "Function"
 
 import { switchRoute } from "MadUI"
 
-import { Contribute } from "@client/pages/Contribute"
-import { Docs } from "@client/pages/Docs"
-import { Examples } from "@client/pages/Examples"
-import { GettingStarted } from "@client/pages/GettingStarted"
-import { Home } from "@client/pages/Home"
-import { NotFound } from "@client/pages/NotFound"
-import { Projects } from "@client/pages/Projects"
-import { PlaygroundPage } from "@client/pages/Playground"
+import Contribute from "@client/pages/Contribute"
+import Docs from "@client/pages/Docs"
+import Examples from "@client/pages/Examples"
+import GettingStarted  from "@client/pages/GettingStarted"
+import Home from "@client/pages/Home"
+import NotFound from "@client/pages/NotFound"
+import Projects from "@client/pages/Projects"
+import Playground from "@client/pages/Playground"
+
+preSlash :: String -> String
+preSlash = (x) => `/${x}`
+
+ROUTES = [
+  #[Home.slug, Home.view],
+  #["index*", Home.view],
+  #[Contribute.slug, Contribute.view],
+  #[Docs.slug, Docs.view],
+  #["docs/*", Docs.view],
+  #[Examples.slug, Examples.view],
+  #[GettingStarted.slug, GettingStarted.view],
+  #[Playground.slug, Playground.view],
+  #[Projects.slug, Projects.view],
+  #[NotFound.slug, NotFound.view],
+]
 
 Router :: State -> Element State
-export Router = (state) => switchRoute([
-  #["/", () => Home(state)],
-  #["/index*", () => Home(state)],
-  #["/contribute", () => Contribute(state)],
-  #["/docs", () => Docs(state)],
-  #["/docs/*", () => Docs(state)],
-  #["/examples", () => Examples(state)],
-  #["/getting-started", () => GettingStarted(state)],
-  #["/playground", () => PlaygroundPage(state)],
-  #["/projects", () => Projects(state)],
-  #["/*", () => NotFound(state)],
-])
+export Router = (state) => pipe(
+  map(where {
+    #[str, view] => #[preSlash(str), () => view(state)]
+  }),
+  switchRoute,
+)(ROUTES)

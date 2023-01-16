@@ -30,3 +30,5 @@ export Docs = (state) => page(
   state
 )
 
+export slug = "docs"
+export view = Docs

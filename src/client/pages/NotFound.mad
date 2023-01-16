@@ -17,3 +17,6 @@ export NotFound =
     "Not found",
     "The requested page could not be found"
   )
+
+export slug = "*"
+export view = NotFound

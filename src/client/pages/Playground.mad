@@ -4,9 +4,13 @@ import type { State } from "@client/State"
 import { titledPageWithChildren } from "@client/RenderNamedPage"
 import { Playground } from "@client/views/Playground"
 
+export slug = "playground"
+
 PlaygroundPage :: State -> Element State
 export PlaygroundPage = (state) => titledPageWithChildren(
-  "playground",
+  slug,
   Playground(state),
   state
 )
+
+export view = PlaygroundPage
