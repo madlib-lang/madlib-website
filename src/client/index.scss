@@ -1,7 +1,8 @@
-@import "pages/Docs";
-@import "views/global";
-@import "views/_colors";
-@import "views/_media";
+@import "./global";
+@import "./_colors";
+@import "./_media";
+
+@import "views/docs/Docs";
 @import "views/docs/Content";
 @import "views/docs/Menu";
 @import "views/Breakpoints";

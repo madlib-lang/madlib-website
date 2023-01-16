@@ -1,7 +1,7 @@
 @use "sass:color" as color;
 
-@use "colors";
-@use "media";
+@use "../_colors";
+@use "../_media";
 
 @mixin link($color) {
   .nav__link:hover {

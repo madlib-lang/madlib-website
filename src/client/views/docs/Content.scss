@@ -1,16 +1,6 @@
 .documentation-page {
   display: flex;
 
-  /*
-  code {
-    display: block;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    white-space: break-spaces;
-  }
-  */
-
   &__previous-page-link,
   &__next-page-link {
     position: fixed;
