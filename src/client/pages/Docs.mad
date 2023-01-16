@@ -4,10 +4,10 @@ import type { State } from "@client/State"
 import { className, div, switchRoute } from "MadUI"
 import { strata } from "Strata"
 
-import { documentationPageSlugToLink } from "@client/Utils"
+import { docLink } from "@client/Documentation"
 import { Content } from "@client/views/docs/Content"
 import { Menu } from "@client/views/docs/Menu"
-import { page } from "@client/RenderNamedPage"
+import { page } from "@client/views/Page"
 
 docsStratum = strata("docs")
 Docs :: State -> Element State
@@ -19,7 +19,7 @@ export Docs = (state) => page(
       {switchRoute(
         map(
           (document) => #[
-            documentationPageSlugToLink(document.slug),
+            docLink(document.slug),
             () => Content(document)
           ],
           state.content.docs,

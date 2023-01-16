@@ -1,7 +1,7 @@
 import type { Element } from "MadUI"
 
 import type { State } from "@client/State"
-import { titledPage } from "@client/RenderNamedPage"
+import { titledPage } from "@client/views/Page"
 
 export slug = "contribute"
 

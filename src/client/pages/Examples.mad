@@ -1,7 +1,7 @@
 import type { Element } from "MadUI"
 
 import type { State } from "@client/State"
-import { titledPageWithChildren } from "@client/RenderNamedPage"
+import { titledPageWithChildren } from "@client/views/Page"
 import { Playground } from "@client/views/Playground"
 
 export slug = "examples"

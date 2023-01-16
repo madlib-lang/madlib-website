@@ -1,4 +1,4 @@
-import { titledPage } from "@client/RenderNamedPage"
+import { titledPage } from "@client/views/Page"
 
 export slug = "getting-started"
 export GettingStarted = titledPage(slug)

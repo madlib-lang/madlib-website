@@ -16,7 +16,7 @@ import type {
 import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, map8, string, float } from "JsonParser"
 import { Just, Nothing } from "Maybe"
 
-import { documentationPageSlugToLink } from "@client/Utils"
+import { docLink } from "@client/Documentation"
 
 sectionParser :: Parser Section
 export sectionParser = map2(
@@ -79,7 +79,7 @@ docsParser = map4(
   field("depth", integer),
 )
 
-generatePageLink = (page) => ({ href: documentationPageSlugToLink(page.slug), text: page.title })
+generatePageLink = (page) => ({ href: docLink(page.slug), text: page.title })
 
 withSurroundingPagesLinks :: List DocumentationPage -> List DocumentationPageWithLinks
 withSurroundingPagesLinks = (pages) => {

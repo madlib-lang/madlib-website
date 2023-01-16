@@ -1,0 +1,4 @@
+import { DOCS_URL_BASE } from "@client/Constants"
+
+docLink :: String -> String
+export docLink = (s) => `${DOCS_URL_BASE}/${s}`

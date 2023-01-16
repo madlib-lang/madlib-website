@@ -13,7 +13,8 @@ import IO from "IO"
 import { Nav } from "@client/views/Nav"
 import { Footer } from "@client/views/Footer"
 import { Header } from "@client/views/Header"
-import { renderMarkdown } from "@client/RenderMarkdown"
+import { renderMarkdown } from "@client/Markdown"
+import { slugify } from "@common/String"
 
 stratum = strata("website")
 
@@ -31,15 +32,10 @@ getPageTitle = (name, pages) => pipe(
   fromMaybe("Unknown")
 )(pages)
 
-slug :: String -> String
-export slug = pipe(
-  String.toLower,
-  String.replace(" ", "-"),
-)
 
 page :: String -> Element State -> State -> Element State
 export page = (title, children, state) =>
-  <div className={stratum.m([slug(title)])}>
+  <div className={stratum.m([slugify(title)])}>
     {Nav(state.content.nav)}
     <h1 className={stratum.e("h1")}>
       {title}

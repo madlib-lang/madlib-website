@@ -1,7 +1,0 @@
-import { DOCS_URL_BASE } from "@client/Constants"
-
-slug :: String -> String
-export slug = (s) => #- s.toLowerCase().replace(/\s/g, '-').replace(/[,\.]/g, '') -#
-
-documentationPageSlugToLink :: String -> String
-export documentationPageSlugToLink = (s) => `${DOCS_URL_BASE}/${s}`

@@ -6,13 +6,13 @@ import type { DocumentationPageWithLinks, State } from "@client/State"
 import { className, getPathName, key, li, link, style, text, to, ul } from "MadUI"
 import { strata } from "Strata"
 
-import { documentationPageSlugToLink } from "@client/Utils"
+import { docLink } from "@client/Documentation"
 
 stratum = strata("docs-menu")
 
 makeLinkClassname :: String -> Integer -> String
 makeLinkClassname = (slug, depth) => stratum.em("menu-item-link", [
-  documentationPageSlugToLink(slug) == getPathName()
+  docLink(slug) == getPathName()
     ? "active"
     : "inactive",
   (#- "depth-" + depth -# :: String)
@@ -23,8 +23,7 @@ MenuItem :: DocumentationPageWithLinks -> Element State
 MenuItem = (document) =>
   <li className={stratum.e("menu-item")} key={document.slug}>
     <link
-      
-      to={documentationPageSlugToLink(document.slug)}
+      to={docLink(document.slug)}
       className={makeLinkClassname(document.slug, document.depth)}
     >
       {document.title}

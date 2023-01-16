@@ -8,7 +8,7 @@ import { Just, Nothing } from "Maybe"
 import { className, code, div, empty, h2, link, to } from "MadUI"
 import { strata } from "Strata"
 
-import { renderMarkdown } from "@client/RenderMarkdown"
+import { renderMarkdown } from "@client/Markdown"
 
 stratum = strata("documentation-page")
 

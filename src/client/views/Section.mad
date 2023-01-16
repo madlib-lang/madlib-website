@@ -14,36 +14,15 @@ import { renderMarkdown } from "MadMarkdownRenderer"
 import { div, style, className, id, p, section, text } from "MadUI"
 import { strata } from "Strata"
 
-import { slug } from "@client/Utils"
+import { slugify } from "@common/String"
 import { LinkedHeader } from "@client/views/LinkedHeader"
 
 
 stratum = strata("website")
 
-columns = range(0, 10)
-rows = range(0, 10)
-
-/*
-Grids = () => (
-  <div className="grids">
-    {...map(
-      (x) => <div className={`column col-${x}`} style={fromList(
-        [#["borderLeft", "1px solid red"]]
-      )}/>
-    )(columns)}
-    {...map(
-      (y) => <div className={`row row-${y}`} style={fromList(
-        [#["borderTop", "1px solid red"]]
-      )}/>
-    )(rows)}
-  </div>
-)*/
-
-// {Grids()}
-
 PageSection :: Section -> Element State
 export PageSection = (raw) => {
-  clean = slug(raw.title)
+  clean = slugify(raw.title)
   sectionLinkProps = { id: clean, title: raw.title, }
   return (
     <section id={clean} className={stratum.e("section")}>
