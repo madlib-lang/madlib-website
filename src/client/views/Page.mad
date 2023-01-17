@@ -1,6 +1,6 @@
 import type { Maybe } from "Maybe"
 import type { Element } from "MadUI"
-import type { State, DocumentationPage } from "@client/State"
+import type { State, DocsPage } from "@client/State"
 
 import { find } from "List"
 import { equals } from "Function"
@@ -18,14 +18,14 @@ import { slugify } from "@common/String"
 
 stratum = strata("website")
 
-findNamedPage :: String -> List DocumentationPage -> Maybe DocumentationPage
+findNamedPage :: String -> List DocsPage -> Maybe DocsPage
 findNamedPage = (name, pages) =>
   find(pipe(
     .slug,
     equals(name),
   ))(pages)
 
-getPageTitle :: String -> List DocumentationPage -> String
+getPageTitle :: String -> List DocsPage -> String
 getPageTitle = (name, pages) => pipe(
   findNamedPage(name),
   map(.title),
@@ -47,7 +47,7 @@ export page = (title, children, state) =>
   </div>
 
 
-renderNamedPage :: String -> List DocumentationPage -> Element State
+renderNamedPage :: String -> List DocsPage -> Element State
 export renderNamedPage = (n, pages) => pipe(
   findNamedPage(n), 
   map(

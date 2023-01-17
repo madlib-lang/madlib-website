@@ -1,7 +1,12 @@
 import type { Element } from "MadUI"
+import type { DocsPageWithLinks, State } from "@client/State"
+
+import IO from "IO"
 import {} from "Number"
-import {fromMaybe} from "Maybe"
-import type { DocumentationPageWithLinks, State } from "@client/State"
+import { Nothing, fromMaybe } from "Maybe"
+import { lt } from "Compare"
+import { equals, ifElse } from "Function"
+import { mapWithIndex, length, reject, reduce, concat, slice } from "List"
 
 import { className, getPathName, key, li, link, style, text, to, ul } from "MadUI"
 import { strata } from "Strata"
@@ -18,8 +23,7 @@ makeLinkClassname = (slug, depth) => stratum.em("menu-item-link", [
   (#- "depth-" + depth -# :: String)
 ])
 
-
-MenuItem :: DocumentationPageWithLinks -> Element State
+MenuItem :: DocsPageWithLinks -> Element State
 MenuItem = (document) =>
   <li className={stratum.e("menu-item")} key={document.slug}>
     <link
@@ -30,8 +34,72 @@ MenuItem = (document) =>
     </link>
   </li>
 
-Menu :: List DocumentationPageWithLinks -> Element State
+emptyDocPage :: DocsPageWithLinks
+emptyDocPage = {
+  content: "_empty_",
+  depth: 0,
+  slug: "_EMPTY_",
+  title: "Mistake",
+  nextLink: Nothing,
+  previousLink: Nothing
+}
+
+segmentEvery :: (a -> Boolean) -> List a -> List (List a)
+segmentEvery = (pred, list) => pipe(
+  mapWithIndex(
+    (x, i) => pred(x) ? i : -1
+  ),
+  reject(equals(-1)),
+  reduce(
+    (agg, index) => ({
+      stack: concat(
+        agg.stack,
+        of(
+          slice(agg.index, index)(list)
+        )
+      ),
+      index: index
+    }),
+    {stack: [], index: 0}
+  ),
+  .stack,
+)(list)
+/*
+   List (List { ...b, depth :: a })
+-> List (List (Element c))
+*/
+renderMenuItems :: List DocsPageWithLinks -> List (Element State)
+renderMenuItems = (xs) => pipe(
+  segmentEvery(pipe(.depth, equals(0))),
+  reduce(
+    (agg, step) => pipe(
+      IO.trace("whodat"),
+      ???,
+      /*
+      ifElse(
+        pipe(length, lt(1)),
+        where {
+          [] => <li />
+          [x] => <li>{x}</li>
+        },
+        where {
+          [] => <li />
+          [y, ...ys] => <li>
+            {y}
+            <ul>{...map((z) => <li>{z}</li>, ys)}</ul>
+          </li>
+        }
+      ),
+      of,
+      concat(agg)
+      */
+    )(step),
+    []
+  )
+)(xs)
+
+Menu :: List DocsPageWithLinks -> Element State
 export Menu = (documents) =>
   <ul className={stratum.e("")}>
-    {...map(MenuItem, documents)}
+    {...renderMenuItems(documents)}
   </ul>

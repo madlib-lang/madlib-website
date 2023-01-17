@@ -73,22 +73,22 @@ export alias Header = { content :: String }
 
 export alias Page = { intro :: String, sections :: List Section }
 
-export alias DocumentationPage = {
+export alias DocsPage = {
   content :: String,
   depth :: Integer,
   slug :: String,
   title :: String,
 }
 
-export alias DocumentationPageWithLinks = {
-  ...DocumentationPage,
+export alias DocsPageWithLinks = {
+  ...DocsPage,
   nextLink :: Maybe { href :: String, text :: String },
   previousLink :: Maybe { href :: String, text :: String },
 }
 
 export alias Content = {
-  pages :: List DocumentationPage,
-  docs :: List DocumentationPageWithLinks,
+  pages :: List DocsPage,
+  docs :: List DocsPageWithLinks,
   gettingStarted :: Page,
   header :: Header,
   home :: List Section,

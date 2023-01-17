@@ -2,7 +2,7 @@ import type { Maybe } from "Maybe"
 import type { Config } from "MadMarkdownRenderer"
 import type { Element } from "MadUI"
 
-import type { DocumentationPageWithLinks, State } from "@client/State"
+import type { DocsPageWithLinks, State } from "@client/State"
 
 import { Just, Nothing } from "Maybe"
 import { className, code, div, empty, h2, link, to } from "MadUI"
@@ -23,7 +23,7 @@ SurroundingPageLink = (extraLabel, classSuffix, maybeLink) => where(maybeLink) {
     </link>
 }
 
-Content :: DocumentationPageWithLinks -> Element State
+Content :: DocsPageWithLinks -> Element State
 export Content = (document) =>
   <div className={stratum.e("")}>
     {SurroundingPageLink("⦉", "previous-page-link", document.previousLink)}

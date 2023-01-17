@@ -3,8 +3,8 @@ import type { Maybe } from "Maybe"
 
 import type {
   Content,
-  DocumentationPage,
-  DocumentationPageWithLinks,
+  DocsPage,
+  DocsPageWithLinks,
   Header,
   Link,
   Section,
@@ -70,7 +70,7 @@ gettingStartedParser = map2(
   field("sections", list(sectionParser)),
 )
 
-docsParser :: Parser DocumentationPage
+docsParser :: Parser DocsPage
 docsParser = map4(
   (slug, title, content, depth) => ({ slug, title, content, depth }),
   field("slug", string),
@@ -81,11 +81,11 @@ docsParser = map4(
 
 generatePageLink = (page) => ({ href: docLink(page.slug), text: page.title })
 
-withSurroundingPagesLinks :: List DocumentationPage -> List DocumentationPageWithLinks
+withSurroundingPagesLinks :: List DocsPage -> List DocsPageWithLinks
 withSurroundingPagesLinks = (pages) => {
   go :: Maybe { href :: String, text :: String }
-  -> List DocumentationPage
-  -> List DocumentationPageWithLinks
+  -> List DocsPage
+  -> List DocsPageWithLinks
   go = (previousLink, _pages) => where(_pages) {
     [page, after, ...next] =>
       [
