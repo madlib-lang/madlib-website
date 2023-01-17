@@ -71,31 +71,26 @@ segmentEvery = (pred, list) => pipe(
 renderMenuItems :: List DocsPageWithLinks -> List (Element State)
 renderMenuItems = (xs) => pipe(
   segmentEvery(pipe(.depth, equals(0))),
+  IO.trace("PREYO"),
+  (y) => slice(1, length(y), y), 
+  IO.trace("YO"),
   reduce(
-    (agg, step) => pipe(
-      IO.trace("whodat"),
-      ???,
-      /*
-      ifElse(
-        pipe(length, lt(1)),
-        where {
-          [] => <li />
-          [x] => <li>{x}</li>
-        },
-        where {
-          [] => <li />
-          [y, ...ys] => <li>
-            {y}
-            <ul>{...map((z) => <li>{z}</li>, ys)}</ul>
-          </li>
-        }
-      ),
+    (agg, steps) => pipe(
+      where {
+        [] => <li />
+        [x] => MenuItem(x)
+        [y, ...ys] => <li>
+          {MenuItem(y)}
+          <ul>{...map(MenuItem, ys)}</ul>
+        </li>
+      },
       of,
-      concat(agg)
-      */
-    )(step),
+      concat(agg),
+      IO.trace("steppery"),
+    )(steps),
     []
-  )
+  ),
+  IO.trace("STEPPED")
 )(xs)
 
 Menu :: List DocsPageWithLinks -> Element State
