@@ -58,7 +58,7 @@ segmentEvery = (pred, list) => pipe(
           slice(agg.index, index)(list)
         )
       ),
-      index: index
+      index: index + 1
     }),
     {stack: [], index: 0}
   ),
