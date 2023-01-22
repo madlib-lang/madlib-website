@@ -5,6 +5,9 @@
   flex-direction: row;
   width: 100%;
   // list-style: none;
+  &__submenu li {
+    list-style-type: lower-alpha;
+  }
 
   &__menu-item-link {
     &--active {
@@ -12,15 +15,6 @@
       text-shadow: 0 1px 10px cyan !important;
       border-bottom: 4px solid transparent !important;
       padding-bottom: 0.5rem;
-    }
-    &--depth-0 {
-      margin-left: 0;
-    }
-    &--depth-1 {
-      margin-left: 1rem;
-    }
-    &--depth-2 {
-      margin-left: 2rem;
     }
   }
   @media screen and (min-width: $breakpoint-md) {
