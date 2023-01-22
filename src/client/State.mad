@@ -102,6 +102,7 @@ export type LoadingState = Loading | Transitioning | Ready
 export alias State = {
   content :: Content,
   loadingState :: LoadingState,
+  showDocMenu :: Boolean,
   playground :: {
     data :: Playground,
     dragData :: { dragging :: Boolean, verticalSplitPosition :: Integer },
@@ -113,6 +114,7 @@ INITIAL_STATE :: State
 export INITIAL_STATE = {
   content: DEFAULT_CONTENT,
   loadingState: Ready,
+  showDocMenu: false,
   playground: {
     data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
     dragData: { verticalSplitPosition: 9999, dragging: false },

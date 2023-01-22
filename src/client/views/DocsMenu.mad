@@ -6,7 +6,7 @@ import {} from "Number"
 import { Nothing, fromMaybe } from "Maybe"
 import { lt } from "Compare"
 import { equals, ifElse } from "Function"
-import { mapWithIndex, length, reject, reduce, concat, slice } from "List"
+import { append, mapWithIndex, length, reject, reduce, concat, slice } from "List"
 
 import { className, getPathName, key, li, link, style, text, to, ol, empty, ul } from "MadUI"
 import { strata } from "Strata"
@@ -56,20 +56,20 @@ emptyDocPage = {
   previousLink: Nothing
 }
 
-segmentEvery :: (a -> Boolean) -> List a -> List (List a)
+segmentEvery :: Inspect a => (a -> Boolean) -> List a -> List (List a)
 segmentEvery = (pred, list) => pipe(
   mapWithIndex(
     (x, i) => pred(x) ? i : -1
   ),
   reject(equals(-1)),
+  append(length(list)),
   where {
     [] => ({ slices: [], prev: -1 })
     [f, ...fs] => reduce(
       (agg, x) => ({
         slices: pipe(
           slice(agg.prev, $, list),
-          of,
-          concat(agg.slices)
+          append($, agg.slices)
         )(x),
         prev: x
       }),
@@ -85,7 +85,7 @@ renderMenuItems = (xs) => pipe(
   (z) => {
     #- console.log(
       JSON.stringify(
-        __listToJSArray__(z).map(__listToJSArray__),
+        __listToJSArray__(z).map(__listToJSArray__).map(z => z.map(y => y.slug)),
         null,
         2
       )
@@ -99,7 +99,9 @@ renderMenuItems = (xs) => pipe(
         [x] => [MenuItem(x)]
         [y, ...ys] => [
           MenuItemWithChildren(
-            <ol className={stratum.e("submenu")}>{...map(MenuItem, ys)}</ol>,
+            <ol className={stratum.e("submenu")}>
+              {...map(MenuItem, ys)}
+            </ol>,
             y
           ),
         ]

@@ -5,8 +5,11 @@
   flex-direction: row;
   width: 100%;
   // list-style: none;
-  &__submenu li {
-    list-style-type: lower-alpha;
+  &__submenu {
+    padding-inline-start: 1rem;
+    li {
+      list-style-type: lower-alpha;
+    }
   }
 
   &__menu-item-link {
