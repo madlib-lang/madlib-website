@@ -28,8 +28,11 @@ NextPageLink = (extraLabel, prev, next) => {
       <link className={classy(["next", "solo"])} to={href}>
         {extraLabel}
       </link>
+
+    #[Just(_), Nothing] =>
+      <empty />
     #[Nothing, Nothing] =>
-      <empty  />
+      <empty />
 
   }
 }
@@ -47,7 +50,8 @@ PrevPageLink = (extraLabel, prev, next) => {
       <link className={classy(["previous", "solo"])} to={href}>
         {extraLabel}
       </link>
-
+    #[Nothing, Just(_)] =>
+      <empty  />
     #[Nothing, Nothing] =>
       <empty  />
   }
@@ -68,10 +72,10 @@ Content :: DocsPageWithLinks -> Element State
 export Content = (document) =>
   <div className={stratum.e("")}>
     <div className={stratum.e("nav")}>
-      {SurroundingPageLink("⦉", "previous", document.previousLink)}
-      {SurroundingPageLink("⦊", "next", document.nextLink)}
-      // {PrevPageLink("⦉", document.previousLink, document.nextLink)}
-      // {NextPageLink("⦊", document.previousLink, document.nextLink)}
+      // {SurroundingPageLink("⦉", "previous", document.previousLink)}
+      // {SurroundingPageLink("⦊", "next", document.nextLink)}
+      {PrevPageLink("⦉", document.previousLink, document.nextLink)}
+      {NextPageLink("⦊", document.previousLink, document.nextLink)}
     </div>
     <div className={stratum.e("content")}>
       <h2 className={stratum.e("subheader")}>
