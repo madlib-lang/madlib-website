@@ -1,4 +1,15 @@
+import String from "String"
+import List from "List"
 import { DOCS_URL_BASE } from "@client/Constants"
 
 docLink :: String -> String
 export docLink = (s) => `${DOCS_URL_BASE}/${s}`
+
+undocLink :: String -> String
+export undocLink = (s) => pipe(
+  map(String.length),
+  where {
+    [] => ""
+    [a, z] => String.slice(a + 1, z, s)
+  }
+)([DOCS_URL_BASE, s])

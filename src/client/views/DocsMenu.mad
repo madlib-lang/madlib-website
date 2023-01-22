@@ -1,17 +1,18 @@
-import type { Element } from "MadUI"
+import type { Action, Element } from "MadUI"
 import type { DocsPageWithLinks, State } from "@client/State"
 
 import IO from "IO"
+import {Wish} from "Wish"
 import {} from "Number"
 import { Nothing, fromMaybe } from "Maybe"
 import { lt } from "Compare"
 import { equals, ifElse } from "Function"
-import { append, mapWithIndex, length, reject, reduce, concat, slice } from "List"
+import { includes, append, mapWithIndex, length, reject, reduce, concat, slice } from "List"
 
-import { className, getPathName, key, li, link, style, text, to, ol, empty, ul } from "MadUI"
+import { onClick, className, getPathName, key, li, link, style, text, to, ol, empty, ul } from "MadUI"
 import { strata } from "Strata"
 
-import { docLink } from "@client/Documentation"
+import { undocLink, docLink } from "@client/Documentation"
 
 stratum = strata("docs-menu")
 
@@ -23,6 +24,10 @@ makeLinkClassname = (slug, depth) => stratum.em("menu-item-link", [
   (#- "depth-" + depth -# :: String)
 ])
 
+clicker :: Action State
+clicker = (s, e) => 
+  [Wish((bad, good) => good((_) => s))]
+
 ListItemWithChildren = (children, keyed) =>
   <li className={stratum.e("menu-item")} key={keyed}>
     {children}
@@ -31,6 +36,7 @@ ListItemWithChildren = (children, keyed) =>
 MenuLink = (document) =>
   <link
     to={docLink(document.slug)}
+    onClick={clicker}
     className={makeLinkClassname(document.slug, document.depth)}
   >
     {document.title}
@@ -82,29 +88,25 @@ segmentEvery = (pred, list) => pipe(
 renderMenuItems :: List DocsPageWithLinks -> List (Element State)
 renderMenuItems = (xs) => pipe(
   segmentEvery(pipe(.depth, equals(0))),
-  (z) => {
-    #- console.log(
-      JSON.stringify(
-        __listToJSArray__(z).map(__listToJSArray__).map(z => z.map(y => y.slug)),
-        null,
-        2
-      )
-    ) -#
-    return z
-  },
   reduce(
     (agg, steps) => pipe(
       where {
         [] => []
         [x] => [MenuItem(x)]
-        [y, ...ys] => [
-          MenuItemWithChildren(
-            <ol className={stratum.e("submenu")}>
-              {...map(MenuItem, ys)}
-            </ol>,
-            y
-          ),
-        ]
+        [y, ...ys] => do {
+          IO.trace("path", undocLink(getPathName()))
+          active = pipe(append(y), map(.slug), IO.trace("sluggies"), includes(undocLink(getPathName())))(ys)
+          return [
+            MenuItemWithChildren(
+              <ol className={stratum.em("submenu", [
+                active ? "active" : "inactive",
+              ])}>
+                {...map(MenuItem, ys)}
+              </ol>,
+              y
+            ),
+          ]
+        }
       },
       concat(agg),
     )(steps),
