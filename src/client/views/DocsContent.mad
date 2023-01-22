@@ -12,26 +12,56 @@ import { renderMarkdown } from "@client/Markdown"
 
 stratum = strata("documentation-page")
 
-SurroundingPageLink :: String -> String -> Maybe { href :: String, text :: String } -> Element State
-SurroundingPageLink = (extraLabel, classSuffix, maybeLink) => where(maybeLink) {
-  Nothing =>
-    <empty  />
+alias MaybeLink = Maybe { href :: String, text :: String }
 
-  Just({ href }) =>
-    <link className={stratum.e(classSuffix)} to={href}>
-      {extraLabel}
-    </link>
+NextPageLink :: String -> MaybeLink -> MaybeLink -> Element State
+NextPageLink = (extraLabel, prev, next) => {
+  classy = stratum.em("nav-item")
+  return where(#[prev, next]) {
+    #[Nothing, Nothing] =>
+      <empty  />
+
+    #[Just(_), Just({ href })] =>
+      <link className={classy(["next"])} to={href}>
+        {extraLabel}
+      </link>
+
+    #[Nothing, Just({ href })] =>
+      <link className={classy(["next", "solo"])} to={href}>
+        {extraLabel}
+      </link>
+  }
+}
+PrevPageLink :: String -> MaybeLink -> MaybeLink -> Element State
+PrevPageLink = (extraLabel, prev, next) => {
+  classy = stratum.em("nav-item")
+  return where(#[prev, next]) {
+    #[Nothing, Nothing] =>
+      <empty  />
+
+    #[Just({ href }), Just(_)] =>
+      <link className={classy(["previous"])} to={href}>
+        {extraLabel}
+      </link>
+
+    #[Just({ href }), Nothing] =>
+      <link className={classy(["previous", "solo"])} to={href}>
+        {extraLabel}
+      </link>
+  }
 }
 
 Content :: DocsPageWithLinks -> Element State
 export Content = (document) =>
   <div className={stratum.e("")}>
-    {SurroundingPageLink("⦉", "previous-page-link", document.previousLink)}
+    <div className={stratum.e("nav")}>
+      {PrevPageLink("⦉", document.previousLink, document.nextLink)}
+      {NextPageLink("⦊", document.previousLink, document.nextLink)}
+    </div>
     <div className={stratum.e("content")}>
       <h2 className={stratum.e("subheader")}>
         {document.title}
       </h2>
       {renderMarkdown(document.content)}
     </div>
-    {SurroundingPageLink("⦊", "next-page-link", document.nextLink)}
   </div>

@@ -1,31 +1,40 @@
 .documentation-page {
   display: flex;
+  flex-direction: column;
+  width: 100%;
+  &__nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 1rem 0;
+    justify-content: space-between;
+  }
 
-  &__previous-page-link,
-  &__next-page-link {
-    position: fixed;
+  &__nav-item {
+    display: flex;
     text-align: center;
-    width: 85px;
+    justify-content: flex-start;
+    width: 50%;
+    outline: 1px dotted lime;
     top: 0;
-    padding-top: 48vh;
-    opacity: 0.2;
-    font-size: 48px;
+    font-size: 3rem;
     border-bottom: none;
     height: 100%;
+    border: 0 !important;
+    padding-bottom: 0 !important;
+    &--next {
+      justify-content: flex-end;
+    }
 
     &:hover {
       opacity: 0.9;
       cursor: pointer;
       border-bottom: none;
+      border: 0 !important;
+      padding-bottom: 0 !important;
     }
   }
 
-  &__previous-page-link {
-    transform: translateX(-60px);
-  }
-  &__next-page-link {
-    right: 0;
-  }
   &__content {
     width: 100%;
   }

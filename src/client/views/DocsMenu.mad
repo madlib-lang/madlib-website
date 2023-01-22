@@ -94,8 +94,11 @@ renderMenuItems = (xs) => pipe(
         [] => []
         [x] => [MenuItem(x)]
         [y, ...ys] => do {
-          IO.trace("path", undocLink(getPathName()))
-          active = pipe(append(y), map(.slug), IO.trace("sluggies"), includes(undocLink(getPathName())))(ys)
+          active = pipe(
+            append(y),
+            map(.slug),
+            includes(undocLink(getPathName()))
+          )(ys)
           return [
             MenuItemWithChildren(
               <ol className={stratum.em("submenu", [
