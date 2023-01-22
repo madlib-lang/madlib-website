@@ -8,7 +8,7 @@ import { lt } from "Compare"
 import { equals, ifElse } from "Function"
 import { mapWithIndex, length, reject, reduce, concat, slice } from "List"
 
-import { className, getPathName, key, li, link, style, text, to, ul } from "MadUI"
+import { className, getPathName, key, li, link, style, text, to, ol, empty, ul } from "MadUI"
 import { strata } from "Strata"
 
 import { docLink } from "@client/Documentation"
@@ -23,16 +23,28 @@ makeLinkClassname = (slug, depth) => stratum.em("menu-item-link", [
   (#- "depth-" + depth -# :: String)
 ])
 
-MenuItem :: DocsPageWithLinks -> Element State
-MenuItem = (document) =>
-  <li className={stratum.e("menu-item")} key={document.slug}>
-    <link
-      to={docLink(document.slug)}
-      className={makeLinkClassname(document.slug, document.depth)}
-    >
-      {document.title}
-    </link>
+ListItemWithChildren = (children, keyed) =>
+  <li className={stratum.e("menu-item")} key={keyed}>
+    {children}
   </li>
+
+MenuLink = (document) =>
+  <link
+    to={docLink(document.slug)}
+    className={makeLinkClassname(document.slug, document.depth)}
+  >
+    {document.title}
+  </link>
+
+MenuItemWithChildren :: Element State -> DocsPageWithLinks -> Element State
+MenuItemWithChildren = (children, document) =>
+  <li className={stratum.e("menu-item")} key={document.slug}>
+    {MenuLink(document)}
+    {children}
+  </li>
+
+MenuItem :: DocsPageWithLinks -> Element State
+MenuItem = MenuItemWithChildren(<empty />)
 
 emptyDocPage :: DocsPageWithLinks
 emptyDocPage = {
@@ -50,51 +62,56 @@ segmentEvery = (pred, list) => pipe(
     (x, i) => pred(x) ? i : -1
   ),
   reject(equals(-1)),
-  reduce(
-    (agg, index) => ({
-      stack: concat(
-        agg.stack,
-        of(
-          slice(agg.index, index)(list)
-        )
-      ),
-      index: index + 1
-    }),
-    {stack: [], index: 0}
-  ),
-  .stack,
+  where {
+    [] => ({ slices: [], prev: -1 })
+    [f, ...fs] => reduce(
+      (agg, x) => ({
+        slices: pipe(
+          slice(agg.prev, $, list),
+          of,
+          concat(agg.slices)
+        )(x),
+        prev: x
+      }),
+      { prev: f, slices: [] }
+    )(fs)
+  },
+  .slices,
 )(list)
-/*
-   List (List { ...b, depth :: a })
--> List (List (Element c))
-*/
+
 renderMenuItems :: List DocsPageWithLinks -> List (Element State)
 renderMenuItems = (xs) => pipe(
   segmentEvery(pipe(.depth, equals(0))),
-  IO.trace("PREYO"),
-  (y) => slice(1, length(y), y), 
-  IO.trace("YO"),
+  (z) => {
+    #- console.log(
+      JSON.stringify(
+        __listToJSArray__(z).map(__listToJSArray__),
+        null,
+        2
+      )
+    ) -#
+    return z
+  },
   reduce(
     (agg, steps) => pipe(
       where {
-        [] => <li />
-        [x] => MenuItem(x)
-        [y, ...ys] => <li>
-          {MenuItem(y)}
-          <ul>{...map(MenuItem, ys)}</ul>
-        </li>
+        [] => []
+        [x] => [MenuItem(x)]
+        [y, ...ys] => [
+          MenuItemWithChildren(
+            <ol className={stratum.e("submenu")}>{...map(MenuItem, ys)}</ol>,
+            y
+          ),
+        ]
       },
-      of,
       concat(agg),
-      IO.trace("steppery"),
     )(steps),
     []
   ),
-  IO.trace("STEPPED")
 )(xs)
 
 Menu :: List DocsPageWithLinks -> Element State
 export Menu = (documents) =>
-  <ul className={stratum.e("")}>
+  <ol className={stratum.e("")}>
     {...renderMenuItems(documents)}
-  </ul>
+  </ol>
