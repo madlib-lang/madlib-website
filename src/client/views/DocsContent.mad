@@ -18,9 +18,7 @@ NextPageLink :: String -> MaybeLink -> MaybeLink -> Element State
 NextPageLink = (extraLabel, prev, next) => {
   classy = stratum.em("nav-item")
   return where(#[prev, next]) {
-    #[Nothing, Nothing] =>
-      <empty  />
-
+    
     #[Just(_), Just({ href })] =>
       <link className={classy(["next"])} to={href}>
         {extraLabel}
@@ -30,14 +28,15 @@ NextPageLink = (extraLabel, prev, next) => {
       <link className={classy(["next", "solo"])} to={href}>
         {extraLabel}
       </link>
+    #[Nothing, Nothing] =>
+      <empty  />
+
   }
 }
 PrevPageLink :: String -> MaybeLink -> MaybeLink -> Element State
 PrevPageLink = (extraLabel, prev, next) => {
   classy = stratum.em("nav-item")
   return where(#[prev, next]) {
-    #[Nothing, Nothing] =>
-      <empty  />
 
     #[Just({ href }), Just(_)] =>
       <link className={classy(["previous"])} to={href}>
@@ -48,15 +47,31 @@ PrevPageLink = (extraLabel, prev, next) => {
       <link className={classy(["previous", "solo"])} to={href}>
         {extraLabel}
       </link>
+
+    #[Nothing, Nothing] =>
+      <empty  />
   }
+}
+
+SurroundingPageLink :: String -> String -> Maybe { href :: String, text :: String } -> Element State
+SurroundingPageLink = (extraLabel, classSuffix, maybeLink) => where(maybeLink) {
+  Nothing =>
+    <empty  />
+
+  Just({ href }) =>
+    <link className={stratum.e(classSuffix)} to={href}>
+      {extraLabel}
+    </link>
 }
 
 Content :: DocsPageWithLinks -> Element State
 export Content = (document) =>
   <div className={stratum.e("")}>
     <div className={stratum.e("nav")}>
-      {PrevPageLink("⦉", document.previousLink, document.nextLink)}
-      {NextPageLink("⦊", document.previousLink, document.nextLink)}
+      {SurroundingPageLink("⦉", "previous", document.previousLink)}
+      {SurroundingPageLink("⦊", "next", document.nextLink)}
+      // {PrevPageLink("⦉", document.previousLink, document.nextLink)}
+      // {NextPageLink("⦊", document.previousLink, document.nextLink)}
     </div>
     <div className={stratum.e("content")}>
       <h2 className={stratum.e("subheader")}>
