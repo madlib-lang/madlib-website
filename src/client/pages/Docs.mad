@@ -7,28 +7,41 @@ import { strata } from "Strata"
 import { docLink } from "@client/Documentation"
 import { Content } from "@client/views/DocsContent"
 import { Menu } from "@client/views/DocsMenu"
+import { DocsNav } from "@client/views/DocsNav"
 import { page } from "@client/views/Page"
 
 docsStratum = strata("docs")
 Docs :: State -> Element State
-export Docs = (state) => page(
-  "Documentation",
-  <div className={docsStratum.e("")}>
-    {Menu(state.content.docs)}
-    <div className={docsStratum.e("content")}>
-      {switchRoute(
-        map(
-          (document) => #[
-            docLink(document.slug),
-            () => Content(document)
-          ],
-          state.content.docs,
-        ),
-      )}
-    </div>
-  </div>,
-  state
-)
+export Docs = (state) => {
+  arrows = switchRoute(
+    map(
+      (document) => #[
+        docLink(document.slug),
+        () => DocsNav(document)
+      ],
+      state.content.docs,
+    ),
+  )
+  return page(
+    "Documentation",
+    <div className={docsStratum.e("")}>
+      {arrows}
+      {Menu(state.content.docs)}
+      <div className={docsStratum.e("content")}>
+        {switchRoute(
+          map(
+            (document) => #[
+              docLink(document.slug),
+              () => Content(document)
+            ],
+            state.content.docs,
+          ),
+        )}
+      </div>
+    </div>,
+    state
+  )
+}
 
 export slug = "docs"
 export view = Docs

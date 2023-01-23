@@ -15,15 +15,27 @@
     text-align: center;
     justify-content: flex-start;
     width: 50%;
-    outline: 1px dotted lime;
     top: 0;
-    font-size: 3rem;
+    font-size: 1.5rem;
     border-bottom: none;
     height: 100%;
     border: 0 !important;
     padding-bottom: 0 !important;
     &--next {
       justify-content: flex-end;
+    }
+    &--previous {
+      .documentation-page__link-label {
+        transform: rotate(180deg);
+      }
+    }
+    &--solo.documentation-page__nav-item {
+      &--previous {
+        margin-right: 50%;
+      }
+      &--next {
+        margin-left: 50%;
+      }
     }
 
     &:hover {
