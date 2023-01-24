@@ -1,6 +1,8 @@
 import type { Element } from "MadUI"
 import {
-span,
+  input,
+  inputType,
+  span,
   nav,
   alt,
   className,
@@ -31,8 +33,22 @@ NavLink = (s) =>
 export Nav = (s) =>
   <nav className={stratum.m(["loading"])}>
     <link to="/" className={stratum.em("link", ["logo"])}>
-      <img className={stratum.e("logo")} src="/assets/logo-white.svg" alt="Madlib Logo" />
+      <img
+        className={stratum.e("logo")}
+        src="/assets/logo-white.svg"
+        alt="Madlib Logo"
+      />
     </link>
+    <div className={stratum.e("search-wrapper")}>
+      <div className={stratum.e("search-icon-wrapper")}>
+        <img
+          className={stratum.e("search-icon")}
+          src="/assets/magnifier.svg"
+          alt="Search"
+        />
+      </div>
+      <input inputType="text" className={stratum.e("search")} />
+    </div>
     <ul className={stratum.e("list")}>
       {...map(NavLink, s)}
     </ul>
