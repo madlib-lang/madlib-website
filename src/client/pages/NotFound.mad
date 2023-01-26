@@ -6,7 +6,6 @@ import { className, div, h1, main, text } from "MadUI"
 import { strata } from "Strata"
 
 import { Nav } from "@client/views/Nav"
-import { Footer } from "@client/views/Footer"
 import { page } from "@client/views/Page"
 
 stratum = strata("website")

@@ -36,7 +36,7 @@ getPageTitle = (name, pages) => pipe(
 page :: String -> Element State -> State -> Element State
 export page = (title, children, state) =>
   <div className={stratum.m([slugify(title)])}>
-    {Nav(state.content.nav)}
+    {Nav(state)}
     <h1 className={stratum.e("h1")}>
       {title}
     </h1>

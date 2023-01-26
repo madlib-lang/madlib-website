@@ -1,5 +1,7 @@
-import type { Element } from "MadUI"
+import type { Action, Element } from "MadUI"
 import {
+  onClick,
+  div,
   input,
   inputType,
   span,
@@ -18,38 +20,63 @@ import { strata } from "Strata"
 
 import type { State, Link } from "../State"
 
-stratum = strata("nav")
+b = strata("nav")
 
 NavLink :: Link -> Element State
 NavLink = (s) =>
-  <li className={stratum.e("item")}>
-    <link className={stratum.e("link")} to={s.href}>
-      <img className={stratum.e("link-icon")} src={s.icon} alt={s.text} />
-      <span className={stratum.em("link-text", ["summary"])}>{s.shortText}</span>
-      <span className={stratum.em("link-text", ["detail"])}>{s.text}</span>
+  <li className={b.e("item")}>
+    <link className={b.e("link")} to={s.href}>
+      <img className={b.e("link-icon")} src={s.icon} alt={s.text} />
+      <span className={b.em("link-text", ["summary"])}>{s.shortText}</span>
+      <span className={b.em("link-text", ["detail"])}>{s.text}</span>
     </link>
   </li>
 
+toggleMenu :: Action State
+toggleMenu = (_, _) => [
+  of(
+    (s) => ({
+      ...s,
+       showNav: !s.showNav 
+    })
+  )
+]
+
+MobileMenu :: State -> Element State
+MobileMenu = (s) =>
+  <div className={b.e("menu-toggle-wrapper")}>
+    <img
+      className={b.e("menu-icon")}
+      src="/assets/hamburger.svg"
+      alt="Toggle Menu"
+      onClick={toggleMenu}
+    />
+  </div>
+
+Nav :: State -> Element State
 export Nav = (s) =>
-  <nav className={stratum.m(["loading"])}>
-    <link to="/" className={stratum.em("link", ["logo"])}>
+  <nav className={b.m(["loading"])}>
+    {MobileMenu(s)} 
+    <link to="/" className={b.em("link", ["logo"])}>
       <img
-        className={stratum.e("logo")}
+        className={b.e("logo")}
         src="/assets/logo-white.svg"
         alt="Madlib Logo"
       />
     </link>
-    <div className={stratum.e("search-wrapper")}>
-      <div className={stratum.e("search-icon-wrapper")}>
+    <div className={b.e("search-wrapper")}>
+      <div className={b.e("search-icon-wrapper")}>
         <img
-          className={stratum.e("search-icon")}
+          className={b.e("search-icon")}
           src="/assets/magnifier.svg"
           alt="Search"
         />
       </div>
-      <input inputType="text" className={stratum.e("search")} />
+      <input inputType="text" className={b.e("search")} />
     </div>
-    <ul className={stratum.e("list")}>
-      {...map(NavLink, s)}
+    <ul className={b.em("list", [
+      s.showNav ? "visible" : "invisible"
+    ])}>
+      {...map(NavLink, s.content.nav)}
     </ul>
   </nav>
