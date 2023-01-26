@@ -1,5 +1,6 @@
 @import "colors";
 @import "media";
+@import "zindex";
 
 @import "./global";
 
@@ -11,6 +12,7 @@
 @import "views/HighlightedCode";
 @import "views/LinkedHeader";
 @import "views/Nav";
+@import "views/MobileNav";
 @import "views/Playground";
 @import "views/SplashScreen";
 @import "views/Website";

@@ -2,9 +2,10 @@
 
 @use "../_colors";
 @use "../_media";
+@use "../_zindex";
 
-$logoWidth: 6rem;
 $logoWidthMD: 12rem;
+$NAV_HEIGHT: 3.25rem;
 
 @mixin link($color) {
   .nav__link:hover {
@@ -32,7 +33,7 @@ $LOGO_SIZE: 8rem;
   max-width: 100%;
   top: 0;
   left: 0;
-  z-index: 20;
+  z-index: $z-nav;
   margin: 0;
   padding: 1rem 1rem;
   width: 100%;
@@ -128,45 +129,6 @@ $LOGO_SIZE: 8rem;
       display: none;
     }
   }
-  &__list {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    list-style: none;
-    min-width: 100%;
-    order: 4;
-    outline: 1px dotted cyan;
-    padding: 0;
-    padding-bottom: 0.5rem;
-    position: absolute;
-    bottom: -1rem;
-    text-transform: uppercase;
-    transition: bottom 0.3s 0.3s ease-out, height 0.3s 0.3s ease-out,
-      line-height 0.3s 0.3s ease-out;
-    width: 100%;
-    overflow: hidden;
-    &--invisible {
-      height: 0;
-      .nav__item {
-        height: 0;
-      }
-      .nav__link {
-        opacity: 0;
-      }
-    }
-    &--visible {
-      height: 3rem;
-      bottom: -4rem;
-      .nav__item {
-        height: 1.5rem;
-      }
-      .nav__link {
-        opacity: 1;
-      }
-    }
-  }
 
   &__link {
     width: 100%;
@@ -210,7 +172,6 @@ $LOGO_SIZE: 8rem;
     flex-direction: row;
     justify-content: center;
     align-content: center;
-    width: (100% / 3);
     margin: 0;
     /*
     &:nth-of-type(even) {
@@ -291,19 +252,7 @@ $LOGO_SIZE: 8rem;
         display: none;
       }
     }
-    &__list {
-      min-width: calc(100% - #{$logoWidthMD + 1.5rem});
-      margin: 0;
-      margin-top: 1rem;
-      height: 4rem;
-      align-items: center;
-      justify-content: flex-start;
-      height: auto;
-      order: 2;
-      &--invisible {
-        height: auto;
-      }
-    }
+
     &__item {
       justify-content: center;
       // width: auto;

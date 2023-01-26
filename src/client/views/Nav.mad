@@ -22,15 +22,6 @@ import type { State, Link } from "../State"
 
 b = strata("nav")
 
-NavLink :: Link -> Element State
-NavLink = (s) =>
-  <li className={b.e("item")}>
-    <link className={b.e("link")} to={s.href}>
-      <img className={b.e("link-icon")} src={s.icon} alt={s.text} />
-      <span className={b.em("link-text", ["summary"])}>{s.shortText}</span>
-      <span className={b.em("link-text", ["detail"])}>{s.text}</span>
-    </link>
-  </li>
 
 toggleMenu :: Action State
 toggleMenu = (_, _) => [
@@ -42,8 +33,8 @@ toggleMenu = (_, _) => [
   )
 ]
 
-MobileMenu :: State -> Element State
-MobileMenu = (s) =>
+MobileMenuToggle :: State -> Element State
+MobileMenuToggle = (s) =>
   <div className={b.e("menu-toggle-wrapper")}>
     <img
       className={b.e("menu-icon")}
@@ -56,7 +47,7 @@ MobileMenu = (s) =>
 Nav :: State -> Element State
 export Nav = (s) =>
   <nav className={b.m(["loading"])}>
-    {MobileMenu(s)} 
+    {MobileMenuToggle(s)} 
     <link to="/" className={b.em("link", ["logo"])}>
       <img
         className={b.e("logo")}
@@ -74,9 +65,4 @@ export Nav = (s) =>
       </div>
       <input inputType="text" className={b.e("search")} />
     </div>
-    <ul className={b.em("list", [
-      s.showNav ? "visible" : "invisible"
-    ])}>
-      {...map(NavLink, s.content.nav)}
-    </ul>
   </nav>

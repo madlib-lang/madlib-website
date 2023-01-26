@@ -7,6 +7,7 @@ import { strata } from "Strata"
 import { join } from "String"
 
 import { Nav } from "@client/views/Nav"
+import { MobileNav } from "@client/views/MobileNav"
 import { Footer } from "@client/views/Footer"
 import { Playground } from "@client/views/Playground"
 import { PageSection } from "@client/views/Section"
@@ -23,6 +24,7 @@ Home :: State -> Element State
 export Home = (state) =>
   <div className={stratum.e("")}>
     {Nav(state)}
+    {MobileNav(state)}
     <div className={stratum.e("playground")}>
       {Playground(state)}
     </div>
