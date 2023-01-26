@@ -7,18 +7,23 @@ import {
   src,
   text,
   ul,
+  onClick,
 } from "MadUI"
 import { strata } from "Strata"
-import type { State, Link } from "../State"
+import type { State, Link } from "@client/State"
+import { toggleMenuOffOnly } from "@client/actions/ToggleMenu"
 import { NavLink } from "./NavLink"
 
 b = strata("mobile-nav")
 
 MobileNav :: State -> Element State
 export MobileNav = (s) =>
-  <div className={b.em("", [
-    s.showNav ? "visible" : "invisible"
-  ])}>
+  <div
+    className={b.em("", [
+      s.showNav ? "visible" : "invisible"
+    ])}
+    onClick={toggleMenuOffOnly}
+  >
     <ul className={b.e("list")}>
       {...map(NavLink, s.content.nav)}
     </ul>

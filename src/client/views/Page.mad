@@ -11,6 +11,7 @@ import { strata } from "Strata"
 import IO from "IO"
 
 import { Nav } from "@client/views/Nav"
+import { MobileNav } from "@client/views/MobileNav"
 import { Footer } from "@client/views/Footer"
 import { Header } from "@client/views/Header"
 import { renderMarkdown } from "@client/Markdown"
@@ -37,6 +38,7 @@ page :: String -> Element State -> State -> Element State
 export page = (title, children, state) =>
   <div className={stratum.m([slugify(title)])}>
     {Nav(state)}
+    {MobileNav(state)}
     <h1 className={stratum.e("h1")}>
       {title}
     </h1>

@@ -1,0 +1,22 @@
+import type { Action, Element } from "MadUI"
+import type { State, Link } from "@client/State"
+
+toggleMenu :: Action State
+export toggleMenu = (_, _) => [
+  of(
+    (s) => ({
+      ...s,
+       showNav: !s.showNav 
+    })
+  )
+]
+
+toggleMenuOffOnly :: Action State
+export toggleMenuOffOnly = (_, _) => [
+  of(
+    (s) => ({
+      ...s,
+      showNav: s.showNav ? !s.showNav : s.showNav
+    })
+  )
+]

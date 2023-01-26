@@ -15,6 +15,7 @@ $logoWidth: 6rem;
   width: 100vw;
   height: 100vh;
   transition: background 0.3s 0.3s ease-out;
+  z-index: $z-subnav-base;
   &__list {
     list-style: none;
 
@@ -29,16 +30,17 @@ $logoWidth: 6rem;
     top: 0;
     z-index: $z-subnav;
 
-    width: 12rem;
+    width: 44vw;
     background-color: $c-darkpurple;
 
     padding: ($NAV_HEIGHT + 2rem) 0.75rem 1rem;
     margin: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.125);
 
     text-transform: uppercase;
     transition: bottom 0.3s 0.3s ease-out, height 0.3s 0.3s ease-out,
       line-height 0.3s 0.3s ease-out, transform 0.3s 0.3s ease-out,
-      opacity 0.3s ease-out, background 0.3s 0.3s ease-out;
+      opacity 0.3s ease-out, background 0.3s 0.9s ease-out;
     overflow: hidden;
     height: 100vh;
   }
@@ -47,12 +49,17 @@ $logoWidth: 6rem;
     width: 100%;
   }
   &--invisible {
+    cursor: text;
+    pointer-events: none;
     .mobile-nav__list {
-      transform: translateX(-12rem);
+      transform: translateX(-50vw);
     }
   }
   &--visible {
-    background-color: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    pointer-events: auto;
+    background-color: rgb(1 2 4 / 78%);
+    // background-color: rgba(0, 0, 0, 0.5);
     .mobile-nav__list {
       transform: translateX(0);
     }

@@ -18,20 +18,10 @@ import {
 } from "MadUI"
 import { strata } from "Strata"
 
-import type { State, Link } from "../State"
+import type { State, Link } from "@client/State"
+import { toggleMenu } from "@client/actions/ToggleMenu"
 
 b = strata("nav")
-
-
-toggleMenu :: Action State
-toggleMenu = (_, _) => [
-  of(
-    (s) => ({
-      ...s,
-       showNav: !s.showNav 
-    })
-  )
-]
 
 MobileMenuToggle :: State -> Element State
 MobileMenuToggle = (s) =>

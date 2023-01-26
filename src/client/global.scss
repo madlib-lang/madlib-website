@@ -1,3 +1,5 @@
+@import "zindex";
+
 @keyframes swing {
   15% {
     transform: translateY(5px);
@@ -56,6 +58,7 @@ a:hover {
 
 html {
   background-color: #101020;
+  z-index: $z-base;
 }
 
 body {
