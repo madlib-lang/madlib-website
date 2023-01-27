@@ -6,6 +6,8 @@
 
 $logoWidth: 6rem;
 
+$NAV_WIDTH: calc(100% - 10rem);
+
 .mobile-nav {
   position: absolute;
   display: flex;
@@ -30,7 +32,7 @@ $logoWidth: 6rem;
     top: 0;
     z-index: $z-subnav;
 
-    width: 44vw;
+    width: $NAV_WIDTH;
     background-color: $c-darkpurple;
 
     padding: ($NAV_HEIGHT + 2rem) 0.75rem 1rem;
@@ -39,7 +41,7 @@ $logoWidth: 6rem;
 
     text-transform: uppercase;
     transition: bottom 0.3s 0.3s ease-out, height 0.3s 0.3s ease-out,
-      line-height 0.3s 0.3s ease-out, transform 0.3s 0.3s ease-out,
+      line-height 0.3s 0.3s ease-out, transform 0.3s 0.15s ease-out,
       opacity 0.3s ease-out, background 0.3s 0.9s ease-out;
     overflow: hidden;
     height: 100vh;
@@ -52,7 +54,7 @@ $logoWidth: 6rem;
     cursor: text;
     pointer-events: none;
     .mobile-nav__list {
-      transform: translateX(-50vw);
+      transform: translateX(-100vw);
     }
   }
   &--visible {
