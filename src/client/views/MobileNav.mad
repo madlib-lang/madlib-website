@@ -1,6 +1,8 @@
 import type { Action, Element } from "MadUI"
 import {
+  button,
   div,
+  titleAttr,
   alt,
   className,
   img,
@@ -16,6 +18,8 @@ import { NavLink } from "./NavLink"
 
 b = strata("mobile-nav")
 
+// &#x21a9;
+
 MobileNav :: State -> Element State
 export MobileNav = (s) =>
   <div
@@ -24,7 +28,12 @@ export MobileNav = (s) =>
     ])}
     onClick={toggleMenuOffOnly}
   >
-    <ul className={b.e("list")}>
-      {...map(NavLink, s.content.nav)}
-    </ul>
+    <div className={b.e("menuback")}>
+      <ul className={b.e("list")}>
+        {...map(NavLink, s.content.nav)}
+      </ul>
+      <button className={b.em("button", ["close"])} titleAttr="Close Menu">
+      ↩
+      </button>
+    </div>
   </div>

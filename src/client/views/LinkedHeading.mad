@@ -19,8 +19,8 @@ export alias LinkedSectionProps = {
 
 stratum = strata("linked-section")
 
-LinkedHeader :: LinkedSectionProps -> Element State
-export LinkedHeader = (raw) =>
+LinkedHeading :: LinkedSectionProps -> Element State
+export LinkedHeading = (raw) =>
   <h2 className={stratum.e("")}>
     <a href={`#${raw.id}`} className={stratum.e("link")}>#</a>
     <span className={stratum.e("title")}>{raw.title}</span>

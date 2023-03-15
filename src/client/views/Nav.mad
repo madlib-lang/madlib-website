@@ -1,25 +1,31 @@
 import type { Action, Element } from "MadUI"
 import {
-  onClick,
-  div,
-  input,
-  inputType,
-  span,
-  nav,
   alt,
   className,
+  div,
+  form,
+  id,
   img,
+  input,
+  inputType,
   li,
   link,
+  nav,
+  onClick,
+  onInput,
+  placeholder,
+  span,
   src,
   text,
   to,
-  ul
+  ul,
 } from "MadUI"
 import { strata } from "Strata"
 
 import type { State, Link } from "@client/State"
 import { toggleMenu } from "@client/actions/ToggleMenu"
+import { search } from "@client/actions/Search"
+import { SearchMenu } from "@client/views/SearchMenu"
 
 b = strata("nav")
 
@@ -37,7 +43,7 @@ MobileMenuToggle = (s) =>
 Nav :: State -> Element State
 export Nav = (s) =>
   <nav className={b.m(["loading"])}>
-    {MobileMenuToggle(s)} 
+    {MobileMenuToggle(s)}
     <link to="/" className={b.em("link", ["logo"])}>
       <img
         className={b.e("logo")}
@@ -45,14 +51,21 @@ export Nav = (s) =>
         alt="Madlib Logo"
       />
     </link>
-    <div className={b.e("search-wrapper")}>
-      <div className={b.e("search-icon-wrapper")}>
-        <img
-          className={b.e("search-icon")}
-          src="/assets/magnifier.svg"
-          alt="Search"
-        />
+    // we don't yet support role / aria stuff
+    // role="search"
+    // aria-label="Search Madlib documentation"
+    <form id="search">
+      <div className={b.em("search-wrapper", [s.search == "" ? "waiting" : "searching"])}>
+        <div className={b.e("search-icon-wrapper")}>
+          <img
+            className={b.e("search-icon")}
+            src="/assets/magnifier.svg"
+            alt="Search"
+          />
+        </div>
+        // role="searchbox"
+        <input inputType="text" className={b.e("search")} onInput={search} placeholder="Search Madlib" id="search-field" />
       </div>
-      <input inputType="text" className={b.e("search")} />
-    </div>
+    </form>
+    {SearchMenu(s)}
   </nav>

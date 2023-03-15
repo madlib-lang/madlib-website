@@ -15,7 +15,7 @@ import { div, style, className, id, p, section, text } from "MadUI"
 import { strata } from "Strata"
 
 import { slugify } from "@common/String"
-import { LinkedHeader } from "@client/views/LinkedHeader"
+import { LinkedHeading } from "@client/views/LinkedHeading"
 
 
 stratum = strata("website")
@@ -26,7 +26,7 @@ export PageSection = (raw) => {
   sectionLinkProps = { id: clean, title: raw.title, }
   return (
     <section id={clean} className={stratum.e("section")}>
-      {LinkedHeader(sectionLinkProps)}
+      {LinkedHeading(sectionLinkProps)}
       <p className={stratum.e("paragraph")}>
         {renderMarkdown(raw.content)}
       </p>

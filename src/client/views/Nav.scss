@@ -48,6 +48,7 @@ $LOGO_SIZE: 8rem;
     border: none;
     margin: 0;
     padding: 0 !important;
+    padding: 0.5rem;
     text-shadow: 0 0 0 transparent;
     max-width: $LOGO_SIZE;
     &:hover,
@@ -79,13 +80,15 @@ $LOGO_SIZE: 8rem;
     flex-direction: row;
     transition: background 0.3s ease-out, width 0.3s 0.3s ease-out,
       filter 0.3s ease-out;
-    &:focus-within {
+    &:focus-within,
+    &--searching {
       cursor: text;
       width: $LOGO_SIZE;
       box-shadow: 0 0 8px white;
       background-color: white;
+      z-index: $z-subnav-base;
       .nav__search-icon {
-        filter: invert(1000%);
+        filter: invert(100%);
       }
     }
   }
@@ -114,7 +117,9 @@ $LOGO_SIZE: 8rem;
       outline 0.3s 0.3s ease-out, background 0.3s 0.6s ease-out;
     background-color: transparent;
     border: 1px solid transparent;
-    &:focus {
+    &:hover,
+    &:focus,
+    &:active {
       cursor: text;
       outline: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -211,10 +216,9 @@ $LOGO_SIZE: 8rem;
     }
   }
   @media screen and (min-width: $breakpoint-md) {
-    width: 100%;
     padding: 0 2rem;
-    flex-direction: row;
-    align-items: start;
+    align-items: center;
+    justify-content: space-between;
     min-height: 6rem;
     margin-bottom: 1rem;
     &__link-text {
@@ -227,16 +231,12 @@ $LOGO_SIZE: 8rem;
     &__link--logo {
       flex-direction: row;
       margin: 0;
-      margin-top: 1.5rem;
       padding: 0;
-      padding-right: 0.5rem;
       &:hover,
       &:focus,
       &:active {
         margin: 0;
-        margin-top: 1.5rem;
         padding: 0;
-        padding-right: 0.5rem;
       }
     }
     &__logo {

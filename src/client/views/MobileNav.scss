@@ -6,21 +6,35 @@
 
 $logoWidth: 6rem;
 
-$NAV_WIDTH: calc(100% - 10rem);
+$NAV_WIDTH: clamp(60%, 86vw, 86%);
 
 .mobile-nav {
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  transition: background 0.3s 0.3s ease-out;
+  transition: background 0.45s 0.15s ease-out;
   z-index: $z-subnav-base;
-  &__list {
-    list-style: none;
-
+  font-size: 1.5rem;
+  font-family: "Bebas Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  &__button--close {
+    position: absolute;
+    bottom: 2rem;
+    background-color: transparent;
+    border: none;
+    right: 2rem;
+    width: 1rem;
+    height: 1rem;
+    color: rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+    font-weight: bolder;
+    transition: transform 0.35s 0.2s ease-out, color 0.3s 0.1s ease-out,
+      text-shadow 0.3s ease-out;
+  }
+  &__menuback {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -40,21 +54,32 @@ $NAV_WIDTH: calc(100% - 10rem);
     border-right: 1px solid rgba(255, 255, 255, 0.125);
 
     text-transform: uppercase;
-    transition: bottom 0.3s 0.3s ease-out, height 0.3s 0.3s ease-out,
-      line-height 0.3s 0.3s ease-out, transform 0.3s 0.15s ease-out,
-      opacity 0.3s ease-out, background 0.3s 0.9s ease-out;
-    overflow: hidden;
+    transition: transform 0.4s ease-out;
+    overflow: visible;
     height: 100vh;
+  }
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
   }
   .nav__item,
   .nav__link {
     width: 100%;
   }
+  .nav__item {
+    margin: 0.75rem 0;
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
   &--invisible {
     cursor: text;
     pointer-events: none;
-    .mobile-nav__list {
-      transform: translateX(-100vw);
+    // transition: background 1.3s ease-out;
+    .mobile-nav__menuback {
+      transform: translateX(calc(-100vw - 3rem));
     }
   }
   &--visible {
@@ -62,8 +87,17 @@ $NAV_WIDTH: calc(100% - 10rem);
     pointer-events: auto;
     background-color: rgb(1 2 4 / 78%);
     // background-color: rgba(0, 0, 0, 0.5);
-    .mobile-nav__list {
+    .mobile-nav__menuback {
       transform: translateX(0);
+    }
+    .mobile-nav__button--close {
+      color: white;
+      transform: translateX(3.5rem);
+      cursor: pointer;
+      &:hover {
+        color: yellow;
+        text-shadow: 0 0 5px rgba(255, 255, 0, 0.7);
+      }
     }
   }
 }
