@@ -74,6 +74,11 @@ eschewPositionalLinks = (z) => ({
   title: z.title
 })
 
+KeineAhnung :: List a -> Element State
+KeineAhnung = () => <div className={b.em("results", ["none"])}>
+  No results found
+</div>
+
 MatchResults :: State -> Element State
 MatchResults = (s) =>
   <div className={b.e("results-wrapper")}>
@@ -81,11 +86,26 @@ MatchResults = (s) =>
       map(eschewPositionalLinks),
       List.concat(s.content.pages),
       List.filter(hasContent(s.search)),
+      /*
+      List.sortBy((a, b) => (
+        where #[a, b] {
+          #[SlugMatch, SlugMatch] => EQUAL
+          #[SlugMatch, TitleMatch] => MORE
+          #[SlugMatch, ContentMatch] => MORE
+
+          #[TitleMatch, TitleMatch] => EQUAL
+          #[TitleMatch, SlugMatch] => LESS
+          #[TitleMatch, ContentMatch] => MORE
+
+          #[ContentMatch, ContentMatch] => EQUAL
+          #[ContentMatch, SlugMatch] => LESS
+          #[ContentMatch, TitleMatch] => LESS
+        }
+      ),
+      */
       ifElse(
         pipe(List.length, equals(0)),
-        () => <div className={b.em("results", ["none"])}>
-          No results found
-        </div>,
+        KeineAhnung,
         (res) => (
           <div className={b.e("results")}>
           <ul className={b.e("result-list")}>
@@ -97,15 +117,6 @@ MatchResults = (s) =>
                 ContentMatch => "content"
                 _ => "none"
               },
-              /*
-              List.sortBy((a, b) =>
-                  a == "slug" && b == "content" ? MORE
-                : a == "slug" && b == "title" ? MORE
-                : b == "slug" && a == "title" ? LESS
-                : b == "slug" && a == "content" ? LESS
-                : EQUAL
-              ),
-              */
               (sc) => 
                 <li className={b.em("result", [`match-${sc}`])}>
                   <a href={p.slug} className={b.e("result-link")}>

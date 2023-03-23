@@ -18,7 +18,7 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
   height: 100vh;
   transition: background 0.45s 0.15s ease-out;
   z-index: $z-subnav-base;
-  font-size: 1.5rem;
+  font-size: 4rem;
   font-family: "Bebas Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   &__button--close {
     position: absolute;
@@ -64,15 +64,23 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
     margin: 0;
     width: 100%;
   }
-  .nav__item,
-  .nav__link {
-    width: 100%;
-  }
   .nav__item {
+    width: 100%;
     margin: 0.75rem 0;
     &:first-of-type {
       margin-top: 0;
     }
+  }
+  .nav__link {
+    width: 100%;
+    margin: 0.75rem 0;
+    text-align: center;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+    text-shadow: 0 0 2rem rgba(187, 187, 187, 0);
+    transition: border 0.3s ease-out, color 0.3s ease-out, padding 0.3s ease-out,
+      text-shadow 0.4s 0.1s ease-out;
   }
   &--invisible {
     cursor: text;

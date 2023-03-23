@@ -1,9 +1,21 @@
 .website {
+  .website__header,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h5,
+  p {
+    padding: 0 2rem;
+  }
+}
+.website {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 5.75rem 2rem 0;
+  padding: 5.75rem 0 0;
 
   &__header {
     display: flex;
