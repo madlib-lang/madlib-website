@@ -3,6 +3,7 @@
 @use "../_colors";
 @use "../_media";
 @use "../_zindex";
+@use "../_fonts";
 
 $logoWidth: 6rem;
 
@@ -19,7 +20,7 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
   transition: background 0.45s 0.15s ease-out;
   z-index: $z-subnav-base;
   font-size: 4rem;
-  font-family: "Bebas Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: $type-heading;
   &__button--close {
     position: absolute;
     bottom: 2rem;
@@ -107,5 +108,15 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
         text-shadow: 0 0 5px rgba(255, 255, 0, 0.7);
       }
     }
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 1rem 0.5rem 0.5rem;
+    font-family: $type-body;
+    font-size: 0.75rem;
+    text-transform: none;
   }
 }

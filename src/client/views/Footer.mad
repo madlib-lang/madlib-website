@@ -5,7 +5,10 @@ import {
   href,
   footer,
   className,
-  span
+  span,
+  div,
+  img,
+  src
 } from "MadUI"
 import type {Element} from "MadUI"
 import type { State } from "@client/State"
@@ -15,7 +18,13 @@ stratum = strata("footer")
 Footer :: State -> Element State
 export Footer = (state) => 
   <footer className={stratum.e("")}>
-    <span className={stratum.e("power")}>
+    <div className={stratum.e("the-fence")}>
+      // aria-label Edit this page
+      <a href="https://github.com/madlib-lang/madlib" className={stratum.em("link", ["icon"])}>
+        <img src="./assets/github.svg" className={stratum.em("image", ["github"])}/>
+      </a>
+    </div>
+    <div className={stratum.e("colophon")}>
       This site is powered by <a href="https://github.com/madlib-lang/madlib" className={stratum.e("link")}>Madlib</a>
-    </span>
+    </div>
   </footer>

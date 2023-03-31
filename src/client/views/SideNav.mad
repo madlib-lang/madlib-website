@@ -15,7 +15,6 @@ import { strata } from "Strata"
 import type { State, Link } from "@client/State"
 import { toggleMenuOffOnly } from "@client/actions/ToggleMenu"
 import { NavLink } from "./NavLink"
-import { Footer } from "./Footer"
 
 b = strata("mobile-nav")
 
@@ -36,6 +35,5 @@ export MobileNav = (s) =>
       <button className={b.em("button", ["close"])} titleAttr="Close Menu">
       ↩
       </button>
-      {Footer(s)}
     </div>
   </div>

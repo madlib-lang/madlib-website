@@ -1,8 +1,8 @@
 @import "../_media";
+@import "../_fonts";
 
 $height: 10rem;
 $lineHeight: 1.5rem;
-$font: "Fira Code", monospace;
 $outputWidth: 27%;
 
 @mixin makePulse($name, $a1, $a2, $a3, $b1, $b2, $b3) {
@@ -31,7 +31,7 @@ $outputWidth: 27%;
 }
 
 .playground {
-  font-family: $font;
+  font-family: $type-body;
   position: relative;
   overflow: hidden;
 
@@ -108,7 +108,7 @@ $outputWidth: 27%;
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    font-family: $font;
+    font-family: $type-body;
     font-weight: bolder;
     height: 2rem;
     justify-content: center;
@@ -209,7 +209,7 @@ $outputWidth: 27%;
 
   &__input {
     line-height: $lineHeight;
-    font-family: $font;
+    font-family: $type-body;
     // z-index: 1;
     white-space: pre;
     // color: rgba(255, 255, 255, 0.5);
@@ -308,5 +308,5 @@ $outputWidth: 27%;
 textarea,
 pre,
 code {
-  font-family: $font !important;
+  font-family: $type-body !important;
 }

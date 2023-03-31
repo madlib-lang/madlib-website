@@ -1,4 +1,5 @@
 @import "zindex";
+@import "fonts";
 
 @keyframes swing {
   15% {
@@ -68,7 +69,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-size: 16px;
-  font-family: "Fira Code", monospace;
+  font-family: $type-body;
   line-height: 1.7rem;
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
 }
@@ -80,10 +81,8 @@ h4,
 h5,
 h6,
 .heading {
-  font-family: "Bebas Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: $type-heading;
   text-transform: uppercase;
-  // font-size: 2em;
-  // line-height: 1.25em;
   letter-spacing: 0.05rem;
 }
 h1 {
