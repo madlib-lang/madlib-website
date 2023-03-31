@@ -88,6 +88,8 @@
   }
 
   &__main {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
 
     p {
@@ -96,10 +98,14 @@
       // letter-spacing: 0.3px;
     }
   }
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
 
   &__section {
     // max-width: 50rem;
-    margin: 0 auto;
+    margin: 0;
     margin-bottom: 3rem;
   }
   &__section-list-item {
@@ -107,5 +113,25 @@
   }
   @media screen and (min-width: $breakpoint-md) {
     padding: 7.75rem 2rem 0;
+    .playground {
+      margin-bottom: 2rem;
+      margin-left: 2rem;
+      min-width: 40rem;
+    }
+    &__main {
+      flex-direction: row;
+    }
+    .website__content {
+      padding-left: 2rem;
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
+        padding: 0;
+      }
+    }
   }
 }

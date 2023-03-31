@@ -9,7 +9,7 @@ $logoWidth: 6rem;
 
 $NAV_WIDTH: clamp(60%, 86vw, 86%);
 
-.mobile-nav {
+.sub-nav {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
     align-items: flex-start;
     justify-content: flex-start;
 
-    position: fixed;
+    // position: fixed;
     left: 0;
     top: 0;
     z-index: $z-subnav;
@@ -57,7 +57,7 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
     text-transform: uppercase;
     transition: transform 0.4s ease-out;
     overflow: visible;
-    height: 100vh;
+    min-height: 100vh;
   }
   &__list {
     list-style: none;
@@ -83,23 +83,23 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
     transition: border 0.3s ease-out, color 0.3s ease-out, padding 0.3s ease-out,
       text-shadow 0.4s 0.1s ease-out;
   }
-  &--invisible {
+  &--passive {
     cursor: text;
     pointer-events: none;
     // transition: background 1.3s ease-out;
-    .mobile-nav__menuback {
+    .sub-nav__menuback {
       transform: translateX(calc(-100vw - 3rem));
     }
   }
-  &--visible {
+  &--active {
     cursor: pointer;
     pointer-events: auto;
     background-color: rgb(1 2 4 / 78%);
     // background-color: rgba(0, 0, 0, 0.5);
-    .mobile-nav__menuback {
+    .sub-nav__menuback {
       transform: translateX(0);
     }
-    .mobile-nav__button--close {
+    .sub-nav__button--close {
       color: white;
       transform: translateX(3.5rem);
       cursor: pointer;
@@ -118,5 +118,36 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
     font-family: $type-body;
     font-size: 0.75rem;
     text-transform: none;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    position: relative;
+    font-size: 2rem;
+    width: 13rem;
+    min-height: auto;
+    &--passive {
+      pointer-events: auto;
+    }
+    .sub-nav__menuback {
+      pointer-events: auto;
+      position: relative;
+      transform: translateX(0);
+      width: 200px;
+      background: transparent;
+      border: none;
+      padding: 0.5rem 0 0;
+    }
+    .sub-nav__list {
+      position: fixed;
+    }
+    .nav__item {
+      margin: 0;
+    }
+    .nav__link-text {
+      margin: 0;
+    }
+    .footer {
+      display: none;
+    }
   }
 }

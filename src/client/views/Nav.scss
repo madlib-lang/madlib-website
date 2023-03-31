@@ -223,6 +223,7 @@ $LOGO_SIZE: 8rem;
     margin-bottom: 1rem;
     &__link-text {
       &--summary {
+        display: none;
       }
       &--detail {
         display: inline;
@@ -245,10 +246,8 @@ $LOGO_SIZE: 8rem;
       min-width: $logoWidthMD;
     }
     &__menu-toggle-wrapper {
-      // transform: translateY(-4rem);
       display: none;
       &--invisible {
-        // transform: translateY(-4rem);
         display: none;
       }
     }

@@ -29,8 +29,8 @@ import { SearchMenu } from "@client/views/SearchMenu"
 
 b = strata("nav")
 
-MobileMenuToggle :: State -> Element State
-MobileMenuToggle = (s) =>
+SubMenuToggle :: State -> Element State
+SubMenuToggle = (s) =>
   <div className={b.e("menu-toggle-wrapper")}>
     <img
       className={b.e("menu-icon")}
@@ -43,7 +43,7 @@ MobileMenuToggle = (s) =>
 Nav :: State -> Element State
 export Nav = (s) =>
   <nav className={b.m(["loading"])}>
-    {MobileMenuToggle(s)}
+    {SubMenuToggle(s)}
     <link to="/" className={b.em("link", ["logo"])}>
       <img
         className={b.e("logo")}

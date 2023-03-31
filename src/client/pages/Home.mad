@@ -7,7 +7,7 @@ import { strata } from "Strata"
 import { join } from "String"
 
 import { Nav } from "@client/views/Nav"
-import { MobileNav } from "@client/views/MobileNav"
+import { SubNav } from "@client/views/SubNav"
 import { Footer } from "@client/views/Footer"
 import { Playground } from "@client/views/Playground"
 import { PageSection } from "@client/views/Section"
@@ -24,12 +24,14 @@ Home :: State -> Element State
 export Home = (state) =>
   <div className={stratum.e("")}>
     {Nav(state)}
-    {MobileNav(state)}
     <div className={stratum.e("playground")}>
       {Playground(state)}
     </div>
     <main className={stratum.e("main")}>
-      {...map(PageSection, state.content.home)}
+      {SubNav(state)}
+      <div className={stratum.e("content")}>
+        {...map(PageSection, state.content.home)}
+      </div>
     </main>
     {Footer(state)}
     {state.debug ? Breakpoints(state.content.theme.breakpoints) : <empty />}

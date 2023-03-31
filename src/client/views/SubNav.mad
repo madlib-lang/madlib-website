@@ -17,15 +17,15 @@ import { toggleMenuOffOnly } from "@client/actions/ToggleMenu"
 import { NavLink } from "./NavLink"
 import { Footer } from "./Footer"
 
-b = strata("mobile-nav")
+b = strata("sub-nav")
 
 // &#x21a9;
 
-MobileNav :: State -> Element State
-export MobileNav = (s) =>
+SubNav :: State -> Element State
+export SubNav = (s) =>
   <div
     className={b.em("", [
-      s.showNav ? "visible" : "invisible"
+      s.showNav ? "active" : "passive"
     ])}
     onClick={toggleMenuOffOnly}
   >

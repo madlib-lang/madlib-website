@@ -1,15 +1,17 @@
+@import "../_media";
 .documentation-page {
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
+
   &__nav {
     display: flex;
     flex-direction: row;
     padding: 1rem 0;
     justify-content: flex-end;
-    position: relative;
-    left: 0;
-    padding-left: 90%;
+    align-items: center;
+    width: 5rem;
   }
 
   &__nav-item {
@@ -51,5 +53,11 @@
 
   &__content {
     width: 100%;
+  }
+  @media screen and (min-width: $breakpoint-md) {
+    code,
+    .code--madlib {
+      margin-left: 2rem;
+    }
   }
 }
