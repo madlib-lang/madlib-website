@@ -1,0 +1,9 @@
+slugify :: String -> String
+export slugify = (zz) => #-
+  zz.normalize('NFD')
+    .toLowerCase()
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .replace(/[^a-z0-9 ]/g, '')
+    .replace(/\s+/g, '-')
+-#

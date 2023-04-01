@@ -1,0 +1,205 @@
+import type { JsonValue } from "JsonValue"
+import type { Wish } from "Wish"
+
+import Dictionary from "Dictionary"
+import { Left, Right } from "Either"
+import File from "File"
+import { always } from "Function"
+import IO from "IO"
+import JsonParser from "JsonParser"
+import JsonPrinter from "JsonPrinter"
+import { JsonArray, JsonObject, JsonString } from "JsonValue"
+import List from "List"
+import { Just, fromMaybe } from "Maybe"
+import { runParser } from "Parse"
+import PrettyPrint from "PrettyPrint"
+import String from "String"
+import { bad, fulfill, mapRej } from "Wish"
+
+
+
+type Error
+  = BadArguments
+  | JsonParsingError
+  | ReadJsonFileError
+  | ReadTextFileError
+  | WriteJsonFileError
+
+
+updateValueAtPathWith :: List String -> String -> JsonValue -> JsonValue
+updateValueAtPathWith = (pathSegments, value, jsonObject) => where(pathSegments) {
+  [lastSegment] =>
+    where(jsonObject) {
+      JsonObject(fields) =>
+        where(Dictionary.get(lastSegment, fields)) {
+          Just(JsonString(_)) =>
+            JsonObject(Dictionary.insert(lastSegment, JsonString(value), fields))
+
+          _ =>
+            JsonObject(fields)
+        }
+
+      JsonArray(items) =>
+        pipe(
+          scan,
+          map(
+            (index) => JsonArray(
+              List.mapWithIndex((item, i) => i == index ? JsonString(value) : item, items),
+            ),
+          ),
+          fromMaybe(JsonArray(items)),
+        )(lastSegment)
+
+      or =>
+        or
+    }
+
+  [segment, ...rest] =>
+    where(jsonObject) {
+      JsonObject(fields) =>
+        where(Dictionary.get(segment, fields)) {
+          Just(nextJsonValue) =>
+            JsonObject(
+              Dictionary.insert(segment, updateValueAtPathWith(rest, value, nextJsonValue), fields),
+            )
+
+          _ =>
+            JsonObject(fields)
+        }
+
+      JsonArray(items) =>
+        pipe(
+          scan,
+          map(
+            (index) => JsonArray(
+              List.mapWithIndex(
+                (item, i) => i == index ? updateValueAtPathWith(rest, value, item) : item,
+                items,
+              ),
+            ),
+          ),
+          fromMaybe(JsonArray(items)),
+        )(segment)
+
+      or =>
+        or
+    }
+
+  _ =>
+    jsonObject
+}
+
+
+readFile :: Error -> String -> Wish Error String
+readFile = (error, path) => pipe(
+  File.read,
+  mapRej(always(error)),
+)(path)
+
+
+readJsonFile :: String -> Wish Error String
+readJsonFile = readFile(ReadJsonFileError)
+
+
+writeJsonFile :: String -> String -> Wish Error {}
+writeJsonFile = (path, content) => pipe(
+  File.write(path),
+  mapRej(always(WriteJsonFileError)),
+)(content)
+
+
+readTextFile :: String -> Wish Error String
+readTextFile = readFile(ReadTextFileError)
+
+
+parseJson :: String -> Wish Error JsonValue
+parseJson = (path) => pipe(
+  readJsonFile,
+  chain(
+    (fileContent) => where(runParser(JsonParser.jsonValue, fileContent)) {
+      Right(good) =>
+        of(good)
+
+      Left(_) =>
+        bad(JsonParsingError)
+    },
+  ),
+)(path)
+
+
+buildPathSegments :: String -> List String
+buildPathSegments = String.split(".")
+
+
+escapeTextFile :: String -> String
+escapeTextFile = (s) => {
+  go :: List Char -> List Char
+  go = (chars) => where(chars) {
+    ['$', ...cs] =>
+      ['&', '#', '3', '6', ';', ...go(cs)]
+
+    ['\\', 'n', ...cs] =>
+      ['\\', '\\', 'n', ...go(cs)]
+
+    ['\n', ...cs] =>
+      ['\\', 'n', ...go(cs)]
+
+    ['\\', 't', ...cs] =>
+      ['\\', '\\', 't', ...go(cs)]
+
+    ['\t', ...cs] =>
+      ['\\', 't', ...go(cs)]
+
+    ['\\', 'r', ...cs] =>
+      ['\\', '\\', 'r', ...go(cs)]
+
+    ['\r', ...cs] =>
+      ['\\', 'r', ...go(cs)]
+
+    [c, ...cs] =>
+      [c, ...go(cs)]
+
+    [] =>
+      []
+  }
+
+  return pipe(
+    String.toList,
+    go,
+    String.fromList
+  )(s)
+}
+
+
+run :: List String -> Wish Error String
+run = (args) => where(args) {
+  [_, jsonPath, filePath, pathToUpdate] =>
+    do {
+      jsonValue <- parseJson(jsonPath)
+      textFile <- readTextFile(filePath)
+
+      escapedFile = escapeTextFile(textFile)
+
+      return pipe(
+        updateValueAtPathWith(buildPathSegments(pathToUpdate), escapedFile),
+        JsonPrinter.jsonToDoc,
+        PrettyPrint.prettyPrint(80),
+        writeJsonFile(jsonPath),
+        map(always(`File ${jsonPath} updated - path '${pathToUpdate}' replaced with content from '${filePath}'`))
+      )(jsonValue)
+    }
+
+  _ =>
+    bad(BadArguments)
+}
+
+
+/**
+ * script args:
+ *   - path to json file
+ *   - path to file to inject
+ *   - path to the field to update in the form root.some.field
+ */
+main = (args) => {
+  fulfill(IO.log, IO.putLine, run(args))
+}

@@ -1,0 +1,157 @@
+@use "sass:color" as color;
+
+@use "../_colors";
+@use "../_media";
+@use "../_zindex";
+@use "../_fonts";
+
+$logoWidth: 6rem;
+
+$NAV_WIDTH: clamp(60%, 86vw, 86%);
+
+.sub-nav {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transition: background 0.45s 0.15s ease-out;
+  z-index: $z-subnav-base;
+  font-size: 4rem;
+  font-family: $type-heading;
+  &__button--close {
+    position: absolute;
+    bottom: 2rem;
+    background-color: transparent;
+    border: none;
+    right: 2rem;
+    width: 1rem;
+    height: 1rem;
+    color: rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+    font-weight: bolder;
+    transition: transform 0.35s 0.2s ease-out, color 0.3s 0.1s ease-out,
+      text-shadow 0.3s ease-out;
+  }
+  &__menuback {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    // position: fixed;
+    left: 0;
+    top: 0;
+    z-index: $z-subnav;
+
+    width: $NAV_WIDTH;
+    background-color: $c-darkpurple;
+
+    padding: ($NAV_HEIGHT + 2rem) 0.75rem 1rem;
+    margin: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.125);
+
+    text-transform: uppercase;
+    transition: transform 0.4s ease-out;
+    overflow: visible;
+    min-height: 100vh;
+  }
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  .nav__item {
+    width: 100%;
+    margin: 0.75rem 0;
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+  .nav__link {
+    width: 100%;
+    margin: 0.75rem 0;
+    text-align: center;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+    text-shadow: 0 0 2rem rgba(187, 187, 187, 0);
+    transition: border 0.3s ease-out, color 0.3s ease-out, padding 0.3s ease-out,
+      text-shadow 0.4s 0.1s ease-out;
+  }
+  &--passive {
+    cursor: text;
+    pointer-events: none;
+    // transition: background 1.3s ease-out;
+    .sub-nav__menuback {
+      transform: translateX(calc(-100vw - 3rem));
+    }
+  }
+  &--active {
+    cursor: pointer;
+    pointer-events: auto;
+    background-color: rgb(1 2 4 / 78%);
+    // background-color: rgba(0, 0, 0, 0.5);
+    .sub-nav__menuback {
+      transform: translateX(0);
+    }
+    .sub-nav__button--close {
+      color: white;
+      transform: translateX(3.5rem);
+      cursor: pointer;
+      &:hover {
+        color: yellow;
+        text-shadow: 0 0 5px rgba(255, 255, 0, 0.7);
+      }
+    }
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 1rem 0.5rem 0.5rem;
+    font-family: $type-body;
+    font-size: 0.75rem;
+    text-transform: none;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    position: sticky;
+    top: 6rem;
+    bottom: 20rem;
+    font-size: 2rem;
+    width: 13rem;
+    padding-top: 1.25rem;
+    // min-height: auto;
+    // this doesn't work as well as I'd like on tall displays
+    // height: 0;
+    &--passive {
+      pointer-events: auto;
+    }
+    .sub-nav__menuback {
+      position: relative;
+      pointer-events: auto;
+      transform: translateX(0);
+      width: 200px;
+      background: transparent;
+      border: none;
+      padding: 0.5rem 0 0;
+    }
+    .sub-nav__list {
+    }
+    .nav__item {
+      margin: 0;
+    }
+    .nav__link-text {
+      margin: 0;
+    }
+    .footer {
+      display: none;
+    }
+  }
+}

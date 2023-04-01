@@ -1,0 +1,141 @@
+import List from "List"
+import String from "String"
+import { equals, ifElse } from "Function"
+import {MORE, LESS, EQUAL} from "Compare"
+
+import type { Action, Element } from "MadUI"
+import type { DocsPage, DocsPageWithLinks, State, Link} from "@client/State"
+import { stopSearching } from "@client/actions/Search"
+
+import { strata } from "Strata"
+import {
+  a,
+  className,
+  code,
+  div,
+  empty,
+  href,
+  key,
+  li,
+  onClick,
+  pre,
+  strong,
+  text,
+  ul,
+} from "MadUI"
+
+b = strata("search")
+
+type Match
+  = SlugMatch
+  | TitleMatch
+  | ContentMatch
+  | NoMatch
+
+lowtrim :: String -> String
+lowtrim = pipe(
+  String.toLower,
+  String.trim
+)
+
+looseMatch :: String -> String -> Boolean
+looseMatch = (needle, haystack) => pipe(
+  lowtrim,
+  String.contains(lowtrim(needle))
+)(haystack)
+
+matchContent :: String -> DocsPage -> Match
+matchContent = (query, p) => {
+  t = looseMatch(query)
+  return (
+    t(p.title) ? TitleMatch
+    : t(p.slug) ? SlugMatch
+    : t(p.content) ? ContentMatch
+    : NoMatch
+  )
+}
+
+hasContent :: String -> DocsPage -> Boolean
+hasContent = (query, p) => pipe(
+  matchContent(query),
+  where {
+    SlugMatch => true
+    TitleMatch => true
+    ContentMatch => true
+    _ => false
+  }
+)(p)
+
+eschewPositionalLinks :: DocsPageWithLinks -> DocsPage
+eschewPositionalLinks = (z) => ({
+  content: z.content,
+  depth: z.depth,
+  slug: `docs/${z.slug}`,
+  title: z.title
+})
+
+KeineAhnung :: List a -> Element State
+KeineAhnung = () => <div className={b.em("results", ["none"])}>
+  No results found
+</div>
+
+MatchResults :: State -> Element State
+MatchResults = (s) =>
+  <div className={b.e("results-wrapper")}>
+    {pipe(
+      map(eschewPositionalLinks),
+      List.concat(s.content.pages),
+      List.filter(hasContent(s.search)),
+      /*
+      List.sortBy((a, b) => (
+        where #[a, b] {
+          #[SlugMatch, SlugMatch] => EQUAL
+          #[SlugMatch, TitleMatch] => MORE
+          #[SlugMatch, ContentMatch] => MORE
+
+          #[TitleMatch, TitleMatch] => EQUAL
+          #[TitleMatch, SlugMatch] => LESS
+          #[TitleMatch, ContentMatch] => MORE
+
+          #[ContentMatch, ContentMatch] => EQUAL
+          #[ContentMatch, SlugMatch] => LESS
+          #[ContentMatch, TitleMatch] => LESS
+        }
+      ),
+      */
+      ifElse(
+        pipe(List.length, equals(0)),
+        KeineAhnung,
+        (res) => (
+          <div className={b.e("results")}>
+          <ul className={b.e("result-list")}>
+            {...map((p) => pipe(
+              matchContent(s.search),
+              where {
+                SlugMatch => "slug"
+                TitleMatch => "title"
+                ContentMatch => "content"
+                _ => "none"
+              },
+              (sc) => 
+                <li className={b.em("result", [`match-${sc}`])}>
+                  <a href={p.slug} className={b.e("result-link")}>
+                    <strong className={b.e("title")}>{p.title}</strong>
+                    <div className={b.e("slug")}>{p.slug}</div>
+                  </a>
+                </li>
+            )(p), res)}
+          </ul>
+          </div>
+        )
+      )
+    )(s.content.docs)}
+  </div>
+
+SearchMenu :: State -> Element State
+export SearchMenu = (s) =>
+  s.search != "" ?
+  <div className={b.e("")} onClick={stopSearching}>
+    {MatchResults(s)}
+  </div> :
+  <empty />

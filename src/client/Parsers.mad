@@ -1,39 +1,131 @@
-import { map1, map2, map5, list, field, string } from "JsonParser"
 import type { Parser } from "JsonParser"
-import type { Section, Header, Content, Link } from "@client/State"
+import type { Maybe } from "Maybe"
+
+import type {
+  Content,
+  DocsPage,
+  DocsPageWithLinks,
+  Header,
+  Link,
+  Section,
+  Vector,
+  Color,
+  Theme,
+} from "@client/State"
+
+import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, map8, string, float } from "JsonParser"
+import { Just, Nothing } from "Maybe"
+
+import { docLink } from "@client/Documentation"
 
 sectionParser :: Parser Section
 export sectionParser = map2(
   (title, content) => ({ title, content }),
   field("title", string),
-  field("content", string)
+  field("content", string),
 )
 
 headerParser :: Parser Header
-export headerParser = map1(
-  (content) => ({ content }),
-  field("content", string)
-)
+export headerParser = map1((content) => ({ content }), field("content", string))
 
 navParser :: Parser Link
-export navParser = map2(
-  (href, text) => ({text, href}),
+export navParser = map4(
+  (href, icon, shortText, text) => ({ 
+    href,
+    icon,
+    shortText,
+    text
+  }),
   field("href", string),
-  field("text", string)
+  field("icon", string),
+  field("shortText", string),
+  field("text", string),
+)
+
+colorsParser :: Parser Color
+export colorsParser = map2(
+  (name, color) => ({ name, color }),
+  field("name", string),
+  field("color", string)
+)
+
+breakpointsParser :: Parser Vector
+export breakpointsParser = map3(
+  (vertical, point, label) => ({ vertical, point, label }),
+  field("vertical", boolean),
+  field("point", string),
+  field("label", string)
+)
+
+themeParser :: Parser Theme
+export themeParser = map2(
+  (colors, breakpoints) => ({ colors, breakpoints }),
+  field("colors", list(colorsParser)),
+  field("breakpoints", list(breakpointsParser))
 )
 
 gettingStartedParser = map2(
-  (intro, sections) => ({intro, sections}),
+  (intro, sections) => ({ intro, sections }),
   field("intro", string),
-  field("sections", list(sectionParser))
+  field("sections", list(sectionParser)),
 )
 
+docsParser :: Parser DocsPage
+docsParser = map4(
+  (slug, title, content, depth) => ({ slug, title, content, depth }),
+  field("slug", string),
+  field("title", string),
+  field("content", string),
+  field("depth", integer),
+)
+
+generatePageLink = (page) => ({ href: docLink(page.slug), text: page.title })
+
+withSurroundingPagesLinks :: List DocsPage -> List DocsPageWithLinks
+withSurroundingPagesLinks = (pages) => {
+  go :: Maybe { href :: String, text :: String }
+  -> List DocsPage
+  -> List DocsPageWithLinks
+  go = (previousLink, _pages) => where(_pages) {
+    [page, after, ...next] =>
+      [
+        { ...page, previousLink, nextLink: Just(generatePageLink(after)) },
+        ...go(Just(generatePageLink(page)), [after, ...next]),
+      ]
+
+    [page] =>
+      [{ ...page, previousLink, nextLink: Nothing }]
+
+    _ =>
+      []
+  }
+
+  return go(Nothing, pages)
+}
+
 contentParser :: Parser Content
-export contentParser = map5(
-  (title, headerContent, nav, home, gettingStarted) => ({ title, header: headerContent, home, nav, gettingStarted }),
+export contentParser = map8(
+  (title, headerContent, nav, home, gettingStarted, docs, pages, theme) => (
+    {
+      title,
+      header: headerContent,
+      nav,
+      home,
+      gettingStarted,
+      docs: withSurroundingPagesLinks(docs),
+      pages,
+      theme
+    }
+  ),
   field("title", string),
   field("header", headerParser),
   field("nav", list(navParser)),
   field("home", list(sectionParser)),
-  field("gettingStarted", gettingStartedParser)
+  field("gettingStarted", gettingStartedParser),
+  field("docs", list(docsParser)),
+  field("pages", list(docsParser)),
+  field("theme", themeParser),
 )
+
+debugParser :: Parser Boolean
+export debugParser = field("debug", boolean)

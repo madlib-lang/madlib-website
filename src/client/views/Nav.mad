@@ -1,37 +1,71 @@
-import type { Element } from "MadUI"
+import type { Action, Element } from "MadUI"
 import {
   alt,
   className,
   div,
+  form,
+  id,
   img,
+  input,
+  inputType,
   li,
   link,
+  nav,
+  onClick,
+  onInput,
+  placeholder,
+  span,
   src,
   text,
   to,
-  ul
+  ul,
 } from "MadUI"
 import { strata } from "Strata"
 
+import type { State, Link } from "@client/State"
+import { toggleMenu } from "@client/actions/ToggleMenu"
+import { search } from "@client/actions/Search"
+import { SearchMenu } from "@client/views/SearchMenu"
 
-import type { State, Link } from "../State"
+b = strata("nav")
 
-stratum = strata("nav")
-
-NavLink :: Link -> Element State
-NavLink = (s) =>
-  <li className={stratum.e("item")}>
-    <link className={stratum.e("link")} to={s.href}>
-      {s.text}
-    </link>
-  </li>
-
-export Nav = (s) =>
-  <div className={stratum.e("")}>
-    <link to="/">
-      <img className={stratum.e("logo")} src="/assets/logo.svg" alt="Madlib logo" />
-    </link>
-    <ul className={stratum.e("list")}>
-      {...map(NavLink, s)}
-    </ul>
+SubMenuToggle :: State -> Element State
+SubMenuToggle = (s) =>
+  <div className={b.e("menu-toggle-wrapper")}>
+    <img
+      className={b.e("menu-icon")}
+      src="/assets/hamburger.svg"
+      alt="Toggle Menu"
+      onClick={toggleMenu}
+    />
   </div>
+
+Nav :: State -> Element State
+export Nav = (s) =>
+  <nav className={b.m(["loading"])}>
+    {SubMenuToggle(s)}
+    <link to="/" className={b.em("link", ["logo"])}>
+      <img
+        className={b.e("logo")}
+        src="/assets/logo-white.svg"
+        alt="Madlib Logo"
+      />
+    </link>
+    // we don't yet support role / aria stuff
+    // role="search"
+    // aria-label="Search Madlib documentation"
+    <form id="search">
+      <div className={b.em("search-wrapper", [s.search == "" ? "waiting" : "searching"])}>
+        <div className={b.e("search-icon-wrapper")}>
+          <img
+            className={b.e("search-icon")}
+            src="/assets/magnifier.svg"
+            alt="Search"
+          />
+        </div>
+        // role="searchbox"
+        <input inputType="text" className={b.e("search")} onInput={search} placeholder="Search Madlib" id="search-field" />
+      </div>
+    </form>
+    {SearchMenu(s)}
+  </nav>

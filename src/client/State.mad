@@ -1,76 +1,129 @@
+import type { Maybe } from "Maybe"
 import type { Playground } from "@common/Playground"
-import { Nothing } from "Maybe"
 
+import { Nothing } from "Maybe"
 
 export DEFAULT_CONTENT = {
   title: "Madlib",
   header: { content: "" },
   nav: [],
   home: [],
-  gettingStarted: {
-    intro: "",
-    sections: []
+  gettingStarted: { intro: "", sections: [] },
+  docs: [],
+  pages: [],
+  theme: {
+    colors: [],
+    breakpoints: [],
   }
 }
 
 
-INITIAL_CODE =
-`import type { Maybe } from "Maybe"
+INITIAL_CODE = `import type { Maybe } from "Maybe"
 
 import IO from "IO"
 import { Just, Nothing } from "Maybe"
 
 
-main :: List String -> {}
 main = () => {
-  IO.putLine("Hello world")
-  IO.trace("Important", Just(123 + 297))
+  x = Just(123 + 297)
+  
+  IO.trace("Important", x)
+  
+  where (x) {
+    Just(v) => v * 10
+    Nothing => 1000
+  } |> IO.trace("output!")
 }
 `
 
 
-export INITIAL_STATE = {
-  content: DEFAULT_CONTENT,
-  loadingState: Loading,
-  playground: { code: INITIAL_CODE, id: Nothing, output: Nothing }
-}
 
 
 export alias Section = {
-  title :: String,
-  content :: String
+  content :: String,
+  title :: String
 }
 
 export alias Link = {
+  // changefreq :: String,
   href :: String,
-  text :: String
+  icon :: String,
+  // priority :: Float,
+  shortText :: String,
+  text :: String,
 }
 
-export alias Header = {
-  content :: String
+export alias Vector = {
+  vertical :: Boolean,
+  point :: String,
+  label :: String,
 }
-export alias Page = {
-  intro :: String,
-  sections :: List Section
+
+export alias Color = {
+  name :: String,
+  color :: String,
+}
+
+export alias Theme = {
+  breakpoints :: List Vector,
+  colors :: List Color,
+}
+
+export alias Header = { content :: String }
+
+export alias Page = { intro :: String, sections :: List Section }
+
+export alias DocsPage = {
+  content :: String,
+  depth :: Integer,
+  slug :: String,
+  title :: String,
+}
+
+export alias DocsPageWithLinks = {
+  ...DocsPage,
+  nextLink :: Maybe { href :: String, text :: String },
+  previousLink :: Maybe { href :: String, text :: String },
 }
 
 export alias Content = {
-  title :: String,
+  pages :: List DocsPage,
+  docs :: List DocsPageWithLinks,
+  gettingStarted :: Page,
   header :: Header,
-  nav :: List Link,
   home :: List Section,
-  gettingStarted :: Page
+  nav :: List Link,
+  title :: String,
+  theme :: Theme
 }
 
-export type LoadingState
-  = Loading
-  | Transitioning
-  | Ready
-
+export type LoadingState = Loading | Transitioning | Ready
 
 export alias State = {
   content :: Content,
   loadingState :: LoadingState,
-  playground :: Playground,
+  showNav :: Boolean,
+  showDocNav :: Boolean,
+  search :: String,
+  playground :: {
+    data :: Playground,
+    dragData :: { dragging :: Boolean, verticalSplitPosition :: Integer },
+  },
+  debug :: Boolean
 }
 
+INITIAL_STATE :: State
+export INITIAL_STATE = {
+  content: DEFAULT_CONTENT,
+  loadingState: Ready,
+  // assumes true above mobile breakpoints
+  showNav: false,
+  // same
+  showDocNav: false,
+  search: "",
+  playground: {
+    data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
+    dragData: { verticalSplitPosition: 9999, dragging: false },
+  },
+  debug: false
+}

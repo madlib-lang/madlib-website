@@ -47,4 +47,7 @@ export toHexadecimal = (byte) => where(byte) {
 
   15 =>
     'f'
+
+  _ =>
+    '_'
 }

@@ -1,0 +1,51 @@
+$lineHeight: 1.5rem;
+
+.code {
+  display: block;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  white-space: break-spaces;
+
+  &__line {
+    height: $lineHeight;
+  }
+
+  &__syntax {
+    &--keyword {
+      font-weight: bold;
+      color: rgb(221, 136, 0);
+    }
+    &--literal,
+    &--literal * {
+      color: rgb(165, 221, 254) !important;
+      opacity: 1 !important;
+    }
+    &--special {
+      font-weight: bold;
+      color: rgb(165, 221, 254);
+    }
+    &--constructor {
+      font-weight: bold;
+      color: rgb(200, 255, 0);
+    }
+    &--type {
+      font-weight: bold;
+      color: #fc0068;
+    }
+    &--function-declaration {
+      font-weight: bold;
+      color: #fc0068;
+    }
+    &--comment {
+      //color: rgba(255, 255, 255, 0.8);
+      color: white;
+      opacity: 0.4;
+
+      * {
+        color: white;
+        font-weight: normal;
+      }
+    }
+  }
+}

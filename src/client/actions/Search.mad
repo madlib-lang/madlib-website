@@ -1,0 +1,37 @@
+import type { Action, Element } from "MadUI"
+import type { State, Link } from "@client/State"
+import { InputEvent } from "MadUI"
+import IO from "IO"
+
+search :: Action State
+export search = (state, event) => pipe(
+  where {
+    InputEvent({ target: { value: v } }) => v
+    _ => state.search
+  },
+  (searchString) => of(
+    (s2) => ({
+      ...s2,
+      search: searchString
+    })
+  ),
+  of
+)(event)
+
+stopSearching :: Action State
+export stopSearching = (state, event) => pipe(
+  () => of(
+    (s) => pipe(
+      (x) => {
+        #- document.getElementById('search-field').value = "" -#
+        return x
+      },
+      (t) => ({
+        ...t,
+        search: ""
+      })
+    )(s)
+  ),
+  of
+)(event)
+

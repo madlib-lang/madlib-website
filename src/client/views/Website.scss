@@ -1,9 +1,24 @@
 .website {
+  .website__header,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h5,
+  p {
+    padding: 0 2rem;
+  }
+  h1:first-of-type {
+    padding: 0;
+  }
+}
+.website {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 2.5rem;
+  padding: 5.75rem 0 0;
 
   &__header {
     display: flex;
@@ -76,21 +91,69 @@
   }
 
   &__main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
 
     p {
-      padding-left: 0.5rem;
+      // padding-left: 0.5rem;
 
-      letter-spacing: 0.3px;
+      // letter-spacing: 0.3px;
     }
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+  &__page-content {
+    width: 100%;
+    max-width: 60rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
   }
 
   &__section {
     // max-width: 50rem;
-    margin: 0 auto;
+    margin: 0;
     margin-bottom: 3rem;
   }
   &__section-list-item {
     margin-bottom: 0.25rem;
+  }
+  @media screen and (min-width: $breakpoint-md) {
+    padding: 7.75rem 2rem 0;
+    .playground {
+      margin-bottom: 2rem;
+      margin-left: 2rem;
+      min-width: 40rem;
+    }
+    &__main {
+      flex-direction: row;
+    }
+    &--home {
+      .playground {
+        margin-left: 0;
+      }
+    }
+    &--the-playground {
+    }
+    .website__content {
+      padding-left: 2rem;
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
+        padding: 0;
+      }
+      p:first-of-type {
+        padding-top: 1rem;
+      }
+    }
   }
 }

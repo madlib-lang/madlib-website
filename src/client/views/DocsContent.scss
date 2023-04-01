@@ -1,0 +1,63 @@
+@import "../_media";
+.documentation-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+
+  &__nav {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 0;
+    justify-content: flex-end;
+    align-items: center;
+    width: 5rem;
+  }
+
+  &__nav-item {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100rem;
+    border: 1px solid white;
+    top: 0;
+    font-size: 1.5rem;
+    padding: 0.25rem !important;
+    margin: 0 !important;
+    &--previous {
+      .documentation-page__link-label {
+        transform: rotate(180deg);
+      }
+    }
+    &--solo.documentation-page__nav-item {
+      &--previous {
+        margin-right: 50%;
+      }
+      &--next {
+        margin-left: 50%;
+      }
+    }
+
+    &:hover {
+      opacity: 0.9;
+      cursor: pointer;
+      padding: 0.25rem !important;
+      border: 1px solid white !important;
+      margin: 0 !important;
+    }
+  }
+
+  &__content {
+    width: 100%;
+  }
+  @media screen and (min-width: $breakpoint-md) {
+    code,
+    .code--madlib {
+      margin-left: 2rem;
+    }
+  }
+}

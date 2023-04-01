@@ -1,0 +1,68 @@
+import type { Config } from "MadMarkdownRenderer"
+import type { Element } from "MadUI"
+import type { Maybe } from "Maybe"
+import type { DocsPageWithLinks, State } from "@client/State"
+
+import { Just, Nothing } from "Maybe"
+import { span, className, code, div, empty, h2, link, to } from "MadUI"
+import { strata } from "Strata"
+
+stratum = strata("documentation-page")
+
+classLink :: String -> String -> String -> Element State
+export classLink = (clas, href, text) =>
+  <link className={clas} to={href}>
+    <span className={stratum.e("link-label")}>{text}</span>
+  </link>
+
+alias MaybeLink = Maybe { href :: String, text :: String }
+
+NextPageLink :: String -> MaybeLink -> MaybeLink -> Element State
+export NextPageLink = (extraLabel, prev, next) => {
+  classy = stratum.em("nav-item")
+  linky = classLink($, $, extraLabel)
+  return where(#[prev, next]) {
+
+    #[Just(_), Just({ href })] =>
+      linky(classy(["next"]), href)
+
+    #[Nothing, Just({ href })] =>
+      linky(classy(["next", "solo"]), href)
+
+    #[Just(_), Nothing] =>
+      <empty />
+
+    _ =>
+      <empty />
+
+  }
+}
+
+PrevPageLink :: String -> MaybeLink -> MaybeLink -> Element State
+export PrevPageLink = (extraLabel, prev, next) => {
+  classy = stratum.em("nav-item")
+  linky = classLink($, $, extraLabel)
+  return where(#[prev, next]) {
+
+    #[Just({ href }), Just(_)] =>
+      linky(classy(["previous"]), href)
+
+    #[Just({ href }), Nothing] =>
+      linky(classy(["previous", "solo"]), href)
+
+    #[Nothing, Just(_)] =>
+      <empty  />
+
+    _ =>
+      <empty  />
+
+  }
+}
+
+DocsNav :: DocsPageWithLinks -> Element State
+export DocsNav = (document) =>
+  <div className={stratum.e("nav")}>
+    {PrevPageLink("➔", document.previousLink, document.nextLink)}
+    {NextPageLink("➔", document.previousLink, document.nextLink)}
+  </div>
+

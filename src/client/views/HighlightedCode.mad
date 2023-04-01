@@ -1,0 +1,202 @@
+import type { Element } from "MadUI"
+
+import type { State } from "@client/State"
+
+import List from "List"
+import String from "String"
+
+import { className, code, div, innerHTML, text } from "MadUI"
+import { strata } from "Strata"
+
+
+
+stratum = strata("code")
+
+highlight :: List String -> String -> String -> String
+highlight = (keywords, modifier, input) => pipe(
+  String.join("|"),
+  (asStr) => `(${asStr})`,
+  String.replace($, `<span class="${stratum.em("syntax", [modifier])}">$1</span>`, input),
+)(keywords)
+
+highlightRegex :: String -> String -> String -> String
+highlightRegex = (regex, modifier, input) =>
+  String.replace(regex, `$1<span class="${stratum.em("syntax", [modifier])}">$2</span>$3`, input)
+
+renderLine :: String -> Element State
+renderLine = (raw) => <div className={stratum.e("line")} innerHTML={raw} />
+
+SYNTAX_LITERALS = ["true", "false", "[0-9]+(\\.[0-9]+)?", "\".*\"", "`.*`", "'.*'", "'\\\\\n'", "\{\}"]
+SYNTAX_KEYWORDS = [
+  "if",
+  "else",
+  "where",
+  "instance",
+  "interface",
+  "import",
+  "export",
+  "from ",
+  "type",
+  "alias",
+  "do",
+  "pipe",
+  "map",
+  "chain",
+  "return",
+]
+
+// SYNTAX_SPECIAL = ["$"]
+// SYNTAX_OPERATORS = ["\+\+", "-", "/", "*"]
+
+// this is close but not quite
+// \b(?:[^"'])(IO|String|Either)(?:[^"'])\b
+
+SYNTAX_TYPES = [
+  "JsonValue",
+  "AssertionError",
+  "Either",
+  "Parser",
+  "Maybe",
+  "IOError",
+  "Location",
+  "Parser",
+  "Error",
+  "Doc",
+  "SimpleDoc",
+  "Wish",
+  "TransferEncoding",
+  "Header",
+  "Method",
+  "ClientError",
+  "Error",
+  "DateTime",
+  "LocalDateTime",
+  "TimeUnit",
+]
+SYNTAX_CONSTRUCTORS = [
+  "JsonString",
+  "JsonInteger",
+  "JsonFloat",
+  "JsonBoolean",
+  "JsonNull",
+  "JsonObject",
+  "JsonArray",
+  "AssertionError",
+  "Error",
+  "ErrorWithMessage",
+  "NotImplemented",
+  "Left",
+  "Right",
+  "Parser",
+  "Just",
+  "Nothing",
+  "ArgumentListToLong",
+  "PermissionDenied",
+  "AddressAlreadyInUse",
+  "UnknownError",
+  "Loc",
+  "Parser",
+  "Error",
+  "EmptyDoc",
+  "CharDoc",
+  "TextDoc",
+  "LineDoc",
+  "CatDoc",
+  "NestDoc",
+  "UnionDoc",
+  "ColumnDoc",
+  "NestingDoc",
+  "SEmpty",
+  "SChar",
+  "SText",
+  "SLine",
+  "Wish",
+  "Chunked",
+  "Compress",
+  "Deflate",
+  "Gzip",
+  "Header",
+  "CONNECT",
+  "DELETE",
+  "GET",
+  "HEAD",
+  "OPTIONS",
+  "PATCH",
+  "POST",
+  "PUT",
+  "TRACE",
+  "AccessDenied",
+  "AddressNotFound",
+  "BadTransferEncoding",
+  "BadUrl",
+  "ConnectionFailed",
+  "Http2FramingError",
+  "IncompleteResponse",
+  "InternalError",
+  "InvalidSSLCertificate",
+  "MalformedResponse",
+  "NotSupported",
+  "SSLConnectionFailed",
+  "SSLEngineNotFound",
+  "SSLInitializationFailed",
+  "Timeout",
+  "TooManyRedirects",
+  "UnresolvedProxy",
+  "UnsupportedProtocol",
+  "BadResponse",
+  "ClientError",
+  "DateTime",
+  "LocalDateTime",
+  "Millisecond",
+  "Second",
+  "Minute",
+  "Hour",
+  "Day",
+  "Month",
+  "Year",
+]
+
+
+
+
+escapeString :: String -> String
+escapeString = (s) => {
+  go :: List Char -> List Char
+  go = (chars) => where(chars) {
+    ['\\', '\n', ...cs] =>
+      ['\\', 'n', ...go(cs)]
+
+    [c, ...cs] =>
+      [c, ...go(cs)]
+
+    [] =>
+      []
+  }
+
+  return pipe(
+    String.toList,
+    go,
+    String.fromList,
+  )(s)
+}
+
+
+buildCodeElements :: String -> List (Element State)
+buildCodeElements = pipe(
+  highlight(SYNTAX_LITERALS, "literal"),
+  highlight(SYNTAX_KEYWORDS, "keyword"),
+  highlight(SYNTAX_CONSTRUCTORS, "constructor"),
+  highlight(SYNTAX_TYPES, "type"),
+  highlight(["//.*"], "comment"),
+  highlightRegex("(\n)([a-zA-Z0-9_]+)( =.*)", "function-declaration"),
+  highlightRegex("(\n)([a-zA-Z0-9_]+)( ::.*)", "function-declaration"),
+  highlightRegex("^()([a-zA-Z0-9_]+)( =.*)", "function-declaration"),
+  highlightRegex("^()([a-zA-Z0-9_]+)( ::.*)", "function-declaration"),
+  escapeString,
+  String.split("\n"),
+  map(renderLine),
+)
+
+
+HighlightedCode :: String -> Element State
+export HighlightedCode = (c) => <code className={stratum.m(["madlib"])}>{...buildCodeElements(c)}</code>

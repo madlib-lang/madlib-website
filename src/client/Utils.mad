@@ -1,2 +1,0 @@
-slug :: String -> String
-export slug = (s) => #- s.toLowerCase().replace(/\s/g, '-').replace(/[,\.]/g, '') -#

@@ -1,0 +1,17 @@
+import type { Config } from "MadMarkdownRenderer"
+import type { State } from "@client/State"
+
+import { defaultConfig, renderMarkdownWithConfig, setCodeView } from "MadMarkdownRenderer"
+import { pre, className, code, div, empty, h1, link, to } from "MadUI"
+import { strata } from "Strata"
+
+import { HighlightedCode } from "@client/views/HighlightedCode"
+
+MARKDOWN_RENDERER_CONFIG :: Config State
+export MARKDOWN_RENDERER_CONFIG = setCodeView(
+  (lang, content) => lang == "madlib" ? HighlightedCode(content) : <pre><code>{content}</code></pre>,
+  defaultConfig,
+)
+
+renderMarkdown :: String -> String
+export renderMarkdown = renderMarkdownWithConfig(MARKDOWN_RENDERER_CONFIG)

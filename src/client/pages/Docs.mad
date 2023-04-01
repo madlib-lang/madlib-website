@@ -1,30 +1,49 @@
 import type { Element } from "MadUI"
-import {
-  className,
-  div,
-  h1,
-  main,
-  text
-} from "MadUI"
-import { strata } from "Strata"
-
-import { Nav } from "@client/views/Nav"
-import { Header } from "@client/views/Header"
-import { Footer } from "@client/views/Footer"
-
 import type { State } from "@client/State"
 
-stratum = strata("website")
+import { className, div, switchRoute } from "MadUI"
+import { strata } from "Strata"
 
+import { docLink } from "@client/Documentation"
+import { Content } from "@client/views/DocsContent"
+import { Menu } from "@client/views/DocsMenu"
+import { DocsNav } from "@client/views/DocsNav"
+import { page } from "@client/views/Page"
+
+docsStratum = strata("docs")
 Docs :: State -> Element State
-export Docs = (state) =>
-  <div className={stratum.e("")}>
-    {Nav(state.content.nav)}
-    {Header(state)}
-    <h1>
-      Documentation
-    </h1>
-    <main className={stratum.e("main")}>
-    </main>
-    {Footer(state)}
-  </div>
+export Docs = (state) => {
+  arrows = switchRoute(
+    map(
+      (document) => #[
+        docLink(document.slug),
+        () => DocsNav(document)
+      ],
+      state.content.docs,
+    ),
+  )
+  return page(
+    "Documentation",
+    <div className={docsStratum.e("")}>
+      <div className={docsStratum.e("nav-wrapper")}>
+        {Menu(state.content.docs)}
+        {arrows}
+      </div>
+      <div className={docsStratum.e("content")}>
+        {switchRoute(
+          map(
+            (document) => #[
+              docLink(document.slug),
+              () => Content(document)
+            ],
+            state.content.docs,
+          ),
+        )}
+      </div>
+    </div>,
+    state
+  )
+}
+
+export slug = "docs"
+export view = Docs

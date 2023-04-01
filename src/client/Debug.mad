@@ -1,0 +1,8 @@
+debugHook :: {} -> Boolean
+export debugHook = () => (#-
+  window
+  && window.location
+  && (
+    new URLSearchParams(window.location.search)
+  ).get("debug")
+-#)

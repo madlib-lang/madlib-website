@@ -1,31 +1,21 @@
 import type { Element } from "MadUI"
-import {
-  className,
-  div,
-  h1,
-  main,
-  text
-} from "MadUI"
+
+import type { State } from "@client/State"
+
+import { className, div, h1, main, text } from "MadUI"
 import { strata } from "Strata"
 
 import { Nav } from "@client/views/Nav"
-import { Header } from "@client/views/Header"
-import { Footer } from "@client/views/Footer"
-
-import type { State } from "@client/State"
+import { page } from "@client/views/Page"
 
 stratum = strata("website")
 
 NotFound :: State -> Element State
-export NotFound = (state) =>
-  <div className={stratum.e("")}>
-    {Nav(state.content.nav)}
-    {Header(state)}
-    <h1>
-      Not found
-    </h1>
-    <main className={stratum.e("main")}>
-      The resource could not be found.
-    </main>
-    {Footer(state)}
-  </div>
+export NotFound =
+  page(
+    "Not found",
+    "The requested page could not be found"
+  )
+
+export slug = "*"
+export view = NotFound

@@ -1,3 +1,6 @@
+@import "zindex";
+@import "fonts";
+
 @keyframes swing {
   15% {
     transform: translateY(5px);
@@ -56,6 +59,7 @@ a:hover {
 
 html {
   background-color: #101020;
+  z-index: $z-base;
 }
 
 body {
@@ -65,9 +69,45 @@ body {
   margin: 0;
   min-height: 100vh;
   font-size: 16px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: $type-body;
   line-height: 1.7rem;
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading {
+  font-family: $type-heading;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+h1 {
+  font-size: 4rem;
+  line-height: 3.8rem;
+}
+h2 {
+  font-size: 3rem;
+  line-height: 2.8rem;
+}
+h3 {
+  font-size: 2rem;
+  line-height: 1.8rem;
+}
+h4 {
+  font-size: 1.5rem;
+  line-height: 1.3rem;
+}
+h5 {
+  font-size: 1rem;
+  line-height: 0.8rem;
+}
+h6 {
+  font-size: 0.8rem;
+  line-height: 0.6rem;
 }
 
 code,
@@ -78,4 +118,13 @@ code,
   border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: rgba(255, 255, 255, 0.1);
   position: relative;
+}
+
+.code.code--madlib,
+pre code {
+  display: block;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  white-space: break-spaces;
 }

@@ -1,0 +1,34 @@
+import { fromList } from "Dictionary"
+// import { trace } from "IO"
+
+import type { Element } from "MadUI"
+import {
+  div,
+  className,
+  titleAttr,
+  style
+} from "MadUI"
+import { strata } from "Strata"
+import type { State, Vector } from "../State"
+
+// pointToValue = replace("rem", "")
+
+stratum = strata("breakpoint")
+
+Breakpoint :: Vector -> Element State
+export Breakpoint = (s) =>
+  <div
+    titleAttr={s.label}
+    style={{{
+      "--offset-value": s.point
+    }}}
+    className={stratum.m([s.label, s.vertical ? "vertical" : "horizontal"])}
+  />
+
+Breakpoints :: List Vector -> Element State
+export Breakpoints = (s) =>
+  <div
+    className="breakpoints"
+  >
+      {...map(Breakpoint, s)}
+  </div>

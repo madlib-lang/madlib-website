@@ -1,0 +1,22 @@
+import type { State } from "@client/State"
+import type { Element } from "MadUI"
+
+import { fromList, } from "Dictionary"
+import { filter } from "List"
+import { trace } from "IO"
+
+qs :: a -> List #[String, String]
+export qs = () => #- window.location.search.slice(1).split('&').map(z => z.split('=')) -#
+
+// queryStringHook :: String -> (State -> Element State) -> (State -> Element State)
+/*
+export queryEnabled = (key, View) => pipe(
+  trace("crapdaddy"),
+  filter(where (#[k, _]) {
+    #[_, _] => key == k
+  }),
+  // fromList,
+  trace("stuery-qing"),
+  // View
+)(qs())
+*/

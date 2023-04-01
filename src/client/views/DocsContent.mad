@@ -1,0 +1,26 @@
+import type { Maybe } from "Maybe"
+import type { Config } from "MadMarkdownRenderer"
+import type { Element } from "MadUI"
+
+import type { DocsPageWithLinks, State } from "@client/State"
+
+import { Just, Nothing } from "Maybe"
+import { span, className, code, div, empty, h2, link, to } from "MadUI"
+import { strata } from "Strata"
+
+import { renderMarkdown } from "@client/Markdown"
+
+stratum = strata("documentation-page")
+
+Content :: DocsPageWithLinks -> Element State
+export Content = (document) =>
+  <div className={stratum.e("")}> 
+    <div className={stratum.e("content")}>
+      <h2 className={stratum.e("subheader")}>
+        {document.title}
+      </h2>
+      {renderMarkdown(document.content)}
+    </div>
+  </div>
+
+

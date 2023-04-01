@@ -1,18 +1,105 @@
 .footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
-  min-height: 8rem;
+  font-size: 0.75rem;
+  width: 100%;
+  bottom: 0;
+  min-height: 2rem;
+  margin-top: 2rem;
   padding: 0.75rem;
-  &__power {
-    position: absolute;
+  padding-right: 1rem;
+  text-align: right;
+
+  &__the-fence {
+  }
+  &__image--github {
+    background-color: transparent;
+    filter: invert(100%);
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    border-radius: 5rem;
+    /*
+    &::after {
+      content: "";
+      position: absolute;
+      background-color: transparent;
+      outline: 1px dotted lime;
+      padding: 0.5rem;
+      width: 1rem;
+      height: 1rem;
+    }
+    */
+  }
+  &__colophon {
     width: 100%;
-    bottom: 1rem;
     text-align: right;
     font-style: italic;
     font-weight: 200;
   }
-
   &__link {
     font-style: normal;
     font-weight: 600;
+    position: relative;
+    &--icon {
+      border: none;
+      text-decoration: none;
+
+      &::before {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-top-width: 10px;
+        border-bottom-width: 10px;
+        border-top-color: white;
+        opacity: 0;
+        margin-top: -1.5rem;
+        transition: opacity 0.3s 0.25s ease-out, margin 0.3s 0.25s ease-out;
+
+        left: 11px;
+      }
+      &::after {
+        position: absolute;
+        content: "Edit this page";
+        min-width: 6rem;
+        min-height: 1.25rem;
+        font-size: 0.6rem;
+        color: black;
+        background-color: white;
+        border-radius: 1rem;
+        padding: 0;
+        text-align: center;
+        left: 0;
+        margin-top: -3rem;
+        opacity: 0;
+        transition: opacity 0.3s 0.3s ease-out, margin 0.3s 0.3s ease-out;
+        text-shadow: none;
+      }
+      &:hover {
+        border: none;
+        text-decoration: none;
+        .footer__image--github {
+          filter: invert(0%);
+          background-color: magenta;
+        }
+        text-shadow: none;
+        &::before,
+        &::after {
+          opacity: 1;
+        }
+        &::before {
+          margin-top: -14px;
+        }
+        &::after {
+          margin-top: -2.5rem;
+        }
+      }
+    }
   }
 }
