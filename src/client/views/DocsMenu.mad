@@ -3,7 +3,6 @@ import type { DocsPageWithLinks, State } from "@client/State"
 
 import {Wish} from "Wish"
 import {} from "Number"
-import { Nothing } from "Maybe"
 import { equals } from "Function"
 import { includes, append, mapWithIndex, length, reject, reduce, concat, slice } from "List"
 
