@@ -142,7 +142,7 @@
       "title": "Getting Started"
     },
     {
-      "content": "Here's a listing of several examples you can use to better understand idiomatic Madlib syntax and methodology.\n\n## Strata\n\nThis is the entirety of the [Strata](https://github.com/madlib-lang/strata/blob/master/src/Main.mad) library (inlined for convenience) which is used for generating BEM syntax (and can be found on this site as well):\n\n```madlib\nimport { concat } from \"List\"\nimport { join } from \"String\"\nimport { ifElse, always } from \"Function\"\nimport { join, isEmpty } from \"String\"\nimport { concat } from \"List\"\n\njoint :: String -> String -> String -> String\nexport joint = (delimiter, left, right) =>\n  ifElse(\n    isEmpty,\n    always(left),\n    pipe(\n      of,\n      concat([left]),\n      join(delimiter)\n    )\n  )(right)\n\nblockElement :: String -> String -> String\nexport blockElement = (block, el) => joint(\"__\", block, el)\n\nblockModifier :: String -> String -> String\nexport blockModifier = (block, mod) => joint(\"--\", block, mod)\n\nblockModifiers :: String -> List String -> String\nexport blockModifiers = (block, mods) => pipe(\n  map(blockModifier(block)),\n  concat([block]),\n  join(\" \")\n)(mods)\n\nblockElementModifiers :: String -> String -> List String -> String\nexport blockElementModifiers = (block, el, mods) => pipe(\n  blockElement(&#36;, el),\n  blockModifiers(&#36;, mods)\n)(block)\n\nexport strata = (b) => ({\n  e: blockElement(b),\n  em: blockElementModifiers(b),\n  m: blockElementModifiers(b, \"\")\n})\n```\n\nTry copying this into the playground below.\n\n",
+      "content": "Here's a listing of several examples you can use to better understand idiomatic Madlib syntax and methodology.\n\n\n",
       "depth": 0,
       "slug": "examples",
       "title": "Examples"
@@ -154,7 +154,7 @@
       "title": "The Playground"
     },
     {
-      "content": "Madlib strives to be an inclusive and collaborative community.\n\nYou can see our [Code of Conduct here](#code-of-conduct).\n\nWe welcome contributions to [our codebases](https://github.com/madlib-lang), including improved documentation, translations (**NB**: *Coming soon to this site!*) or code contributions.\n\nYou're also welcome to seek us out on [Discord](#discord-link-goes-here) and chat there.\n",
+      "content": "Madlib strives to be an inclusive and collaborative community.\n\nYou can see our [Code of Conduct here](https://github.com/madlib-lang/madlib/blob/master/CODE_OF_CONDUCT.md).\n\nWe welcome contributions to [our codebases](https://github.com/madlib-lang), including improved documentation, translations (**NB**: *Coming soon to this site!*) or code contributions.\n\nYou're also welcome to seek us out on [Discord](https://discord.com/channels/530598289813536771/932841899914571787) and chat there.\n",
       "depth": 0,
       "slug": "contribute",
       "title": "Contribute"

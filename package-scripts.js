@@ -122,6 +122,7 @@ module.exports = {
         `nps styles`,
         "cp src/client/index.html build/public/",
         "cp src/client/robots.txt build/public/",
+        "cp -R src/client/assets build/public/",
         "cp -R src/client/assets build/public/assets",
         "cp src/client/*.json build/public/",
         `ls build/public/`,
