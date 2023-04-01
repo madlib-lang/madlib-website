@@ -18,11 +18,12 @@ import { slugify } from "@common/String"
 stratum = strata("website")
 
 findNamedPage :: String -> List DocsPage -> Maybe DocsPage
-findNamedPage = (name, pages) =>
-  find(pipe(
+findNamedPage = (name, pages) => {
+  return find(pipe(
     .slug,
     equals(name),
   ))(pages)
+}
 
 getPageTitle :: String -> List DocsPage -> String
 getPageTitle = (name, pages) => pipe(

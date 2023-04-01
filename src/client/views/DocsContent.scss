@@ -12,6 +12,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 5rem;
+    margin-right: 2rem;
   }
 
   &__nav-item {
@@ -58,6 +59,9 @@
     code,
     .code--madlib {
       margin-left: 2rem;
+    }
+    &__nav {
+      margin-right: 0;
     }
   }
 }
