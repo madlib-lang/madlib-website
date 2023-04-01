@@ -5,7 +5,6 @@ import {
   href,
   footer,
   className,
-  span,
   div,
   img,
   src
@@ -16,7 +15,7 @@ import type { State } from "@client/State"
 stratum = strata("footer")
 
 Footer :: State -> Element State
-export Footer = (state) => 
+export Footer = (_) => 
   <footer className={stratum.e("")}>
     <div className={stratum.e("the-fence")}>
       // aria-label Edit this page

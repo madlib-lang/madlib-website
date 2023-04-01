@@ -1,5 +1,5 @@
-import type { Action, Element } from "MadUI"
-import type { State, Link } from "@client/State"
+import type { Action } from "MadUI"
+import type { State } from "@client/State"
 
 toggleMenu :: Action State
 export toggleMenu = (_, _) => [

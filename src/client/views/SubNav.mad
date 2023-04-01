@@ -1,18 +1,15 @@
-import type { Action, Element } from "MadUI"
+import type { Element } from "MadUI"
 import {
   button,
   div,
   titleAttr,
-  alt,
   className,
-  img,
-  src,
   text,
   ul,
   onClick,
 } from "MadUI"
 import { strata } from "Strata"
-import type { State, Link } from "@client/State"
+import type { State } from "@client/State"
 import { toggleMenuOffOnly } from "@client/actions/ToggleMenu"
 import { NavLink } from "./NavLink"
 import { Footer } from "./Footer"

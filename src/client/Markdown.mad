@@ -2,8 +2,7 @@ import type { Config } from "MadMarkdownRenderer"
 import type { State } from "@client/State"
 
 import { defaultConfig, renderMarkdownWithConfig, setCodeView } from "MadMarkdownRenderer"
-import { pre, className, code, div, empty, h1, link, to } from "MadUI"
-import { strata } from "Strata"
+import { pre, code } from "MadUI"
 
 import { HighlightedCode } from "@client/views/HighlightedCode"
 

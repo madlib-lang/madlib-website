@@ -1,15 +1,12 @@
 import type { Action, Element } from "MadUI"
 import type { DocsPageWithLinks, State } from "@client/State"
 
-import IO from "IO"
 import {Wish} from "Wish"
 import {} from "Number"
-import { Nothing, fromMaybe } from "Maybe"
-import { lt } from "Compare"
-import { equals, ifElse } from "Function"
+import { equals } from "Function"
 import { includes, append, mapWithIndex, length, reject, reduce, concat, slice } from "List"
 
-import { onClick, className, getPathName, key, li, link, style, text, to, ol, empty, ul } from "MadUI"
+import { onClick, className, getPathName, key, li, link, text, to, ol, empty } from "MadUI"
 import { strata } from "Strata"
 
 import { undocLink, docLink } from "@client/Documentation"
@@ -26,12 +23,7 @@ makeLinkClassname = (slug, depth) => stratum.em("menu-item-link", [
 
 clicker :: Action State
 clicker = (s, e) => 
-  [Wish((bad, good) => good((_) => s))]
-
-ListItemWithChildren = (children, keyed) =>
-  <li className={stratum.e("menu-item")} key={keyed}>
-    {children}
-  </li>
+  [Wish((_, good) => good((_) => s))]
 
 MenuLink = (document) =>
   <link
@@ -51,16 +43,6 @@ MenuItemWithChildren = (children, document) =>
 
 MenuItem :: DocsPageWithLinks -> Element State
 MenuItem = MenuItemWithChildren(<empty />)
-
-emptyDocPage :: DocsPageWithLinks
-emptyDocPage = {
-  content: "_empty_",
-  depth: 0,
-  slug: "_EMPTY_",
-  title: "Mistake",
-  nextLink: Nothing,
-  previousLink: Nothing
-}
 
 segmentEvery :: Inspect a => (a -> Boolean) -> List a -> List (List a)
 segmentEvery = (pred, list) => pipe(

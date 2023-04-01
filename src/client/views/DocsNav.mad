@@ -1,10 +1,9 @@
-import type { Config } from "MadMarkdownRenderer"
 import type { Element } from "MadUI"
 import type { Maybe } from "Maybe"
 import type { DocsPageWithLinks, State } from "@client/State"
 
 import { Just, Nothing } from "Maybe"
-import { span, className, code, div, empty, h2, link, to } from "MadUI"
+import { span, className, div, empty, link, to } from "MadUI"
 import { strata } from "Strata"
 
 stratum = strata("documentation-page")

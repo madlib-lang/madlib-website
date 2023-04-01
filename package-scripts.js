@@ -116,14 +116,18 @@ module.exports = {
       prod: run([
         `nps docs.update`,
         `nps "build.main"`,
+        `cat ${out.mad.Main}`,
+        `cat src/client/content.json`,
         `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
         `nps styles`,
         "cp src/client/index.html build/public/",
         "cp src/client/robots.txt build/public/",
         "cp -R src/client/assets build/public/",
         "cp src/client/*.json build/public/",
+        `ls build/public/`,
         "nps server.prod.build",
         "nps sitemap",
+        `cat ${out.sitemap}`
       ]),
       html: "copy-and-watch src/client/*.html build/public/",
     },

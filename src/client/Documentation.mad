@@ -1,5 +1,4 @@
 import String from "String"
-import List from "List"
 import { DOCS_URL_BASE } from "@client/Constants"
 
 docLink :: String -> String
