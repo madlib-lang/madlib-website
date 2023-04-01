@@ -7,10 +7,6 @@ npm i @madlib-lang/madlib -g
 
 You are also welcome to [install from source](/docs/installation#from-source-code).
 
-## Troubleshooting
-
-_To be fleshed out with more details at a later date._
-
 ## Making a new project
 
 ```sh
