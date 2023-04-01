@@ -29,11 +29,21 @@ $outputWidth: 27%;
     top: 100%;
   }
 }
-
+.playground__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
 .playground {
   font-family: $type-body;
+  width: 100%;
   position: relative;
   overflow: hidden;
+  // display: flex;
+  // flex-direction: row;
+  // align-content: center;
+  // justify-content: center;
 
   &__container {
     background-color: rgba(255, 255, 255, 0.05);

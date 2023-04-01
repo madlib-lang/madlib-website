@@ -121,16 +121,21 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
   }
 
   @media screen and (min-width: $breakpoint-md) {
-    position: relative;
+    position: sticky;
+    top: 6rem;
+    bottom: 20rem;
     font-size: 2rem;
     width: 13rem;
-    min-height: auto;
+    padding-top: 1.25rem;
+    // min-height: auto;
+    // this doesn't work as well as I'd like on tall displays
+    // height: 0;
     &--passive {
       pointer-events: auto;
     }
     .sub-nav__menuback {
-      pointer-events: auto;
       position: relative;
+      pointer-events: auto;
       transform: translateX(0);
       width: 200px;
       background: transparent;
@@ -138,7 +143,6 @@ $NAV_WIDTH: clamp(60%, 86vw, 86%);
       padding: 0.5rem 0 0;
     }
     .sub-nav__list {
-      position: fixed;
     }
     .nav__item {
       margin: 0;

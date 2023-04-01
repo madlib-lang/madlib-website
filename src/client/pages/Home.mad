@@ -22,12 +22,12 @@ stratum = strata("website")
 
 Home :: State -> Element State
 export Home = (state) =>
-  <div className={stratum.e("")}>
+  <div className={stratum.em("", ["home"])}>
     {Nav(state)}
     <div className={stratum.e("playground")}>
       {Playground(state)}
     </div>
-    <main className={stratum.e("main")}>
+    <main className={stratum.em("main", ["home"])}>
       {SubNav(state)}
       <div className={stratum.e("content")}>
         {...map(PageSection, state.content.home)}

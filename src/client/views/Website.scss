@@ -9,6 +9,9 @@
   p {
     padding: 0 2rem;
   }
+  h1:first-of-type {
+    padding: 0;
+  }
 }
 .website {
   min-height: 100vh;
@@ -88,6 +91,7 @@
   }
 
   &__main {
+    position: relative;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -101,6 +105,14 @@
   &__content {
     display: flex;
     flex-direction: column;
+  }
+  &__page-content {
+    width: 100%;
+    max-width: 60rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
   }
 
   &__section {
@@ -121,6 +133,13 @@
     &__main {
       flex-direction: row;
     }
+    &--home {
+      .playground {
+        margin-left: 0;
+      }
+    }
+    &--the-playground {
+    }
     .website__content {
       padding-left: 2rem;
       h1,
@@ -131,6 +150,9 @@
       h6,
       p {
         padding: 0;
+      }
+      p:first-of-type {
+        padding-top: 1rem;
       }
     }
   }
