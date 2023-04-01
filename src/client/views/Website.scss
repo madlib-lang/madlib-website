@@ -111,8 +111,8 @@
     max-width: 60rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
   }
 
   &__section {
@@ -132,6 +132,8 @@
     }
     &__main {
       flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
     }
     &--home {
       .playground {
@@ -140,7 +142,7 @@
     }
     &--the-playground {
     }
-    .website__content {
+    &__content {
       padding-left: 2rem;
       h1,
       h2,
@@ -154,6 +156,11 @@
       p:first-of-type {
         padding-top: 1rem;
       }
+    }
+  }
+  @media screen and (min-width: $breakpoint-xl) {
+    &__content {
+      margin-right: 15vw;
     }
   }
 }

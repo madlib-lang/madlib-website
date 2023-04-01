@@ -64,4 +64,9 @@
       // max-width: 48rem;
     }
   }
+  @media screen and (min-width: $breakpoint-md) {
+    &__content {
+      width: 73%;
+    }
+  }
 }
