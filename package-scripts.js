@@ -118,7 +118,7 @@ module.exports = {
         `nps "build.main"`,
         `cat ${out.mad.Main}`,
         `cat src/client/content.json`,
-        `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
+        // `uglifyjs -m -c -o ${out.mad.Main} ${out.mad.Main}`,
         `nps styles`,
         "cp src/client/index.html build/public/",
         "cp src/client/robots.txt build/public/",
