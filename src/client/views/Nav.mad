@@ -1,4 +1,4 @@
-import type { Action, Element } from "MadUI"
+import type { Element } from "MadUI"
 import {
   alt,
   className,
@@ -8,21 +8,18 @@ import {
   img,
   input,
   inputType,
-  li,
   link,
   nav,
   onClick,
   onInput,
   placeholder,
-  span,
   src,
   text,
   to,
-  ul,
 } from "MadUI"
 import { strata } from "Strata"
 
-import type { State, Link } from "@client/State"
+import type { State } from "@client/State"
 import { toggleMenu } from "@client/actions/ToggleMenu"
 import { search } from "@client/actions/Search"
 import { SearchMenu } from "@client/views/SearchMenu"
@@ -30,7 +27,7 @@ import { SearchMenu } from "@client/views/SearchMenu"
 b = strata("nav")
 
 SubMenuToggle :: State -> Element State
-SubMenuToggle = (s) =>
+SubMenuToggle = (_) =>
   <div className={b.e("menu-toggle-wrapper")}>
     <img
       className={b.e("menu-icon")}

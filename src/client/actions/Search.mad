@@ -1,7 +1,6 @@
-import type { Action, Element } from "MadUI"
-import type { State, Link } from "@client/State"
+import type { Action } from "MadUI"
+import type { State } from "@client/State"
 import { InputEvent } from "MadUI"
-import IO from "IO"
 
 search :: Action State
 export search = (state, event) => pipe(
@@ -19,7 +18,7 @@ export search = (state, event) => pipe(
 )(event)
 
 stopSearching :: Action State
-export stopSearching = (state, event) => pipe(
+export stopSearching = (_, event) => pipe(
   () => of(
     (s) => pipe(
       (x) => {

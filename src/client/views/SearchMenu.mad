@@ -1,24 +1,20 @@
 import List from "List"
 import String from "String"
 import { equals, ifElse } from "Function"
-import {MORE, LESS, EQUAL} from "Compare"
 
-import type { Action, Element } from "MadUI"
-import type { DocsPage, DocsPageWithLinks, State, Link} from "@client/State"
+import type { Element } from "MadUI"
+import type { DocsPage, DocsPageWithLinks, State } from "@client/State"
 import { stopSearching } from "@client/actions/Search"
 
 import { strata } from "Strata"
 import {
   a,
   className,
-  code,
   div,
   empty,
   href,
-  key,
   li,
   onClick,
-  pre,
   strong,
   text,
   ul,

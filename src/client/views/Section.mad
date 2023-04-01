@@ -2,16 +2,12 @@ import type { Element } from "MadUI"
 
 import type { Section } from "@client/State"
 import type { State } from "@client/State"
-import type { Maybe } from "Maybe"
 
-import { fromMaybe, Just, Nothing } from "Maybe"
-import { fromList } from "Dictionary"
-import { range } from "List"
 import {} from "Number"
 import {} from "String"
 
 import { renderMarkdown } from "MadMarkdownRenderer"
-import { div, style, className, id, p, section, text } from "MadUI"
+import { className, id, p, section, text } from "MadUI"
 import { strata } from "Strata"
 
 import { slugify } from "@common/String"

@@ -13,7 +13,7 @@ import type {
   Theme,
 } from "@client/State"
 
-import { boolean, field, integer, list, map1, map2, map3, map4, map6, map7, map8, string, float } from "JsonParser"
+import { boolean, field, integer, list, map1, map2, map3, map4, map8, string } from "JsonParser"
 import { Just, Nothing } from "Maybe"
 
 import { docLink } from "@client/Documentation"

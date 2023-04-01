@@ -1,9 +1,6 @@
 import type { Element } from "MadUI"
 
 import type { State } from "@client/State"
-import List from "List"
-import IO from "IO"
-import { always } from "Function"
 
 import { switchRoute } from "MadUI"
 

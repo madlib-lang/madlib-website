@@ -4,7 +4,6 @@ import type { State } from "@client/State"
 
 import { className, div, main, text, empty } from "MadUI"
 import { strata } from "Strata"
-import { join } from "String"
 
 import { Nav } from "@client/views/Nav"
 import { SubNav } from "@client/views/SubNav"
@@ -14,7 +13,6 @@ import { PageSection } from "@client/views/Section"
 import { Breakpoints } from "@client/views/Breakpoints"
 
 // import { qs } from "@client/views/QueryEnabled"
-import { trace } from "IO"
 
 stratum = strata("website")
 

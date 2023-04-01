@@ -1,6 +1,5 @@
 import type {State } from "./State"
 import { fromList } from "Dictionary"
-import {trace} from "IO"
 
 generateCustomVariablesFromBreakpoints :: State -> Dictionary String String
 export generateCustomVariablesFromBreakpoints = pipe(
