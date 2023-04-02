@@ -41,7 +41,7 @@ userId = "arnaud"
 ```
 
 ### Character
-Character literals are single characters within single quotes, sometimes with a leading escape `\`.
+Character literals are single characters within single quotes, sometimes with a leading escape or backslash character.
 
 #### Example
 ```madlib

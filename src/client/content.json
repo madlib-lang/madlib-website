@@ -31,7 +31,7 @@
       "title": "Language features"
     },
     {
-      "content": "## Literals\n\n### Integer\nInteger literals are whole numbers, possibly prefixed with `-`.\n\n#### Example\n```madlib\n1\n-1732\n```\n\n### Byte\nInteger literals are whole numbers between 0 and 255. \n\n#### Example\n```madlib\n(1 :: Byte)\n(255 :: Byte)\n(0 :: Byte)\n```\n**NB**: Note that if bytes are used in a context where the type is not coerced (as above), it might resolve as an integer due to how the Number instance default resolution works.\n\n### Float\nFloat literals are numbers with a decimal part, possibly prefixed with `-`.\n\n#### Example\n```madlib\n1.0\n-1732.05\n```\n\n### String\nStrings are characters within double quotes, or backticks for templated strings.\n\n#### Example\n```madlib\n\"hello world\"\n\nuserId = \"arnaud\"\n`https://domain.tld/users/&#36;{userId}`\n```\n\n### Character\nCharacter literals are single characters within single quotes, sometimes with a leading escape `\`.\n\n#### Example\n```madlib\n'a'\n'\\n'\n```\n\n#### Boolean\nBoolean literals are either `true` or `false`.\n\n#### Example\n```madlib\ntrue\nfalse\n```\n\n#### Unit\nThe **Unit** value can be used in type-specific constructs to represent an empty record.\n\n#### Example\n```madlib\n{}\n```\n**NB**: Unit only has one possible value `{}`\n\n## Lambdas\nIn Madlib, a function is simply a lambda, which may be assigned, passed around or used inline directly.\n\n#### Example\n```madlib\n(a, b) => a * b\nproduct = (a, b) => a * b\n```\n**NB**: All binary or greater (more than a single parameter) functions in Madlib are automatically curried.\n",
+      "content": "## Literals\n\n### Integer\nInteger literals are whole numbers, possibly prefixed with `-`.\n\n#### Example\n```madlib\n1\n-1732\n```\n\n### Byte\nInteger literals are whole numbers between 0 and 255. \n\n#### Example\n```madlib\n(1 :: Byte)\n(255 :: Byte)\n(0 :: Byte)\n```\n**NB**: Note that if bytes are used in a context where the type is not coerced (as above), it might resolve as an integer due to how the Number instance default resolution works.\n\n### Float\nFloat literals are numbers with a decimal part, possibly prefixed with `-`.\n\n#### Example\n```madlib\n1.0\n-1732.05\n```\n\n### String\nStrings are characters within double quotes, or backticks for templated strings.\n\n#### Example\n```madlib\n\"hello world\"\n\nuserId = \"arnaud\"\n`https://domain.tld/users/&#36;{userId}`\n```\n\n### Character\nCharacter literals are single characters within single quotes, sometimes with a leading escape `\\`.\n\n#### Example\n```madlib\n'a'\n'\\n'\n```\n\n#### Boolean\nBoolean literals are either `true` or `false`.\n\n#### Example\n```madlib\ntrue\nfalse\n```\n\n#### Unit\nThe **Unit** value can be used in type-specific constructs to represent an empty record.\n\n#### Example\n```madlib\n{}\n```\n**NB**: Unit only has one possible value `{}`\n\n## Lambdas\nIn Madlib, a function is simply a lambda, which may be assigned, passed around or used inline directly.\n\n#### Example\n```madlib\n(a, b) => a * b\nproduct = (a, b) => a * b\n```\n**NB**: All binary or greater (more than a single parameter) functions in Madlib are automatically curried.\n",
       "depth": 1,
       "slug": "expressions",
       "title": "Expressions"
@@ -43,7 +43,7 @@
       "title": "Types"
     },
     {
-      "content": "### Automatic Currying\n\nMadlib functions are automatically curried, so something such as:\n```madlib\nproduct :: Integer -> Integer -> Integer\nproduct = (a, b) => a * b\n```\nCan be partially applied and named, so you can have a morphism like `double`:\n```madlib\ndouble = sum(2)\n```\n\n### Composition\n\nMadlib provides the `pipe` composition function, which composes functions left-to-right:\n```madlib\npipe(\n  product(2),\n  product(10)\n)(40) // 800\n```\n\nAdditionally, there is an equivalent infix operator, `|>` which works similarly:\n```madlib\n40 |> product(2) |> product(10)\n```\n",
+      "content": "### Automatic Currying\n\nMadlib functions are automatically curried, so something such as:\n\n```madlib\nproduct :: Integer -> Integer -> Integer\nproduct = (a, b) => a * b\n```\n\nCan be partially applied and named, so you can have a morphism like `double`:\n\n```madlib\ndouble = sum(2)\n```\n\n### Pipe Composition\n\nMadlib provides the `pipe` composition function, which composes functions left-to-right:\n\n```madlib\npipe(\n  product(2),\n  product(10)\n)(40) // 800\n```\n\n### Composition Operator\n\nAdditionally, there is an equivalent infix operator, `|>` which works similarly:\n\n```madlib\n40 |> product(2) |> product(10)\n```\n",
       "depth": 1,
       "slug": "functions",
       "title": "Functions"
@@ -54,7 +54,7 @@
       "slug": "interfaces",
       "title": "Interfaces"
     },
-    {"content": "", "depth": 1, "slug": "concurreny", "title": "Concurrency"},
+    {"content": "", "depth": 1, "slug": "concurrency", "title": "Concurrency"},
     {"content": "", "depth": 1, "slug": "stdlib", "title": "Standard library"},
     {"content": "", "depth": 0, "slug": "ffi", "title": "FFI"}
   ],
