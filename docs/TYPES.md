@@ -235,9 +235,3 @@ import Array from "Array"
 
 Array.fromList([1, 2, 3])
 ```
-
-
-## TO ADD:
-- Records
-- ADTs
-- Aliases
