@@ -27,7 +27,7 @@ append :: String -> String -> String
 append = (post, pre) => pre ++ post
 
 dropChars :: Integer -> String -> String
-dropChars = (i, s) => String.slice(i, String.length(s), s),
+dropChars = (i, s) => String.slice(i, String.length(s), s)
 
 getEditLinkForPage :: String -> String
 getEditLinkForPage = pipe(
