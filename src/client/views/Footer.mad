@@ -19,7 +19,7 @@ export Footer = (_) =>
   <footer className={stratum.e("")}>
     <div className={stratum.e("the-fence")}>
       // aria-label Edit this page
-      <a href="https://github.com/madlib-lang/madlib" className={stratum.em("link", ["icon"])}>
+      <a href="https://github.com/madlib-lang/madlib-website" className={stratum.em("link", ["icon"])}>
         <img src="./assets/github.svg" className={stratum.em("image", ["github"])}/>
       </a>
     </div>

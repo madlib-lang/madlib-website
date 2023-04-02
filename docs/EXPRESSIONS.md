@@ -18,7 +18,7 @@ Integer literals are whole numbers between 0 and 255.
 (255 :: Byte)
 (0 :: Byte)
 ```
-Note that if used in a context where the type is not forced to be a byte it might resolve to an integer due to how the Number instance default resolution works.
+**NB**: Note that if bytes are used in a context where the type is not coerced (as above), it might resolve as an integer due to how the Number instance default resolution works.
 
 ### Float
 Float literals are numbers with a decimal part, possibly prefixed with `-`.
@@ -30,16 +30,18 @@ Float literals are numbers with a decimal part, possibly prefixed with `-`.
 ```
 
 ### String
-Strings are characters within double quotes, or backslashes for string templates.
+Strings are characters within double quotes, or backticks for templated strings.
 
 #### Example
 ```madlib
 "hello world"
+
+userId = "arnaud"
 `https://domain.tld/users/${userId}`
 ```
 
 ### Character
-Character literals are single characters within single quotes.
+Character literals are single characters within single quotes, sometimes with a leading escape `\`.
 
 #### Example
 ```madlib
@@ -48,7 +50,7 @@ Character literals are single characters within single quotes.
 ```
 
 #### Boolean
-Can be either true or false.
+Boolean literals are either `true` or `false`.
 
 #### Example
 ```madlib
@@ -57,12 +59,20 @@ false
 ```
 
 #### Unit
-Only has one value possible: `{}` and can be seen as the empty record.
+The **Unit** value can be used in type-specific constructs to represent an empty record.
+
+#### Example
+```madlib
+{}
+```
+**NB**: Unit only has one possible value `{}`
 
 ## Lambdas
-In Madlib, a function is simply a lambda, that can be assigned, or directly passed around or used in-line.
+In Madlib, a function is simply a lambda, which may be assigned, passed around or used inline directly.
 
 #### Example
 ```madlib
 (a, b) => a * b
+product = (a, b) => a * b
 ```
+**NB**: All binary or greater (more than a single parameter) functions in Madlib are automatically curried.
