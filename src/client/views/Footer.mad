@@ -1,6 +1,6 @@
 import String from "String"
 import IO from "IO"
-import {ifElse} from "Function"
+import { always, equals, ifElse } from "Function"
 import { strata } from "Strata"
 import {
   a,
@@ -34,12 +34,19 @@ getEditLinkForPage = pipe(
   upperscore,
   append(".md"),
   ifElse(
-    String.startsWith("/DOCS"),
-    pipe(
-      dropChars(6),
-      (docpath) => `https://github.com/madlib-lang/madlib-website/blob/master/docs/${docpath}`
-    ),
-    (page) => `https://github.com/madlib-lang/madlib-website/blob/master/pages/${page}`,
+    equals("/.md"),
+    always("https://github.com/madlib-lang/madlib-website/blob/master/src/client/pages/Home.mad"),
+    ifElse(
+      String.startsWith("/DOCS"),
+      pipe(
+        dropChars(6),
+        (docpath) => `https://github.com/madlib-lang/madlib-website/blob/master/docs/${docpath}`
+      ),
+      pipe(
+        dropChars(1),
+        (page) => `https://github.com/madlib-lang/madlib-website/blob/master/pages/${page}`,
+      )
+    )
   )
 )
 
