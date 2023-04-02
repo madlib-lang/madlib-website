@@ -139,47 +139,50 @@ handleDragStart = (_, _) => [
   ),
 ]
 
+
+
+
+
+
 Playground :: State -> Element State
 export Playground = (state) => {
   output = displayPlaygroundOutput(state)
   verticalSplitPosition = `${inspect(state.playground.dragData.verticalSplitPosition)}px`
-  playcode = state.playground.data.code
-  return <div className={stratum.e("wrapper")}>
-    <div className={stratum.e("")}>
-      <div className={stratum.e("container")}>
-        <div className={stratum.e("lines")}>
-          {...renderLines(playcode)}
-        </div>
-        <div className={stratum.e("editor")}>
-          <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
-            <textarea spellcheck={false} className={stratum.e("input")} onInput={handleInput}>
-              {playcode}
-            </textarea>
-            <pre className={stratum.e("highlight")}>
-              {HighlightedCode(playcode)}
-            </pre>
-          </div>
-        </div>
-        <div
-          style={{{ "width": `calc(100% - ${verticalSplitPosition})` }}}
-          className={stratum.em("output", [String.isEmpty(output) ? "empty" : "compiled"])}
-        >
-          <div
-            onMouseDown={handleDragStart}
-            className={stratum.e("drag-handle")}
-          >
-            {`←→`}
-          </div>
-          <button className={stratum.em("run-button", ["waiting"])} onClick={handleRun}>
-            Run
-            <div className={stratum.e("run-indicator")} />
-          </button>
-          <pre className={stratum.e("output-feed")}>
-            <code className={stratum.e("output-code")}>
-              {output}
-            </code>
+
+  return <div className={stratum.e("")}>
+    <div className={stratum.e("container")}>
+      <div className={stratum.e("lines")}>
+        {...renderLines(state.playground.data.code)}
+      </div>
+      <div className={stratum.e("editor")}>
+        <div className={stratum.e("content")} style={{{ "height": deriveHeight(state) }}}>
+          <textarea spellcheck={false} className={stratum.e("input")} onInput={handleInput}>
+            {state.playground.data.code}
+          </textarea>
+          <pre className={stratum.e("highlight")}>
+            {HighlightedCode(state.playground.data.code)}
           </pre>
         </div>
+      </div>
+      <div
+        style={{{ "width": `calc(100% - ${verticalSplitPosition})` }}}
+        className={stratum.em("output", [String.isEmpty(output) ? "empty" : "compiled"])}
+      >
+        <div
+          onMouseDown={handleDragStart}
+          className={stratum.e("drag-handle")}
+        >
+          {`←→`}
+        </div>
+        <button className={stratum.em("run-button", ["waiting"])} onClick={handleRun}>
+          Run
+          <div className={stratum.e("run-indicator")} />
+        </button>
+        <pre className={stratum.e("output-feed")}>
+          <code className={stratum.e("output-code")}>
+            {output}
+          </code>
+        </pre>
       </div>
     </div>
   </div>
