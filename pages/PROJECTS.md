@@ -8,7 +8,7 @@ Madlib ships with a number of core libraries which can do a lot for you out of t
 - [MadMarkdownRenderer](//github.com/madlib-lang/madmarkdown-renderer) - A Madlib-based renderer for Markdown
 - [MadAMQP](//github.com/madlib-lang/madamqp) - A Madlib library to support AMQP
 - [MadJwt](//github.com/madlib-lang/madjwt) - A Madlib library for signing and decoding JSON Web Tokens
-- [MadServer](//github.com/madlib-lang/madserver) - A Madlib library for writing servers (based on [express][express])
+- [MadServer](//github.com/madlib-lang/madserver) - A Madlib library for writing servers (based on [express](https://expressjs.com/))
 - [maddoc](//github.com/madlib-lang/maddoc) - A documentation site generator
 - [maddoc-cli](//github.com/madlib-lang/maddoc-cli) - CLI tooling for [maddoc](//github.com/madlib-lang/maddoc)
 
