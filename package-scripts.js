@@ -127,6 +127,7 @@ module.exports = {
         "cp src/client/index.html build/public/",
         "cp src/client/robots.txt build/public/",
         "cp -R src/client/assets build/public/",
+        "cp src/client/assets/favicon.png build/public/",
         "cp -R src/client/assets/*.svg build/public/assets/",
         "cp src/client/*.json build/public/",
         `ls build/public/`,
