@@ -54,13 +54,13 @@
         content: "";
         width: 0;
         height: 0;
-        border: 8px solid transparent;
-        border-top-width: 10px;
-        border-bottom-width: 10px;
+        border: 6px solid transparent;
+        border-top-width: 6px;
+        border-bottom-width: 6px;
         border-top-color: white;
         opacity: 0;
         margin-top: -1.5rem;
-        transition: opacity 0.3s 0.25s ease-out, margin 0.3s 0.25s ease-out;
+        transition: opacity 0.3s 0.3s linear, margin 0.3s 0.25s ease-out;
 
         left: 11px;
       }
@@ -78,7 +78,7 @@
         left: 0;
         margin-top: -3rem;
         opacity: 0;
-        transition: opacity 0.3s 0.3s ease-out, margin 0.3s 0.3s ease-out;
+        transition: opacity 0.3s 0.25s linear, margin 0.3s 0.3s ease-out;
         text-shadow: none;
       }
       &:hover {
