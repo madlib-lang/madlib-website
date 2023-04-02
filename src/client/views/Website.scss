@@ -160,6 +160,7 @@
   }
   @media screen and (min-width: $breakpoint-xl) {
     &__content {
+      max-width: 44rem;
       margin-right: 15vw;
     }
   }
