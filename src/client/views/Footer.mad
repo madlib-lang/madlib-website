@@ -1,3 +1,6 @@
+import String from "String"
+import IO from "IO"
+import {ifElse} from "Function"
 import { strata } from "Strata"
 import {
   a,
@@ -14,12 +17,42 @@ import type { State } from "@client/State"
 
 stratum = strata("footer")
 
+upperscore :: String -> String
+upperscore = pipe(
+  String.toUpper,
+  String.replace("-", "_"),
+)
+
+append :: String -> String -> String
+append = (post, pre) => pre ++ post
+
+dropChars :: Integer -> String -> String
+dropChars = (i, s) => String.slice(i, String.length(s), s),
+
+getEditLinkForPage :: String -> String
+getEditLinkForPage = pipe(
+  upperscore,
+  append(".md"),
+  ifElse(
+    String.startsWith("/DOCS"),
+    pipe(
+      dropChars(6),
+      (docpath) => `https://github.com/madlib-lang/madlib-website/blob/master/docs/${docpath}`
+    ),
+    (page) => `https://github.com/madlib-lang/madlib-website/blob/master/pages/${page}`,
+  )
+)
+
 Footer :: State -> Element State
-export Footer = (_) => 
-  <footer className={stratum.e("")}>
+export Footer = (_) => {
+  editLink = getEditLinkForPage(#- typeof window !== 'undefined' ? window.location.pathname : '' -#)
+  #- console.log(editLink) -#
+  sliced = String.slice(0, 4, editLink)
+  #- console.log(sliced) -#
+  return <footer className={stratum.e("")}>
     <div className={stratum.e("the-fence")}>
       // aria-label Edit this page
-      <a href="https://github.com/madlib-lang/madlib-website" className={stratum.em("link", ["icon"])}>
+      <a href={editLink} className={stratum.em("link", ["icon"])}>
         <img src="./assets/github.svg" className={stratum.em("image", ["github"])}/>
       </a>
     </div>
@@ -27,3 +60,4 @@ export Footer = (_) =>
       This site is powered by <a href="https://github.com/madlib-lang/madlib" className={stratum.e("link")}>Madlib</a>
     </div>
   </footer>
+}
