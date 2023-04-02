@@ -127,7 +127,7 @@ module.exports = {
         "cp src/client/index.html build/public/",
         "cp src/client/robots.txt build/public/",
         "cp -R src/client/assets build/public/",
-        "cp -R src/client/assets build/public/assets",
+        "cp -R src/client/assets/*.svg build/public/assets/",
         "cp src/client/*.json build/public/",
         `ls build/public/`,
         "nps server.prod.build",
