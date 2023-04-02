@@ -40,6 +40,7 @@ SubMenuToggle = (_) =>
 Nav :: State -> Element State
 export Nav = (s) =>
   <nav className={b.m(["loading"])}>
+    <div className={b.e("content")}>
     {SubMenuToggle(s)}
     <link to="/" className={b.em("link", ["logo"])}>
       <img
@@ -65,4 +66,5 @@ export Nav = (s) =>
       </div>
     </form>
     {SearchMenu(s)}
+    </div>
   </nav>
