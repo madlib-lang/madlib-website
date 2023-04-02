@@ -38,7 +38,7 @@ export page = (title, children, state) => {
   slugged = slugify(title)
   return <div className={stratum.m([slugged])}>
     {Nav(state)}
-    <h1 className={stratum.e("h1")}>
+    <h1 className={stratum.e("page-title")}>
       {title}
     </h1>
     <main className={stratum.em("main", [slugged])}>

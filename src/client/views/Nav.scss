@@ -26,11 +26,8 @@ $LOGO_SIZE: 8rem;
 .nav {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: stretch;
   position: fixed;
-  max-width: 100%;
+  width: 100%;
   top: 0;
   left: 0;
   z-index: $z-nav;
@@ -42,6 +39,16 @@ $LOGO_SIZE: 8rem;
   background: linear-gradient(50deg, #2d0024, #190c20);
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  &__content {
+    justify-content: space-between;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: stretch;
+    max-width: 100%;
+  }
 
   &__link--logo {
     text-decoration: none;
@@ -243,7 +250,6 @@ $LOGO_SIZE: 8rem;
     &__logo {
       margin: 0;
       padding: 0;
-      min-width: $logoWidthMD;
     }
     &__menu-toggle-wrapper {
       display: none;
@@ -270,6 +276,11 @@ $LOGO_SIZE: 8rem;
   }
 
   @media screen and (min-width: $breakpoint-lg) {
+    padding: 0;
+    &__content {
+      width: 64%;
+      margin: 0 auto;
+    }
     &__item {
       width: auto;
     }
