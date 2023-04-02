@@ -10,12 +10,13 @@ Depending on your preferences, either of these should be identical in behavior.
 
 ## From Source Code
 
-You can download the archive of a build for your target from the [releases page](https://github.com/madlib-lang/madlib/releases), unarchive it wherever appropriate ( /opt might be a good candidate on linux/osx ), and add the location to your PATH in your bashrc file. Currently 5 targets are supported:
-- linux glibc
-- linux muslc
-- osx x64
-- osx arm64
-- windows x64
+You can download the archive of a build for your target from the [releases page](https://github.com/madlib-lang/madlib/releases), unarchive it wherever appropriate ( `/opt` might be a good candidate on Linux / OSX ), and add the location to your PATH in your shell profile / preferences file. Currently 5 targets are supported:
+
+- linux `glibc`
+- linux `muslc`
+- osx `x64`
+- osx `arm64`
+- windows `x64`
 
 ### Debugging
 
@@ -49,4 +50,3 @@ Available commands:
   lsp                      start language server
   config                   read informations about the current installation
 ```
-

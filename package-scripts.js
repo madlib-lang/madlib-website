@@ -48,6 +48,10 @@ const DOCS_TO_UPDATE = [
     filePath: "docs/TYPES.md",
   },
   {
+    jsonPath: "docs.7.content",
+    filePath: "docs/FUNCTIONS.md",
+  },
+  {
     jsonPath: "docs.8.content",
     filePath: "docs/INTERFACES.md",
   },

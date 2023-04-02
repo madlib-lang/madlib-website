@@ -1,41 +1,54 @@
 ## Type annotations
-In Madlib there are two ways to provide type annotation. You can annotate a function or assignment, or an expression.
+In Madlib there are two ways to provide type annotation. You can annotate a function assignment or an inline expression.
 
 ### Function types
 Function types are declared as follows:
 ```madlib
 myFunction :: a -> b -> c
 ```
-This declares that there is a function which takes `a` and `b` parameter types, and the `c` type is returned.
+This indicates that there is a function named `myFunction` which takes two parameters of two different types, `a` and `b`. And it then returns a value of type `c`.
+
+In a more concrete example, we could type a function that produces the sum of two integers like so:
+```
+sum :: Integer -> Integer -> Integer
+```
 
 ### Type variables
-Madlib types should look very similar if you're familiar with ML languages. Otherwise you can think of it as a generic or indefinite type. They are represented with lowercased words, often even single lower cased characters.
 
-**Important**: all type variables can only instantiate with the same type. So in the function:
+```madlib
+stringJoin :: String -> a -> String
+```
+Madlib types (also known as [Hindley-Milner types](https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system)) allow for completeness and type inference. (Unlike some languages you might have worked with, if the Madlib compiler says its wrong, you can trust that it's actually wrong.) These signatures allow for generic or indefinite types. They are represented with lowercased words, often even single lower cased characters. In the example above, we have an indefinite type `a` which can be anything.
+
+**NB**: All type variables can only instantiate with the same type. So in the function:
 ```madlib
 identity :: a -> a
 identity = (x) => x
 ```
-the two `a` variables will always be the same concrete type when called. So `identity(3.3)` will always return a `Float` because it is called with a `Float`.
+The two `a` variables will always be the same concrete type when called. So `identity(3.3)` will always return a `Float` because it is called with a `Float`.
 
 #### Applying a type variable
-The type `List` is incomplete. In order for it to be considered complete it must be applied with a concrete type. For example, a list of integers is defined as: `List Integer`. It is also possible to apply a type variable to it, so that we have a list of "whatever": `List a`. For example, here is how `concat` (a function which combines two lists) from our standard library is typed:
+The type `List` is "incomplete". In order for a `List` to be considered "complete" it must be applied with a concrete type. For example, a list of integers is defined as: `List Integer`. It is also possible to apply a type variable to it, so that we have a list of "whatever", e.g. `List a`
+
+For a more concrete example, this is how `concat` (a function which combines two lists) from our standard library is typed:
 ```madlib
 concat :: List a -> List a -> List a
 ```
 
 ### Constraints
-Analog to Haskell type classes, Madlib has [interfaces](/docs/interfaces). For example, the standard library includes the `Inspect` interface, which has one method, named `inspect`. If you wanted to have a function that calls it with a type variable as a parameter, say:
+Analogous to Haskell type classes, Madlib has [interfaces](/docs/interfaces). For example, the standard library includes the `Inspect` interface, which has one method, `inspect`. If you wanted to have a function which uses it, perhaps something like:
 ```madlib
 pushAndLog = (item, list) => {
   IO.putLine(inspect(item))
   return [item, ...list]
 }
 ```
-The type of the above function ought to be the following:
-`a -> List a -> List a`
+The type of the above function would need to be the following:
+`pushAndLog :: a -> List a -> List a`
 
-However! Because `inspect` is called on the parameter `item` (type `a`), there's a missing constraint. The fact that we call a method on that item implies that the type `a` must be a type that implements `Inspect` (sometimes this is called a "constraint"). Therefore the correct type definition of `pushAndLog` is:
+**However!** Because `inspect` is called on the parameter `item` (type `a`), there's a missing constraint. The fact that we call a method on that item implies that the type `a` must be a type that implements `Inspect` (sometimes this is called a "constraint").
+
+Therefore, the correct type definition of `pushAndLog` is instead:
 ```madlib
 pushAndLog :: Inspect a => a -> List a -> List a
 pushAndLog = (item, list) => {
@@ -44,9 +57,9 @@ pushAndLog = (item, list) => {
 }
 ```
 
-A type annotation with constraints takes this form: `constraints => type` where `constraints` are in the shape of `Interface typeVar` or in the case of multiple constraints: `(Interface typeVar, OtherInterface otherVar)`.
+A type annotation with constraints takes this form: `constraints => type` where `constraints` are in the shape of `Interface typeVar` or in the case of multiple constraints: `(Interface typeVar, OtherInterface otherVar)`. **NB**: Note the difference between the previously used type constructor `->` and this "fat" arrow used to indicate the constraint: `=>`
 
-Note that a type variable can have multiple constraints. Example:
+Additionally, be aware that a type variable can have multiple constraints, for example:
 ```madlib
 // for reference IO.log has type:
 // Inspect a => a -> {}
@@ -58,6 +71,7 @@ sumAndLog = (a, b) => {
   return result
 }
 ```
+This `sumAndLong` function can deal with integers, floating point numbers and bytes as a result of this constraint.
 
 ### Function annotations
 We can bind type definitions to concrete implementations with the `::` syntax:
@@ -73,11 +87,11 @@ SERVER_URL = "https://myserver.tld"
 ```
 
 ### Expression annotations
-We can bind type definitions to expressions in a similar manner inline:
+We can bind type definitions to expressions inline like so:
 ```madlib
 (expression :: type)
 ```
-To avoid ambiguity, the parentheses when defining inline annotations are always necessary. This is designed to avoid this otherwise confusing case:
+**NB**: Note, to avoid ambiguity, the parentheses when defining inline annotations are always necessary. This is designed to avoid this otherwise confusing case:
 ~~`1 + 3 :: Float`~~
 Are we annotating `3` or `1 + 3`?
 
@@ -123,7 +137,7 @@ Bytes are 8-bit unsigned numbers.
 (1 :: Byte)
 (255 :: Byte)
 ```
-Note: we have to use this expression annotation above in order to tell the compiler that we're not talking about Integers.
+**NB:** Note that we have to use this expression annotation above in order to tell the compiler that we're not talking about Integers.
 
 ### Number interface
 The `Number` `interface` defines operations that can be used with numbers. It is implemented for the following types:
@@ -131,7 +145,7 @@ The `Number` `interface` defines operations that can be used with numbers. It is
 - Float
 - Byte
 
-Methods of Number:
+Infix methods of Number:
 - `+`
 - `-`
 - `*`
@@ -149,7 +163,7 @@ A list of characters
 "Hello World"
 `Hello World`
 ```
-Note: Single-quote wrapped values are Chars, not Strings!
+**NB:** Note that single-quote wrapped literals are parsed as Chars, not Strings!
 
 ## Char
 The constituent parts of Strings
