@@ -119,7 +119,10 @@ compileCode = (playground) => chain(
         "-o",
         `${playgroundPath}/build/`,
       ],
-      Process.DEFAULT_COMMAND_OPTIONS
+      {
+        cwd: "./",
+        env: {{ "NO_COLOR": "yes" }}
+      }
     ),
     map(always(playground)),
     chainRej(
