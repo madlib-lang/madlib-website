@@ -10,7 +10,7 @@ RUN apt-get update --fix-missing
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl zip unzip wget automake libtool unzip cmake build-essential
 
 
-RUN npm i -g @madlib-lang/madlib nps
+RUN npm i -g @madlib-lang/madlib@0.18.8 nps
 
 RUN npm i
 RUN madlib install
