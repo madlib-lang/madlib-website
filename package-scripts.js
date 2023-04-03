@@ -71,7 +71,8 @@ const DOCS_TO_UPDATE = [
     jsonPath: "pages.3.content",
     filePath: "pages/PLAYGROUND.md",
   },
-  { jsonPath: "pages.4.content",
+  {
+    jsonPath: "pages.4.content",
     filePath: "pages/CONTRIBUTE.md"
   }
 ];

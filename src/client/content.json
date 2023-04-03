@@ -67,7 +67,7 @@
   },
   "home": [
     {
-      "content": "Madlib is a pragmatic functional programming language which compiles to JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures.",
+      "content": "Madlib is a pragmatic functional programming language which compiles to both native binary executables and JavaScript. It is similar in syntax to JavaScript (with a little bit of Haskell). Madlib embraces function composition, automatic currying, and monadic control structures.",
       "title": "A functional language with familiar syntax"
     },
     {
