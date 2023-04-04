@@ -1,14 +1,14 @@
-import type { Element } from "MadUI"
+import type { Element, Action } from "MadUI"
+import type { Wish } from "Wish"
 
 import type { State } from "@client/State"
 
+import { Wish } from "Wish"
 import List from "List"
 import String from "String"
 
-import { className, code, div, innerHTML, text } from "MadUI"
+import { img, src, alt, onClick, className, code, div, innerHTML, button, text } from "MadUI"
 import { strata } from "Strata"
-
-
 
 stratum = strata("code")
 
@@ -73,6 +73,7 @@ SYNTAX_TYPES = [
   "LocalDateTime",
   "TimeUnit",
 ]
+
 SYNTAX_CONSTRUCTORS = [
   "JsonString",
   "JsonInteger",
@@ -156,9 +157,6 @@ SYNTAX_CONSTRUCTORS = [
   "Year",
 ]
 
-
-
-
 escapeString :: String -> String
 escapeString = (s) => {
   go :: List Char -> List Char
@@ -180,7 +178,6 @@ escapeString = (s) => {
   )(s)
 }
 
-
 buildCodeElements :: String -> List (Element State)
 buildCodeElements = pipe(
   highlight(SYNTAX_LITERALS, "literal"),
@@ -197,6 +194,46 @@ buildCodeElements = pipe(
   map(renderLine),
 )
 
+copyToClipboardHandler :: String -> Action State
+copyToClipboardHandler = (c) => (s, _) => {
+  return [
+    Wish((_, good) => good((_) => {
+      #- navigator.clipboard.writeText(c) -#
+
+      return {
+        ...s,
+        playground: {
+          ...s.playground,
+          data: { ...s.playground.data, code: c }
+        }
+      }
+    }))
+  ]
+}
+
 
 HighlightedCode :: String -> Element State
-export HighlightedCode = (c) => <code className={stratum.m(["madlib"])}>{...buildCodeElements(c)}</code>
+export HighlightedCode = (c) => (
+  <code className={stratum.m(["madlib"])}>
+    {...buildCodeElements(c)}
+  </code>
+)
+
+
+// aria-role="button"
+// aria-label="Copy to Clipboard"
+
+CopyableCode :: String -> Element State
+export CopyableCode = (c) => (
+  <div className={stratum.e("wrapper")}>
+    <button
+      onClick={copyToClipboardHandler(c)}
+      className={stratum.em("action-button", ["copy"])}
+    >
+      <img src="/assets/clipboard.svg" className={stratum.em("icon", ["copy"])} alt="Copy" />
+    </button>
+    <code className={stratum.m(["madlib"])}>
+      {...buildCodeElements(c)}
+    </code>
+  </div>
+)

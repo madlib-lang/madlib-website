@@ -4,7 +4,7 @@ import type { State } from "@client/State"
 
 import { switchRoute } from "MadUI"
 
-import Contribute from "@client/pages/Contribute"
+import Community from "@client/pages/Community"
 import Docs from "@client/pages/Docs"
 import Examples from "@client/pages/Examples"
 import GettingStarted  from "@client/pages/GettingStarted"
@@ -19,7 +19,7 @@ preSlash = (x) => `/${x}`
 ROUTES = [
   #[Home.slug, Home.view],
   #["index*", Home.view],
-  #[Contribute.slug, Contribute.view],
+  #[Community.slug, Community.view],
   #[Docs.slug, Docs.view],
   #["docs/*", Docs.view],
   #[Examples.slug, Examples.view],

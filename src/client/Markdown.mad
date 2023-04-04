@@ -4,11 +4,11 @@ import type { State } from "@client/State"
 import { defaultConfig, renderMarkdownWithConfig, setCodeView } from "MadMarkdownRenderer"
 import { pre, code } from "MadUI"
 
-import { HighlightedCode } from "@client/views/HighlightedCode"
+import { CopyableCode } from "@client/views/HighlightedCode"
 
 MARKDOWN_RENDERER_CONFIG :: Config State
 export MARKDOWN_RENDERER_CONFIG = setCodeView(
-  (lang, content) => lang == "madlib" ? HighlightedCode(content) : <pre><code>{content}</code></pre>,
+  (lang, content) => lang == "madlib" ? CopyableCode(content) : <pre><code>{content}</code></pre>,
   defaultConfig,
 )
 

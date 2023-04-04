@@ -73,7 +73,7 @@ const DOCS_TO_UPDATE = [
   },
   {
     jsonPath: "pages.4.content",
-    filePath: "pages/CONTRIBUTE.md"
+    filePath: "pages/COMMUNITY.md"
   }
 ];
 

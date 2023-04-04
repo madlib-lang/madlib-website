@@ -3,7 +3,7 @@ import type { Element } from "MadUI"
 import type { State } from "@client/State"
 import { titledPage } from "@client/views/Page"
 
-export slug = "contribute"
+export slug = "community"
 
 view :: State -> Element State
 export view = titledPage(slug)
