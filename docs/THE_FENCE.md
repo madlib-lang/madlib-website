@@ -4,7 +4,7 @@
 
 If you want to do something in Madlib which is not yet expressible in the current native Madlib syntax, you can wrap any valid JS expression with either the single-line fence pair (`#-` / `-#`), e.g.:
 ```madlib
-cool = `Madlib allows you to insert raw JavaScript if you _really_ need to.`
+cool = `Madlib can use raw JS if you _really_ need to.`
 #- console.log(cool) -#
 ```
 
