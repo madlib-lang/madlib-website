@@ -20,11 +20,13 @@ cd <project-name>
 madlib run src/Main.mad
 ```
 
-## Play
+You can see additional commands and information by running `madlib --help` or viewing the [Command Line Interface](/docs/cli) page.
+
+## Development
 
 ### Syntax
 
-You can avail yourself of more details on the [Language Features](/docs/language-features') page, but here is a quick example of some Madlib syntax you could drop in your new project's `src/Main.mad` file:
+You can learn much more specific syntax on the [Language Features](/docs/language-features') page, but here is a quick example of some Madlib syntax you could drop in your new project's `src/Main.mad` file:
 
 ```madlib
 import IO from "IO"
@@ -65,4 +67,4 @@ main = () => {
 
 As [mentioned above](#running-your-project) you can run this with `madlib run src/Main.mad` 
 
-Once you've familiarized yourself with the core syntax, one of the best ways to get to know the language is to work through the [examples](/examples)
+Once you've familiarized yourself with the core syntax, one of the best ways to get to know the language is to work through the [examples](/examples) or learn more in our [documentation](/docs) page.

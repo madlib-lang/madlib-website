@@ -68,6 +68,14 @@ const DOCS_TO_UPDATE = [
     filePath: "docs/STANDARD_LIBRARY.md",
   },
   {
+    jsonPath: "docs.12.content",
+    filePath: "docs/THE_FENCE.md",
+  },
+  {
+    jsonPath: "docs.13.content",
+    filePath: "docs/FFI.md",
+  },
+  {
     jsonPath: "pages.0.content",
     filePath: "pages/PROJECTS.md",
   },
