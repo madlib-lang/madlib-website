@@ -1,4 +1,11 @@
-**The Fence** is a syntactic construct which allows you to write any valid JavaScript within Madlib transparently, at the cost of automatic type inference. It was a core feature of Madlib ideology from the very start of this project, as it allows for an escape hatch that (if used *judiciously*) can allow developers to build on top of existing JavaScript projects or allow for incremental migration to Madlib from JavaScript.
+**The Fence** is our built-in escape hatch. While Madlib has a powerful type and inference system, "fenced" code allows you to drop down to any native JS construct. However, doing so will eschew any of the automatic type inference and instead treat code within the **The Fence** as opaque.
+
+It has been a core feature of Madlib ideology from the very start of this project, as it can (if used *judiciously*) allow developers to build on top of existing JavaScript projects or allow for incremental migration to Madlib from JavaScript.
+
+## Danger
+
+Under the hood Madlib uses the fenced code liberally, but with type annotations, which allows us to build well-typed code on top of raw JavaScript. When writing code in Madlib, to take advantage of our powerful type system you should generally only use **The Fence** when absolutely necessary.
+
 
 ## Syntax
 
@@ -20,10 +27,6 @@ export decode = (url) => #- {
   }
 } -#
 ```
-
-## Danger
-
-It is important to note that usage of **The Fence** without proper typing (as above, adding a type definition will ensure the compiler is satisfied) will likely break things in your Madlib program. However, parts of the core Madlib [standard library](/docs/stdlib) are still built on top of **The Fence** today, it allows us to iterate and take advantage of the extant `node` / `npm` ecosystem easily.
 
 ## Utilities
 
