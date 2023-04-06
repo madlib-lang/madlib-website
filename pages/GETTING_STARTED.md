@@ -67,4 +67,4 @@ main = () => {
 
 As [mentioned above](#running-your-project) you can run this with `madlib run src/Main.mad` 
 
-Once you've familiarized yourself with the core syntax, one of the best ways to get to know the language is to work through the [examples](/examples) or learn more in our [documentation](/docs) page.
+Once you've familiarized yourself with the core syntax, one of the best ways to get to know the language is to work through the [examples](/examples) or learn more in our [documentation](/docs/introduction) page.
