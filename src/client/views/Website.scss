@@ -14,9 +14,11 @@
   h3,
   h4,
   h5,
-  h6,
-  p {
+  h6 {
     padding: 0 1rem;
+  }
+  p {
+    margin: 2rem 1rem;
   }
 
   &__header {
@@ -153,9 +155,13 @@
       h3,
       h4,
       h5,
-      h6,
+      h6 {
+        padding: 0;
+      }
       p {
         padding: 0;
+        margin: 1rem 0;
+        margin-right: 2rem;
       }
       p:first-of-type {
         padding-top: 1rem;
