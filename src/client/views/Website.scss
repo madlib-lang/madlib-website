@@ -14,9 +14,11 @@
   h3,
   h4,
   h5,
-  h5,
-  p {
+  h6 {
     padding: 0 1rem;
+  }
+  p {
+    margin: 2rem 1rem;
   }
 
   &__header {
@@ -126,7 +128,8 @@
     padding: 7.75rem 2rem 0;
     .playground {
       margin-bottom: 2rem;
-      width: calc(100% - 6rem);
+      width: calc(100% - 3rem);
+      margin-left: 3rem;
     }
     &__main {
       flex-direction: row;
@@ -136,6 +139,8 @@
     &--home {
       .playground {
         width: 100%;
+
+        margin-left: 0;
       }
     }
     &--examples,
@@ -150,9 +155,13 @@
       h3,
       h4,
       h5,
-      h6,
+      h6 {
+        padding: 0;
+      }
       p {
         padding: 0;
+        margin: 1rem 0;
+        margin-right: 2rem;
       }
       p:first-of-type {
         padding-top: 1rem;

@@ -37,23 +37,43 @@ const DOCS_TO_UPDATE = [
   },
   {
     jsonPath: "docs.4.content",
-    filePath: "docs/LANGUAGE_FEATURES.md",
+    filePath: "docs/CLI.md",
   },
   {
     jsonPath: "docs.5.content",
-    filePath: "docs/EXPRESSIONS.md",
+    filePath: "docs/LANGUAGE_FEATURES.md",
   },
   {
     jsonPath: "docs.6.content",
-    filePath: "docs/TYPES.md",
+    filePath: "docs/EXPRESSIONS.md",
   },
   {
     jsonPath: "docs.7.content",
-    filePath: "docs/FUNCTIONS.md",
+    filePath: "docs/TYPES.md",
   },
   {
     jsonPath: "docs.8.content",
+    filePath: "docs/FUNCTIONS.md",
+  },
+  {
+    jsonPath: "docs.9.content",
     filePath: "docs/INTERFACES.md",
+  },
+  {
+    jsonPath: "docs.10.content",
+    filePath: "docs/CONCURRENCY.md",
+  },
+  {
+    jsonPath: "docs.11.content",
+    filePath: "docs/STANDARD_LIBRARY.md",
+  },
+  {
+    jsonPath: "docs.12.content",
+    filePath: "docs/THE_FENCE.md",
+  },
+  {
+    jsonPath: "docs.13.content",
+    filePath: "docs/FFI.md",
   },
   {
     jsonPath: "pages.0.content",
@@ -73,7 +93,7 @@ const DOCS_TO_UPDATE = [
   },
   {
     jsonPath: "pages.4.content",
-    filePath: "pages/CONTRIBUTE.md"
+    filePath: "pages/COMMUNITY.md"
   }
 ];
 
