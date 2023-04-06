@@ -1,6 +1,10 @@
-We're working on making this page have more clickable examples, please bear with us!
+Here's a listing of several examples you can use to better understand idiomatic Madlib syntax and methodology.
+
+*We're working on making this page have more clickable examples, please bear with us!*
 
 ## Maybe
+
+Here are several variations of `Maybe` usage which are equivalent in behavior:
 
 ```madlib
 import type { Maybe } from "Maybe"
