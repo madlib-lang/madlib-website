@@ -20,7 +20,7 @@ You can download the archive of a build for your target from the [releases page]
 
 ### Debugging
 
-Once `madlib` has been installed, running `madlib` (no arguments) or `madlib -h` should show the following text:
+Once `madlib` has been installed, running `madlib --help` or `madlib -h` should show the following text:
 
 ```shell
 ################################################

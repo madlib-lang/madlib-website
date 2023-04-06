@@ -47,39 +47,6 @@ The rest of this document will explore the most fundamental imports that the Sta
  - `contains` - Test whether a string contains a given string
  - `endsWith` - Test whether a string ends with a given string
 
-```madlib
-import IO from "IO"
-import String from "String"
-
-alphabet = "abcdefghijklmnopqrstuvwxyz"
-ALPHABET = String.toUpper(alphabet)
-raw = "acabadae"
-cbde = String.split("a", raw)
-war = ["e", "d", "b", "c"]
-acabadae = String.join("a", war)
-doc = `line1
-line2
-line3
-line4`
-doclist = String.lines(doc)
-doc2 = String.unlines(doclist)
-
-main = () => {
-  IO.log({
-    ALPHABET,
-    raw,
-    cbde,
-    war,
-    acabadae,
-    doc,
-    doclist,
-    doc2,
-  })
-}
-
-
-```
-
 ### IO
 
  - `log` - Write a Madlib value to `stdout` / `console.log` (depending on environment)
@@ -87,6 +54,19 @@ main = () => {
 
 ### Function
 
-### List
-
+ - `complement` - Given a predicate function, produce a function which has the opposite predicate
+ - `always` - Always return the first supplied parameter no matter what
+ - `identity` - Returns what it is given
+ - `equals` - Equality comparison as a function
+ - `notEquals` - Inequality comparison as a function
+ - `ifElse` - Ternary function which represents conditional logic
+ - `when` - `ifElse` but with no else case
+ - `not` - Given a boolean, produce the complement value (`true` becomes `false` and vice-versa)
+ - `noop` - Given any value, return Unit `{}`
+ - `flip` - Swaps the parameters of a binary function
+ - `any` - Given a predicate and a list, return true if the predicate matches anything
+ - `all` - Given a predicate and a list, return true if the predicate matches everything
+ - `either` - Functional "or": `either(() => true, () => false)`
+ - `both` - Functional "and": `both(() => true, () => false)`
+ - `memoize` - Memoize a function
 
