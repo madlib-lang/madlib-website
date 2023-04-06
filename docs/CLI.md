@@ -23,7 +23,7 @@ madlib compile (-i|--input INPUT) [-o|--output OUTPUT]
  - `--debug` (`-d`) - Print AST info
  - `--bundle` (`-b`) - Bundle the compiled output in one file
  - `--optimize` - Optimize the output to generate smaller output files
- - `--target TARGET` (`-t`) - What target it should compile to, possible values are: browser or node (default: "node")
+ - `--target TARGET` (`-t`) - What target it should compile to, possible values are: "browser" or "node" or "llvm" (default: "node")
  - `--watch` (`-w`) - watch file changes for fast rebuilds
  - `--coverage` - compile with coverage enabled
 
@@ -54,7 +54,7 @@ madlib test [-i|--input INPUT] [-t|--target TARGET] [-w|--watch]
 ##### Available options
  - `--help` (`-h`) - Show this help text in terminal
  - `--input INPUT` (`-i`) - What to test (default: ".")
- - `--target TARGET` (`-t`) - What target it should compile to, possible values are: browser or node (default: 'node')
+ - `--target TARGET` (`-t`) - What target it should compile to, possible values are: "browser", "node" or "llvm" (default: 'node')
  - `--watch` (`-w`) - watch file changes for fast rebuilds
  - `--coverage` - compile with coverage enabled
 
