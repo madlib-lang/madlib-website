@@ -1,6 +1,3 @@
-# FFI in Madlib
-
-
 ## JS Backend
 
 ### Functions
