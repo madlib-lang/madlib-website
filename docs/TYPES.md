@@ -1,4 +1,3 @@
-## Type annotations
 In Madlib there are two ways to provide type annotation. You can annotate a function assignment or an inline expression.
 
 ### Function types

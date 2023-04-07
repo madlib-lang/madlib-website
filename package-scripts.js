@@ -69,10 +69,22 @@ const DOCS_TO_UPDATE = [
   },
   {
     jsonPath: "docs.12.content",
-    filePath: "docs/THE_FENCE.md",
+    filePath: "docs/STDLIB_IO.md",
   },
   {
     jsonPath: "docs.13.content",
+    filePath: "docs/STDLIB_STRING.md",
+  },
+  {
+    jsonPath: "docs.14.content",
+    filePath: "docs/STDLIB_FUNCTION.md",
+  },
+  {
+    jsonPath: "docs.15.content",
+    filePath: "docs/THE_FENCE.md",
+  },
+  {
+    jsonPath: "docs.16.content",
     filePath: "docs/FFI.md",
   },
   {
