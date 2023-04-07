@@ -178,11 +178,13 @@ export Playground = (state) => {
           Run
           <div className={stratum.e("run-indicator")} />
         </button>
-        <pre className={stratum.e("output-feed")}>
-          <code className={stratum.e("output-code")}>
-            {output}
-          </code>
-        </pre>
+        <div className={stratum.e("output-wrapper")}>
+          <pre className={stratum.e("output-feed")}>
+            <code className={stratum.e("output-code")}>
+              {output}
+            </code>
+          </pre>
+        </div>
       </div>
     </div>
   </div>
