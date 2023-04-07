@@ -32,7 +32,7 @@ export decode = (url) => #- {
 
 Madlib programs have good interoperability between Madlib and JavaScript (when targeting JS environments), but it is important to know of a few utilities if you need to use this feature:
 
-### __listToJSArray__
+### `__listToJSArray__`
 
 Convert a Madlib List to a JS Array
 
@@ -41,7 +41,7 @@ a = ["one", "two", "three"]
 #- console.log(__listToJSArray__(a)) -#
 ```
 
-### __jsArrayToList__
+### `__jsArrayToList__`
 
 Convert a JS Array to a Madlib List
 
