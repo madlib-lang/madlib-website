@@ -267,6 +267,12 @@ $outputWidth: 27%;
       left: -1rem;
     }
   }
+  &__output-wrapper {
+    overflow: auto;
+    position: absolute;
+    display: flex;
+    height: 100%;
+  }
   &__output {
     background-color: black;
     border-radius: 0.5rem;
@@ -302,6 +308,7 @@ $outputWidth: 27%;
     border: none;
     background: transparent;
     padding: 0;
+    padding-bottom: 2rem;
   }
 }
 

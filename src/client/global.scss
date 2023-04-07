@@ -73,6 +73,9 @@ body {
   line-height: 1.7rem;
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
 }
+strong {
+  font-weight: 700;
+}
 
 h1,
 h2,
@@ -86,29 +89,69 @@ h6,
   text-shadow: none;
   // letter-spacing: 0.05rem;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  .markdown__inline-code {
+    border: none;
+    background-color: transparent;
+    font-family: $type-body;
+    text-transform: none;
+    padding: 0;
+  }
+}
+
 h1 {
   font-size: 4rem;
   line-height: 3.8rem;
+  .markdown__inline-code {
+    font-size: 3rem;
+    line-height: 2.5rem;
+  }
 }
 h2 {
   font-size: 3rem;
   line-height: 2.8rem;
+  .markdown__inline-code {
+    font-size: 2.5rem;
+    line-height: 2rem;
+  }
 }
 h3 {
   font-size: 2.5rem;
   line-height: 1.8rem;
+  .markdown__inline-code {
+    font-size: 2rem;
+    line-height: 1.8rem;
+  }
 }
 h4 {
   font-size: 2rem;
   line-height: 1.3rem;
+  .markdown__inline-code {
+    font-size: 1.5rem;
+    line-height: 1rem;
+  }
 }
 h5 {
   font-size: 1.8rem;
   line-height: 1rem;
+  .markdown__inline-code {
+    font-size: 1.25rem;
+    line-height: 1rem;
+  }
 }
 h6 {
   font-size: 1.5rem;
   line-height: 0.8rem;
+  .markdown__inline-code {
+    font-size: 1rem;
+    line-height: 0.8rem;
+  }
 }
 
 code,
@@ -128,4 +171,30 @@ pre code {
   border-radius: 0.5rem;
   padding: 1rem;
   white-space: break-spaces;
+}
+
+blockquote {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  .markdown__inline-code {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: calc(100% - 2rem);
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    font-size: 0.9rem;
+    @media screen and (min-width: $breakpoint-md) {
+      width: 100%;
+      margin-left: 1rem;
+    }
+  }
 }
