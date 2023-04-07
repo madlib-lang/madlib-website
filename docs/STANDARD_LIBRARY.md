@@ -8,33 +8,41 @@ The rest of this document will explore the most fundamental imports that the Sta
 
 ### IO
 
-#### log
+#### `IO.log`
+
+> `IO.log :: Inspect a => a -> {}`
 
 Write a Madlib value to `stdout` / `console.log` (depending on environment)
 
 ```madlib
-import IO from "IO
+import IO from "IO"
 
 main = () => IO.log("Hey, cool!")
 ```
 
-#### trace
+#### `IO.trace`
+
+> `IO.trace :: Inspect a => String -> a -> a`
 
 Useful pipe inspector utility, `trace` takes a String and anything and prints them, returning the latter
 
 ```madlib
-import IO from "IO
+import IO from "IO"
 
-main = () => pipe(
-  IO.trace("input"),
-  (x) => x * 2,
-  IO.trace("output")
-)(2)
+main = () => {
+  pipe(
+    IO.trace("input"),
+    (x) => x * 2,
+    IO.trace("output")
+  )(2)
+}
 ```
 
 ### String
 
-#### toLower
+#### `String.toLower`
+
+> `String.toLower :: String -> String`
 
 Convert a string to lowercase
 
@@ -42,13 +50,17 @@ Convert a string to lowercase
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.toLower,
-  IO.trace("output")
-)("Madlib Is Cool")
+main = () => {
+  pipe(
+    String.toLower,
+    IO.trace("output")
+  )("Madlib Is Cool")
+}
 ```
 
-#### toUpper
+#### `String.toUpper`
+
+> `String.toUpper :: String -> String`
 
 Convert a string to uppercase
 
@@ -57,14 +69,18 @@ Convert a string to uppercase
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.toUpper,
-  IO.trace("output")
-)("Madlib Is Cool")
+main = () => {
+  pipe(
+    String.toUpper,
+    IO.trace("output")
+  )("Madlib Is Cool")
+}
 ```
 
 
-#### split
+#### `String.split`
+
+> `String.split :: String -> String -> List String`
 
 Split a string by another search string
 
@@ -72,14 +88,18 @@ Split a string by another search string
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.toLower,
-  String.split("i"),
-  IO.trace("output")
-)("Madlib Is Cool")
+main = () => {
+  pipe(
+    String.toLower,
+    String.split("i"),
+    IO.trace("output")
+  )("Madlib Is Cool")
+}
 ```
 
-#### join
+#### `String.join`
+
+> `String.join :: String -> List String -> String`
 
 Join a string with a given delimiter string
 
@@ -87,14 +107,18 @@ Join a string with a given delimiter string
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  map(String.toUpper),
-  String.join(">> "),
-  IO.trace("output")
-)(["Madlib", "Is", "Cool"])
+main = () => {
+  pipe(
+    map(String.toUpper),
+    String.join(" > "),
+    IO.trace("output")
+  )(["Madlib", "Is", "Cool"])
+}
 ```
 
-#### lines
+#### `String.lines`
+
+> `String.lines :: String -> List String`
 
 Split a string by newlines
 
@@ -102,16 +126,20 @@ Split a string by newlines
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.lines,
-  IO.trace("output")
-)(`’Twas brillig, and the slithy toves
+main = () => {
+  pipe(
+    String.lines,
+    IO.trace("output")
+  )(`’Twas brillig, and the slithy toves
 Did gyre and gimble in the wabe:
 All mimsy were the borogoves,
 And the mome raths outgrabe.`)
+}
 ```
 
-#### unlines
+#### `String.unlines`
+
+> `String.unlines :: List String -> String`
 
 Join a string by newlines
 
@@ -119,18 +147,22 @@ Join a string by newlines
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.unlines,
-  IO.trace("output")
-)([
-  "Beware the Jabberwock, my son!",
-  "The jaws that bite, the claws that catch!",
-  "Beware the Jubjub bird, and shun",
-  "The frumious Bandersnatch!"
-])
+main = () => {
+  pipe(
+    String.unlines,
+    IO.trace("output")
+  )([
+    "'Beware the Jabberwock, my son!",
+    "The jaws that bite, the claws that catch!",
+    "Beware the Jubjub bird, and shun",
+    "The frumious Bandersnatch!'"
+  ])
+}
 ```
 
-#### words
+#### `String.words`
+
+> `String.words :: String -> List String`
 
 Split a string by spaces
 
@@ -138,13 +170,17 @@ Split a string by spaces
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.words,
-  IO.trace("output")
-)(`He took his vorpal sword in hand;`)
+main = () => {
+  pipe(
+    String.words,
+    IO.trace("output")
+  )(`He took his vorpal sword in hand;`)
+}
 ```
 
-#### unwords
+#### `String.unwords`
+
+> `String.unwords :: List String -> String`
 
 Join a string by spaces
 
@@ -152,21 +188,25 @@ Join a string by spaces
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.unwords,
-  IO.trace("output")
-)([
-  "Long",
-  "time",
-  "the",
-  "manxome",
-  "foe",
-  "he",
-  "sought—"
-])
+main = () => {
+  pipe(
+    String.unwords,
+    IO.trace("output")
+  )([
+    "Long",
+    "time",
+    "the",
+    "manxome",
+    "foe",
+    "he",
+    "sought—"
+  ])
+}
 ```
 
-#### toList
+#### `String.toList`
+
+> `String.toList :: String -> List Char`
 
 Convert a String to a List Char
 
@@ -174,13 +214,17 @@ Convert a String to a List Char
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.toList,
-  IO.trace("output")
-)(`So rested he by the Tumtum tree`)
+main = () => {
+  pipe(
+    String.toList,
+    IO.trace("output")
+  )(`So rested he by the Tumtum tree`)
+}
 ```
 
-#### fromList
+#### `String.fromList`
+
+> `String.fromList :: List Char -> String`
 
 Convert a List Char to a String
 
@@ -188,18 +232,20 @@ Convert a List Char to a String
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.fromList,
-  IO.trace("output")
-)(['A','n','d',' ',
-'s','t','o','o','d',
-' ','a','w','h','i',
-'l','e',' ','i','n',
-' ','t','h','o','u',
-'g','h','t','.'])
+main = () => {
+  pipe(
+    String.fromList,
+    IO.trace("output")
+  )(['A','n','d',' ','s','t',
+  'o','o','d',' ','a','w','h',
+  'i','l','e',' ','i','n',' ',
+  't','h','o','u','g','h','t','.'])
+}
 ```
 
-#### slice
+#### `String.slice`
+
+> `String.slice :: Integer -> Integer -> String -> String`
 
 Cut part of a string out of another string
 
@@ -207,13 +253,17 @@ Cut part of a string out of another string
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.slice(0, 6),
-  IO.trace("output")
-)("Madlib Is Cool")
+main = () => {
+  pipe(
+    String.slice(0, 6),
+    IO.trace("output")
+  )("Madlib Is Cool")
+}
 ```
 
-#### isEmpty
+#### `String.isEmpty`
+
+> `String.isEmpty :: String -> Boolean`
 
 Test whether a string is empty `""`
 
@@ -221,13 +271,17 @@ Test whether a string is empty `""`
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  map(String.isEmpty),
-  IO.trace("output")
-)(["", ``, "test", " "])
+main = () => {
+  pipe(
+    String.isEmpty
+    IO.trace("output")
+  )("")
+}
 ```
 
-#### drop
+#### `String.drop`
+
+> `String.drop :: Integer -> String -> String`
 
 Drop a certain number of characters from the beginning of a string
 
@@ -235,13 +289,17 @@ Drop a certain number of characters from the beginning of a string
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.drop(5),
-  IO.trace("output")
-)("And, as in uffish thought he stood,")
+main = () => {
+  pipe(
+    String.drop(5),
+    IO.trace("output")
+  )("And, as in uffish thought he stood,")
+}
 ```
 
-#### dropLast
+#### `String.dropLast`
+
+> `String.dropLast :: Integer -> String -> String`
 
 Drop a certain number of characters from the end of a string
 
@@ -249,13 +307,17 @@ Drop a certain number of characters from the end of a string
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.dropLast(6),
-  IO.trace("output")
-)("The Jabberwock, with eyes of flame,")
+main = () => {
+  pipe(
+    String.dropLast(7),
+    IO.trace("output")
+  )("The Jabberwock, with eyes of flame,")
+}
 ```
 
-#### dropWhile
+#### `String.dropWhile`
+
+> `String.dropWhile :: (Char -> Boolean) -> String -> String`
 
 Drop characters based on a predicate function
 
@@ -263,258 +325,675 @@ Drop characters based on a predicate function
 import IO from "IO"
 import String from "String"
 
-main = () => pipe(
-  String.dropWhile((c) => c != '.'),
-  IO.trace("output")
-)("zipzop.zangzoon")
+main = () => {
+  pipe(
+    String.dropWhile((c) => c != 'f'),
+    IO.trace("output")
+  )("Came whiffling through the tulgey wood,")
+}
 ```
 
-#### take
+#### `String.take`
+
+> `String.take :: Integer -> String -> String`
 
 Take a certain number of characters from the beginning of the string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.take(11),
+    IO.trace("output")
+  )("And burbled as it came!")
+}
 ```
 
-#### takeLast
+#### `String.takeLast`
+
+> `String.takeLast :: Integer -> String -> String`
 
 Take a certain number of characters from the end of a string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.takeLast(23),
+    IO.trace("output")
+  )("One, two! One, two! And through and through")
+}
 ```
 
-#### takeWhile
+#### `String.takeWhile`
+
+> `String.takeWhile :: (Char -> Boolean) -> String -> String`
 
 Take characters based on a predicate function
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.takeWhile((c) => c != 'b'),
+    IO.trace("output")
+  )("The vorpal blade went snicker-snack!")
+}
 ```
 
-#### charAt
+#### `String.charAt`
 
-Return the character at a given index
+> `String.charAt :: Integer -> String -> Maybe Char`
+
+Return the character at a given index. Since it may not exist, this returns a Maybe.
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.charAt(5),
+    IO.trace("output")
+  )(`He left it dead, and with its head`)
+}
 ```
 
-#### firstChar
+#### `String.firstChar`
 
-Return the first character in a string
+> `String.firstChar :: String -> Maybe Char`
+
+Return the first character in a string. Since it may not exist, this returns a Maybe.
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.firstChar,
+    IO.trace("output")
+  )(`He went galumphing back.`)
+}
 ```
 
-#### lastChar
+#### `String.lastChar`
 
-Return the last character in a string
+> `String.lastChar :: String -> Maybe Char`
+
+Return the last character in a string. Since it may not exist, this returns a Maybe.
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.lastChar,
+    IO.trace("output")
+  )(`He went galumphing back.`)
+}
 ```
 
-#### trim
+#### `String.trim`
+
+> `String.trim :: String -> String`
 
 Remove whitespace characters at the beginning and end of a string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.trim,
+    IO.trace("output")
+  )(`  Come to my arms, my beamish boy!  `)
+}
 ```
 
-#### trimStart
+#### `String.trimStart`
+
+> `String.trimStart :: String -> String`
 
 Remove whitespace characters at the beginning of a string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.trimStart,
+    IO.trace("output")
+  )(`    O frabjous day! Callooh! Callay!”`)
+}
 ```
 
-#### trimEnd
+#### `String.trimEnd`
+
+> `String.trimEnd :: String -> String`
 
 Remove whitespace characters at the end of a string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.trimEnd,
+    IO.trace("output")
+  )(`He chortled in his joy.     `)
+}
 ```
 
-#### length
+#### `String.length`
+
+> `String.length :: String -> Integer`
 
 Return the length of a string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.length,
+    IO.trace("output")
+  )(`’Twas brillig, and the slithy toves`)
+}
 ```
 
-#### repeat
+#### `String.repeat`
 
-Return a list of repeated strings of a given length
+> `String.repeat :: Char -> Integer -> String`
+
+Given a character and an integer `x`, return a string with that character repeated `x` times
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.repeat('x'),
+    IO.trace("output")
+  )(3)
+}
 ```
 
-#### match
+#### `String.match`
+
+> `String.match :: String -> String -> Boolean`
 
 Match a string given a regular expression
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    map(String.match("[a-f]+")),
+    IO.trace("output")
+  )(["deadbeef", "growl"])
+}
 ```
 
-#### replace
+#### `String.replace`
+
+> `String.replace :: String -> String -> String -> String`
 
 Replace part of a string given a regular expression
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    map(String.replace("[a-f]+", "xxx")),
+    IO.trace("output")
+  )(["deadbeef", "growl"])
+}
 ```
 
-#### pushChar
+#### `String.pushChar`
+
+> `String.pushChar :: Char -> String -> String`
 
 Insert a char at the beginning of a string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.pushChar('h'),
+    IO.trace("output")
+  )("ey now")
+}
 ```
 
-#### appendChar
+#### `String.appendChar`
+
+> `String.appendChar :: Char -> String -> String`
 
 Add a char at the end of a string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.appendChar('w'),
+    IO.trace("output")
+  )("hey no")
+}
 ```
 
-#### reverse
+#### `String.reverse`
+
+> `String.reverse :: String -> String`
 
 Reverse a string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.reverse,
+    IO.trace("output")
+  )("Madam I'm Adam")
+}
 ```
 
-#### includes
+#### `String.includes`
+
+> `String.includes :: Char -> String -> Boolean`
 
 Test whether a string contains a given character
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    String.includes('x'),
+    IO.trace("output")
+  )("Madam I'm Adam")
+}
 ```
 
-#### startsWith
+#### `String.startsWith`
+
+> `String.startsWith :: String -> String -> Boolean`
 
 Test whether a string starts with a given string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    map(String.startsWith("Mad")),
+    IO.trace("output")
+  )(["Madam I'm Adam", "Sad am I mad. am"])
+}
 ```
 
-#### contains
+#### `String.contains`
+
+> `String.contains :: String -> String -> Boolean`
 
 Test whether a string contains a given string
 
 ```madlib
+import IO from "IO"
+import String from "String"
+
+main = () => {
+  pipe(
+    map(String.toLower),
+    map(String.contains("mad")),
+    IO.trace("output")
+  )(["Madam I'm Adam", "Sad am I mad. am"])
+}
 ```
 
-#### endsWith
+#### `String.endsWith`
+
+> `String.endsWith :: String -> String -> Boolean`
 
 Test whether a string ends with a given string
 
 ```madlib
-```
+import IO from "IO"
+import String from "String"
 
+main = () => {
+  pipe(
+    map(String.endsWith("am")),
+    IO.trace("output")
+  )(["Madam I'm Adam", "Sad am I mad. am"])
+}
+```
 
 ### Function
 
-#### complement
+#### `Function.complement`
+
+> `Function.complement :: (a -> Boolean) -> a -> Boolean`
 
 Given a predicate function, produce a function which has the opposite predicate
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { complement } from "Function"
+
+main = () => {
+  pipe(
+    map(complement(String.includes('z'))),
+    IO.trace("output")
+  )(["alpha", "zero"])
+}
 ```
 
-#### always
+#### `Function.always`
+
+> `Function.always :: a -> b -> a`
 
 Always return the first supplied parameter no matter what
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { always } from "Function"
+
+main = () => {
+  pipe(
+    always("no"),
+    IO.trace("output")
+  )(["alpha", "zero"])
+}
 ```
 
-#### identity
+#### `Function.identity`
+
+> `Function.identity :: a -> a`
 
 Returns what it is given
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { identity } from "Function"
+
+main = () => {
+  pipe(
+    identity,
+    IO.trace("output")
+  )(["alpha", "zero"])
+}
 ```
 
-#### equals
+#### `Function.equals`
+
+> `Function.equals :: Eq a => a -> a -> Boolean`
 
 Equality comparison as a function
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import List from "List"
+import { equals } from "Function"
+
+main = () => {
+  pipe(
+    List.filter(equals("alpha")),
+    IO.trace("output")
+  )(["alpha", "zero"])
+}
 ```
 
-#### notEquals
+#### `Function.notEquals`
+
+> `Function.notEquals :: Eq a => a -> a -> Boolean`
 
 Inequality comparison as a function
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import List from "List"
+import { notEquals } from "Function"
+
+main = () => {
+  pipe(
+    List.filter(notEquals("alpha")),
+    IO.trace("output")
+  )(["alpha", "zero"])
+}
 ```
 
-#### ifElse
+#### `Function.ifElse`
 
-Ternary function which represents conditional logic
+> `Function.ifElse :: (a -> Boolean) -> (a -> b) -> (a -> b) -> a -> b`
+
+Ternary function which represents conditional logic by taking a predicate function and two transformer functions.
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { ifElse, identity } from "Function"
+
+main = () => {
+  pipe(
+    ifElse(
+      String.startsWith("m"),
+      (x) => x ++ x,
+      identity
+    ),
+    IO.trace("output")
+  )("madlib")
+}
 ```
 
-#### when
+#### `Function.when`
+
+> `Function.when :: (a -> Boolean) -> (a -> a) -> a -> a`
 
 `ifElse` but with no else case
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { when } from "Function"
+
+main = () => {
+  pipe(
+    when(
+      String.startsWith("m"),
+      (x) => x ++ x,
+    ),
+    IO.trace("output")
+  )("madlib")
+}
 ```
 
-#### not
+#### `Function.not`
+
+> `Function.not :: Boolean -> Boolean`
 
 Given a boolean, produce the complement value (`true` becomes `false` and vice-versa)
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { when, not } from "Function"
+
+main = () => {
+  pipe(
+    when(
+      pipe(String.startsWith("m"), not),
+      (x) => x ++ x,
+    ),
+    IO.trace("output")
+  )("madlib")
+}
 ```
 
-#### noop
+#### `Function.noop`
+
+> `Function.noop :: a -> {}`
 
 Given any value, return Unit `{}`
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { noop } from "Function"
+
+main = () => {
+  pipe(
+    noop,
+    IO.trace("output")
+  )("madlib")
+}
 ```
 
-#### flip
+#### `Function.flip`
+
+> `Function.flip :: (a -> b -> c) -> b -> a -> c`
 
 Swaps the parameters of a binary function
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { flip } from "Function"
+
+prepend :: String -> String -> String
+prepend = (a, b) => a ++ b
+
+main = () => {
+  pipe(
+    flip(prepend)("hooray"),
+    IO.trace("output")
+  )("madlib")
+}
 ```
 
-#### any
+#### `Function.any`
+
+> `Function.any :: (a -> Boolean) -> List a -> Boolean`
 
 Given a predicate and a list, return true if the predicate matches anything
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { any } from "Function"
+
+prepend :: String -> String -> String
+prepend = (a, b) => a ++ b
+
+main = () => {
+  pipe(
+    any(String.startsWith("mad")),
+    IO.trace("output")
+  )(["madlib", "sadlib"])
+}
 ```
 
-#### all
+#### `Function.all`
+
+> `Function.all :: (a -> Boolean) -> List a -> Boolean`
 
 Given a predicate and a list, return true if the predicate matches everything
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { all } from "Function"
+
+prepend :: String -> String -> String
+prepend = (a, b) => a ++ b
+
+main = () => {
+  pipe(
+    all(String.startsWith("mad")),
+    IO.trace("output")
+  )(["madlib", "sadlib"])
+}
 ```
 
-#### either
+#### `Function.either`
+
+> `Function.either :: (a -> Boolean) -> (a -> Boolean) -> a -> Boolean`
 
 Functional "or": `either(() => true, () => false)`
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import { any, either } from "Function"
+
+prepend :: String -> String -> String
+prepend = (a, b) => a ++ b
+
+main = () => {
+  pipe(
+    any(either(
+      String.startsWith("bad"),
+      String.startsWith("dad")
+    )),
+    IO.trace("output")
+  )(["madlib", "sadlib"])
+}
 ```
 
-#### both
+#### `Function.both`
+
+> `Function.both :: (a -> Boolean) -> (a -> Boolean) -> a -> Boolean`
 
 Functional "and": `both(() => true, () => false)`
 
 ```madlib
+import IO from "IO"
+import String from "String"
+import List from "List"
+import { both } from "Function"
+
+prepend :: String -> String -> String
+prepend = (a, b) => a ++ b
+
+main = () => {
+  pipe(
+    List.filter(
+      both(
+        String.startsWith("mad"),
+        String.endsWith("lib")
+      )
+    ),
+    IO.trace("output")
+  )(["madlib", "sadlib", "radlib"])
+}
 ```
-
-#### memoize
-
-Memoize a function
-
-```madlib
-```
-
-
