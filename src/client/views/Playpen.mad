@@ -1,0 +1,23 @@
+import type { Element } from "MadUI"
+import { onMouseMove, onMouseDown,  div, className } from "MadUI"
+import type { State } from "@client/state"
+import { Playground } from "@client/views/Playground"
+import {handleDragPlayground, handleDragPlaygroundEnd} from "@client/actions/DragPlaygroundPane"
+import { strata } from "strata"
+
+stratum = strata("playpen")
+
+Playpen :: State -> Element State
+export Playpen = (state) => (
+  <div className={stratum.e("")}>
+    <div className={stratum.e("edge")}>
+      <div
+        className={stratum.em("button", ["active"])}
+        onMouseDown={handleDragPlayground}
+      >
+        {`▲`}
+      </div>
+    </div>
+    {Playground(state)}
+  </div>
+)

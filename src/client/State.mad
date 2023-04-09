@@ -107,7 +107,11 @@ export alias State = {
   search :: String,
   playground :: {
     data :: Playground,
-    dragData :: { dragging :: Boolean, verticalSplitPosition :: Integer },
+    dragData :: {
+      dragging :: Boolean,
+      outputEdge :: Integer,
+      playgroundEdge :: Integer
+    },
   },
   debug :: Boolean
 }
@@ -123,7 +127,7 @@ export INITIAL_STATE = {
   search: "",
   playground: {
     data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
-    dragData: { verticalSplitPosition: 9999, dragging: false },
+    dragData: { outputEdge: 9999, playgroundEdge: 9999, dragging: false },
   },
   debug: false
 }

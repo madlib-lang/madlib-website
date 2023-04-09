@@ -13,6 +13,7 @@ import { Nav } from "@client/views/Nav"
 import { SubNav } from "@client/views/SubNav"
 import { Footer } from "@client/views/Footer"
 import { renderMarkdown } from "@client/Markdown"
+import { Playpen } from "@client/views/Playpen"
 import { slugify } from "@common/String"
 
 stratum = strata("website")
@@ -37,6 +38,7 @@ page :: String -> Element State -> State -> Element State
 export page = (title, children, state) => {
   slugged = slugify(title)
   return <div className={stratum.m([slugged])}>
+    {Playpen(state)} 
     {Nav(state)}
     <h1 className={stratum.e("page-title")}>
       {title}
@@ -61,19 +63,20 @@ export renderNamedPage = (n, pages) => pipe(
   fromMaybe(<empty />),
 )(pages)
 
-titledPageWithChildren :: String -> Element State -> State -> Element State
-export titledPageWithChildren = (name, children, state) => {
+titledPageWithChildren :: String -> Element State -> Element State -> State -> Element State
+export titledPageWithChildren = (name, leading, trailing, state) => {
   title = getPageTitle(name, state.content.pages)
   slugged = slugify(title)
   return page(
     title,
     <div className={stratum.em("page-content", [slugged])}>
+      {leading}
       {renderNamedPage(name, state.content.pages)}
-      {children}
+      {trailing}
     </div>,
     state
   )
 }
   
 titledPage :: String -> State -> Element State
-export titledPage = titledPageWithChildren($, <empty />)
+export titledPage = titledPageWithChildren($, <empty />, <empty />)
