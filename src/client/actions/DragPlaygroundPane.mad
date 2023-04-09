@@ -1,0 +1,59 @@
+import type { Action } from "MadUI"
+import type { State } from "@client/State"
+import IO from "IO"
+import Math from "Math"
+import { throttleAction, MouseEvent, onMouseMove, onMouseUp } from "MadUI"
+
+EDGE_POSITION :: Integer
+EDGE_POSITION = 200
+
+handleDragPlayground :: Action State
+export handleDragPlayground = throttleAction(
+  40,
+  (currentState, event) =>
+    if (currentState.playground.dragData.dragging) {
+      where(event) {
+        MouseEvent({ clientX, clientY }) =>
+          [
+            of(
+              (state) => IO.trace("data", (
+                {
+                  ...state,
+                  playground: {
+                    ...state.playground,
+                    dragData: {
+                      ...state.playground.dragData,
+                      playgroundEdge: Math.max(EDGE_POSITION, clientX - 32),
+                      dragging: true,
+                    },
+                  },
+                }
+              )),
+            ),
+          ]
+        _ =>
+          []
+      }
+    } else {
+      []
+    }
+)
+
+
+handleDragPlaygroundEnd :: Action State
+export handleDragPlaygroundEnd = (_, _) => [
+  of(
+    (state) => (
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          dragData: {
+            ...state.playground.dragData,
+            dragging: false
+          },
+        },
+      }
+    ),
+  ),
+]

@@ -1,16 +1,11 @@
 import type { Element } from "MadUI"
 
 import type { State } from "@client/State"
-import { titledPageWithChildren } from "@client/views/Page"
-import { Playground } from "@client/views/Playground"
+import { titledPage } from "@client/views/Page"
 
 export slug = "playground"
 
 PlaygroundPage :: State -> Element State
-export PlaygroundPage = (state) => titledPageWithChildren(
-  slug,
-  Playground(state),
-  state
-)
+export PlaygroundPage = titledPage(slug)
 
 export view = PlaygroundPage

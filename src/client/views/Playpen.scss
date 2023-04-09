@@ -1,0 +1,56 @@
+.playpen {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: fit-content;
+  z-index: 200;
+  background-color: $c-offpurple;
+  .playground {
+    width: 100%;
+    margin: 0;
+    z-index: 200;
+  }
+  .playground__container {
+    border-radius: 0;
+    z-index: 203;
+  }
+  .playground__output {
+    border-radius: 0;
+    z-index: 203;
+  }
+  &__edge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 0.5rem;
+    width: 100%;
+    background-color: black;
+    z-index: 202;
+  }
+  &__button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    // transform: rotate(-90deg);
+    font-size: 1rem;
+    border-radius: 10rem;
+    width: 2rem;
+    height: 2rem;
+    background-color: black;
+    z-index: 210;
+    border: 2px solid black;
+    padding-bottom: 0.25rem;
+    transition: border 0.3s ease-out;
+    cursor: pointer;
+    &:hover {
+      border: 2px solid white;
+    }
+  }
+}
