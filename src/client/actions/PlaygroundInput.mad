@@ -1,0 +1,29 @@
+import type { Action, Element } from "MadUI"
+import type { State } from "@client/State"
+
+import { InputEvent } from "MadUI"
+
+handleInput :: Action State
+export handleInput = (state, event) => pipe(
+  where {
+    InputEvent({ target: { value: v } }) =>
+      v
+    _ =>
+      state.playground.data.code
+  },
+  (c) => of(
+    () => (
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          data: {
+            ...state.playground.data,
+            code: c
+          }
+        }
+      }
+    ),
+  ),
+  of,
+)(event)

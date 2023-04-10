@@ -10,6 +10,8 @@ import String from "String"
 import { img, src, alt, onClick, className, code, div, innerHTML, button, text } from "MadUI"
 import { strata } from "Strata"
 
+import { copyToClipboardHandler } from "@client/actions/CopyToClipboard"
+
 stratum = strata("code")
 
 highlight :: List String -> String -> String -> String
@@ -193,24 +195,6 @@ buildCodeElements = pipe(
   String.split("\n"),
   map(renderLine),
 )
-
-copyToClipboardHandler :: String -> Action State
-copyToClipboardHandler = (c) => (s, _) => {
-  return [
-    Wish((_, good) => good((_) => {
-      #- navigator.clipboard.writeText(c) -#
-
-      return {
-        ...s,
-        playground: {
-          ...s.playground,
-          data: { ...s.playground.data, code: c }
-        }
-      }
-    }))
-  ]
-}
-
 
 HighlightedCode :: String -> Element State
 export HighlightedCode = (c) => (
