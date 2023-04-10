@@ -22,7 +22,7 @@ fraction :: Float -> Float -> Float
 fraction = (a, b) => a / b
 ```
 
-This function is a little hard-to-work-with as written, because the first parameter is the numerator. We can easily make this more palatable (without changing the original implementation) by using a placeholder:
+This function is a little hard-to-work-with as written, because the first parameter is the numerator. We can easily make this more palatable (without changing the original implementation) by using a placeholder parameter:
 
 ```madlib
 half = fraction($, 2.0)
