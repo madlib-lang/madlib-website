@@ -15,7 +15,7 @@ double = sum(2)
 
 ### Placeholder Arguments
 
-Because functions are automatically curried, we can use the `$` constant to introduce a "placeholder" argument:
+Because functions are automatically curried, we can use the `ß` constant to introduce a "placeholder" argument:
 
 ```madlib
 fraction :: Float -> Float -> Float
@@ -25,7 +25,7 @@ fraction = (a, b) => a / b
 This function is a little hard-to-work-with as written, because the first parameter is the numerator. We can easily make this more palatable (without changing the original implementation) by using a placeholder parameter:
 
 ```madlib
-half = fraction($, 2.0)
+half = fraction(ß, 2.0)
 ```
 Now we have a function which only applies the `b` parameter and still expects the `a` parameter.
 
