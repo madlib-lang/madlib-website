@@ -99,12 +99,18 @@ export alias Content = {
 
 export type LoadingState = Loading | Transitioning | Ready
 
+export type PlaypenStatus = PlaypenHidden | PlaypenActive | PlaypenEditor
+
 export alias State = {
   content :: Content,
   loadingState :: LoadingState,
   showNav :: Boolean,
   showDocNav :: Boolean,
   search :: String,
+  playpen :: {
+    status :: PlaypenStatus,
+    history :: List String
+  },
   playground :: {
     data :: Playground,
     dragData :: {
@@ -116,6 +122,7 @@ export alias State = {
   debug :: Boolean
 }
 
+
 INITIAL_STATE :: State
 export INITIAL_STATE = {
   content: DEFAULT_CONTENT,
@@ -125,6 +132,10 @@ export INITIAL_STATE = {
   // same
   showDocNav: false,
   search: "",
+  playpen: {
+    status: PlaypenHidden,
+    history: []
+  },
   playground: {
     data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
     dragData: { outputEdge: 9999, playgroundEdge: 9999, dragging: false },

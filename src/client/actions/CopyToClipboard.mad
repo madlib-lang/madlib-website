@@ -1,23 +1,22 @@
 import type { Action } from "MadUI"
 import type { State } from "@client/State"
+import { Wish } from "Wish"
 
 copyToClipboardHandler :: String -> Action State
-export copyToClipboardHandler = (c) => (s, _) => {
-  return [
-    Wish((_, good) => good((_) => {
-      #- navigator.clipboard.writeText(c) -#
+export copyToClipboardHandler = (c) => (s, _) => [
+  Wish((_, good) => good((_) => {
+    #- navigator.clipboard.writeText(c) -#
 
-      return {
-        ...s,
-        playground: {
-          ...s.playground,
-          data: {
-            ...s.playground.data,
-            code: c
-          }
+    return {
+      ...s,
+      playground: {
+        ...s.playground,
+        data: {
+          ...s.playground.data,
+          code: c
         }
       }
-    }))
-  ]
-}
+    }
+  }))
+]
 

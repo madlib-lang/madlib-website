@@ -1,23 +1,82 @@
-import type { Element } from "MadUI"
-import { onMouseMove, onMouseDown,  div, className } from "MadUI"
-import type { State } from "@client/state"
+import type { State } from "@client/State"
+import type { Action, Element } from "MadUI"
+import type { State, PlaypenStatus } from "@client/State"
+
+import { onMouseMove, onClick,  div, className, span } from "MadUI"
+import { strata } from "strata"
+
+import { PlaypenHidden, PlaypenActive, PlaypenEditor } from "@client/State"
 import { Playground } from "@client/views/Playground"
 import {handleDragPlayground, handleDragPlaygroundEnd} from "@client/actions/DragPlaygroundPane"
-import { strata } from "strata"
 
 stratum = strata("playpen")
 
-Playpen :: State -> Element State
-export Playpen = (state) => (
-  <div className={stratum.e("")}>
-    <div className={stratum.e("edge")}>
-      <div
-        className={stratum.em("button", ["active"])}
-        onMouseDown={handleDragPlayground}
-      >
-        {`▲`}
-      </div>
-    </div>
-    {Playground(state)}
-  </div>
+toggleStatus :: Action State
+export toggleStatus = (_, _) => [
+  of(
+    (s) => ({
+      ...s,
+       playpen: {
+         ...s.playpen,
+         status: where (s.playpen.status) {
+           PlaypenHidden => PlaypenActive
+           PlaypenActive => PlaypenEditor
+           PlaypenEditor => PlaypenHidden
+         }
+       }
+    })
+  )
+]
+
+processStatus :: State -> String
+export processStatus = (s) => (
+  where (s.playpen.status) {
+    PlaypenHidden => `hidden`
+    PlaypenActive => `active`
+    PlaypenEditor => `editor`
+    _ => `none`
+  }
 )
+
+statusIcon :: State -> String
+export statusIcon = (s) =>
+  where (s.playpen.status) {
+    PlaypenHidden => `▲`
+    PlaypenActive => `▲`
+    PlaypenEditor => `▲`
+    // PlaypenActive => `▶`
+    // PlaypenEditor => `▼`
+  }
+
+statusText :: State -> String
+export statusText = (s) =>
+  where (s.playpen.status) {
+    PlaypenHidden => `Try Madlib Now`
+    PlaypenActive => ""
+    PlaypenEditor => ""
+  }
+
+Playpen :: State -> Element State
+export Playpen = (state) => {
+  status = processStatus(state)
+  return (
+    <div className={stratum.m([status])}>
+      <div className={stratum.e("edge")}>
+        <div
+          className={stratum.em("button", [status])}
+          onClick={toggleStatus}
+        >
+          <div className={stratum.e("status")}>
+            <div className={stratum.e("status-icon")}>
+              {statusIcon(state)}
+            </div>{" "}
+            <span className={stratum.e("status-text")}>
+              {statusText(state)}
+            </span>
+          </div>
+        </div>
+      </div>
+      {Playground(state)}
+    </div>
+  )
+}
