@@ -12,29 +12,36 @@
     transition: height 0.3s ease-out;
     width: 100%;
   }
-  &--hidden {
-  }
-  &--active {
-    height: fit-content;
-  }
-  &--editor {
-    height: 100%;
-  }
+
   .playground {
     // width: 100%;
     width: 0;
     margin: 0;
     z-index: 200;
-    display: none;
+    height: 0;
+    transition: height 0.3s ease-out;
   }
   .playground__container {
     border-radius: 0;
     z-index: 203;
-    display: none;
+    height: 0;
+    transition: height 0.3s ease-out;
   }
   .playground__output {
     border-radius: 0;
     z-index: 203;
+  }
+  &--hidden {
+  }
+  &--active {
+    height: fit-content;
+    .playground,
+    .playground__container {
+      height: 100%;
+    }
+  }
+  &--editor {
+    height: 100%;
   }
   &__edge {
     display: flex;
