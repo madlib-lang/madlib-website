@@ -44,13 +44,21 @@ handleInput = (state, event) => pipe(
   where {
     InputEvent({ target: { value: v } }) =>
       v
-
     _ =>
       state.playground.data.code
   },
   (c) => of(
     () => (
-      { ...state, playground: { ...state.playground, data: { ...state.playground.data, code: c } } }
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          data: {
+            ...state.playground.data,
+            code: c
+          }
+        }
+      }
     ),
   ),
   of,
@@ -74,7 +82,10 @@ handleRun = (state, _) => pipe(
               ...newState,
               playground: {
                 ...newState.playground,
-                data: { ...newState.playground.data, output: playground.output },
+                data: {
+                  ...newState.playground.data,
+                  output: playground.output
+                },
               },
             }
           )
@@ -103,13 +114,13 @@ deriveHeight = (state) => pipe(
 
 
 displayPlaygroundOutput :: State -> Element State
-displayPlaygroundOutput = (state) => where(state.playground.data.output) {
-  Just({ stdout }) =>
-    text(stdout)
-
-  Nothing =>
-    text("")
-}
+displayPlaygroundOutput = (state) =>
+  where(state.playground.data.output) {
+    Just({ stdout }) =>
+      text(stdout)
+    Nothing =>
+      text("")
+  }
 
 
 renderLines :: String -> List (Element State)

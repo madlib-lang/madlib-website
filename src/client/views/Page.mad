@@ -11,9 +11,9 @@ import { strata } from "Strata"
 
 import { Nav } from "@client/views/Nav"
 import { SubNav } from "@client/views/SubNav"
+import { Playpen } from "@client/views/Playpen"
 import { Footer } from "@client/views/Footer"
 import { renderMarkdown } from "@client/Markdown"
-import { Playpen } from "@client/views/Playpen"
 import { slugify } from "@common/String"
 
 stratum = strata("website")
@@ -38,8 +38,8 @@ page :: String -> Element State -> State -> Element State
 export page = (title, children, state) => {
   slugged = slugify(title)
   return <div className={stratum.m([slugged])}>
-    {Playpen(state)} 
     {Nav(state)}
+    {Playpen(state)}
     <h1 className={stratum.e("page-title")}>
       {title}
     </h1>

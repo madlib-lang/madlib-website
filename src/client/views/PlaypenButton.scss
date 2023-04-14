@@ -1,0 +1,15 @@
+.playpen__button {
+  &__status-icon {
+    transition: transform 0.3s ease-out;
+    &--hidden {
+      transform: rotate(0);
+    }
+    &--active {
+      transform: rotate(90);
+    }
+
+    &--editor {
+      transform: rotate(180);
+    }
+  }
+}

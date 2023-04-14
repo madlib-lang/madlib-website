@@ -7,20 +7,17 @@ import { strata } from "strata"
 
 import { PlaypenHidden, PlaypenActive, PlaypenEditor } from "@client/State"
 import { Playground } from "@client/views/Playground"
-import { processStatus } from "@client/actions/PlaypenStatus"
-
+import {handleDragPlayground, handleDragPlaygroundEnd} from "@client/actions/DragPlaygroundPane"
 
 stratum = strata("playpen")
 
-Playpen :: State -> Element State
-export Playpen = (state) => {
-  status = processStatus(state)
-  mods = [status]
-  return (
-    <div className={stratum.m(mods)}>
-      <div className={stratum.em("container", mods)}>
-        {Playground(state)}
-      </div>
-    </div>
-  )
-}
+
+processStatus :: State -> String
+export processStatus = (s) => (
+  where (s.playpen.status) {
+    PlaypenHidden => `hidden`
+    PlaypenActive => `active`
+    PlaypenEditor => `editor`
+    _ => `none`
+  }
+)
