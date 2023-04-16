@@ -5,7 +5,7 @@ import { div, className, onClick, span } from "MadUI"
 import { strata } from "strata"
 import { processStatus } from "@client/actions/PlaypenStatus"
 
-stratum = strata("playpen")
+stratum = strata("playpen-button")
 
 statusText :: State -> String
 export statusText = (s) =>
@@ -38,14 +38,14 @@ export PlaypenButton = (state) => {
   mods = [status]
   return (
     <div
-      className={stratum.em("button", mods)}
+      className={stratum.m(mods)}
       onClick={toggleStatus}
     >
       <div className={stratum.e("status")}>
         <div className={stratum.em("status-icon", mods)}>
           {`▲`}
         </div>{" "}
-        <span className={stratum.e("status-text")}>
+        <span className={stratum.em("status-text", mods)}>
           {statusText(state)}
         </span>
       </div>
