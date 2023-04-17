@@ -40,7 +40,7 @@ export Docs = (state) => {
           ),
         )}
       </div>
-        {arrows}
+      {arrows}
     </div>,
     state
   )
