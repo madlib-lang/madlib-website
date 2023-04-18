@@ -25,7 +25,7 @@ export Docs = (state) => {
   return page(
     "Documentation",
     <div className={docsStratum.e("")}>
-      <div className={docsStratum.em("nav-wrapper", ["start"])}>
+      <div className={docsStratum.e("nav-wrapper")}>
         {Menu(state.content.docs)}
         {arrows}
       </div>
@@ -40,7 +40,6 @@ export Docs = (state) => {
           ),
         )}
       </div>
-      {arrows}
     </div>,
     state
   )
