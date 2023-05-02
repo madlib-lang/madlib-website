@@ -1,0 +1,56 @@
+import type { Action } from "MadUI"
+import type { State } from "@client/State"
+import Math from "Math"
+import { throttleAction, MouseEvent, onMouseMove, onMouseUp } from "MadUI"
+
+HORIZONTAL_SPLIT_MIN_LEFT :: Integer
+HORIZONTAL_SPLIT_MIN_LEFT = 240
+
+handleDragOutput :: Action State
+export handleDragOutput = throttleAction(
+  40,
+  (currentState, event) => if (currentState.playground.dragData.draggingHorizontal) {
+    where(event) {
+      MouseEvent({ clientX }) =>
+        [
+          of(
+            (state) => (
+              {
+                ...state,
+                playground: {
+                  ...state.playground,
+                  dragData: {
+                    ...state.playground.dragData,
+                    outputEdge: Math.max(HORIZONTAL_SPLIT_MIN_LEFT, clientX - 40),
+                    draggingHorizontal: true,
+                  },
+                },
+              }
+            ),
+          ),
+        ]
+
+      _ =>
+        []
+    }
+  } else { [] },
+)
+
+
+handleDragOutputEnd :: Action State
+export handleDragOutputEnd = (_, _) => [
+  of(
+    (state) => (
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          dragData: {
+            ...state.playground.dragData,
+            draggingHorizontal: false
+          },
+        },
+      }
+    ),
+  ),
+]

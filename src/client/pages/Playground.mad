@@ -1,16 +1,59 @@
 import type { Element } from "MadUI"
 
+import { span, div, className, onMouseDown, onMouseMove, style } from "MadUI"
 import type { State } from "@client/State"
-import { titledPageWithChildren } from "@client/views/Page"
-import { Playground } from "@client/views/Playground"
+import { titledPage } from "@client/views/Page"
+import { handleDragPlayground, dragOnVertical, dragOnHorizontal } from "@client/actions/DragPlayground"
+import { handleDragOutput } from "@client/actions/DragPlaygroundOutput"
+import { Nav } from "@client/views/Nav"
+import {strata} from "Strata"
 
 export slug = "playground"
 
+b = strata("madlib-editor")
+
 PlaygroundPage :: State -> Element State
-export PlaygroundPage = (state) => titledPageWithChildren(
-  slug,
-  Playground(state),
-  state
+export PlaygroundPage = (s) => (
+  <div className={b.e("")}>
+    {Nav(s)}
+    <div className={b.e("view")}>
+      <div className={b.em("pane", ["editor"])} style={{{
+        "height": `${show(s.playground.dragData.playgroundEdge)}px`
+      }}}>
+        <div className={b.em("fill", ["editor"])} style={{{
+          "width": `calc(100% - ${show(s.playground.dragData.outputEdge)}px)`
+        }}}>Editor Pane!</div>
+        <div
+          className={b.em(
+            "interactive",
+            [
+              "drag-output",
+              s.playground.dragData.draggingHorizontal ?
+                "active" :
+                "inactive"
+            ])}
+            onMouseDown={dragHorizontal}
+        />
+        <div className={b.em("fill", ["output"])} style={{{
+          "width": `${show(s.playground.dragData.outputEdge)}px`
+        }}}>Output Pane!</div> 
+        <div
+          className={b.em(
+            "interactive",
+            [
+              "drag-editor",
+              s.playground.dragData.draggingVertical ?
+                "active" :
+                "inactive"
+            ])}
+            onMouseDown={dragVertical}
+        />
+      </div>
+      <div className={b.em("pane", ["content"])}>
+        <div className={b.em("fill", ["content"])}>Content Pane!</div> 
+      </div>
+    </div>
+  </div>
 )
 
 export view = PlaygroundPage

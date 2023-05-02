@@ -50,6 +50,13 @@ $LOGO_SIZE: 8rem;
     max-width: 100%;
   }
 
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    justify-content: center;
+  }
+
   &__link--logo {
     text-decoration: none;
     border: none;

@@ -30,31 +30,35 @@ import {
 import { strata } from "Strata"
 
 import ServerInfo from "@client/ServerInfo"
+import { handleDragOutput } from "@client/actions/DragPlaygroundOutput"
 import { HighlightedCode } from "@client/views/HighlightedCode"
 import { parse, toJsonString } from "@common/Playground"
-
-
 
 LINE_HEIGHT :: Integer
 LINE_HEIGHT = 24
 
-
-
 stratum = strata("playground")
-
 
 handleInput :: Action State
 handleInput = (state, event) => pipe(
   where {
     InputEvent({ target: { value: v } }) =>
       v
-
     _ =>
       state.playground.data.code
   },
   (c) => of(
     () => (
-      { ...state, playground: { ...state.playground, data: { ...state.playground.data, code: c } } }
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          data: {
+            ...state.playground.data,
+            code: c
+          }
+        }
+      }
     ),
   ),
   of,
@@ -78,7 +82,10 @@ handleRun = (state, _) => pipe(
               ...newState,
               playground: {
                 ...newState.playground,
-                data: { ...newState.playground.data, output: playground.output },
+                data: {
+                  ...newState.playground.data,
+                  output: playground.output
+                },
               },
             }
           )
@@ -107,13 +114,13 @@ deriveHeight = (state) => pipe(
 
 
 displayPlaygroundOutput :: State -> Element State
-displayPlaygroundOutput = (state) => where(state.playground.data.output) {
-  Just({ stdout }) =>
-    text(stdout)
-
-  Nothing =>
-    text("")
-}
+displayPlaygroundOutput = (state) =>
+  where(state.playground.data.output) {
+    Just({ stdout }) =>
+      text(stdout)
+    Nothing =>
+      text("")
+  }
 
 
 renderLines :: String -> List (Element State)
@@ -124,30 +131,10 @@ renderLines = (playgroundCode) => pipe(
 )(playgroundCode)
 
 
-handleDragStart :: Action State
-handleDragStart = (_, _) => [
-  of(
-    (state) => (
-      {
-        ...state,
-        playground: {
-          ...state.playground,
-          dragData: { ...state.playground.dragData, dragging: true },
-        },
-      }
-    ),
-  ),
-]
-
-
-
-
-
-
 Playground :: State -> Element State
 export Playground = (state) => {
   output = displayPlaygroundOutput(state)
-  verticalSplitPosition = `${inspect(state.playground.dragData.verticalSplitPosition)}px`
+  outputEdge = `${inspect(state.playground.dragData.outputEdge)}px`
 
   return <div className={stratum.e("")}>
     <div className={stratum.e("container")}>
@@ -165,11 +152,11 @@ export Playground = (state) => {
         </div>
       </div>
       <div
-        style={{{ "width": `calc(100% - ${verticalSplitPosition})` }}}
+        style={{{ "width": `calc(100% - ${outputEdge})` }}}
         className={stratum.em("output", [String.isEmpty(output) ? "empty" : "compiled"])}
       >
         <div
-          onMouseDown={handleDragStart}
+          onMouseDown={handleDragOutput}
           className={stratum.e("drag-handle")}
         >
           {`←→`}

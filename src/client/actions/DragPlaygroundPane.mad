@@ -1,0 +1,99 @@
+import type { Action } from "MadUI"
+import type { State } from "@client/State"
+import IO from "IO"
+import Math from "Math"
+import { throttleAction, MouseEvent, onMouseMove, onMouseUp } from "MadUI"
+
+EDGE_POSITION :: Integer
+EDGE_POSITION = 200
+
+handleDragPlayground :: Action State
+export handleDragPlayground = throttleAction(
+  40,
+  (currentState, event) =>
+    if (currentState.playground.dragData.draggingVertical) {
+      where(event) {
+        MouseEvent({ clientX, clientY }) =>
+          [
+            of(
+              (state) => (
+                {
+                  ...state,
+                  playground: {
+                    ...state.playground,
+                    dragData: {
+                      ...state.playground.dragData,
+                      playgroundEdge: Math.max(EDGE_POSITION, clientY - 32),
+                      draggingVertical: true,
+                    },
+                  },
+                }
+              ),
+            ),
+          ]
+        _ =>
+          []
+      }
+    } else {
+      []
+    }
+)
+
+
+dragOff :: Action State
+export dragOff = (_, _) => [
+  of(
+    (state) => (
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          dragData: {
+            ...state.playground.dragData,
+            draggingVertical: false,
+            draggingHorizontal: false
+          },
+        },
+      }
+    ),
+  ),
+]
+
+// burninate
+dragOnVertical :: Action State
+export dragOnVertical = (_, _) => [
+  of(
+    (state) => (
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          dragData: {
+            ...state.playground.dragData,
+            draggingVertical: true
+          }
+        }
+      }
+    )
+  )
+]
+
+
+// burninate
+dragOnHorizontal :: Action State
+export dragOnHorizontal = (_, _) => [
+  of(
+    (state) => (
+      {
+        ...state,
+        playground: {
+          ...state.playground,
+          dragData: {
+            ...state.playground.dragData,
+            draggingHorizontal: true
+          }
+        }
+      }
+    )
+  )
+]

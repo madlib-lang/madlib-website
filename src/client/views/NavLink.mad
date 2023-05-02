@@ -7,11 +7,12 @@ import { className, to, src, alt, img, span, li, link } from "MadUI"
 b = strata("nav")
 
 NavLink :: Link -> Element State
-export NavLink = (s) =>
-  <li className={b.e("item")}>
+export NavLink = (s) => {
+  return <li className={b.e("item")}>
     <link className={b.e("link")} to={s.href}>
       <img className={b.e("link-icon")} src={s.icon} alt={s.text} />
       <span className={b.em("link-text", ["summary"])}>{s.shortText}</span>
       <span className={b.em("link-text", ["detail"])}>{s.text}</span>
     </link>
   </li>
+}

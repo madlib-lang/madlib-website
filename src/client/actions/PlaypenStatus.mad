@@ -1,0 +1,23 @@
+import type { State } from "@client/State"
+import type { Action, Element } from "MadUI"
+import type { State, PlaypenStatus } from "@client/State"
+
+import { onMouseMove, onClick,  div, className, span } from "MadUI"
+import { strata } from "strata"
+
+import { PlaypenHidden, PlaypenActive, PlaypenEditor } from "@client/State"
+import { Playground } from "@client/views/Playground"
+// import {handleDragPlayground, dragOff} from "@client/actions/DragPlaygroundPane"
+
+stratum = strata("playpen")
+
+
+processStatus :: State -> String
+export processStatus = (s) => (
+  where (s.playpen.status) {
+    PlaypenHidden => `hidden`
+    PlaypenActive => `active`
+    PlaypenEditor => `editor`
+    _ => `none`
+  }
+)

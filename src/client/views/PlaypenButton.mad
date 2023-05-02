@@ -1,0 +1,54 @@
+import type { Action, Element } from "MadUI"
+import type { State, PlaypenStatus } from "@client/State"
+import { PlaypenHidden, PlaypenActive, PlaypenEditor } from "@client/State"
+import { div, className, onClick, span } from "MadUI"
+import { strata } from "strata"
+import { processStatus } from "@client/actions/PlaypenStatus"
+
+stratum = strata("playpen-button")
+
+statusText :: State -> String
+export statusText = (s) =>
+  where (s.playpen.status) {
+    PlaypenHidden => `Try Madlib Now`
+    PlaypenActive => ""
+    PlaypenEditor => ""
+  }
+
+toggleStatus :: Action State
+export toggleStatus = (_, _) => [
+  of(
+    (s) => ({
+      ...s,
+       playpen: {
+         ...s.playpen,
+         status: where (s.playpen.status) {
+           PlaypenHidden => PlaypenActive
+           PlaypenActive => PlaypenEditor
+           PlaypenEditor => PlaypenHidden
+         }
+       }
+    })
+  )
+]
+
+PlaypenButton :: State -> Element State
+export PlaypenButton = (state) => {
+  status = processStatus(state)
+  mods = [status]
+  return (
+    <div
+      className={stratum.m(mods)}
+      onClick={toggleStatus}
+    >
+      <div className={stratum.e("status")}>
+        <div className={stratum.em("status-icon", mods)}>
+          {`▲`}
+        </div>{" "}
+        <span className={stratum.em("status-text", mods)}>
+          {statusText(state)}
+        </span>
+      </div>
+    </div>
+  )
+}
