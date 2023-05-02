@@ -1,3 +1,5 @@
+@import "../_zindex";
+
 .playpen {
   position: relative;
   display: flex;
@@ -7,7 +9,7 @@
     align-items: center;
     justify-content: center;
     min-height: fit-content;
-    z-index: 200;
+    z-index: $z-playpen;
     background-color: $c-offpurple;
     transition: height 0.3s ease-out;
     width: 100%;
@@ -17,19 +19,19 @@
     // width: 100%;
     // width: 0;
     margin: 0;
-    z-index: 200;
+    z-index: $z-playpen;
     height: 0;
     transition: height 0.3s ease-out;
   }
   .playground__container {
     border-radius: 0;
-    z-index: 203;
+    z-index: $z-playpen-container;
     height: 0;
     transition: height 0.3s ease-out;
   }
   .playground__output {
     border-radius: 0;
-    z-index: 203;
+    z-index: $z-playpen-container;
   }
   &--hidden {
   }
@@ -45,7 +47,7 @@
   }
   &__edge {
     display: flex;
-    z-index: 202;
+    z-index: $z-playpen-edge;
   }
 
   &__status {

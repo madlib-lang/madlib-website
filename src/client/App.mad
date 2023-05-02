@@ -5,9 +5,9 @@ import Math from "Math"
 
 import { MouseEvent, className, div, id, onMouseMove, style, onMouseUp, text, throttleAction } from "MadUI"
 
-import { handleDragPlayground, handleDragPlaygroundEnd } from "@client/actions/DragPlaygroundPane"
-import { handleDragOutput, handleDragOutputEnd } from "@client/actions/DragPlaygroundOutput"
+import { dragOff, handleDrag } from "@client/actions/DragPlayground"
 import { Router } from "@client/Router"
+
 
 
 App :: State -> Element State
@@ -15,11 +15,8 @@ export App = (state) =>
   <div
     id="madlib-website"
     className="madlib-website-app"
-    onMouseMove={(e) => {
-      handleDragPlayground(e)
-      return handleDragOutput(e)
-    }}
-    onMouseUp={handleDragPlaygroundEnd}
+    onMouseUp={dragOff}
+    onMouseMove={handleDrag}
   >
     {Router(state)}
   </div>

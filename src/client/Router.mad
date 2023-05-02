@@ -1,6 +1,6 @@
 import type { Element } from "MadUI"
-
 import type { State } from "@client/State"
+
 
 import { switchRoute } from "MadUI"
 
@@ -32,7 +32,7 @@ ROUTES = [
 Router :: State -> Element State
 export Router = (state) => pipe(
   map(where {
-    #[str, view] => #[preSlash(str), () => view(state)]
+    #[str, view] => #[str != "*" ? preSlash(str) : str, () => view(state)]
   }),
   switchRoute,
 )(ROUTES)

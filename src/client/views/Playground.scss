@@ -116,7 +116,7 @@ $outputWidth: 27%;
     position: absolute;
     right: 1rem;
     top: -1rem;
-    z-index: 10;
+    z-index: 0;
     transition: width 0.3s ease-out, border 0.3s ease-out,
       background 0.3s ease-out, color 0.3s ease-out, box-shadow 0.3s ease-out;
     &--waiting {
@@ -176,7 +176,7 @@ $outputWidth: 27%;
     position: absolute;
     width: 3.125rem;
     left: 0;
-    z-index: 10;
+    z-index: 0;
     border-right: 2px solid rgba(255, 255, 255, 0.3);
 
     & > div {

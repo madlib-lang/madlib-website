@@ -114,7 +114,8 @@ export alias State = {
   playground :: {
     data :: Playground,
     dragData :: {
-      dragging :: Boolean,
+      draggingVertical :: Boolean,
+      draggingHorizontal :: Boolean,
       outputEdge :: Integer,
       playgroundEdge :: Integer
     },
@@ -138,7 +139,7 @@ export INITIAL_STATE = {
   },
   playground: {
     data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
-    dragData: { outputEdge: 9999, playgroundEdge: 9999, dragging: false },
+    dragData: { outputEdge: 240, playgroundEdge: 352, draggingVertical: false, draggingHorizontal: false },
   },
   debug: false
 }

@@ -3,13 +3,13 @@ import type { State } from "@client/State"
 import Math from "Math"
 import { throttleAction, MouseEvent, onMouseMove, onMouseUp } from "MadUI"
 
-VERTICAL_SPLIT_MIN_LEFT :: Integer
-VERTICAL_SPLIT_MIN_LEFT = 200
+HORIZONTAL_SPLIT_MIN_LEFT :: Integer
+HORIZONTAL_SPLIT_MIN_LEFT = 240
 
 handleDragOutput :: Action State
 export handleDragOutput = throttleAction(
   40,
-  (currentState, event) => if (currentState.playground.dragData.dragging) {
+  (currentState, event) => if (currentState.playground.dragData.draggingHorizontal) {
     where(event) {
       MouseEvent({ clientX }) =>
         [
@@ -21,8 +21,8 @@ export handleDragOutput = throttleAction(
                   ...state.playground,
                   dragData: {
                     ...state.playground.dragData,
-                    outputEdge: Math.max(VERTICAL_SPLIT_MIN_LEFT, clientX - 40),
-                    dragging: true,
+                    outputEdge: Math.max(HORIZONTAL_SPLIT_MIN_LEFT, clientX - 40),
+                    draggingHorizontal: true,
                   },
                 },
               }
@@ -47,7 +47,7 @@ export handleDragOutputEnd = (_, _) => [
           ...state.playground,
           dragData: {
             ...state.playground.dragData,
-            dragging: false
+            draggingHorizontal: false
           },
         },
       }

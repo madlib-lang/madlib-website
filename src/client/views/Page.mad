@@ -6,7 +6,7 @@ import { find } from "List"
 import { equals } from "Function"
 import String from "String"
 import { fromMaybe } from "Maybe"
-import { empty, className, div, h1, main, text } from "MadUI"
+import { aside, empty, className, div, h1, main, text } from "MadUI"
 import { strata } from "Strata"
 
 import { Nav } from "@client/views/Nav"
@@ -39,7 +39,9 @@ export page = (title, children, state) => {
   slugged = slugify(title)
   return <div className={stratum.m([slugged])}>
     {Nav(state)}
-    {Playpen(state)}
+    <aside className={stratum.e("editor")}>
+      {Playpen(state)}
+    </aside>
     <h1 className={stratum.e("page-title")}>
       {title}
     </h1>

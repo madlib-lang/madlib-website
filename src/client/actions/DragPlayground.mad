@@ -1,17 +1,27 @@
-import type { Action } from "MadUI"
-import type { State } from "@client/State"
 import IO from "IO"
 import Math from "Math"
+import type { Action } from "MadUI"
+import type { State } from "@client/State"
 import { throttleAction, MouseEvent, onMouseMove, onMouseUp } from "MadUI"
+
+HORIZONTAL_SPLIT_MIN_LEFT :: Integer
+HORIZONTAL_SPLIT_MIN_LEFT = 240
+// dragOff
+// dragMove
+
 
 EDGE_POSITION :: Integer
 EDGE_POSITION = 200
 
-handleDragPlayground :: Action State
-export handleDragPlayground = throttleAction(
+handleDrag :: Action State
+export handleDrag = throttleAction(
   40,
-  (currentState, event) =>
-    if (currentState.playground.dragData.draggingVertical) {
+  (currentState, event) => {
+    vv = currentState.playground.dragData.draggingVertical
+    hh = currentState.playground.dragData.draggingHorizontal
+    ve = currentState.playground.dragData.playgroundEdge
+    he = currentState.playground.dragData.outputEdge
+    if ( vv || hh ) {
       where(event) {
         MouseEvent({ clientX, clientY }) =>
           [
@@ -23,8 +33,10 @@ export handleDragPlayground = throttleAction(
                     ...state.playground,
                     dragData: {
                       ...state.playground.dragData,
-                      playgroundEdge: Math.max(EDGE_POSITION, clientY - 32),
-                      draggingVertical: true,
+                      playgroundEdge: vv ? Math.max(EDGE_POSITION, clientY - 32) : ve,
+                      outputEdge: hh ? Math.max(HORIZONTAL_SPLIT_MIN_LEFT, clientX - 32) : he,
+                      draggingVertical: vv,
+                      draggingHorizontal: hh,
                     },
                   },
                 }
@@ -37,6 +49,7 @@ export handleDragPlayground = throttleAction(
     } else {
       []
     }
+  }
 )
 
 
@@ -59,9 +72,8 @@ export dragOff = (_, _) => [
   ),
 ]
 
-// burninate
-dragOnVertical :: Action State
-export dragOnVertical = (_, _) => [
+dragVertical :: Action State
+export dragVertical = (_, _) => [
   of(
     (state) => (
       {
@@ -79,9 +91,8 @@ export dragOnVertical = (_, _) => [
 ]
 
 
-// burninate
-dragOnHorizontal :: Action State
-export dragOnHorizontal = (_, _) => [
+dragHorizontal :: Action State
+export dragHorizontal = (_, _) => [
   of(
     (state) => (
       {
