@@ -1,3 +1,4 @@
+import ByteArray from "ByteArray"
 import { Header } from "Http"
 import List from "List"
 import { Just, Nothing } from "Maybe"
@@ -32,7 +33,7 @@ port = pipe(
 
     Nothing =>
       DEFAULT_PORT
-  }
+  },
 )(Process.Argv)
 
 
@@ -40,16 +41,16 @@ withSSLOptions :: Server.Options
 withSSLOptions = pipe(
   map(Process.getEnv),
   where {
-    [Just(certificateFile), Just(keyFile), caFile,] =>
+    [Just(certificateFile), Just(keyFile), caFile] =>
       {
         ...Server.DEFAULT_OPTIONS,
-        ssl: Just({ certificateFile, keyFile, caFile, passphrase: Nothing, }),
+        ssl: Just({ certificateFile, keyFile, caFile, passphrase: Nothing }),
       }
 
     _ =>
       Server.DEFAULT_OPTIONS
-  }
-)(["SSL_CERT", "SSL_KEY", "SSL_CA",])
+  },
+)(["SSL_CERT", "SSL_KEY", "SSL_CA"])
 
 
 main :: List String -> {}
@@ -58,8 +59,8 @@ main = () => {
     Server.create,
     Server.post(makeApiPath("/playgrounds"), postPlaygroundHandler),
     Server.get("/*", fileHandler),
-    Server.run(port)
-  )({ ...withSSLOptions, verbose: true, })
+    Server.run(port),
+  )({ ...withSSLOptions, verbose: true })
 
 
   // TODO: make configurable
@@ -69,12 +70,12 @@ main = () => {
       Server.any(
         "/*",
         (req) => of({
-          body: "",
+          body: ByteArray.fromString(""),
           status: 301,
-          headers: [Header("Location", `https://www.madlib.space${req.url}`),],
-        })
+          headers: [Header("Location", `https://www.madlib.space${req.url}`)],
+        }),
       ),
-      Server.run(80)
-    )({ ssl: Nothing, verbose: true, })
+      Server.run(80),
+    )({ ssl: Nothing, verbose: true })
   }
 }
