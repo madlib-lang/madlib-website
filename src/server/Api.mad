@@ -54,16 +54,7 @@ makeError = (status, message) => bad({
 
 
 readBody :: IncomingRequest -> Wish (Response ByteArray) ByteArray
-readBody = (req) => pipe(
-  .body,
-  where {
-    Just(body) =>
-      of(body)
-
-    Nothing =>
-      makeError(400, "body is empty")
-  },
-)(req)
+readBody = (req) => of(req.body)
 
 
 generatePlaygroundId :: a -> String
