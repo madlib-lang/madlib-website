@@ -133,10 +133,10 @@ module.exports = {
         description:
           "updates content keys for the docs in the content.json file",
         script: run([
-          "madlib compile --target llvm -i src/scripts/UpdateJsonFieldWithFile.mad -o build/updateDocs",
+          "madlib compile --target llvm -i src/scripts/UpdateJsonFieldWithFile.mad -o build/update-docs/run",
           ...DOCS_TO_UPDATE.map(
             ({ jsonPath, filePath }) =>
-              `./build/updateDocs src/client/content.json ${filePath} ${jsonPath}`
+              `./build/update-docs/run src/client/content.json ${filePath} ${jsonPath}`
           ),
         ]),
       },
@@ -191,7 +191,7 @@ module.exports = {
     },
     dev: `concurrently ${[
       `"watch 'nps docs.update' ./docs"`,
-      `"sass --watch ${input.styles.main}:${out.styles.main}"`,
+      `"sass --watch ${input.styles}:${out.styles.main}"`,
       `"copy-and-watch --watch src/client/**/*.{html,svg,json} build/public/"`,
       `"copy-and-watch --watch src/client/assets/* build/public/assets/"`,
       `"nps build.dev"`,

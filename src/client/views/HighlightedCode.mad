@@ -7,7 +7,7 @@ import { Wish } from "Wish"
 import List from "List"
 import String from "String"
 
-import { img, src, alt, onClick, className, code, div, innerHTML, button, text } from "MadUI"
+import { img, src, altAttribute, onClick, className, code, div, innerHTML, button, text } from "MadUI"
 import { strata } from "Strata"
 
 stratum = strata("code")
@@ -230,7 +230,7 @@ export CopyableCode = (c) => (
       onClick={copyToClipboardHandler(c)}
       className={stratum.em("action-button", ["copy"])}
     >
-      <img src="/assets/clipboard.svg" className={stratum.em("icon", ["copy"])} alt="Copy" />
+      <img src="/assets/clipboard.svg" className={stratum.em("icon", ["copy"])} altAttribute="Copy" />
     </button>
     <code className={stratum.m(["madlib"])}>
       {...buildCodeElements(c)}
