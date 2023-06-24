@@ -28,12 +28,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/madlib-lang/madui-examples.git"
+    "url": "git+https://github.com/madlib-lang/madlib-website.git"
   },
-  "author": "",
+  "author": "madlib-lang",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/madlib-lang/madui-examples/issues"
+    "url": "https://github.com/madlib-lang/madlib-website/issues"
   },
-  "homepage": "https://github.com/madlib-lang/madui-examples#readme"
+  "homepage": "https://github.com/madlib-lang/madlib-website#readme"
 }
