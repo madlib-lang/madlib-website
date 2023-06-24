@@ -1,6 +1,6 @@
 import type { Element } from "MadUI"
 import {
-  alt,
+  altAttribute,
   className,
   div,
   form,
@@ -32,7 +32,7 @@ SubMenuToggle = (_) =>
     <img
       className={b.e("menu-icon")}
       src="/assets/hamburger.svg"
-      alt="Toggle Menu"
+      altAttribute="Toggle Menu"
       onClick={toggleMenu}
     />
   </div>
@@ -46,7 +46,7 @@ export Nav = (s) =>
       <img
         className={b.e("logo")}
         src="/assets/logo-white.svg"
-        alt="Madlib Logo"
+        altAttribute="Madlib Logo"
       />
     </link>
     // we don't yet support role / aria stuff
@@ -58,7 +58,7 @@ export Nav = (s) =>
           <img
             className={b.e("search-icon")}
             src="/assets/magnifier.svg"
-            alt="Search"
+            altAttribute="Search"
           />
         </div>
         // role="searchbox"
