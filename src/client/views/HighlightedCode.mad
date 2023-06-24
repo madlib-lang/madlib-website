@@ -1,14 +1,30 @@
-import type { Element, Action } from "MadUI"
 import type { Wish } from "Wish"
+
+import type { Action, Element } from "MadUI"
 
 import type { State } from "@client/State"
 
-import { Wish } from "Wish"
 import List from "List"
 import String from "String"
+import { Wish } from "Wish"
 
-import { img, src, altAttribute, onClick, className, code, div, innerHTML, button, text } from "MadUI"
+import {
+  altAttribute,
+  button,
+  className,
+  code,
+  div,
+  img,
+  innerHTML,
+  onClick,
+  src,
+  text,
+} from "MadUI"
 import { strata } from "Strata"
+
+import { copyToClipboardHandler } from "@client/actions/CopyToClipboard"
+
+
 
 stratum = strata("code")
 
@@ -20,13 +36,25 @@ highlight = (keywords, modifier, input) => pipe(
 )(keywords)
 
 highlightRegex :: String -> String -> String -> String
-highlightRegex = (regex, modifier, input) =>
-  String.replace(regex, `$1<span class="${stratum.em("syntax", [modifier])}">$2</span>$3`, input)
+highlightRegex = (regex, modifier, input) => String.replace(
+  regex,
+  `$1<span class="${stratum.em("syntax", [modifier])}">$2</span>$3`,
+  input,
+)
 
 renderLine :: String -> Element State
 renderLine = (raw) => <div className={stratum.e("line")} innerHTML={raw} />
 
-SYNTAX_LITERALS = ["true", "false", "[0-9]+(\\.[0-9]+)?", "\".*\"", "`.*`", "'.*'", "'\\\\\n'", "\{\}"]
+SYNTAX_LITERALS = [
+  "true",
+  "false",
+  "[0-9]+(\\.[0-9]+)?",
+  "\".*\"",
+  "`.*`",
+  "'.*'",
+  "'\\\\\n'",
+  "\{\}",
+]
 SYNTAX_KEYWORDS = [
   "if",
   "else",
@@ -162,7 +190,7 @@ escapeString = (s) => {
   go :: List Char -> List Char
   go = (chars) => where(chars) {
     ['\\', '\n', ...cs] =>
-      ['\\', 'n', ...go(cs)]
+      ['\\', '\n', ...go(cs)]
 
     [c, ...cs] =>
       [c, ...go(cs)]
@@ -194,24 +222,6 @@ buildCodeElements = pipe(
   map(renderLine),
 )
 
-copyToClipboardHandler :: String -> Action State
-copyToClipboardHandler = (c) => (s, _) => {
-  return [
-    Wish((_, good) => good((_) => {
-      #- navigator.clipboard.writeText(c) -#
-
-      return {
-        ...s,
-        playground: {
-          ...s.playground,
-          data: { ...s.playground.data, code: c }
-        }
-      }
-    }))
-  ]
-}
-
-
 HighlightedCode :: String -> Element State
 export HighlightedCode = (c) => (
   <code className={stratum.m(["madlib"])}>
@@ -226,11 +236,12 @@ export HighlightedCode = (c) => (
 CopyableCode :: String -> Element State
 export CopyableCode = (c) => (
   <div className={stratum.e("wrapper")}>
-    <button
-      onClick={copyToClipboardHandler(c)}
-      className={stratum.em("action-button", ["copy"])}
-    >
-      <img src="/assets/clipboard.svg" className={stratum.em("icon", ["copy"])} altAttribute="Copy" />
+    <button onClick={copyToClipboardHandler(c)} className={stratum.em("action-button", ["copy"])}>
+      <img
+        src="/assets/clipboard.svg"
+        className={stratum.em("icon", ["copy"])}
+        altAttribute="Copy"
+      />
     </button>
     <code className={stratum.m(["madlib"])}>
       {...buildCodeElements(c)}

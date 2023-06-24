@@ -1,7 +1,10 @@
 import type { Maybe } from "Maybe"
+
 import type { Playground } from "@common/Playground"
 
 import { Nothing } from "Maybe"
+
+
 
 export DEFAULT_CONTENT = {
   title: "Madlib",
@@ -11,10 +14,7 @@ export DEFAULT_CONTENT = {
   gettingStarted: { intro: "", sections: [] },
   docs: [],
   pages: [],
-  theme: {
-    colors: [],
-    breakpoints: [],
-  }
+  theme: { colors: [], breakpoints: [] },
 }
 
 
@@ -39,10 +39,7 @@ main = () => {
 
 
 
-export alias Section = {
-  content :: String,
-  title :: String
-}
+export alias Section = { content :: String, title :: String }
 
 export alias Link = {
   // changefreq :: String,
@@ -53,32 +50,17 @@ export alias Link = {
   text :: String,
 }
 
-export alias Vector = {
-  vertical :: Boolean,
-  point :: String,
-  label :: String,
-}
+export alias Vector = { label :: String, point :: String, vertical :: Boolean }
 
-export alias Color = {
-  name :: String,
-  color :: String,
-}
+export alias Color = { color :: String, name :: String }
 
-export alias Theme = {
-  breakpoints :: List Vector,
-  colors :: List Color,
-}
+export alias Theme = { breakpoints :: List Vector, colors :: List Color }
 
 export alias Header = { content :: String }
 
 export alias Page = { intro :: String, sections :: List Section }
 
-export alias DocsPage = {
-  content :: String,
-  depth :: Integer,
-  slug :: String,
-  title :: String,
-}
+export alias DocsPage = { content :: String, depth :: Integer, slug :: String, title :: String }
 
 export alias DocsPageWithLinks = {
   ...DocsPage,
@@ -87,29 +69,32 @@ export alias DocsPageWithLinks = {
 }
 
 export alias Content = {
-  pages :: List DocsPage,
   docs :: List DocsPageWithLinks,
   gettingStarted :: Page,
   header :: Header,
   home :: List Section,
   nav :: List Link,
+  pages :: List DocsPage,
+  theme :: Theme,
   title :: String,
-  theme :: Theme
 }
+
+export type PlaypenStatus = PlaypenHidden | PlaypenActive | PlaypenEditor
 
 export type LoadingState = Loading | Transitioning | Ready
 
 export alias State = {
   content :: Content,
+  debug :: Boolean,
   loadingState :: LoadingState,
-  showNav :: Boolean,
-  showDocNav :: Boolean,
-  search :: String,
   playground :: {
     data :: Playground,
     dragData :: { dragging :: Boolean, verticalSplitPosition :: Integer },
   },
-  debug :: Boolean
+  playpen :: { history :: List String, status :: PlaypenStatus },
+  search :: String,
+  showDocNav :: Boolean,
+  showNav :: Boolean,
 }
 
 INITIAL_STATE :: State
@@ -121,9 +106,10 @@ export INITIAL_STATE = {
   // same
   showDocNav: false,
   search: "",
+  playpen: { status: PlaypenHidden, history: [] },
   playground: {
     data: { code: INITIAL_CODE, id: Nothing, output: Nothing },
     dragData: { verticalSplitPosition: 9999, dragging: false },
   },
-  debug: false
+  debug: false,
 }
