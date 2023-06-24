@@ -1,0 +1,44 @@
+import type { Action } from "MadUI"
+
+import type { State } from "@client/State"
+
+import { Left, Right } from "Either"
+import { identity } from "Function"
+import Http from "Http"
+import { mapRej } from "Wish"
+
+import ServerInfo from "@client/ServerInfo"
+import { parse, toJsonString } from "@common/Playground"
+
+
+
+handleRun :: Action State
+export handleRun = (state, _) => pipe(
+  .playground,
+  .data,
+  toJsonString,
+  Http.post(ServerInfo.endpoint("/api/playgrounds")),
+  map(
+    pipe(
+      .body,
+      parse,
+      where {
+        Right(playground) =>
+          (newState) => (
+            {
+              ...newState,
+              playground: {
+                ...newState.playground,
+                data: { ...newState.playground.data, output: playground.output },
+              },
+            }
+          )
+
+        Left(_) =>
+          identity
+      },
+    ),
+  ),
+  mapRej((_, newState) => newState),
+  of,
+)(state)

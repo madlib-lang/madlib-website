@@ -3,17 +3,12 @@ import type { Action, Element } from "MadUI"
 import type { State } from "@client/State"
 
 import Dictionary from "Dictionary"
-import { Left, Right } from "Either"
-import { identity } from "Function"
-import Http from "Http"
 import List from "List"
 import { multiply } from "Math"
 import { Just, Nothing } from "Maybe"
 import String from "String"
-import { mapRej } from "Wish"
 
 import {
-  InputEvent,
   button,
   className,
   code,
@@ -29,9 +24,9 @@ import {
 } from "MadUI"
 import { strata } from "Strata"
 
-import ServerInfo from "@client/ServerInfo"
+import { handleInput } from "@client/actions/PlaygroundInput"
+import { handleRun } from "@client/actions/PlaygroundRun"
 import { HighlightedCode } from "@client/views/HighlightedCode"
-import { parse, toJsonString } from "@common/Playground"
 
 
 
@@ -42,55 +37,6 @@ LINE_HEIGHT = 24
 
 stratum = strata("playground")
 
-
-handleInput :: Action State
-handleInput = (state, event) => pipe(
-  where {
-    InputEvent({ target: { value: v } }) =>
-      v
-
-    _ =>
-      state.playground.data.code
-  },
-  (c) => of(
-    () => (
-      { ...state, playground: { ...state.playground, data: { ...state.playground.data, code: c } } }
-    ),
-  ),
-  of,
-)(event)
-
-
-handleRun :: Action State
-handleRun = (state, _) => pipe(
-  .playground,
-  .data,
-  toJsonString,
-  Http.post(ServerInfo.endpoint("/api/playgrounds")),
-  map(
-    pipe(
-      .body,
-      parse,
-      where {
-        Right(playground) =>
-          (newState) => (
-            {
-              ...newState,
-              playground: {
-                ...newState.playground,
-                data: { ...newState.playground.data, output: playground.output },
-              },
-            }
-          )
-
-        Left(_) =>
-          identity
-      },
-    ),
-  ),
-  mapRej((_, newState) => newState),
-  of,
-)(state)
 
 
 deriveHeight :: State -> String
@@ -168,10 +114,7 @@ export Playground = (state) => {
         style={{{ "width": `calc(100% - ${verticalSplitPosition})` }}}
         className={stratum.em("output", [String.isEmpty(output) ? "empty" : "compiled"])}
       >
-        <div
-          onMouseDown={handleDragStart}
-          className={stratum.e("drag-handle")}
-        >
+        <div onMouseDown={handleDragStart} className={stratum.e("drag-handle")}>
           {`←→`}
         </div>
         <button className={stratum.em("run-button", ["waiting"])} onClick={handleRun}>
