@@ -7,11 +7,13 @@ import { switchRoute } from "MadUI"
 import Community from "@client/pages/Community"
 import Docs from "@client/pages/Docs"
 import Examples from "@client/pages/Examples"
-import GettingStarted  from "@client/pages/GettingStarted"
+import GettingStarted from "@client/pages/GettingStarted"
 import Home from "@client/pages/Home"
 import NotFound from "@client/pages/NotFound"
-import Projects from "@client/pages/Projects"
 import Playground from "@client/pages/Playground"
+import Projects from "@client/pages/Projects"
+
+
 
 preSlash :: String -> String
 preSlash = (x) => `/${x}`
@@ -31,8 +33,6 @@ ROUTES = [
 
 Router :: State -> Element State
 export Router = (state) => pipe(
-  map(where {
-    #[str, view] => #[preSlash(str), () => view(state)]
-  }),
+  map(where { #[str, view] => #[str != "*" ? preSlash(str) : str, () => view(state)] }),
   switchRoute,
 )(ROUTES)
