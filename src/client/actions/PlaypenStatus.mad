@@ -1,0 +1,15 @@
+import type { State } from "@client/State"
+
+
+import { PlaypenHidden, PlaypenActive, PlaypenEditor } from "@client/State"
+
+
+
+processStatus :: State -> String
+export processStatus = (s) => (
+  where (s.playpen.status) {
+    PlaypenHidden => `hidden`
+    PlaypenActive => `active`
+    PlaypenEditor => `editor`
+  }
+)

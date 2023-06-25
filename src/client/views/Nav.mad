@@ -1,4 +1,7 @@
 import type { Element } from "MadUI"
+
+import type { State } from "@client/State"
+
 import {
   altAttribute,
   className,
@@ -19,10 +22,12 @@ import {
 } from "MadUI"
 import { strata } from "Strata"
 
-import type { State } from "@client/State"
-import { toggleMenu } from "@client/actions/ToggleMenu"
 import { search } from "@client/actions/Search"
+import { toggleMenu } from "@client/actions/ToggleMenu"
+import { PlaypenButton } from "@client/views/PlaypenButton"
 import { SearchMenu } from "@client/views/SearchMenu"
+
+
 
 b = strata("nav")
 
@@ -41,30 +46,31 @@ Nav :: State -> Element State
 export Nav = (s) =>
   <nav className={b.m(["loading"])}>
     <div className={b.e("content")}>
-    {SubMenuToggle(s)}
-    <link to="/" className={b.em("link", ["logo"])}>
-      <img
-        className={b.e("logo")}
-        src="/assets/logo-white.svg"
-        altAttribute="Madlib Logo"
-      />
-    </link>
-    // we don't yet support role / aria stuff
-    // role="search"
-    // aria-label="Search Madlib documentation"
-    <form id="search">
-      <div className={b.em("search-wrapper", [s.search == "" ? "waiting" : "searching"])}>
-        <div className={b.e("search-icon-wrapper")}>
-          <img
-            className={b.e("search-icon")}
-            src="/assets/magnifier.svg"
-            altAttribute="Search"
-          />
-        </div>
-        // role="searchbox"
-        <input inputType="text" className={b.e("search")} onInput={search} placeholder="Search Madlib" id="search-field" />
+      {SubMenuToggle(s)}
+      <link to="/" className={b.em("link", ["logo"])}>
+        <img className={b.e("logo")} src="/assets/logo-white.svg" altAttribute="Madlib Logo" />
+      </link>
+      <div className={b.e("actions")}>
+        {PlaypenButton(s)}
+        // we don't yet support role / aria stuff
+        // role="search"
+        // aria-label="Search Madlib documentation"
+        <form id="search">
+          <div className={b.em("search-wrapper", [s.search == "" ? "waiting" : "searching"])}>
+            <div className={b.e("search-icon-wrapper")}>
+              <img className={b.e("search-icon")} src="/assets/magnifier.svg" altAttribute="Search" />
+            </div>
+            // role="searchbox"
+            <input
+              inputType="text"
+              className={b.e("search")}
+              onInput={search}
+              placeholder="Search Madlib"
+              id="search-field"
+            />
+          </div>
+        </form>
       </div>
-    </form>
-    {SearchMenu(s)}
+      {SearchMenu(s)}
     </div>
   </nav>
