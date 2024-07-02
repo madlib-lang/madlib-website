@@ -23,7 +23,14 @@ makeLinkClassname = (slug, depth) => stratum.em(
 )
 
 clicker :: Action State
-clicker = (s, e) => [Wish((_, good) => good((_) => s))]
+clicker = (s, e) => [
+  Wish(
+    (_, good) => {
+      good((_) => s)
+      return () => {}
+    },
+  ),
+]
 
 MenuLink = (document) =>
   <link
