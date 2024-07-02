@@ -25,7 +25,7 @@
       "minVersion": "0.0.2"
     },
     {
-      "url": "https://github.com/madlib-lang/madserver/archive/refs/tags/v2.0.2.zip",
+      "url": "https://github.com/madlib-lang/madserver/archive/refs/heads/websockets.zip",
       "description": "MadServer",
       "minVersion": "2.0.2"
     }
