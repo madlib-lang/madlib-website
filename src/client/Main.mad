@@ -1,5 +1,6 @@
-import { renderer } from "@client/Core"
 import { App } from "@client/App"
+import { renderer } from "@client/Core"
+
 
 
 main :: List String -> {}

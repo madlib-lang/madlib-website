@@ -1,22 +1,24 @@
-import type { Parser } from "JsonParser"
+import type { Parser } from "Json/Parse"
 import type { Maybe } from "Maybe"
 
 import type {
+  Color,
   Content,
   DocsPage,
   DocsPageWithLinks,
   Header,
   Link,
   Section,
-  Vector,
-  Color,
   Theme,
+  Vector,
 } from "@client/State"
 
-import { boolean, field, integer, list, map1, map2, map3, map4, map8, string } from "JsonParser"
+import { boolean, field, integer, list, map1, map2, map3, map4, map8, string } from "Json/Parse"
 import { Just, Nothing } from "Maybe"
 
 import { docLink } from "@client/Documentation"
+
+
 
 sectionParser :: Parser Section
 export sectionParser = map2(
@@ -30,12 +32,7 @@ export headerParser = map1((content) => ({ content }), field("content", string))
 
 navParser :: Parser Link
 export navParser = map4(
-  (href, icon, shortText, text) => ({ 
-    href,
-    icon,
-    shortText,
-    text
-  }),
+  (href, icon, shortText, text) => ({ href, icon, shortText, text }),
   field("href", string),
   field("icon", string),
   field("shortText", string),
@@ -46,7 +43,7 @@ colorsParser :: Parser Color
 export colorsParser = map2(
   (name, color) => ({ name, color }),
   field("name", string),
-  field("color", string)
+  field("color", string),
 )
 
 breakpointsParser :: Parser Vector
@@ -54,14 +51,14 @@ export breakpointsParser = map3(
   (vertical, point, label) => ({ vertical, point, label }),
   field("vertical", boolean),
   field("point", string),
-  field("label", string)
+  field("label", string),
 )
 
 themeParser :: Parser Theme
 export themeParser = map2(
   (colors, breakpoints) => ({ colors, breakpoints }),
   field("colors", list(colorsParser)),
-  field("breakpoints", list(breakpointsParser))
+  field("breakpoints", list(breakpointsParser)),
 )
 
 gettingStartedParser = map2(
@@ -83,9 +80,7 @@ generatePageLink = (page) => ({ href: docLink(page.slug), text: page.title })
 
 withSurroundingPagesLinks :: List DocsPage -> List DocsPageWithLinks
 withSurroundingPagesLinks = (pages) => {
-  go :: Maybe { href :: String, text :: String }
-  -> List DocsPage
-  -> List DocsPageWithLinks
+  go :: Maybe { href :: String, text :: String } -> List DocsPage -> List DocsPageWithLinks
   go = (previousLink, _pages) => where(_pages) {
     [page, after, ...next] =>
       [
@@ -114,7 +109,7 @@ export contentParser = map8(
       gettingStarted,
       docs: withSurroundingPagesLinks(docs),
       pages,
-      theme
+      theme,
     }
   ),
   field("title", string),

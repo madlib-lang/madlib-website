@@ -1,4 +1,4 @@
-import type { JsonValue } from "JsonValue"
+import type { Value } from "Json/Value"
 import type { Wish } from "Wish"
 
 import Dictionary from "Dictionary"
@@ -6,9 +6,9 @@ import { Left, Right } from "Either"
 import File from "File"
 import { always } from "Function"
 import IO from "IO"
-import JsonParser from "JsonParser"
-import JsonPrinter from "JsonPrinter"
-import { JsonArray, JsonObject, JsonString } from "JsonValue"
+import JsonParser from "Json/Parse"
+import JsonPrinter from "Json/Print"
+import { JsonArray, JsonObject, JsonString } from "Json/Value"
 import List from "List"
 import { Just, fromMaybe } from "Maybe"
 import { runParser } from "Parse"
@@ -26,7 +26,7 @@ type Error
   | WriteJsonFileError
 
 
-updateValueAtPathWith :: List String -> String -> JsonValue -> JsonValue
+updateValueAtPathWith :: List String -> String -> Value -> Value
 updateValueAtPathWith = (pathSegments, value, jsonObject) => where(pathSegments) {
   [lastSegment] =>
     where(jsonObject) {
@@ -112,7 +112,7 @@ readTextFile :: String -> Wish Error String
 readTextFile = readFile(ReadTextFileError)
 
 
-parseJson :: String -> Wish Error JsonValue
+parseJson :: String -> Wish Error Value
 parseJson = (path) => pipe(
   readJsonFile,
   chain(
@@ -137,6 +137,7 @@ escapeTextFile = (s) => {
   go = (chars) => where(chars) {
     ['$', ...cs] =>
       ['&', '#', '3', '6', ';', ...go(cs)]
+
     ['ß', ...cs] =>
       ['$', ...go(cs)]
 
@@ -168,7 +169,7 @@ escapeTextFile = (s) => {
   return pipe(
     String.toList,
     go,
-    String.fromList
+    String.fromList,
   )(s)
 }
 
@@ -187,7 +188,13 @@ run = (args) => where(args) {
         JsonPrinter.jsonToDoc,
         PrettyPrint.prettyPrint(80),
         writeJsonFile(jsonPath),
-        map(always(`File ${jsonPath} updated - path '${pathToUpdate}' replaced with content from '${filePath}'`))
+        map(
+          always(
+            `File ${jsonPath} updated - path '${pathToUpdate}' replaced with content from '${
+              filePath
+            }'`,
+          ),
+        ),
       )(jsonValue)
     }
 

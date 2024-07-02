@@ -15,9 +15,9 @@
       "minVersion": "7.0.1"
     },
     {
-      "url": "https://github.com/madlib-lang/madmarkdown-renderer/archive/refs/tags/v2.0.1.zip",
+      "url": "https://github.com/madlib-lang/madmarkdown-renderer/archive/refs/tags/v2.0.4.zip",
       "description": "MadMarkdownRenderer",
-      "minVersion": "2.0.1"
+      "minVersion": "2.0.4"
     },
     {
       "url": "https://github.com/madlib-lang/strata/archive/refs/tags/v0.0.2.zip",

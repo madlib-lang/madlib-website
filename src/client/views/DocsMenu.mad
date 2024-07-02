@@ -1,29 +1,29 @@
 import type { Action, Element } from "MadUI"
+
 import type { DocsPageWithLinks, State } from "@client/State"
 
-import {Wish} from "Wish"
-import {} from "Number"
 import { equals } from "Function"
-import { includes, append, mapWithIndex, length, reject, reduce, concat, slice } from "List"
+import { append, concat, includes, length, mapWithIndex, reduce, reject, slice } from "List"
+import {} from "Number"
+import { Wish } from "Wish"
 
-import { onClick, className, getPathName, key, li, link, text, to, ol, empty } from "MadUI"
+import { className, empty, getPathName, key, li, link, ol, onClick, text, to } from "MadUI"
 import { strata } from "Strata"
 
-import { undocLink, docLink } from "@client/Documentation"
+import { docLink, undocLink } from "@client/Documentation"
+
+
 
 stratum = strata("docs-menu")
 
 makeLinkClassname :: String -> Integer -> String
-makeLinkClassname = (slug, depth) => stratum.em("menu-item-link", [
-  docLink(slug) == getPathName()
-    ? "active"
-    : "inactive",
-  (#- "depth-" + depth -# :: String)
-])
+makeLinkClassname = (slug, depth) => stratum.em(
+  "menu-item-link",
+  [docLink(slug) == getPathName() ? "active" : "inactive", (#- "depth-" + depth -# :: String)],
+)
 
 clicker :: Action State
-clicker = (s, e) => 
-  [Wish((_, good) => good((_) => s))]
+clicker = (s, e) => [Wish((_, good) => good((_) => s))]
 
 MenuLink = (document) =>
   <link
@@ -42,65 +42,73 @@ MenuItemWithChildren = (children, document) =>
   </li>
 
 MenuItem :: DocsPageWithLinks -> Element State
-MenuItem = MenuItemWithChildren(<empty />)
+MenuItem = MenuItemWithChildren(<empty  />)
 
-segmentEvery :: Inspect a => (a -> Boolean) -> List a -> List (List a)
+segmentEvery :: Show a => (a -> Boolean) -> List a -> List (List a)
 segmentEvery = (pred, list) => pipe(
-  mapWithIndex(
-    (x, i) => pred(x) ? i : -1
-  ),
+  mapWithIndex((x, i) => pred(x) ? i : -1),
   reject(equals(-1)),
   append(length(list)),
   where {
-    [] => ({ slices: [], prev: -1 })
-    [f, ...fs] => reduce(
-      (agg, x) => ({
-        slices: pipe(
-          slice(agg.prev, $, list),
-          append($, agg.slices)
-        )(x),
-        prev: x
-      }),
-      { prev: f, slices: [] }
-    )(fs)
+    [] =>
+      ({ slices: [], prev: -1 })
+
+    [f, ...fs] =>
+      reduce(
+        (agg, x) => (
+          {
+            slices: pipe(
+              slice(agg.prev, $, list),
+              append($, agg.slices),
+            )(x),
+            prev: x,
+          }
+        ),
+        { prev: f, slices: [] },
+      )(fs)
   },
   .slices,
 )(list)
 
 renderMenuItems :: List DocsPageWithLinks -> List (Element State)
 renderMenuItems = (xs) => pipe(
-  segmentEvery(pipe(.depth, equals(0))),
+  segmentEvery(
+    pipe(
+      .depth,
+      equals(0),
+    ),
+  ),
   reduce(
     (agg, steps) => pipe(
       where {
-        [] => []
-        [x] => [MenuItem(x)]
-        [y, ...ys] => do {
-          active = pipe(
-            append(y),
-            map(.slug),
-            includes(undocLink(getPathName()))
-          )(ys)
-          return [
-            MenuItemWithChildren(
-              <ol className={stratum.em("submenu", [
-                active ? "active" : "inactive",
-              ])}>
-                {...map(MenuItem, ys)}
-              </ol>,
-              y
-            ),
-          ]
-        }
+        [] =>
+          []
+
+        [x] =>
+          [MenuItem(x)]
+
+        [y, ...ys] =>
+          do {
+            active = pipe(
+              append(y),
+              map(.slug),
+              includes(undocLink(getPathName())),
+            )(ys)
+            return [
+              MenuItemWithChildren(
+                <ol className={stratum.em("submenu", [active ? "active" : "inactive"])}>
+                  {...map(MenuItem, ys)}
+                </ol>,
+                y,
+              ),
+            ]
+          }
       },
       concat(agg),
     )(steps),
-    []
+    [],
   ),
 )(xs)
 
 Menu :: List DocsPageWithLinks -> Element State
-export Menu = (documents) =>
-  <ol className={stratum.e("")}>
-    {...renderMenuItems(documents)}
-  </ol>
+export Menu = (documents) => <ol className={stratum.e("")}>{...renderMenuItems(documents)}</ol>
