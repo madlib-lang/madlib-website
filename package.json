@@ -35,5 +35,8 @@
   "bugs": {
     "url": "https://github.com/madlib-lang/madlib-website/issues"
   },
-  "homepage": "https://github.com/madlib-lang/madlib-website#readme"
+  "homepage": "https://github.com/madlib-lang/madlib-website#readme",
+  "browser": {
+    "child_process": false
+  }
 }
