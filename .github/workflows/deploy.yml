@@ -59,5 +59,5 @@ jobs:
             echo -e "$SSL_KEY" > cert.key
             echo -e "${{ steps.docker-compose.outputs.content }}" > docker-compose.yml
 
-            docker-compose pull
-            docker-compose up --force-recreate --remove-orphans -d
+            docker compose pull
+            docker compose up --force-recreate --remove-orphans -d
