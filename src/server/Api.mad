@@ -8,12 +8,13 @@ import type { Playground } from "@common/Playground"
 import ByteArray from "ByteArray"
 import { Left, Right } from "Either"
 import File from "File"
+import Float from "Float"
 import { always } from "Function"
 import { Header } from "Http"
 import List from "List"
 import Math from "Math"
 import { Just, Nothing, fromMaybe } from "Maybe"
-import Number from "Number"
+// import Number from "Number"
 import Process from "Process"
 import String from "String"
 import { bad, bichain, chainRej } from "Wish"
@@ -63,7 +64,7 @@ generatePlaygroundId = () => pipe(
   map(
     pipe(
       Math.multiply(15),
-      Number.floatToByte,
+      Float.toByte,
       toHexadecimal,
     ),
   ),

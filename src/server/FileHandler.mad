@@ -11,14 +11,13 @@ import List from "List"
 import { Just } from "Maybe"
 import Process from "Process"
 import String from "String"
-import { mapRej } from "Wish"
 import { bichain, mapRej } from "Wish"
 
 
 
 buildHeaders :: IncomingRequest -> List Header
 buildHeaders = (req) => pipe(
-  .url,
+  .path,
   String.split("."),
   List.last,
   where {
@@ -37,15 +36,11 @@ export fileHandler = (req) => {
   indexDotHtml = `${cwd}/build/public/index.html`
 
   return pipe(
-    (r) => r.url == "/" ? indexDotHtml : `${cwd}/build/public${req.url}`,
+    (r) => r.path == "/" ? indexDotHtml : `${cwd}/build/public${req.path}`,
     String.takeWhile(notEquals('?')),
     (path) => map(always(path), File.exists(path)),
     bichain(always(File.readBytes(indexDotHtml)), File.readBytes),
-    map(
-      (content) => (
-        { status: 200, body: content, headers: buildHeaders(req) }
-      ),
-    ),
+    map((content) => ({ status: 200, body: content, headers: buildHeaders(req) })),
     mapRej(
       () => (
         { status: 404, body: ByteArray.fromString(`{ "error": "file not found" }`), headers: [] }

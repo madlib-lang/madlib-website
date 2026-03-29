@@ -101,8 +101,8 @@ deriveHeight = (state) => pipe(
   String.split("\n"),
   List.length,
   multiply(LINE_HEIGHT),
-  inspect,
-  mconcat($, "px"),
+  show,
+  mappend($, "px"),
 )(state)
 
 
@@ -119,7 +119,7 @@ displayPlaygroundOutput = (state) => where(state.playground.data.output) {
 renderLines :: String -> List (Element State)
 renderLines = (playgroundCode) => pipe(
   String.split("\n"),
-  List.mapWithIndex((_, i) => inspect(i + 1)),
+  List.mapWithIndex((_, i) => show(i + 1)),
   map((line) => <div>{line}</div>),
 )(playgroundCode)
 
@@ -147,7 +147,7 @@ handleDragStart = (_, _) => [
 Playground :: State -> Element State
 export Playground = (state) => {
   output = displayPlaygroundOutput(state)
-  verticalSplitPosition = `${inspect(state.playground.dragData.verticalSplitPosition)}px`
+  verticalSplitPosition = `${show(state.playground.dragData.verticalSplitPosition)}px`
 
   return <div className={stratum.e("")}>
     <div className={stratum.e("container")}>
@@ -168,10 +168,7 @@ export Playground = (state) => {
         style={{{ "width": `calc(100% - ${verticalSplitPosition})` }}}
         className={stratum.em("output", [String.isEmpty(output) ? "empty" : "compiled"])}
       >
-        <div
-          onMouseDown={handleDragStart}
-          className={stratum.e("drag-handle")}
-        >
+        <div onMouseDown={handleDragStart} className={stratum.e("drag-handle")}>
           {`←→`}
         </div>
         <button className={stratum.em("run-button", ["waiting"])} onClick={handleRun}>

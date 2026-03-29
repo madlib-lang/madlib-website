@@ -1,33 +1,28 @@
-import type { Maybe } from "Maybe"
 import type { Either } from "Either"
-import type { JsonValue } from "JsonValue"
-import type { Parser } from "JsonParser"
+import type { Parser } from "Json/Parse"
+import type { Value } from "Json/Value"
+import type { Maybe } from "Maybe"
 import type { CommandResult } from "Process"
 
-import JsonParser from "JsonParser"
-import JsonPrinter from "JsonPrinter"
+import JsonParser from "Json/Parse"
+import JsonPrinter from "Json/Print"
 import { Just, Nothing } from "Maybe"
 
 
-export alias Playground = {
-  id :: Maybe String,
-  code :: String,
-  output :: Maybe CommandResult,
-}
+
+export alias Playground = { code :: String, id :: Maybe String, output :: Maybe CommandResult }
 
 
 setId :: String -> Playground -> Playground
 export setId = (id, playground) => ({ ...playground, id: Just(id) })
 
 
-outputToJsonValue :: CommandResult -> JsonValue
-outputToJsonValue = (output) => JsonPrinter.object(
-  [
-    #["stdout", JsonPrinter.string(output.stdout)],
-    #["stderr", JsonPrinter.string(output.stderr)],
-    #["exitCode", JsonPrinter.integer(output.exitCode)],
-  ]
-)
+outputToJsonValue :: CommandResult -> Value
+outputToJsonValue = (output) => JsonPrinter.object([
+  #["stdout", JsonPrinter.string(output.stdout)],
+  #["stderr", JsonPrinter.string(output.stderr)],
+  #["exitCode", JsonPrinter.integer(output.exitCode)],
+])
 
 
 toJsonString :: Playground -> String
@@ -42,7 +37,7 @@ export toJsonString = (playground) => pipe(
       values
   },
   JsonPrinter.object,
-  JsonPrinter.printJson(80)
+  JsonPrinter.printJson(80),
 )(playground)
 
 

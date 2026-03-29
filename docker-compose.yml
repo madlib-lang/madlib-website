@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   madlib-website:
+    platform: linux/amd64
     image: arnaudboeglin/madlib-website:latest
     init: true
     ulimits:
